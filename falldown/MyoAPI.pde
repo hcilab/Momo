@@ -56,6 +56,7 @@ class MyoAPI implements IMyoAPI {
 		}
 		SensorConfig s = new SensorConfig(strongestID, strongestReading);
 		registeredSensors.put(label, s);
+		println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
 	}
 
 
@@ -66,6 +67,7 @@ class MyoAPI implements IMyoAPI {
 	void registerActionManual(String label, int sensorID) {
 		SensorConfig s = new SensorConfig(sensorID, MAX_MYO_READING);
 		registeredSensors.put(label, s);
+		println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
 	}
 
 

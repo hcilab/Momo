@@ -1,18 +1,24 @@
 import de.voidplus.myo.*;
 import java.util.HashMap;
 
+/*
+
+// !!! Uncomment and rename to 'falldown.pde' to run !!!
+
+int MAX_HEIGHT = 400;
+
 Myo myo;
-API api;
+MyoAPI api;
 boolean calibrated;
 
 void setup() {
-  size(800, 400);
+  size(200, 600);
   background(255);
-	frameRate(2);
+	frameRate(60);
 
   myo = new Myo(this);
   myo.withEmg();
-	api = new API();
+	api = new MyoAPI();
 	calibrated = false;
 }
 
@@ -25,7 +31,15 @@ void draw() {
 	}
 
 	HashMap<String, Float> readings = api.poll();
-	println("Out: "+readings.get("OUT")+"\tIn: "+readings.get("IN"));
+
+	int outHeight = int(MAX_HEIGHT * readings.get("OUT"));
+	int inHeight = int(MAX_HEIGHT * readings.get("IN"));
+
+	fill(0); // black
+	ellipse(75, 500-outHeight, 20, 20);
+
+	fill(128); // grey
+	ellipse(125, 500-inHeight, 20, 20);
 }
 
 void calibrate() {
@@ -39,3 +53,5 @@ void calibrate() {
 void myoOnEmg(Myo myo, long nowMicros, int[] data) {
 	api.onEmg(nowMicros, data);
 }
+
+*/

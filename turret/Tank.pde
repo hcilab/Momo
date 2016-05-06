@@ -1,16 +1,16 @@
 class Tank {
 
-	PVector pos;
+  PVector pos;
 
-	Tank(int x, int y) {
-		pos = new PVector(x, y);
-	}
+  Tank(int x, int y) {
+    pos = new PVector(x, y);
+  }
 
-	void draw() {
-		rect(pos.x, pos.y, 20, 20);
-	}
+  void draw() {
+    rect(pos.x, pos.y, 20, 20);
+  }
 
-	PVector getCoordinates() {
-		return pos;
-	}
+  PVector getCoordinates() {
+    return pos;
+  }
 }

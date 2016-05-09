@@ -1,6 +1,6 @@
 <GameObject tag="player">
 	<Render>
-		<Ellipse x="0.0" y="0.0" width="1.0" height="1.0">
+		<Ellipse x="0.0" y="0.0" halfWidth="1.0" halfHeight="1.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255"/>
 		</Ellipse>
@@ -13,7 +13,7 @@
 		gravityScale="5.0"
 		allowSleep="false"
 		awake="true"
-		fixedRotation="false"
+		fixedRotation="true"
 		bullet="false"
 		active="true"
 	>
@@ -23,7 +23,7 @@
 			restitution="0.3"
 			isSensor="false"
 		>
-			<Shape type="box" x="0.0" y="0.0" width="1.0" height="1.0"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="1.0" halfHeight="1.0"/>
 		</Fixture>
 	</RigidBody>
 	

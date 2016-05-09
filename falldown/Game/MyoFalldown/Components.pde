@@ -154,7 +154,7 @@ class RenderComponent extends Component
         OffsetPShape offsetShape = new OffsetPShape( 
           createShape(RECT, 0.0, 0.0, 1.0, 1.0),
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
-          new PVector(xmlRenderable.getFloat("width"), xmlRenderable.getFloat("height"))
+          new PVector(xmlRenderable.getFloat("halfWidth"), xmlRenderable.getFloat("halfHeight"))
         );
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
@@ -164,7 +164,7 @@ class RenderComponent extends Component
         OffsetPShape offsetShape = new OffsetPShape(
           createShape(ELLIPSE, 0.0, 0.0, 1.0, 1.0),
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
-          new PVector(xmlRenderable.getFloat("width"), xmlRenderable.getFloat("height"))
+          new PVector(xmlRenderable.getFloat("halfWidth"), xmlRenderable.getFloat("halfHeight"))
         );
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
@@ -179,7 +179,7 @@ class RenderComponent extends Component
             xmlRenderable.getFloat("startAngle"), xmlRenderable.getFloat("stopAngle")
           ),
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
-          new PVector(xmlRenderable.getFloat("width"), xmlRenderable.getFloat("height"))
+          new PVector(xmlRenderable.getFloat("halfWidth"), xmlRenderable.getFloat("halfHeight"))
         );
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
@@ -297,7 +297,7 @@ class RigidBodyComponent extends Component implements ContactListener
             else if (shapeType.equals("box"))
             {
               PolygonShape boxShape = new PolygonShape();
-              boxShape.setAsBox(xmlShape.getFloat("width") * gameObject.getScale().x, xmlShape.getFloat("height") * gameObject.getScale().y);
+              boxShape.setAsBox(xmlShape.getFloat("halfWidth") * gameObject.getScale().x, xmlShape.getFloat("halfHeight") * gameObject.getScale().y);
               
               fixtureDef.shape = boxShape;
             }
@@ -493,23 +493,18 @@ class PlatformManagerControllerComponent extends Component
   private float disappearHeight;
   private float spawnHeight;
   
-  private int minPlatformsInLevel;
-  private int maxPlatformsInLevel;
+  private int minGapsPerLevel;
+  private int maxGapsPerLevel;
   
   private float minGapSize;
   private float maxGapSize;
+  private float minDistanceBetweenGaps;
   
   private float minHeightBetweenPlatformLevels;
   private float maxHeightBetweenPlatformLevels;
   private float nextHeightBetweenPlatformLevels;
   
   private float riseSpeed;
-  
-  // delete when possible, see hacky note above
-  public float getRiseSpeed() 
-  { 
-    return riseSpeed; 
-  }
   
   public PlatformManagerControllerComponent(GameObject _gameObject)
   {
@@ -526,10 +521,11 @@ class PlatformManagerControllerComponent extends Component
     rightSide = xmlComponent.getFloat("rightSide");
     disappearHeight = xmlComponent.getFloat("disappearHeight");
     spawnHeight = xmlComponent.getFloat("spawnHeight");
-    minPlatformsInLevel = xmlComponent.getInt("minPlatformsInLevel");
-    maxPlatformsInLevel = xmlComponent.getInt("maxPlatformsInLevel");
+    minGapsPerLevel = xmlComponent.getInt("minGapsPerLevel");
+    maxGapsPerLevel = xmlComponent.getInt("maxGapsPerLevel");
     minGapSize = xmlComponent.getFloat("minGapSize");
     maxGapSize = xmlComponent.getFloat("maxGapSize");
+    minDistanceBetweenGaps = xmlComponent.getFloat("minDistanceBetweenGaps");
     minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
@@ -559,11 +555,33 @@ class PlatformManagerControllerComponent extends Component
   
   private void spawnPlatformLevel()
   {
-    int platformsInLevel = 1;//int(random(minPlatformsInLevel, maxPlatformsInLevel)); //<>//
+    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+    platformRanges.add(new PVector(leftSide, rightSide));
     
-    for (int i = 0; i < platformsInLevel; ++i)
+    
+    for (int i = 0; i < gapsInLevel; ++i)
     {
-      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(25.0, spawnHeight), new PVector(24.0, 1.0));
+      int rangeSelector = int(random(0, platformRanges.size() - 1));
+      PVector range = platformRanges.get(rangeSelector);
+      float rangeWidth = range.y - range.x;
+      float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
+      if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
+      {
+        continue;
+      }
+      float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
+      float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+      
+      platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+      range.y = gapPosition - halfGapWidth;
+    }
+    
+    for (PVector platformRange : platformRanges)
+    {
+      float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
+      float platformWidth = platformRange.y - platformRange.x;
+      
+      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, 1.0));
       IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
       if (component != null)
       {
@@ -572,6 +590,11 @@ class PlatformManagerControllerComponent extends Component
       }
       platforms.add(platform);
     }
+  }
+  
+  public float getRiseSpeed() 
+  { 
+    return riseSpeed; 
   }
 }
 

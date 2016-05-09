@@ -1,18 +1,19 @@
 <GameObject tag="platform_manager">
 	<PlatformManagerController
 		platformFile="platform.xml"
-		maxPlatformLevels="10"
-		leftSide="0.0"
-		rightSide="50.0"
-		disappearHeight="15.0"
+		maxPlatformLevels="100"
+		leftSide="1.0"
+		rightSide="49.0"
+		disappearHeight="-5.0"
 		spawnHeight="45.0"
-		minPlatformsInLevel="2"
-		maxPlatformsInLevel="2"
-		minGapSize="2.0"
-		maxGapSize="6.0"
-		minHeightBetweenPlatformLevels="10.0"
-		maxHeightBetweenPlatformLevels="20.0"
-		riseSpeed="10.0"
+		minGapsPerLevel="1"
+		maxGapsPerLevel="2"
+		minGapSize="2.5"
+		maxGapSize="5.0"
+		minDistanceBetweenGaps="5.0"
+		minHeightBetweenPlatformLevels="5.0"
+		maxHeightBetweenPlatformLevels="10.0"
+		riseSpeed="4.0"
 	>
 	</PlatformManagerController>
 </GameObject>

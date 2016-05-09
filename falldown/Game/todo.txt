@@ -1,0 +1,19 @@
+- Add the Myo armband to the control scheme for the game.
+	- Support for one muscle input (auto-directed movement)
+	- Support for two muscle input (normal gameplay)
+	- Support for impulse input (introduce jumping and barriers to jump over)
+
+- Progress over gameplay sessions.
+	- Currency
+	- Cosmetics
+	- Upgrades / Unlockables
+	
+- Leaderboard of single-session scores.
+
+- Platforms with varying friction (ice, goo)
+
+- Exposed options menu of tweakable things related to the Myo and game itself
+	- Difficulty progression / setting.
+	- Jumping and barriers on or off.
+	- Clear progress and/or leaderboard data.
+	- Turn platforms with varying friction on or off.

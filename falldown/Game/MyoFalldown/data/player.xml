@@ -1,0 +1,31 @@
+<GameObject tag="player">
+	<Render>
+		<Ellipse x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="255" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Ellipse>
+	</Render>
+	
+	<RigidBody
+		type="dynamic"
+		linearDamping="0.1"
+		angularDamping="0.01"
+		gravityScale="5.0"
+		allowSleep="false"
+		awake="true"
+		fixedRotation="false"
+		bullet="false"
+		active="true"
+	>
+		<Fixture
+			density="0.1"
+			friction="0.4"
+			restitution="0.3"
+			isSensor="false"
+		>
+			<Shape type="box" x="0.0" y="0.0" width="1.0" height="1.0"/>
+		</Fixture>
+	</RigidBody>
+	
+	<PlayerController acceleration="4.0" maxSpeed="35.0" jumpForce="0.7"/>
+</GameObject>

@@ -558,6 +558,7 @@ class PlatformManagerControllerComponent extends Component
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     
+    int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); //<>//
     
     for (int i = 0; i < gapsInLevel; ++i)
     {

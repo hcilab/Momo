@@ -19,13 +19,13 @@
 	>
 		<Fixture
 			density="0.1"
-			friction="0.7"
-			restitution="0.3"
+			friction="0.65"
+			restitution="0.4"
 			isSensor="false"
 		>
 			<Shape type="circle" x="0.0" y="0.0" radius="1.0"/>
 		</Fixture>
 	</RigidBody>
 	
-	<PlayerController acceleration="4.0" maxSpeed="35.0" jumpForce="0.7"/>
+	<PlayerController acceleration="1.0" maxSpeed="35.0" jumpForce="0.7"/>
 </GameObject>

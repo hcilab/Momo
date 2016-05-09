@@ -19,11 +19,11 @@
 	>
 		<Fixture
 			density="0.1"
-			friction="0.4"
+			friction="0.7"
 			restitution="0.3"
 			isSensor="false"
 		>
-			<Shape type="box" x="0.0" y="0.0" halfWidth="1.0" halfHeight="1.0"/>
+			<Shape type="circle" x="0.0" y="0.0" radius="1.0"/>
 		</Fixture>
 	</RigidBody>
 	

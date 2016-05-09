@@ -114,7 +114,7 @@ class MyoAPI implements IMyoAPI {
   //   }
   //
   void onEmg(long nowMicros, int[] sensorData) {
-    Sample s = new Sample(nowMicros, sensorData);
+    Sample s = new Sample(nowMicros, sensorData.clone()); // create a local copy of sensor-data
     sampleWindow.add(s);
     Sample first = sampleWindow.peek();
     while (first!=null && nowMicros-first.timestampMicros > windowSizeMicros+windowIncrementSizeMicros) {

@@ -59,7 +59,7 @@ class Particle {
     fd.shape = cs;
     // Parameters that affect physics
     fd.density = 1;
-    fd.friction = 0.01;
+    fd.friction = 0.00;
     fd.restitution = 0.3;
     
     // Attach fixture to body

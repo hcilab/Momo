@@ -401,19 +401,9 @@ class PlayerControllerComponent extends Component implements IEventListener
   {
     PVector moveVector = new PVector();
     
-    if (upButtonDown)
-    {
-      moveVector.y -= 1.0f;
-    }
-    if (leftButtonDown)
-    {
-      moveVector.x -= 1.0f;
-    }
-    if (rightButtonDown)
-    {
-      moveVector.x += 1.0f;
-    }
-    
+    moveVector.add(getKeyboardInput());
+    moveVector.add(getEmgInput());
+
     moveVector.normalize();
     
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
@@ -476,6 +466,30 @@ class PlayerControllerComponent extends Component implements IEventListener
     {
       rightButtonDown = false;
     }
+  }
+
+  private PVector getKeyboardInput() {
+    PVector p = new PVector();
+    if (upButtonDown)
+    {
+      p.y -= 1.0f;
+    }
+    if (leftButtonDown)
+    {
+      p.x -= 1.0f;
+    }
+    if (rightButtonDown)
+    {
+      p.x += 1.0f;
+    }
+    return p;
+  }
+
+  private PVector getEmgInput() {
+    HashMap<String, Float> readings = emgManager.poll();
+    return new PVector(
+      readings.get("RIGHT")-readings.get("LEFT"),
+      -readings.get("JUMP"));
   }
 }
 

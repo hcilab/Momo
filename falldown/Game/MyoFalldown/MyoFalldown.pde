@@ -17,6 +17,7 @@ import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.callbacks.ContactImpulse;
+import de.voidplus.myo.*;
 
 // The GameObject system.
 IGameObjectManager gameObjectManager;
@@ -33,6 +34,9 @@ int positionIterations;    // More iterations decreases performance but improves
 
 // The controller for the current game state (i.e. main menu, in-game, etc)
 IGameStateController gameStateController;
+
+// Handles EMG input
+IEmgManager emgManager;
 
 // Top-level game loop variables.
 int lastFrameTime;
@@ -55,6 +59,9 @@ void setup()
   positionIterations = 2;
   
   gameStateController = new GameStateController();
+
+  emgManager = new EmgManager(this);
+  emgManager.calibrate();
   
   lastFrameTime = millis();
 }
@@ -76,6 +83,10 @@ void draw()
   
   eventManager.sendEvents();
   gameStateController.update(deltaTime);
+}
+
+void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
+  emgManager.onEmg(nowMilliseconds, sensorData);
 }
 
 void keyPressed()

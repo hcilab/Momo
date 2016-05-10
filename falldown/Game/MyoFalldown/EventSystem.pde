@@ -183,38 +183,43 @@ class Event implements IEvent
 class EventManager implements IEventManager
 {
   private HashMap<EventType, LinkedList<IEventListener>> listeners;
+  private HashMap<EventType, LinkedList<IEventListener>> addMap;
+  private HashMap<EventType, LinkedList<IEventListener>> removeMap;
+  
   private HashMap<EventType, LinkedList<IEvent>> eventMap;
   
   public EventManager()
   {
     listeners = new HashMap<EventType, LinkedList<IEventListener>>();
+    addMap = new HashMap<EventType, LinkedList<IEventListener>>();
+    removeMap = new HashMap<EventType, LinkedList<IEventListener>>();
     eventMap = new HashMap<EventType, LinkedList<IEvent>>();
     
-    listeners.put(EventType.UP_BUTTON_PRESSED, new LinkedList<IEventListener>());
-    listeners.put(EventType.LEFT_BUTTON_PRESSED, new LinkedList<IEventListener>());
-    listeners.put(EventType.RIGHT_BUTTON_PRESSED, new LinkedList<IEventListener>());
+    addEventTypeToMaps(EventType.UP_BUTTON_PRESSED);
+    addEventTypeToMaps(EventType.LEFT_BUTTON_PRESSED);
+    addEventTypeToMaps(EventType.RIGHT_BUTTON_PRESSED);
     
-    listeners.put(EventType.UP_BUTTON_RELEASED, new LinkedList<IEventListener>());
-    listeners.put(EventType.LEFT_BUTTON_RELEASED, new LinkedList<IEventListener>());
-    listeners.put(EventType.RIGHT_BUTTON_RELEASED, new LinkedList<IEventListener>());
-    
-    eventMap.put(EventType.UP_BUTTON_PRESSED, new LinkedList<IEvent>());
-    eventMap.put(EventType.LEFT_BUTTON_PRESSED, new LinkedList<IEvent>());
-    eventMap.put(EventType.RIGHT_BUTTON_PRESSED, new LinkedList<IEvent>());
-    
-    eventMap.put(EventType.UP_BUTTON_RELEASED, new LinkedList<IEvent>());
-    eventMap.put(EventType.LEFT_BUTTON_RELEASED, new LinkedList<IEvent>());
-    eventMap.put(EventType.RIGHT_BUTTON_RELEASED, new LinkedList<IEvent>());
+    addEventTypeToMaps(EventType.UP_BUTTON_RELEASED);
+    addEventTypeToMaps(EventType.LEFT_BUTTON_RELEASED);
+    addEventTypeToMaps(EventType.RIGHT_BUTTON_RELEASED);
+  }
+  
+  private void addEventTypeToMaps(EventType eventType)
+  {
+    listeners.put(eventType, new LinkedList<IEventListener>());
+    addMap.put(eventType, new LinkedList<IEventListener>());
+    removeMap.put(eventType, new LinkedList<IEventListener>());
+    eventMap.put(eventType, new LinkedList<IEvent>());
   }
   
   @Override public void register(EventType eventType, IEventListener listener)
   {
-    listeners.get(eventType).add(listener);
+    addMap.get(eventType).add(listener);
   }
   
   @Override public void deregister(EventType eventType, IEventListener listener)
   {
-    listeners.get(eventType).remove(listener);
+    removeMap.get(eventType).add(listener);
   }
   
   @Override public void queueEvent(IEvent event)
@@ -241,6 +246,32 @@ class EventManager implements IEventManager
       }
      
       assert(eventQueue.size() == 0);
+    }
+    
+    for (Map.Entry entry : addMap.entrySet())
+    {
+      EventType eventType = (EventType)entry.getKey();
+      LinkedList<IEventListener> listenersToAdd = (LinkedList<IEventListener>)entry.getValue();
+      
+      for (IEventListener listener : listenersToAdd)
+      {
+        listeners.get(eventType).add(listener);
+      }
+      
+      listenersToAdd.clear();
+    }
+    
+    for (Map.Entry entry : removeMap.entrySet())
+    {
+      EventType eventType = (EventType)entry.getKey();
+      LinkedList<IEventListener> listenersToRemove = (LinkedList<IEventListener>)entry.getValue();
+      
+      for (IEventListener listener : listenersToRemove)
+      {
+        listeners.get(eventType).remove(listener);
+      }
+      
+      listenersToRemove.clear();
     }
   }
 }

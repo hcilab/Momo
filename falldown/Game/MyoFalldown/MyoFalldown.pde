@@ -31,8 +31,8 @@ int velocityIterations;    // Fewer iterations increases performance but accurac
 int positionIterations;    // More iterations decreases performance but improves accuracy.
                            // Box2D recommends 8 for velocity and 3 for position.
 
-// The current game state (main menu, in-game, options, etc).
-GameState gameState;
+// The controller for the current game state (i.e. main menu, in-game, etc)
+IGameStateController gameStateController;
 
 // Top-level game loop variables.
 int lastFrameTime;
@@ -54,8 +54,7 @@ void setup()
   velocityIterations = 6;  // Our simple games probably don't need as much iteration.
   positionIterations = 2;
   
-  // TO DO: create a state machine to handle this such that states can determine their own next state.
-  gameState = new GameState_InGame();
+  gameStateController = new GameStateController();
   
   lastFrameTime = millis();
 }
@@ -75,10 +74,8 @@ void draw()
     deltaTime = 16;
   }
   
-  gameObjectManager.update(deltaTime);
   eventManager.sendEvents();
-  physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
-  gameState.update(deltaTime);
+  gameStateController.update(deltaTime);
 }
 
 void keyPressed()

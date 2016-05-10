@@ -34,14 +34,17 @@ public class GameState_MainMenu implements IGameState
   
   @Override public void onEnter()
   {
+    gameObjectManager.fromXML("main_menu.xml");
   }
   
   @Override public void update(int deltaTime)
   {
+    gameObjectManager.update(deltaTime);
   }
   
   @Override public void onExit()
   {
+    gameObjectManager.clearGameObjects();
   }
 }
 

@@ -81,13 +81,37 @@ class RenderComponent extends Component
     }
   }
   
+  private class Text
+  {
+    public String string;
+    public PFont font;
+    public int alignX;
+    public int alignY;
+    public PVector translation;
+    public color fillColor;
+    public color strokeColor;
+    
+    public Text(String _string, PFont _font, int _alignX, int _alignY, PVector _translation, color _fillColor, color _strokeColor)
+    {
+      string = _string;
+      font = _font;
+      alignX = _alignX;
+      alignY = _alignY;
+      translation = _translation;
+      fillColor = _fillColor;
+      strokeColor = _strokeColor;
+    }
+  }
+  
   private ArrayList<OffsetPShape> offsetShapes;
+  private ArrayList<Text> texts;
   
   public RenderComponent(GameObject _gameObject)
   {
     super(_gameObject);
     
     offsetShapes = new ArrayList<OffsetPShape>();
+    texts = new ArrayList<Text>();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -184,22 +208,88 @@ class RenderComponent extends Component
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
       }
+      else if (xmlRenderable.getName().equals("Text"))
+      {
+        int alignX = CENTER;
+        int alignY = BASELINE;
+        String stringAlignX = xmlRenderable.getString("alignX");
+        String stringAlignY = xmlRenderable.getString("alignY");
+        
+        if (stringAlignX.equals("left"))
+        {
+          alignX = LEFT;
+        }
+        else if (stringAlignX.equals("center"))
+        {
+          alignX = CENTER;
+        }
+        else if (stringAlignX.equals("right"))
+        {
+          alignX = RIGHT;
+        }
+        
+        if (stringAlignY.equals("baseline"))
+        {
+          alignY = BASELINE;
+        }
+        else if (stringAlignY.equals("top"))
+        {
+          alignY = TOP;
+        }
+        else if (stringAlignY.equals("center"))
+        {
+          alignY = CENTER;
+        }
+        else if (stringAlignY.equals("bottom"))
+        {
+          alignY = BOTTOM;
+        }
+        
+        color[] fillAndStrokeColor = parseColorComponents(xmlRenderable);
+        
+        texts.add(new Text(
+          xmlRenderable.getString("string"),
+          createFont(xmlRenderable.getString("fontName"), xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
+          alignX,
+          alignY,
+          new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
+          fillAndStrokeColor[0],
+          fillAndStrokeColor[1]
+        ));
+      }
     }
   }
   
   private void parseShapeComponents(XML xmlShape, OffsetPShape offsetShape)
   {
-    for (XML xmlShapeComponent : xmlShape.getChildren())
+    color[] fillAndStrokeColor = parseColorComponents(xmlShape);
+    offsetShape.pshape.setFill(fillAndStrokeColor[0]);
+    offsetShape.pshape.setStroke(fillAndStrokeColor[1]);
+  }
+  
+  // returns fill color in position 0 and stroke color in position 1
+  private color[] parseColorComponents(XML xmlParent)
+  {
+    color[] fillAndStrokeColor = new color[2];
+    
+    for (XML xmlShapeComponent : xmlParent.getChildren())
     {
       if (xmlShapeComponent.getName().equals("FillColor"))
       {
-        offsetShape.pshape.setFill(color(xmlShapeComponent.getInt("r"), xmlShapeComponent.getInt("g"), xmlShapeComponent.getInt("b"), xmlShapeComponent.getInt("a")));
+        fillAndStrokeColor[0] = parseColor(xmlShapeComponent);
       }
       else if (xmlShapeComponent.getName().equals("StrokeColor"))
       {
-        offsetShape.pshape.setStroke(color(xmlShapeComponent.getInt("r"), xmlShapeComponent.getInt("g"), xmlShapeComponent.getInt("b"), xmlShapeComponent.getInt("a")));
+        fillAndStrokeColor[1] = parseColor(xmlShapeComponent);
       }
     }
+    
+    return fillAndStrokeColor;
+  }
+  
+  private color parseColor(XML xmlColor)
+  {
+    return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
   @Override public ComponentType getComponentType()
@@ -215,6 +305,15 @@ class RenderComponent extends Component
       offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
+    }
+    
+    for (Text text : texts)
+    { 
+      textFont(text.font);
+      textAlign(text.alignX, text.alignY);
+      fill(text.fillColor);
+      stroke(text.strokeColor);
+      text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y);
     }
   }
 }
@@ -255,8 +354,8 @@ class RigidBodyComponent extends Component implements ContactListener
       print("Unknown rigid body type: " + bodyType);
       assert(false);
     }
-    
-    bodyDefinition.position.set(gameObject.getTranslation().x, gameObject.getTranslation().y);
+     
+    bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y));
     bodyDefinition.angle = 0.0f;
     bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping");
     bodyDefinition.angularDamping = xmlComponent.getFloat("angularDamping");
@@ -289,15 +388,18 @@ class RigidBodyComponent extends Component implements ContactListener
             if (shapeType.equals("circle"))
             {
               CircleShape circleShape = new CircleShape();
-              circleShape.m_p.set(xmlShape.getFloat("x"), xmlShape.getFloat("y"));
-              circleShape.m_radius = xmlShape.getFloat("radius") * gameObject.getScale().x;
+              circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y")));
+              circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;
               
-              fixtureDef.shape = circleShape; 
+              fixtureDef.shape = circleShape;
             }
             else if (shapeType.equals("box"))
             {
               PolygonShape boxShape = new PolygonShape();
-              boxShape.setAsBox(xmlShape.getFloat("halfWidth") * gameObject.getScale().x, xmlShape.getFloat("halfHeight") * gameObject.getScale().y);
+              boxShape.setAsBox(
+                pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x, 
+                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y
+              );
               
               fixtureDef.shape = boxShape;
             }
@@ -319,15 +421,44 @@ class RigidBodyComponent extends Component implements ContactListener
     return ComponentType.RIGID_BODY;
   }
   
-  public Body getBody()
-  {
-    return body;
-  }
-  
   @Override public void update(int deltaTime)
   {
     // Reverse sync the physically simulated position to the Game Object position.
-    gameObject.setTranslation(new PVector(body.getPosition().x, body.getPosition().y));
+    gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
+  }
+  
+  public PVector getLinearVelocity()
+  {
+    return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
+  }
+  
+  public void setLinearVelocity(PVector linearVelocity)
+  {
+    body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y)));
+  }
+  
+  public void applyForce(PVector force, PVector position)
+  {
+    body.applyForce(new Vec2(pixelsToMeters(force.x), pixelsToMeters(force.y)), new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)));
+  }
+  
+  public void applyLinearImpulse(PVector impulse, PVector position, boolean wakeUp)
+  {
+    body.applyLinearImpulse(
+      new Vec2(pixelsToMeters(impulse.x), pixelsToMeters(impulse.y)),
+      new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)),
+      wakeUp
+    );
+  }
+  
+  private float pixelsToMeters(float pixels)
+  {
+    return pixels / 10.0f;
+  }
+  
+  private float metersToPixels(float meters)
+  {
+    return meters * 10.0f;
   }
   
   @Override public void beginContact(Contact contact)
@@ -420,11 +551,11 @@ class PlayerControllerComponent extends Component implements IEventListener
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      Body body = rigidBodyComponent.getBody();
-      if (  (moveVector.x > 0 && body.getLinearVelocity().x < maxSpeed)
-         || (moveVector.x < 0 && body.getLinearVelocity().x > -maxSpeed))
+      PVector linearVelocity = rigidBodyComponent.getLinearVelocity();
+      if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
+         || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
       {
-        body.applyForce(new Vec2(moveVector.x * acceleration * deltaTime, 0.0f), body.getWorldCenter());
+        rigidBodyComponent.applyForce(new PVector(moveVector.x * acceleration * deltaTime, 0.0f), gameObject.getTranslation());
       }
       
       // NOTE: This jump-mechanic is really hacky and should be replaced by collision detection using JBox 2D.
@@ -437,9 +568,9 @@ class PlayerControllerComponent extends Component implements IEventListener
           PlatformManagerControllerComponent platformManagerControllerComponent = (PlatformManagerControllerComponent)tcomponent;
           float riseSpeed = platformManagerControllerComponent.getRiseSpeed();
           
-          if (body.getLinearVelocity().y < 0.01f - riseSpeed && body.getLinearVelocity().y > -0.01f - riseSpeed)
+          if (linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed)
           {
-            body.applyLinearImpulse(new Vec2(0.0f, moveVector.y * jumpForce * deltaTime), body.getWorldCenter(), true);
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce * deltaTime), gameObject.getTranslation(), true);
           }
         }
       }
@@ -587,7 +718,7 @@ class PlatformManagerControllerComponent extends Component
       if (component != null)
       {
         RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-        rigidBodyComponent.getBody().setLinearVelocity(new Vec2(0.0, -riseSpeed));
+        rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
       }
       platforms.add(platform);
     }

@@ -44,6 +44,7 @@ void setup()
   
   rectMode(CENTER);
   ellipseMode(CENTER);
+  shapeMode(CENTER);
   
   gameObjectManager = new GameObjectManager();
   
@@ -57,7 +58,7 @@ void setup()
   gameStateController = new GameStateController();
   
   lastFrameTime = millis();
-}
+} 
 
 void draw()
 {
@@ -66,7 +67,6 @@ void draw()
   lastFrameTime = currentFrameTime;
   
   background(255, 255, 255);
-  scale(10.0);
   
   // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
   if (deltaTime > 20)

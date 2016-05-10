@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 /*
 
-// !!! Uncomment and rename to 'falldown.pde' to run !!!
+// !!! Uncomment and rename to '../MyoFalldown.pde' to run !!!
 
 int MAX_HEIGHT = 400;
 

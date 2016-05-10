@@ -1,0 +1,45 @@
+<GameObject tag="title">
+	<Render>
+		<Text
+			string="Myo Falldown"
+			fontName="Andy Bold" 
+			size="60"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		
+		<Text
+			string="Press Up on the Keyboard or"
+			fontName="Arial" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		
+		<Text
+			string="Pulse Myo Armband Sensors to Start!"
+			fontName="Arial" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+	</Render>
+</GameObject>

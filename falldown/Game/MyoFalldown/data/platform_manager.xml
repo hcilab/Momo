@@ -2,18 +2,18 @@
 	<PlatformManagerController
 		platformFile="platform.xml"
 		maxPlatformLevels="100"
-		leftSide="1.0"
-		rightSide="49.0"
-		disappearHeight="-5.0"
-		spawnHeight="45.0"
+		leftSide="10.0"
+		rightSide="490.0"
+		disappearHeight="-20.0"
+		spawnHeight="495.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"
-		minGapSize="2.5"
-		maxGapSize="5.0"
-		minDistanceBetweenGaps="5.0"
-		minHeightBetweenPlatformLevels="5.0"
-		maxHeightBetweenPlatformLevels="10.0"
-		riseSpeed="4.0"
+		minGapSize="25.0"
+		maxGapSize="50.0"
+		minDistanceBetweenGaps="50.0"
+		minHeightBetweenPlatformLevels="50.0"
+		maxHeightBetweenPlatformLevels="100.0"
+		riseSpeed="30.0"
 	>
 	</PlatformManagerController>
 </GameObject>

@@ -107,6 +107,7 @@ public class GameStateController implements IGameStateController, IEventListener
     goToState(gameState_MainMenu);
     
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
+    eventManager.register(EventType.GAME_OVER, this);
   }
   
   @Override public void update(int deltaTime)
@@ -135,6 +136,10 @@ public class GameStateController implements IGameStateController, IEventListener
     if (event.getEventType() == EventType.UP_BUTTON_RELEASED && currentState == gameState_MainMenu)
     {
       goToState(gameState_InGame);
+    }
+    else if (event.getEventType() == EventType.GAME_OVER)
+    {
+      goToState(gameState_MainMenu);
     }
   }
 }

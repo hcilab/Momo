@@ -118,6 +118,7 @@ class RenderComponent extends Component
     }
     
     void display(float xpos, float ypos, float height, float width) {
+     frame = ((int)(frame+1) % imageCount);
      image(pImages[frame], xpos, ypos, height, width);
     }
   

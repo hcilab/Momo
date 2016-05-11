@@ -1,6 +1,6 @@
 <GameObject tag="wall">
 	<Render>
-		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="25.0">
+		<Rect x="0.0" y="0.0" halfWidth="5.0" halfHeight="250.0">
 			<FillColor r="0" g="0" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="255" a="255"/>
 		</Rect>
@@ -23,7 +23,7 @@
 			restitution="0.3"
 			isSensor="false"
 		>
-			<Shape type="box" halfWidth="0.5" halfHeight="25.0"/>
+			<Shape type="box" halfWidth="5.0" halfHeight="250.0"/>
 		</Fixture>
 	</RigidBody>
 </GameObject>

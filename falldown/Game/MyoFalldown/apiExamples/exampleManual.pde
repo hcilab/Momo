@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 /*
 
-// !!! Uncomment and rename to 'falldown.pde' to run !!!m
+// !!! Uncomment and rename to '../MyoFalldown.pde' to run !!!m
 
 int MAX_HEIGHT = 400;
 int OUT_SENSOR_ID = 0;

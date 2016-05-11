@@ -1,0 +1,8 @@
+<Level>
+	<GameObject file="title.xml">
+		<Transform>
+			<Translation x="0.0" y="0.0"/>
+			<Scale x="1.0" y="1.0"/>
+		</Transform>
+	</GameObject>
+</Level>

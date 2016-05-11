@@ -7,7 +7,7 @@
 	</Render>
 	
 	<RigidBody
-		type="kinematic"
+		type="static"
 		linearDamping="0.0"
 		angularDamping="0.0"
 		gravityScale="0.0"

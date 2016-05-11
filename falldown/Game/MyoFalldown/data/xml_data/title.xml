@@ -15,7 +15,7 @@
 		</Text>
 		
 		<Text
-			string="Press Up on the Keyboard or"
+			string="Left Arrow Key Starts Game"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
@@ -29,7 +29,7 @@
 		</Text>
 		
 		<Text
-			string="Pulse Myo Armband Sensors to Start!"
+			string="Right Arrow Key for Options Menu"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"

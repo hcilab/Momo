@@ -1,5 +1,5 @@
 <Level>
-	<GameObject file="xml_data/player.xml">
+	<GameObject file="xml_data/player.xml" tag="player">
 		<Transform>
 			<Translation x="250.0" y="250.0"/>
 		</Transform>

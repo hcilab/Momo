@@ -1,4 +1,4 @@
-<GameObject tag="wall">
+<GameObject>
 	<Render>
 		<Rect x="0.0" y="0.0" halfWidth="5.0" halfHeight="250.0">
 			<FillColor r="0" g="0" b="255" a="255"/>

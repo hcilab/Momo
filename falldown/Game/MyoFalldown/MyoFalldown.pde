@@ -28,6 +28,7 @@ IEventManager eventManager;
 // Physics
 Vec2 gravity;
 World physicsWorld;
+FalldownContactListener contactListener;
 int velocityIterations;    // Fewer iterations increases performance but accuracy suffers.
 int positionIterations;    // More iterations decreases performance but improves accuracy.
                            // Box2D recommends 8 for velocity and 3 for position.
@@ -57,6 +58,8 @@ void setup()
   
   gravity = new Vec2(0.0, 10.0);
   physicsWorld = new World(gravity); // gravity
+  contactListener = new FalldownContactListener();
+  physicsWorld.setContactListener(contactListener);
   velocityIterations = 6;  // Our simple games probably don't need as much iteration.
   positionIterations = 2;
   
@@ -139,5 +142,32 @@ void keyReleased()
         eventManager.queueEvent(event);
         return;
     }
+  }
+}
+
+class FalldownContactListener implements ContactListener
+{
+  @Override public void beginContact(Contact contact)
+  {
+    IGameObject objectA = (IGameObject)contact.getFixtureA().getUserData();
+    IGameObject objectB = (IGameObject)contact.getFixtureB().getUserData();
+    
+    RigidBodyComponent rigidBodyA = (RigidBodyComponent)objectA.getComponent(ComponentType.RIGID_BODY);
+    RigidBodyComponent rigidBodyB = (RigidBodyComponent)objectB.getComponent(ComponentType.RIGID_BODY);
+    
+    rigidBodyA.onCollisionEnter(contact, objectB);
+    rigidBodyB.onCollisionEnter(contact, objectA);
+  }
+  
+  @Override public void endContact(Contact contact)
+  {
+  }
+  
+  @Override public void preSolve(Contact contact, Manifold oldManifold)
+  {
+  }
+  
+  @Override public void postSolve(Contact contact, ContactImpulse impulse)
+  {
   }
 }

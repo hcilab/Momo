@@ -21,6 +21,8 @@ enum EventType
   UP_BUTTON_RELEASED,
   LEFT_BUTTON_RELEASED,
   RIGHT_BUTTON_RELEASED,
+  
+  GAME_OVER,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -202,6 +204,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.UP_BUTTON_RELEASED);
     addEventTypeToMaps(EventType.LEFT_BUTTON_RELEASED);
     addEventTypeToMaps(EventType.RIGHT_BUTTON_RELEASED);
+    
+    addEventTypeToMaps(EventType.GAME_OVER);
   }
   
   private void addEventTypeToMaps(EventType eventType)

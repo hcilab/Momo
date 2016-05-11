@@ -398,7 +398,7 @@ class RenderComponent extends Component
   }
 }
 
-class RigidBodyComponent extends Component implements ContactListener
+class RigidBodyComponent extends Component
 {
   private Body body;
   
@@ -458,6 +458,7 @@ class RigidBodyComponent extends Component implements ContactListener
         fixtureDef.friction = xmlFixture.getFloat("friction");
         fixtureDef.restitution = xmlFixture.getFloat("restitution");
         fixtureDef.isSensor = xmlFixture.getString("isSensor").equals("true") ? true : false;
+        fixtureDef.userData = gameObject;
         
         for (XML xmlShape : xmlFixture.getChildren())
         {
@@ -507,6 +508,10 @@ class RigidBodyComponent extends Component implements ContactListener
     gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
   }
   
+  public void onCollisionEnter(Contact contact, IGameObject collider)
+  {
+  }
+  
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
@@ -539,22 +544,6 @@ class RigidBodyComponent extends Component implements ContactListener
   private float metersToPixels(float meters)
   {
     return meters * 10.0f;
-  }
-  
-  @Override public void beginContact(Contact contact)
-  {
-  }
-  
-  @Override public void endContact(Contact contact)
-  {
-  }
-  
-  @Override public void preSolve(Contact contact, Manifold oldManifold)
-  {
-  }
-  
-  @Override public void postSolve(Contact contact, ContactImpulse impulse)
-  {
   }
 }
 

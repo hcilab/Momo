@@ -34,7 +34,7 @@ public class GameState_MainMenu implements IGameState
   
   @Override public void onEnter()
   {
-    gameObjectManager.fromXML("main_menu.xml");
+    gameObjectManager.fromXML("xml_data/main_menu.xml");
   }
   
   @Override public void update(int deltaTime)
@@ -56,7 +56,7 @@ public class GameState_InGame implements IGameState
   
   @Override public void onEnter()
   {
-    gameObjectManager.fromXML("sample_level.xml");
+    gameObjectManager.fromXML("xml_data/sample_level.xml");
   }
   
   @Override public void update(int deltaTime)

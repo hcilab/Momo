@@ -1,6 +1,6 @@
 <GameObject tag="platform_manager">
 	<PlatformManagerController
-		platformFile="platform.xml"
+		platformFile="xml_data/platform.xml"
 		maxPlatformLevels="100"
 		leftSide="10.0"
 		rightSide="490.0"

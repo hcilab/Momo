@@ -78,16 +78,66 @@ class RenderComponent extends Component
       pshape = _pshape;
       translation = _translation;
       scale = _scale;
+    } 
+  }
+  
+  private class OffsetSprite
+  {
+    public PImage pimage;
+    public PVector translation;
+    public PVector scale;
+    
+    public OffsetSprite(PImage _pimage, PVector _translation, PVector _scale)
+    {
+      pimage = _pimage;
+      translation = _translation;
+      scale = _scale;
+    } 
+  }
+  
+  private class OffsetAnimation
+  {
+    public PImage[] pImages;
+    public int imageCount;
+    public int frame;
+    public PVector translation;
+    public PVector scale;
+    
+    public OffsetAnimation(String imagePrefix, int count, PVector _translation, PVector _scale)
+    {
+      imageCount = count;
+      pImages = new PImage[imageCount];
+      translation = _translation;
+      scale = _scale;
+
+      for (int i = 0; i <imageCount; i++) {
+        // Use nf() to number format 'i' into four digits
+        String filename = imagePrefix + (i+1) + ".png";
+        pImages[i] = loadImage(filename);
+      }
+    }
+    
+    void display(float xpos, float ypos, float height, float width) {
+     image(pImages[frame], xpos, ypos, height, width);
+    }
+  
+    int getWidth() {
+     return pImages[0].width;
     }
   }
   
+  
   private ArrayList<OffsetPShape> offsetShapes;
+  private ArrayList<OffsetSprite> offsetSprites;
+  private ArrayList<OffsetAnimation> offsetAnimations;
   
   public RenderComponent(GameObject _gameObject)
   {
     super(_gameObject);
     
     offsetShapes = new ArrayList<OffsetPShape>();
+    offsetSprites = new ArrayList<OffsetSprite>();
+    offsetAnimations = new ArrayList<OffsetAnimation>();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -184,6 +234,29 @@ class RenderComponent extends Component
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
       }
+      else if (xmlRenderable.getName().equals("Sprite")){
+       //println("Sprite Detected");
+       for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
+         if(xmlSpriteComponent.getName().equals("Image")){
+            OffsetSprite offsetsprite = new OffsetSprite(
+              loadImage(xmlSpriteComponent.getString("src")),
+              new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
+              new PVector(xmlSpriteComponent.getFloat("height"), xmlSpriteComponent.getFloat("width"))
+            );
+            offsetSprites.add(offsetsprite);
+         }
+         else if(xmlSpriteComponent.getName().equals("Animation")){
+           OffsetAnimation offsetAnimation = new OffsetAnimation(
+               xmlSpriteComponent.getString("imgPrefix"),
+               xmlSpriteComponent.getInt("count"),
+               new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
+               new PVector(xmlSpriteComponent.getFloat("height"), xmlSpriteComponent.getFloat("width"))
+            );
+            offsetAnimations.add(offsetAnimation);
+         }
+       }
+         
+     }
     }
   }
   
@@ -215,6 +288,12 @@ class RenderComponent extends Component
       offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
+    }
+    for (OffsetSprite offsetSprite: offsetSprites){
+      image(offsetSprite.pimage,gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y, gameObject.getScale().x * offsetSprite.scale.x, gameObject.getScale().y * offsetSprite.scale.y); // draw
+    }
+    for (OffsetAnimation offsetAnimation: offsetAnimations){
+      offsetAnimation.display(gameObject.getTranslation().x + offsetAnimation.translation.x, gameObject.getTranslation().y + offsetAnimation.translation.y, gameObject.getScale().x * offsetAnimation.scale.x, gameObject.getScale().y * offsetAnimation.scale.y); // draw
     }
   }
 }
@@ -478,7 +557,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     }
   }
 }
-
+ //<>//
 class PlatformManagerControllerComponent extends Component
 {
   private LinkedList<IGameObject> platforms;

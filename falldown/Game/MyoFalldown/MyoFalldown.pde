@@ -44,6 +44,7 @@ void setup()
   
   rectMode(CENTER);
   ellipseMode(CENTER);
+  imageMode(CENTER);
   
   gameObjectManager = new GameObjectManager();
   

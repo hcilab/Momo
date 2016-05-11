@@ -3,7 +3,7 @@
 		<Ellipse x="0.0" y="0.0" halfWidth="1.0" halfHeight="1.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255"/>
-		</Ellipse>
+		</Ellipse> 
 	</Render>
 	
 	<RigidBody

@@ -5,6 +5,16 @@ interface IEmgManager {
 }
 
 
+IEmgManager createEmgManager(MyoFalldown mainApp) {
+  IEmgManager emgManager;
+  try {
+    emgManager = new EmgManager(mainApp);
+  } catch (RuntimeException e) { // no arm-band connected
+    emgManager = new NullEmgManager();
+  }
+  return emgManager;
+}
+
 class EmgManager implements IEmgManager {
   Myo myo;
   MyoAPI myoAPI;
@@ -64,4 +74,22 @@ class EmgManager implements IEmgManager {
   void onEmg(long nowMillis, int[] sensorData) {
     myoAPI.onEmg(nowMillis, sensorData);
   }
+}
+
+
+class NullEmgManager implements IEmgManager {
+
+  void calibrate() {
+    println("[WARNING] No myo armband detected. Aborting calibration");
+  }
+
+  HashMap<String, Float> poll() {
+    HashMap<String, Float> toReturn = new HashMap<String, Float>();
+    toReturn.put("LEFT", 0.0);
+    toReturn.put("RIGHT", 0.0);
+    toReturn.put("JUMP", 0.0);
+    return toReturn;
+  }
+
+  void onEmg(long nowMillis, int[] sensorData) {} // no-op
 }

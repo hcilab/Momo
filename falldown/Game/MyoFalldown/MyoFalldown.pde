@@ -62,7 +62,7 @@ void setup()
   
   gameStateController = new GameStateController();
 
-  emgManager = new EmgManager(this);
+  emgManager = createEmgManager(this);
   emgManager.calibrate();
   
   lastFrameTime = millis();

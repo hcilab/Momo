@@ -34,6 +34,12 @@ enum EventType
   GAME_OVER,
   DESTROY_COIN,
   LEVEL_UP,
+  
+  // Events associated with the calibrate screen
+  CALIBRATE_DONE,
+  CALIBRATE_RETRY,
+  CALIBRATE_SUCCESS,
+  CALIBRATE_FAILURE,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -230,6 +236,11 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.GAME_OVER);
     addEventTypeToMaps(EventType.DESTROY_COIN);
     addEventTypeToMaps(EventType.LEVEL_UP);
+
+    addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
+    addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
+    addEventTypeToMaps(EventType.CALIBRATE_DONE);
+    addEventTypeToMaps(EventType.CALIBRATE_RETRY);
   }
   
   private void addEventTypeToMaps(EventType eventType)

@@ -45,16 +45,21 @@ class EmgManager implements IEmgManager {
   }
 
   void calibrate() {
+    Event event;
     try {
       println("Left:");
       myoAPI.registerAction("LEFT", 5000);
       println("Right:");
       myoAPI.registerAction("RIGHT", 5000);
     } catch (CalibrationFailedException e) {
-      println("[WARNING] Calibration Failed. Aborting.");
+      println("[WARNING] No EMG activity detected. Aborting Calibration.");
+      event = new Event(EventType.CALIBRATE_FAILURE);
+      eventManager.queueEvent(event);
       return;
     }
     calibrated = true;
+    event = new Event(EventType.CALIBRATE_SUCCESS);
+    eventManager.queueEvent(event);
   }
 
   HashMap<String, Float> poll() {
@@ -101,6 +106,8 @@ class NullEmgManager implements IEmgManager {
 
   void calibrate() {
     println("[WARNING] No myo armband detected. Aborting calibration");
+    Event event = new Event(EventType.CALIBRATE_FAILURE);
+    eventManager.queueEvent(event);
   }
 
   HashMap<String, Float> poll() {

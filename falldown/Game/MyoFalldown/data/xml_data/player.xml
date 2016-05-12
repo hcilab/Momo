@@ -1,4 +1,4 @@
-<GameObject tag="player">
+<GameObject>
 	<Render>
 		<!-- <Ellipse x="0.0" y="0.0" halfWidth="10.0" halfHeight="10.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
@@ -12,8 +12,6 @@
 				zOrder="0" height="597.0" scaleHeight="20"> 
 			</SpriteSheet> 
 		</Sprite> 
-		
-
 	</Render>
 	
 	<RigidBody

@@ -1,0 +1,27 @@
+<Level>
+	<GameObject file="xml_data/player.xml" tag="player">
+		<Transform>
+			<Translation x="250.0" y="250.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/wall.xml">
+		<Transform>
+			<Translation x="5.0" y="250.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/wall.xml">
+		<Transform>
+			<Translation x="495.0" y="250.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/platform_manager.xml"/>
+	
+	<GameObject file="xml_data/death_ceiling.xml">
+		<Transform>
+			<Translation x="250.0" y="0.5"/>
+		</Transform>
+	</GameObject>
+</Level>

@@ -1,0 +1,33 @@
+<GameObject>
+	<Render>
+		<Rect x="0.0" y="0.0" halfWidth="250.0" halfHeight="0.5">
+			<FillColor r="255" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Rect>
+	</Render>
+	
+	<RigidBody
+		type="kinematic"
+		linearDamping="0.0"
+		angularDamping="0.0"
+		gravityScale="0.0"
+		allowSleep="true"
+		awake="false"
+		fixedRotation="true"
+		bullet="false"
+		active="true"
+	>
+		<Fixture
+			density="1.0"
+			friction="0.4"
+			restitution="0.3"
+			isSensor="true"
+		>
+			<Shape type="box" halfWidth="250.0" halfHeight="1.0"/>
+		</Fixture>
+		
+		<OnCollideEvents>
+			<Event collidedWith="player" eventType="GAME_OVER"/>
+		</OnCollideEvents>
+	</RigidBody>
+</GameObject>

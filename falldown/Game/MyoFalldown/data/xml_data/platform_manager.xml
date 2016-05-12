@@ -1,10 +1,11 @@
-<GameObject tag="platform_manager">
+<GameObject>
 	<PlatformManagerController
-		platformFile="platform.xml"
+		platformFile="xml_data/platform.xml"
+		tag="platform"
 		maxPlatformLevels="100"
 		leftSide="10.0"
 		rightSide="490.0"
-		disappearHeight="-20.0"
+		disappearHeight="10.0"
 		spawnHeight="495.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"

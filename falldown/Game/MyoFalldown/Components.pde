@@ -374,13 +374,22 @@ class RenderComponent extends Component
   }
 }
 
-class RigidBodyComponent extends Component implements ContactListener
+class RigidBodyComponent extends Component
 {
+  private class OnCollideEvent
+  {
+    public String collidedWith;
+    public EventType eventType;
+  }
+  
   private Body body;
+  private ArrayList<OnCollideEvent> onCollideEvents;
   
   public RigidBodyComponent(GameObject _gameObject)
   {
     super(_gameObject);
+    
+    onCollideEvents = new ArrayList<OnCollideEvent>();
   }
   
   @Override public void destroy()
@@ -425,17 +434,18 @@ class RigidBodyComponent extends Component implements ContactListener
     
     body = physicsWorld.createBody(bodyDefinition);
     
-    for (XML xmlFixture : xmlComponent.getChildren())
+    for (XML rigidBodyComponent : xmlComponent.getChildren())
     {
-      if (xmlFixture.getName().equals("Fixture"))
+      if (rigidBodyComponent.getName().equals("Fixture"))
       {
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = xmlFixture.getFloat("density");
-        fixtureDef.friction = xmlFixture.getFloat("friction");
-        fixtureDef.restitution = xmlFixture.getFloat("restitution");
-        fixtureDef.isSensor = xmlFixture.getString("isSensor").equals("true") ? true : false;
+        fixtureDef.density = rigidBodyComponent.getFloat("density");
+        fixtureDef.friction = rigidBodyComponent.getFloat("friction");
+        fixtureDef.restitution = rigidBodyComponent.getFloat("restitution");
+        fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false;
+        fixtureDef.userData = gameObject;
         
-        for (XML xmlShape : xmlFixture.getChildren())
+        for (XML xmlShape : rigidBodyComponent.getChildren())
         {
           if (xmlShape.getName().equals("Shape"))
           {
@@ -469,6 +479,25 @@ class RigidBodyComponent extends Component implements ContactListener
         
         body.createFixture(fixtureDef);
       }
+      else if (rigidBodyComponent.getName().equals("OnCollideEvents"))
+      {
+        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
+        {
+          if (xmlOnCollideEvent.getName().equals("Event"))
+          {
+            OnCollideEvent onCollideEvent = new OnCollideEvent();
+            onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");
+            
+            String stringEventType = xmlOnCollideEvent.getString("eventType");
+            if (stringEventType.equals("GAME_OVER"))
+            {
+              onCollideEvent.eventType = EventType.GAME_OVER;
+            }
+            
+            onCollideEvents.add(onCollideEvent);
+          }
+        }
+      }
     }
   }
   
@@ -481,6 +510,21 @@ class RigidBodyComponent extends Component implements ContactListener
   {
     // Reverse sync the physically simulated position to the Game Object position.
     gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
+  }
+  
+  public void onCollisionEnter(Contact contact, IGameObject collider)
+  {
+    for (OnCollideEvent onCollideEvent : onCollideEvents)
+    {
+      if (onCollideEvent.collidedWith.equals(collider.getTag()))
+      {
+        if (onCollideEvent.eventType == EventType.GAME_OVER)
+        {
+          print("sending event\n");
+          eventManager.queueEvent(new Event(EventType.GAME_OVER));
+        }
+      }
+    }
   }
   
   public PVector getLinearVelocity()
@@ -515,22 +559,6 @@ class RigidBodyComponent extends Component implements ContactListener
   private float metersToPixels(float meters)
   {
     return meters * 10.0f;
-  }
-  
-  @Override public void beginContact(Contact contact)
-  {
-  }
-  
-  @Override public void endContact(Contact contact)
-  {
-  }
-  
-  @Override public void preSolve(Contact contact, Manifold oldManifold)
-  {
-  }
-  
-  @Override public void postSolve(Contact contact, ContactImpulse impulse)
-  {
   }
 }
 
@@ -685,6 +713,7 @@ class PlatformManagerControllerComponent extends Component
   private LinkedList<IGameObject> platforms;
   
   private String platformFile;
+  private String tag;
   
   private int maxPlatformLevels;
   
@@ -717,6 +746,7 @@ class PlatformManagerControllerComponent extends Component
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
+    tag = xmlComponent.getString("tag");
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
     rightSide = xmlComponent.getFloat("rightSide");
@@ -784,6 +814,7 @@ class PlatformManagerControllerComponent extends Component
       float platformWidth = platformRange.y - platformRange.x;
       
       IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, 1.0));
+      platform.setTag(tag);
       IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
       if (component != null)
       {

@@ -1,10 +1,9 @@
 <GameObject tag="customize_settings_message">
 	<Render>
-		
 		<Text
 			string="CUSTOMIZE SETTINGS"
 			fontName="Andy Bold" 
-			size="40"
+			size="30"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
@@ -14,6 +13,83 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-
+		<Text
+			string="Ball"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="125.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Coins"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="175.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Obstacle"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Background"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="275.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Music Selection"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="325.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Up Arrow Key Returns to Main Menu"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="450.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
 	</Render>
 </GameObject>

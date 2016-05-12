@@ -1,9 +1,18 @@
 <GameObject>
 	<Render>
-		<Rect x="250.0" y="50.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
+		<Text
+			string="Options"
+			fontName="Andy Bold"
+			size="50"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="75.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
 		<Rect x="250.0" y="125.0" halfWidth="50.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
@@ -16,6 +25,10 @@
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
+		<Rect x="250.0" y="350.0" halfWidth="50.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
 		<Text
 			string="Game"
 			fontName="Arial"
@@ -24,7 +37,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="50.0"
+			y="137.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
@@ -37,7 +50,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="125.0"
+			y="212.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
@@ -50,7 +63,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="200.0"
+			y="287.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
@@ -63,7 +76,20 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="275.0"
+			y="362.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Up Arrow Key Returns to Main Menu"
+			fontName="Arial" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="450.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

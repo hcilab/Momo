@@ -3,12 +3,103 @@
 		<Text
 			string="IO SETTINGS"
 			fontName="Andy Bold" 
-			size="40"
+			size="30"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
 			y="75.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Audio"
+			fontName="Arial"
+			size="25"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="125.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Music Volume"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="175.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Sound Effects Volume"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="EMG Sensitivity"
+			fontName="Arial"
+			size="25"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="275.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Left"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="325.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Right"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="375.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Up Arrow Key Returns to Main Menu"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="450.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

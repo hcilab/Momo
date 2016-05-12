@@ -1,0 +1,19 @@
+<GameObject>
+	<ScoreTracker scoreValueParameterName="scoreValue">
+		<Render>
+			<Text
+				string="0"
+				fontName="Arial" 
+				size="24"
+				antialiasing="true"
+				alignX="right"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255"/>
+			</Text>
+		</Render>
+	</ScoreTracker>
+</GameObject>

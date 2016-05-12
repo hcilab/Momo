@@ -1,4 +1,4 @@
-<GameObject tag="death_ceiling">
+<GameObject>
 	<Render>
 		<Rect x="0.0" y="0.0" halfWidth="250.0" halfHeight="0.5">
 			<FillColor r="255" g="0" b="0" a="255"/>

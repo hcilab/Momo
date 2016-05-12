@@ -1,4 +1,4 @@
-<GameObject tag="platform">
+<GameObject>
 	<Render>
 		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="5.0">
 			<FillColor r="0" g="255" b="0" a="255"/>

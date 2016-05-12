@@ -1,4 +1,4 @@
-<GameObject tag="options_message">
+<GameObject>
 	<Render>
 		<Text
 			string="Up Arrow Key Returns to Main Menu"

@@ -1,4 +1,4 @@
-<GameObject tag="title">
+<GameObject>
 	<Render>
 		<Text
 			string="Myo Falldown"

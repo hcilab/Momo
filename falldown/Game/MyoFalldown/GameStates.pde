@@ -56,7 +56,7 @@ public class GameState_InGame implements IGameState
   
   @Override public void onEnter()
   {
-    gameObjectManager.fromXML("xml_data/sample_level.xml");
+    gameObjectManager.fromXML("xml_data/game.xml");
   }
   
   @Override public void update(int deltaTime)

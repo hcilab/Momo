@@ -1,0 +1,15 @@
+<Level>
+	<GameObject file="xml_data/calibrate_failure_message.xml"/>
+
+	<GameObject file="xml_data/button.xml" tag="Calibrate">
+		<Transform>
+			<Translation x="250.0" y="300.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="MainMenu">
+		<Transform>
+			<Translation x="250.0" y="375.0"/>
+		</Transform>
+	</GameObject>
+</Level>

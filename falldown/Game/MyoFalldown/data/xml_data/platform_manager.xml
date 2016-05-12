@@ -14,7 +14,7 @@
 		minDistanceBetweenGaps="50.0"
 		minHeightBetweenPlatformLevels="50.0"
 		maxHeightBetweenPlatformLevels="100.0"
-		riseSpeed="30.0"
+		currentRiseSpeedParameterName="currentRiseSpeed"
 	>
 	</PlatformManagerController>
 </GameObject>

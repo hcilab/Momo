@@ -155,8 +155,8 @@ class FalldownContactListener implements ContactListener
     RigidBodyComponent rigidBodyA = (RigidBodyComponent)objectA.getComponent(ComponentType.RIGID_BODY);
     RigidBodyComponent rigidBodyB = (RigidBodyComponent)objectB.getComponent(ComponentType.RIGID_BODY);
     
-    rigidBodyA.onCollisionEnter(contact, objectB);
-    rigidBodyB.onCollisionEnter(contact, objectA);
+    rigidBodyA.onCollisionEnter(objectB);
+    rigidBodyB.onCollisionEnter(objectA);
   }
   
   @Override public void endContact(Contact contact)

@@ -1,4 +1,6 @@
 <Level>
+	<GameObject file="xml_data/level_parameters.xml" tag="level_parameters"/>
+
 	<GameObject file="xml_data/player.xml" tag="player">
 		<Transform>
 			<Translation x="250.0" y="250.0"/>
@@ -17,7 +19,7 @@
 		</Transform>
 	</GameObject>
 	
-	<GameObject file="xml_data/platform.xml" tag="platform">
+	<GameObject file="xml_data/platform.xml">
 		<Transform>
 			<Translation x="250.0" y="495.0"/>
 			<Scale x="480.0" y="1.0"/>
@@ -35,6 +37,12 @@
 	<GameObject file="xml_data/score_tracker.xml">
 		<Transform>
 			<Translation x="485.0" y="24.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/level_display.xml">
+		<Transform>
+			<Translation x="15.0" y="24.0"/>
 		</Transform>
 	</GameObject>
 	

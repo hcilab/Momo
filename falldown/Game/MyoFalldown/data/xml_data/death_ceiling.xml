@@ -23,7 +23,7 @@
 			restitution="0.3"
 			isSensor="true"
 		>
-			<Shape type="box" halfWidth="250.0" halfHeight="1.5"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="250.0" halfHeight="1.5"/>
 		</Fixture>
 		
 		<OnCollideEvents>

@@ -9,6 +9,7 @@
 		maxHorizontalOffset="20.0"
 		minVerticalOffset="-17.0"
 		maxVerticalOffset="-12.0"
-		riseSpeed="30.0"
+		minHeight="60.0"
+		currentRiseSpeedParameterName="currentRiseSpeed"
 	/>
 </GameObject>

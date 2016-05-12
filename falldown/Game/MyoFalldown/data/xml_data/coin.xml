@@ -30,5 +30,6 @@
 	<CoinEventHandler>
 		<CoinCollected scoreValue="10" coinParameterName="coin" scoreValueParameterName="scoreValue"/>
 		<DestroyCoin coinParameterName="coin"/>
+		<LevelUp currentRiseSpeedParameterName="currentRiseSpeed"/>
 	</CoinEventHandler>
 </GameObject>

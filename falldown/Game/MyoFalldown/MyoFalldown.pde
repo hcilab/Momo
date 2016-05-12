@@ -17,6 +17,9 @@ import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.callbacks.ContactImpulse;
+import sprites.utils.*;
+import sprites.maths.*;
+import sprites.*;
 import de.voidplus.myo.*;
 
 // The GameObject system.

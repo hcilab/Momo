@@ -81,49 +81,19 @@ class RenderComponent extends Component
     } 
   }
   
-  private class OffsetSprite
+  
+  
+  private class OffsetSheetSprite
   {
-    public PImage pimage;
+    public Sprite sheetSprite;
     public PVector translation;
     public PVector scale;
     
-    public OffsetSprite(PImage _pimage, PVector _translation, PVector _scale)
+    public OffsetSheetSprite(Sprite _sheetSprite, PVector _translation, PVector _scale)
     {
-      pimage = _pimage;
+      sheetSprite = _sheetSprite;
       translation = _translation;
       scale = _scale;
-    } 
-  }
-  
-  private class OffsetAnimation
-  {
-    public PImage[] pImages;
-    public int imageCount;
-    public int frame;
-    public PVector translation;
-    public PVector scale;
-    
-    public OffsetAnimation(String imagePrefix, int count, PVector _translation, PVector _scale)
-    {
-      imageCount = count;
-      pImages = new PImage[imageCount];
-      translation = _translation;
-      scale = _scale;
-
-      for (int i = 0; i <imageCount; i++) {
-        // Use nf() to number format 'i' into four digits
-        String filename = imagePrefix + (i+1) + ".png";
-        pImages[i] = loadImage(filename);
-      }
-    }
-    
-    void display(float xpos, float ypos, float height, float width) {
-     frame = ((int)(frame+1) % imageCount);
-     image(pImages[frame], xpos, ypos, height, width);
-    }
-  
-    int getWidth() {
-     return pImages[0].width;
     }
   }
   
@@ -151,18 +121,17 @@ class RenderComponent extends Component
   
   private ArrayList<OffsetPShape> offsetShapes;
   private ArrayList<Text> texts;
-   private ArrayList<OffsetSprite> offsetSprites;
-  private ArrayList<OffsetAnimation> offsetAnimations;
-
+  private ArrayList<OffsetSheetSprite> offsetSheetSprites;
+  private StopWatch sw;
   
   public RenderComponent(GameObject _gameObject)
   {
     super(_gameObject);
     
     offsetShapes = new ArrayList<OffsetPShape>();
-    offsetSprites = new ArrayList<OffsetSprite>();
-    offsetAnimations = new ArrayList<OffsetAnimation>();
     texts = new ArrayList<Text>();
+    offsetSheetSprites = new ArrayList<OffsetSheetSprite>();
+     sw = new StopWatch();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -262,22 +231,16 @@ class RenderComponent extends Component
       else if (xmlRenderable.getName().equals("Sprite")){
        //println("Sprite Detected");
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
-         if(xmlSpriteComponent.getName().equals("Image")){
-            OffsetSprite offsetsprite = new OffsetSprite(
-              loadImage(xmlSpriteComponent.getString("src")),
-              new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
-              new PVector(xmlSpriteComponent.getFloat("height"), xmlSpriteComponent.getFloat("width"))
-            );
-            offsetSprites.add(offsetsprite);
-         }
-         else if(xmlSpriteComponent.getName().equals("Animation")){
-           OffsetAnimation offsetAnimation = new OffsetAnimation(
-               xmlSpriteComponent.getString("imgPrefix"),
-               xmlSpriteComponent.getInt("count"),
+         if(xmlSpriteComponent.getName().equals("SpriteSheet")){
+           OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
+               new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"), xmlSpriteComponent.getString("alphaImage"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
-               new PVector(xmlSpriteComponent.getFloat("height"), xmlSpriteComponent.getFloat("width"))
+               new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))
             );
-            offsetAnimations.add(offsetAnimation);
+            offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
+            offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
+            offsetSheetSprite.sheetSprite.setScale(xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"));
+            offsetSheetSprites.add(offsetSheetSprite);
          }
        }
          
@@ -373,7 +336,7 @@ class RenderComponent extends Component
   }
   
   @Override public void update(int deltaTime)
-  {    
+  {  
     for (OffsetPShape offsetShape : offsetShapes)
     {
       offsetShape.pshape.resetMatrix();
@@ -381,12 +344,25 @@ class RenderComponent extends Component
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
     }
-    for (OffsetSprite offsetSprite: offsetSprites){
-      image(offsetSprite.pimage,gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y, gameObject.getScale().x * offsetSprite.scale.x, gameObject.getScale().y * offsetSprite.scale.y); // draw
+    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
+       offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
+       if(gameObject.getScale().x * offsetSprite.scale.x >1){
+         println(gameObject.getScale().x + " " + offsetSprite.scale.x + "  " + gameObject.getScale().y * offsetSprite.scale.y);
+         //Sprite newSprite = offsetSprite.sheetSprite;
+         // newSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x + 100, gameObject.getTranslation().y + offsetSprite.translation.y);
+         // //newSprite.setFrameSequence(0, 1, 0.0f);  
+         //   newSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
+         //   //newSprite.setScale(1);
+         // S4P.registerSprite(newSprite);
+         //PImage img = loadImage("block.png");
+         //image(img,gameObject.getTranslation().x + offsetSprite.translation.x+10, gameObject.getTranslation().y + offsetSprite.translation.y,10,10);
+       }
+       offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+       float elapsedTime = (float) sw.getElapsedTime();
+       S4P.updateSprites(elapsedTime);
+       S4P.drawSprites();
     }
-    for (OffsetAnimation offsetAnimation: offsetAnimations){
-      offsetAnimation.display(gameObject.getTranslation().x + offsetAnimation.translation.x, gameObject.getTranslation().y + offsetAnimation.translation.y, gameObject.getScale().x * offsetAnimation.scale.x, gameObject.getScale().y * offsetAnimation.scale.y); // draw 
-    }
+    
     for (Text text : texts)
     { 
       textFont(text.font);

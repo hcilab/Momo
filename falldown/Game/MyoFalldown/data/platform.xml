@@ -4,6 +4,13 @@
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
+		<Sprite>
+			<SpriteSheet src="block.png" alphaImage=""
+				x="0.0" y="0.0"  
+				horzCount="1" vertCount="1" farmeFreq="0.0f"
+				zOrder="0" height="120.0" scaleHeight="10"> 
+			</SpriteSheet> 
+		</Sprite> 
 	</Render>
 	
 	<RigidBody

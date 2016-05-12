@@ -25,6 +25,7 @@ enum EventType
   COIN_COLLECTED,
   UPDATE_SCORE,
   GAME_OVER,
+  DESTROY_COIN,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -215,6 +216,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.COIN_COLLECTED);
     addEventTypeToMaps(EventType.UPDATE_SCORE);
     addEventTypeToMaps(EventType.GAME_OVER);
+    addEventTypeToMaps(EventType.DESTROY_COIN);
   }
   
   private void addEventTypeToMaps(EventType eventType)

@@ -1,8 +1,7 @@
 <GameObject>
-	<ScoreTracker scoreValueParameterName="scoreValue">
-		<Render>
+	<Render>
 			<Text
-				string="0"
+				string="Score: 0"
 				fontName="Arial" 
 				size="24"
 				antialiasing="true"
@@ -15,5 +14,5 @@
 				<StrokeColor r="0" g="0" b="0" a="255"/>
 			</Text>
 		</Render>
-	</ScoreTracker>
+	<ScoreTracker scoreValueParameterName="scoreValue" scoreTextPrefix="Score: "/>
 </GameObject>

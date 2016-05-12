@@ -14,8 +14,8 @@ enum ComponentType
   RIGID_BODY,
   PLAYER_CONTROLLER,
   PLATFORM_MANAGER_CONTROLLER,
-  COIN_COLLECTED_HANDLER,
-  COIN_MANAGER_CONTROLLER,
+  COIN_EVENT_HANDLER,
+  COIN_SPAWNER_CONTROLLER,
   SCORE_TRACKER,
 }
 
@@ -544,6 +544,12 @@ class RigidBodyComponent extends Component
             {
               onCollideEvent.eventType = EventType.GAME_OVER;
             }
+            else if (stringEventType.equals("DESTROY_COIN"))
+            {
+              onCollideEvent.eventType = EventType.DESTROY_COIN;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
+            }
             
             onCollideEvents.add(onCollideEvent);
           }
@@ -579,6 +585,12 @@ class RigidBodyComponent extends Component
         {
           eventManager.queueEvent(new Event(EventType.GAME_OVER));
         }
+        else if (onCollideEvent.eventType == EventType.DESTROY_COIN)
+        { //<>//
+          Event event = new Event(EventType.DESTROY_COIN);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
       }
     }
   }
@@ -586,7 +598,7 @@ class RigidBodyComponent extends Component
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  }  //<>//
+  } 
   
   public void setLinearVelocity(PVector linearVelocity)
   {
@@ -719,7 +731,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     else if (event.getEventType() == EventType.LEFT_BUTTON_PRESSED)
     {
       leftButtonDown = true;
-    }
+    } //<>//
     else if (event.getEventType() == EventType.RIGHT_BUTTON_PRESSED)
     {
       rightButtonDown = true;
@@ -731,7 +743,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     else if (event.getEventType() == EventType.LEFT_BUTTON_RELEASED)
     {
       leftButtonDown = false; 
-    } //<>//
+    }
     else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
     {
       rightButtonDown = false;
@@ -801,7 +813,7 @@ class PlatformManagerControllerComponent extends Component
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
-    tag = xmlComponent.getString("tag");
+    tag = xmlComponent.getString("tag"); //<>//
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
     rightSide = xmlComponent.getFloat("rightSide");
@@ -813,7 +825,7 @@ class PlatformManagerControllerComponent extends Component
     maxGapSize = xmlComponent.getFloat("maxGapSize");
     minDistanceBetweenGaps = xmlComponent.getFloat("minDistanceBetweenGaps");
     minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
-    maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels"); //<>//
+    maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
     riseSpeed = xmlComponent.getFloat("riseSpeed");
   }
@@ -886,51 +898,92 @@ class PlatformManagerControllerComponent extends Component
   }
 }
 
-class CoinCollectedHandlerComponent extends Component implements IEventListener
+class CoinEventHandlerComponent extends Component implements IEventListener
 {
   private int scoreValue;
-  private String coinParameterName;
+  private String coinCollectedCoinParameterName;
   private String scoreValueParameterName;
   
-  public CoinCollectedHandlerComponent(IGameObject _gameObject)
+  private String destroyCoinCoinParameterName;
+  
+  public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
     
     eventManager.register(EventType.COIN_COLLECTED, this);
+    eventManager.register(EventType.DESTROY_COIN, this);
   }
   
   @Override public void destroy()
   {
     eventManager.deregister(EventType.COIN_COLLECTED, this);
+    eventManager.deregister(EventType.DESTROY_COIN, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
   {
-    scoreValue = xmlComponent.getInt("scoreValue");
-    coinParameterName = xmlComponent.getString("coinParameterName");
-    scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
+    for (XML xmlCoinEventComponent : xmlComponent.getChildren())
+    {
+      if (xmlCoinEventComponent.getName().equals("CoinCollected"))
+      {
+        scoreValue = xmlCoinEventComponent.getInt("scoreValue");
+        coinCollectedCoinParameterName = xmlCoinEventComponent.getString("coinParameterName");
+        scoreValueParameterName = xmlCoinEventComponent.getString("scoreValueParameterName");
+      }
+      else if (xmlCoinEventComponent.getName().equals("DestroyCoin"))
+      {
+        destroyCoinCoinParameterName = xmlCoinEventComponent.getString("coinParameterName");
+      }
+    }
   }
   
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.COIN_COLLECTED_HANDLER;
+    return ComponentType.COIN_EVENT_HANDLER;
   }
   
   @Override public void handleEvent(IEvent event)
   {
-    if (event.getRequiredGameObjectParameter(coinParameterName).getUID() == gameObject.getUID())
+    if (event.getEventType() == EventType.COIN_COLLECTED)
     {
-      Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-      updateScoreEvent.addIntParameter(scoreValueParameterName, scoreValue);
-      eventManager.queueEvent(updateScoreEvent);
-      gameObjectManager.removeGameObject(gameObject.getUID());
+      if (event.getRequiredGameObjectParameter(coinCollectedCoinParameterName).getUID() == gameObject.getUID())
+      {
+        Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+        updateScoreEvent.addIntParameter(scoreValueParameterName, scoreValue);
+        eventManager.queueEvent(updateScoreEvent);
+        gameObjectManager.removeGameObject(gameObject.getUID());
+      }
+    }
+    else if (event.getEventType() == EventType.DESTROY_COIN)
+    {
+      if (event.getRequiredGameObjectParameter(destroyCoinCoinParameterName).getUID() == gameObject.getUID())
+      {
+        gameObjectManager.removeGameObject(gameObject.getUID());
+      }
     }
   }
 }
 
-class CoinManagerControllerComponent extends Component
+class CoinSpawnerControllerComponent extends Component
 {
-  public CoinManagerControllerComponent(IGameObject _gameObject)
+  private String coinFile;
+  private String tag;
+  
+  private String spawnRelativeTo;
+  private int minSpawnWaitTime;
+  private int maxSpawnWaitTime;
+  private int nextSpawnTime;
+  private int timePassed;
+  
+  private float minHorizontalOffset;
+  private float maxHorizontalOffset;
+  
+  private float minVerticalOffset;
+  private float maxVerticalOffset;
+  
+  private float riseSpeed;
+  
+  public CoinSpawnerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
   }
@@ -941,29 +994,74 @@ class CoinManagerControllerComponent extends Component
   
   @Override public void fromXML(XML xmlComponent)
   {
+    coinFile = xmlComponent.getString("coinFile");
+    tag = xmlComponent.getString("tag");
+    
+    spawnRelativeTo = xmlComponent.getString("spawnRelativeTo");
+ 
+    maxSpawnWaitTime = xmlComponent.getInt("maxSpawnWaitTime");
+    nextSpawnTime = int(random(minSpawnWaitTime, maxSpawnWaitTime));
+    timePassed = 0;
+    
+    minHorizontalOffset = xmlComponent.getFloat("minHorizontalOffset");
+    maxHorizontalOffset = xmlComponent.getFloat("maxHorizontalOffset");
+    
+    minVerticalOffset = xmlComponent.getFloat("minVerticalOffset");
+    maxVerticalOffset = xmlComponent.getFloat("maxVerticalOffset");
+    
+    riseSpeed = xmlComponent.getFloat("riseSpeed");
   }
   
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.COIN_MANAGER_CONTROLLER;
+    return ComponentType.COIN_SPAWNER_CONTROLLER;
   }
   
   @Override public void update(int deltaTime)
   {
+    timePassed += deltaTime;
+    
+    if (timePassed > nextSpawnTime)
+    {
+      spawnCoin();
+      timePassed = 0;
+      nextSpawnTime = int(random(minSpawnWaitTime, maxSpawnWaitTime));
+    }
+  }
+  
+  private void spawnCoin()
+  {
+    ArrayList<IGameObject> spawnRelativeToList = gameObjectManager.getGameObjectsByTag(spawnRelativeTo);
+    
+    if (spawnRelativeToList.size() != 0)
+    {
+      IGameObject spawnRelativeToObject = spawnRelativeToList.get(int(random(0, spawnRelativeToList.size())));
+      
+      PVector translation = spawnRelativeToObject.getTranslation();
+      PVector offset = new PVector(random(minHorizontalOffset, maxHorizontalOffset), random(minVerticalOffset, maxVerticalOffset));
+      
+      IGameObject coin = gameObjectManager.addGameObject(coinFile, translation.add(offset), new PVector(1.0, 1.0));
+      coin.setTag(tag);
+      IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
+      if (component != null)
+      {
+        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+        rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
+      }
+    }
   }
 }
 
 class ScoreTrackerComponent extends Component implements IEventListener
 {
   private String scoreValueParameterName;
-  private RenderComponent renderComponent;
+  private String scoreTextPrefix;
   private int totalScore;
   
   public ScoreTrackerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
     
-    renderComponent = new RenderComponent(_gameObject);
     totalScore = 0;
     
     eventManager.register(EventType.UPDATE_SCORE, this);
@@ -971,8 +1069,6 @@ class ScoreTrackerComponent extends Component implements IEventListener
   
   @Override public void destroy()
   {
-    renderComponent.destroy();
-    
     eventManager.deregister(EventType.UPDATE_SCORE, this);
     // add score obtained from game to cumulative score here.
   }
@@ -980,11 +1076,7 @@ class ScoreTrackerComponent extends Component implements IEventListener
   @Override public void fromXML(XML xmlComponent)
   {
     scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
-    
-    for (XML xmlRenderComponent : xmlComponent.getChildren())
-    {
-      renderComponent.fromXML(xmlRenderComponent);
-    }
+    scoreTextPrefix = xmlComponent.getString("scoreTextPrefix");
   }
   
   @Override public ComponentType getComponentType()
@@ -992,16 +1084,20 @@ class ScoreTrackerComponent extends Component implements IEventListener
     return ComponentType.SCORE_TRACKER;
   }
   
-  @Override public void update(int deltaTime)
-  {
-    renderComponent.update(deltaTime);
-  }
-  
   @Override public void handleEvent(IEvent event)
   {
     totalScore += event.getRequiredIntParameter(scoreValueParameterName);
     
-    renderComponent.getTexts().get(0).string = Integer.toString(totalScore);
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+    if (component != null)
+    {
+      RenderComponent renderComponent = (RenderComponent)component;
+      RenderComponent.Text text = renderComponent.getTexts().get(0);
+      if (text != null)
+      {
+        text.string = scoreTextPrefix + Integer.toString(totalScore);
+      }
+    }
   }
 }
 
@@ -1026,13 +1122,13 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   {
     component = new PlatformManagerControllerComponent(gameObject);
   }
-  else if (componentName.equals("CoinCollectedHandler"))
+  else if (componentName.equals("CoinEventHandler"))
   {
-    component = new CoinCollectedHandlerComponent(gameObject);
+    component = new CoinEventHandlerComponent(gameObject);
   }
-  else if (componentName.equals("CoinManagerController"))
+  else if (componentName.equals("CoinSpawnerController"))
   {
-    component = new CoinManagerControllerComponent(gameObject);
+    component = new CoinSpawnerControllerComponent(gameObject);
   }
   else if (componentName.equals("ScoreTracker"))
   {

@@ -5,7 +5,7 @@
 		maxPlatformLevels="100"
 		leftSide="10.0"
 		rightSide="490.0"
-		disappearHeight="10.0"
+		disappearHeight="50.0"
 		spawnHeight="495.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"

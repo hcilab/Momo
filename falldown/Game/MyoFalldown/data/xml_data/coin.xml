@@ -7,7 +7,7 @@
 	</Render>
 	
 	<RigidBody
-		type="kinematic"
+		type="dynamic"
 		linearDamping="0.0"
 		angularDamping="0.0"
 		gravityScale="0.0"
@@ -27,5 +27,8 @@
 		</Fixture>
 	</RigidBody>
 	
-	<CoinCollectedHandler scoreValue="10" coinParameterName="coin" scoreValueParameterName="scoreValue"/>
+	<CoinEventHandler>
+		<CoinCollected scoreValue="10" coinParameterName="coin" scoreValueParameterName="scoreValue"/>
+		<DestroyCoin coinParameterName="coin"/>
+	</CoinEventHandler>
 </GameObject>

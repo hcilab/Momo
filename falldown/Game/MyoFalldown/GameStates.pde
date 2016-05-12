@@ -288,7 +288,7 @@ public class GameStateController implements IGameStateController, IEventListener
     gameState_CalibrateSuccess = new GameState_CalibrateSuccess();
     gameState_CalibrateFailure = new GameState_CalibrateFailure();
     
-    goToState(gameState_MainMenu);
+    goToState(gameState_CalibrateFailure);
     
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
     eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);

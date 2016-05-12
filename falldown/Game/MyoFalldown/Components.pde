@@ -18,6 +18,8 @@ enum ComponentType
   COIN_SPAWNER_CONTROLLER,
   SCORE_TRACKER,
   BUTTON,
+  LEVEL_DISPLAY,
+  LEVEL_PARAMETERS,
 }
 
 interface IComponent
@@ -508,6 +510,7 @@ class RigidBodyComponent extends Component
             else if (shapeType.equals("box"))
             {
               PolygonShape boxShape = new PolygonShape();
+              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));
               boxShape.setAsBox(
                 pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x, 
                 pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y
@@ -570,7 +573,7 @@ class RigidBodyComponent extends Component
     gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
   }
   
-  public void onCollisionEnter(Contact contact, IGameObject collider)
+  public void onCollisionEnter(IGameObject collider)
   {
     for (OnCollideEvent onCollideEvent : onCollideEvents)
     {
@@ -583,11 +586,11 @@ class RigidBodyComponent extends Component
           eventManager.queueEvent(event);
         }
         else if (onCollideEvent.eventType == EventType.GAME_OVER)
-        {
-          eventManager.queueEvent(new Event(EventType.GAME_OVER));
+        { //<>//
+          eventManager.queueEvent(new Event(EventType.GAME_OVER)); //<>//
         }
         else if (onCollideEvent.eventType == EventType.DESTROY_COIN)
-        { //<>//
+        {
           Event event = new Event(EventType.DESTROY_COIN);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
           eventManager.queueEvent(event);
@@ -637,6 +640,9 @@ class PlayerControllerComponent extends Component implements IEventListener
   private float maxSpeed;
   private float jumpForce;
   
+  private String currentRiseSpeedParameterName;
+  private float riseSpeed;
+  
   private boolean upButtonDown;
   private boolean leftButtonDown;
   private boolean rightButtonDown;
@@ -656,6 +662,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
     eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
     eventManager.register(EventType.RIGHT_BUTTON_RELEASED, this);
+    
+    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
@@ -667,6 +675,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.deregister(EventType.UP_BUTTON_RELEASED, this);
     eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this);
     eventManager.deregister(EventType.RIGHT_BUTTON_RELEASED, this);
+    
+    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -674,6 +684,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
     jumpForce = xmlComponent.getFloat("jumpForce");
+    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+    riseSpeed = 0.0f;
   }
   
   @Override public ComponentType getComponentType()
@@ -707,10 +719,8 @@ class PlayerControllerComponent extends Component implements IEventListener
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
         if (tcomponent != null)
         {
-          PlatformManagerControllerComponent platformManagerControllerComponent = (PlatformManagerControllerComponent)tcomponent;
-          float riseSpeed = platformManagerControllerComponent.getRiseSpeed();
-          
-          if (linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed)
+          if ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed)
+              || linearVelocity.y == 0.0f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce * deltaTime), gameObject.getTranslation(), true);
           }
@@ -721,8 +731,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     {
       gameObject.translate(moveVector);
     }
-  }
-  
+  } //<>//
+   //<>//
   @Override public void handleEvent(IEvent event)
   {
     if (event.getEventType() == EventType.UP_BUTTON_PRESSED)
@@ -732,7 +742,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     else if (event.getEventType() == EventType.LEFT_BUTTON_PRESSED)
     {
       leftButtonDown = true;
-    } //<>//
+    }
     else if (event.getEventType() == EventType.RIGHT_BUTTON_PRESSED)
     {
       rightButtonDown = true;
@@ -748,6 +758,10 @@ class PlayerControllerComponent extends Component implements IEventListener
     else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
     {
       rightButtonDown = false;
+    }
+    else if (event.getEventType() == EventType.LEVEL_UP)
+    {
+      riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
     }
   }
 
@@ -776,7 +790,7 @@ class PlayerControllerComponent extends Component implements IEventListener
   }
 }
 
-class PlatformManagerControllerComponent extends Component
+class PlatformManagerControllerComponent extends Component implements IEventListener
 {
   private LinkedList<IGameObject> platforms;
   
@@ -799,9 +813,10 @@ class PlatformManagerControllerComponent extends Component
   private float minDistanceBetweenGaps;
   
   private float minHeightBetweenPlatformLevels;
-  private float maxHeightBetweenPlatformLevels;
-  private float nextHeightBetweenPlatformLevels;
+  private float maxHeightBetweenPlatformLevels; //<>//
+  private float nextHeightBetweenPlatformLevels; //<>//
   
+  private String currentRiseSpeedParameterName;
   private float riseSpeed;
   
   public PlatformManagerControllerComponent(IGameObject _gameObject)
@@ -809,12 +824,19 @@ class PlatformManagerControllerComponent extends Component
     super (_gameObject);
     
     platforms = new LinkedList<IGameObject>();
+    
+    eventManager.register(EventType.LEVEL_UP, this);
+  }
+  
+  @Override public void destroy()
+  {
+    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
-    tag = xmlComponent.getString("tag"); //<>//
+    tag = xmlComponent.getString("tag");
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
     rightSide = xmlComponent.getFloat("rightSide");
@@ -828,7 +850,8 @@ class PlatformManagerControllerComponent extends Component
     minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
-    riseSpeed = xmlComponent.getFloat("riseSpeed");
+    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+    riseSpeed = 0.0f;
   }
   
   @Override public ComponentType getComponentType()
@@ -847,8 +870,11 @@ class PlatformManagerControllerComponent extends Component
     if (platforms.isEmpty()
       || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
     {
-      spawnPlatformLevel();
-      nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+      if (riseSpeed > 0.0f)
+      {
+        spawnPlatformLevel();
+        nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+      }
     }
   }
   
@@ -883,19 +909,32 @@ class PlatformManagerControllerComponent extends Component
       
       IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, 1.0));
       platform.setTag(tag);
-      IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
-      if (component != null)
-      {
-        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-        rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
-      }
+      setPlatformRiseSpeed(platform);
       platforms.add(platform);
     }
   }
   
-  public float getRiseSpeed() 
-  { 
-    return riseSpeed; 
+  @Override public void handleEvent(IEvent event)
+  {
+    if (event.getEventType() == EventType.LEVEL_UP)
+    {
+      riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
+      
+      for (IGameObject platform : platforms)
+      {
+        setPlatformRiseSpeed(platform);
+      }
+    }
+  }
+  
+  private void setPlatformRiseSpeed(IGameObject platform)
+  {
+    IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+    if (component != null)
+    {
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
+    }
   }
 }
 
@@ -907,18 +946,22 @@ class CoinEventHandlerComponent extends Component implements IEventListener
   
   private String destroyCoinCoinParameterName;
   
+  private String currentRiseSpeedParameterName;
+  
   public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
     
     eventManager.register(EventType.COIN_COLLECTED, this);
     eventManager.register(EventType.DESTROY_COIN, this);
+    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
   {
     eventManager.deregister(EventType.COIN_COLLECTED, this);
     eventManager.deregister(EventType.DESTROY_COIN, this);
+    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -934,6 +977,10 @@ class CoinEventHandlerComponent extends Component implements IEventListener
       else if (xmlCoinEventComponent.getName().equals("DestroyCoin"))
       {
         destroyCoinCoinParameterName = xmlCoinEventComponent.getString("coinParameterName");
+      }
+      else if (xmlCoinEventComponent.getName().equals("LevelUp"))
+      {
+        currentRiseSpeedParameterName = xmlCoinEventComponent.getString("currentRiseSpeedParameterName");
       }
     }
   }
@@ -962,10 +1009,19 @@ class CoinEventHandlerComponent extends Component implements IEventListener
         gameObjectManager.removeGameObject(gameObject.getUID());
       }
     }
+    else if (event.getEventType() == EventType.LEVEL_UP)
+    {
+      IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+      if (component != null)
+      {
+        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+        rigidBodyComponent.setLinearVelocity(new PVector(0.0f, -event.getRequiredFloatParameter(currentRiseSpeedParameterName)));
+      }
+    }
   }
 }
 
-class CoinSpawnerControllerComponent extends Component
+class CoinSpawnerControllerComponent extends Component implements IEventListener
 {
   private String coinFile;
   private String tag;
@@ -982,15 +1038,21 @@ class CoinSpawnerControllerComponent extends Component
   private float minVerticalOffset;
   private float maxVerticalOffset;
   
+  private float minHeight;
+  
+  private String currentRiseSpeedParameterName;
   private float riseSpeed;
   
   public CoinSpawnerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
+    
+    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
   {
+    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1010,7 +1072,10 @@ class CoinSpawnerControllerComponent extends Component
     minVerticalOffset = xmlComponent.getFloat("minVerticalOffset");
     maxVerticalOffset = xmlComponent.getFloat("maxVerticalOffset");
     
-    riseSpeed = xmlComponent.getFloat("riseSpeed");
+    minHeight = xmlComponent.getFloat("minHeight");
+    
+    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+    riseSpeed = 0.0f;
   }
   
   @Override public ComponentType getComponentType()
@@ -1034,6 +1099,19 @@ class CoinSpawnerControllerComponent extends Component
   {
     ArrayList<IGameObject> spawnRelativeToList = gameObjectManager.getGameObjectsByTag(spawnRelativeTo);
     
+    int index = 0;
+    while (index < spawnRelativeToList.size())
+    {
+      if (spawnRelativeToList.get(index).getTranslation().y < minHeight)
+      {
+        spawnRelativeToList.remove(index);
+      }
+      else
+      {
+        ++index;
+      }
+    }
+    
     if (spawnRelativeToList.size() != 0)
     {
       IGameObject spawnRelativeToObject = spawnRelativeToList.get(int(random(0, spawnRelativeToList.size())));
@@ -1049,6 +1127,14 @@ class CoinSpawnerControllerComponent extends Component
         RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
         rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
       }
+    }
+  }
+  
+  @Override public void handleEvent(IEvent event)
+  {
+    if (event.getEventType() == EventType.LEVEL_UP)
+    {
+      riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
     }
   }
 }
@@ -1158,6 +1244,139 @@ class ButtonComponent extends Component implements IEventListener
   }
 }
 
+class LevelDisplayComponent extends Component implements IEventListener
+{
+  private String currentLevelParameterName;
+  private String levelTextPrefix;
+  
+  public LevelDisplayComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    
+    eventManager.register(EventType.LEVEL_UP, this);
+  }
+  
+  @Override public void destroy()
+  {
+    eventManager.deregister(EventType.LEVEL_UP, this);
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
+    levelTextPrefix = xmlComponent.getString("levelTextPrefix");
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.LEVEL_DISPLAY;
+  }
+  
+  @Override public void handleEvent(IEvent event)
+  {
+    if (event.getEventType() == EventType.LEVEL_UP)
+    {
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)  
+      {
+         RenderComponent renderComponent = (RenderComponent)component;
+         RenderComponent.Text text = renderComponent.getTexts().get(0);
+         if (text != null)
+         {
+           text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
+         }
+      }
+    }    
+  }
+}
+
+class LevelParametersComponent extends Component
+{
+  private int startingLevel;
+  private int currentLevel;
+  private int maxLevel;
+  private float levelOneRiseSpeed;
+  private float riseSpeedChangePerLevel;
+  private float currentRiseSpeed;
+  private int levelUpTime;
+  private int timePassed;
+  private String currentLevelParameterName;
+  private String currentRiseSpeedParameterName;
+  
+  public LevelParametersComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    startingLevel = xmlComponent.getInt("startingLevel");
+    currentLevel = startingLevel - 1;
+    maxLevel = xmlComponent.getInt("maxLevel");
+    levelOneRiseSpeed = xmlComponent.getFloat("levelOneRiseSpeed");
+    riseSpeedChangePerLevel = xmlComponent.getFloat("riseSpeedChangePerLevel");
+    currentRiseSpeed = levelOneRiseSpeed + (riseSpeedChangePerLevel * (currentLevel - 1));
+    levelUpTime = xmlComponent.getInt("levelUpTime");
+    timePassed = levelUpTime - 1;
+    currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
+    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.LEVEL_PARAMETERS;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    timePassed += deltaTime;
+    
+    if (timePassed > levelUpTime)
+    {
+      if (currentLevel < maxLevel)
+      {
+        levelUp();
+      }
+      timePassed = 0;
+    }
+  }
+  
+  private void levelUp()
+  {
+    ++currentLevel;
+    currentRiseSpeed += riseSpeedChangePerLevel;
+    
+    Event levelUpEvent = new Event(EventType.LEVEL_UP);
+    levelUpEvent.addIntParameter(currentLevelParameterName, currentLevel);
+    levelUpEvent.addFloatParameter(currentRiseSpeedParameterName, currentRiseSpeed);
+    eventManager.queueEvent(levelUpEvent);
+  }
+  
+  public int getStartingLevel()
+  {
+    return startingLevel;
+  }
+  
+  public int getCurrentLevel()
+  {
+    return currentLevel;
+  }
+  
+  public int getMaxLevel()
+  {
+    return maxLevel;
+  }
+  
+  public float getCurrentRiseSpeed()
+  {
+    return currentRiseSpeed;
+  }
+}
+
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {
   IComponent component = null;
@@ -1190,6 +1409,14 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("ScoreTracker"))
   {
     component = new ScoreTrackerComponent(gameObject);
+  }
+  else if (componentName.equals("LevelDisplay"))
+  {
+    component = new LevelDisplayComponent(gameObject);
+  }
+  else if (componentName.equals("LevelParameters"))
+  {
+    component = new LevelParametersComponent(gameObject);
   }
   
   if (component != null)

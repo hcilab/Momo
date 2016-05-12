@@ -30,5 +30,5 @@
 		</OnCollideEvents>
 	</RigidBody>
 	
-	<PlayerController acceleration="10.0" maxSpeed="200.0" jumpForce="5.0"/>
+	<PlayerController acceleration="10.0" maxSpeed="200.0" jumpForce="5.0" currentRiseSpeedParameterName="currentRiseSpeed"/>
 </GameObject>

@@ -249,7 +249,10 @@ class GameObjectManager implements IGameObjectManager
     for (Integer UID : removeList)
     {
       IGameObject gameObject = gameObjects.remove(UID);
-      gameObject.destroy();
+      if (gameObject != null)
+      {
+        gameObject.destroy();
+      }
     }
     
     addList.clear();

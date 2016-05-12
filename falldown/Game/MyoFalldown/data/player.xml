@@ -1,27 +1,18 @@
 <GameObject tag="player">
 	<Render>
-		<Ellipse x="0.0" y="0.0" halfWidth="10.0" halfHeight="10.0">
+		<!-- <Ellipse x="0.0" y="0.0" halfWidth="10.0" halfHeight="10.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255"/>
 
-		</Ellipse> 
+		</Ellipse> -->
 		<Sprite>
-			<!-- <Image src="SoccerBall.png" x="0.0" y="0.0" height="5" width="5"> </Image>  -->
-			<Animation imgPrefix="animated-ball-image-0049-" count="14" height="5" width="5"></Animation> 
+			<SpriteSheet src="SoccerBall.png" alphaImage=""
+				x="0.0" y="0.0"  
+				horzCount="1" vertCount="1" farmeFreq="0.0f"
+				zOrder="0" height="597.0" scaleHeight="20"> 
+			</SpriteSheet> 
 		</Sprite> 
-		<Text
-			string="hello"
-			fontName="Andy Bold" 
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="0.0"
-			y="0.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
+		
 
 	</Render>
 	

@@ -30,10 +30,15 @@ class EmgManager implements IEmgManager {
   }
 
   void calibrate() {
-    println("Left:");
-    myoAPI.registerAction("LEFT", 5000);
-    println("Right:");
-    myoAPI.registerAction("RIGHT", 5000);
+    try {
+      println("Left:");
+      myoAPI.registerAction("LEFT", 5000);
+      println("Right:");
+      myoAPI.registerAction("RIGHT", 5000);
+    } catch (CalibrationFailedException e) {
+      println("[WARNING] Calibration Failed. Aborting.");
+      return;
+    }
     calibrated = true;
   }
 

@@ -23,7 +23,7 @@
 		</Transform>
 	</GameObject>
 	
-	<GameObject file="xml_data/platform_manager.xml"/>
+	<GameObject file="xml_data/platform_manager.xml" tag="platform_manager"/>
 	
 	<GameObject file="xml_data/coin.xml" tag="coin">
 		<Transform>

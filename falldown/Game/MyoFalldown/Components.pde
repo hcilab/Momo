@@ -688,7 +688,6 @@ class PlayerControllerComponent extends Component implements IEventListener
         rigidBodyComponent.applyForce(new PVector(moveVector.x * acceleration * deltaTime, 0.0f), gameObject.getTranslation());
       }
       
-      // NOTE: This jump-mechanic is really hacky and should be replaced by collision detection using JBox 2D.
       ArrayList<IGameObject> platformManagerList = gameObjectManager.getGameObjectsByTag("platform_manager");
       if (!platformManagerList.isEmpty())
       {

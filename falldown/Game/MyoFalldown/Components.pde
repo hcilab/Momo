@@ -586,7 +586,7 @@ class RigidBodyComponent extends Component
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  } //<>//
+  }  //<>//
   
   public void setLinearVelocity(PVector linearVelocity)
   {
@@ -730,8 +730,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     }
     else if (event.getEventType() == EventType.LEFT_BUTTON_RELEASED)
     {
-      leftButtonDown = false; //<>//
-    }
+      leftButtonDown = false; 
+    } //<>//
     else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
     {
       rightButtonDown = false;
@@ -812,8 +812,8 @@ class PlatformManagerControllerComponent extends Component
     minGapSize = xmlComponent.getFloat("minGapSize");
     maxGapSize = xmlComponent.getFloat("maxGapSize");
     minDistanceBetweenGaps = xmlComponent.getFloat("minDistanceBetweenGaps");
-    minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels"); //<>//
-    maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
+    minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
+    maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels"); //<>//
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
     riseSpeed = xmlComponent.getFloat("riseSpeed");
   }
@@ -844,7 +844,7 @@ class PlatformManagerControllerComponent extends Component
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     
-    int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); //<>//
+    int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); 
     
     for (int i = 0; i < gapsInLevel; ++i)
     {

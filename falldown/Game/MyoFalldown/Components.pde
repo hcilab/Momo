@@ -769,6 +769,7 @@ class PlatformManagerControllerComponent extends Component
   private LinkedList<IGameObject> platforms;
   
   private String platformFile;
+  private String tag;
   
   private int maxPlatformLevels;
   
@@ -801,6 +802,7 @@ class PlatformManagerControllerComponent extends Component
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
+    tag = xmlComponent.getString("tag");
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
     rightSide = xmlComponent.getFloat("rightSide");
@@ -868,6 +870,7 @@ class PlatformManagerControllerComponent extends Component
       float platformWidth = platformRange.y - platformRange.x;
       
       IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, 1.0));
+      platform.setTag(tag);
       IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
       if (component != null)
       {

@@ -24,6 +24,7 @@ interface IGameObject
   
   // A Game Object can have a tag which may be used for various purposes. e.g. if (getTag() == "player") { ... }
   public String getTag();
+  public void setTag(String _tag);
   
   // Transform values.
   public PVector getTranslation();
@@ -84,7 +85,7 @@ class GameObject implements IGameObject
     UID = gameObjectNextUID;
     gameObjectNextUID++;
     
-    tag = "null";
+    tag = "";
     
     translation = _translation;
     scale = _scale;
@@ -106,8 +107,6 @@ class GameObject implements IGameObject
     
     assert(xmlGameObject.getName().equals("GameObject"));
     
-    tag = xmlGameObject.getString("tag");
-    
     for (XML xmlComponent : xmlGameObject.getChildren())
     {
       IComponent component = componentFactory(this, xmlComponent);
@@ -126,6 +125,11 @@ class GameObject implements IGameObject
   @Override public String getTag()
   {
     return tag;
+  }
+  
+  @Override public void setTag(String _tag)
+  {
+    tag = _tag;
   }
   
   @Override public PVector getTranslation()
@@ -220,6 +224,11 @@ class GameObjectManager implements IGameObjectManager
       }
       
       IGameObject gameObject = new GameObject(translation, scale);
+      String tag = xmlGameObject.getString("tag");
+      if (tag != null)
+      {
+        gameObject.setTag(tag);
+      }
       gameObject.fromXML(xmlGameObject.getString("file"));
       addGameObject(gameObject);
     }

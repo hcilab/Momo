@@ -17,6 +17,7 @@ enum ComponentType
   COIN_EVENT_HANDLER,
   COIN_SPAWNER_CONTROLLER,
   SCORE_TRACKER,
+  BUTTON,
 }
 
 interface IComponent
@@ -1101,6 +1102,62 @@ class ScoreTrackerComponent extends Component implements IEventListener
   }
 }
 
+class ButtonComponent extends Component implements IEventListener
+{
+  private int height;
+  private int width;
+
+  public ButtonComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+
+    height = 0;
+    width = 0;
+
+    eventManager.register(EventType.MOUSE_CLICKED, this);
+  }
+
+  @Override public void destroy()
+  {
+    eventManager.deregister(EventType.MOUSE_CLICKED, this);
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    height = xmlComponent.getInt("height");
+    width = xmlComponent.getInt("width");
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.BUTTON;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+
+  }
+
+  @Override public void handleEvent(IEvent event)
+  {
+    if (event.getEventType() == EventType.MOUSE_CLICKED)
+    {
+      float xButton = gameObject.getTranslation().x;
+      float yButton = gameObject.getTranslation().y;
+
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+
+      if(xButton - 0.5 * width <= xMouse && xButton + 0.5 * width >= xMouse && yButton - 0.5 * height <= yMouse && yButton + 0.5 * height >= yMouse)
+      {
+        Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
+        buttonEvent.addStringParameter("tag",gameObject.getTag());
+        eventManager.queueEvent(buttonEvent);
+      }
+    }
+  }
+}
+
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {
   IComponent component = null;
@@ -1138,6 +1195,12 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   if (component != null)
   {
     component.fromXML(xmlComponent);
+  }
+  else if (componentName.equals("Button"))
+  {
+    component = new ButtonComponent(gameObject);
+    component.fromXML(xmlComponent);
+    return component;
   }
   
   return component;

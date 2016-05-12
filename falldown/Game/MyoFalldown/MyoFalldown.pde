@@ -145,6 +145,15 @@ void keyReleased()
   }
 }
 
+void mouseClicked()
+{
+  Event event = new Event(EventType.MOUSE_CLICKED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
 class FalldownContactListener implements ContactListener
 {
   @Override public void beginContact(Contact contact)

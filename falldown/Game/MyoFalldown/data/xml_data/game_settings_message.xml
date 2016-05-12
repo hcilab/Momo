@@ -1,0 +1,17 @@
+<GameObject tag="game_settings_message">
+	<Render>
+		<Text
+			string="GAME SETTINGS"
+			fontName="Andy Bold" 
+			size="40"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="75.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+	</Render>
+</GameObject>

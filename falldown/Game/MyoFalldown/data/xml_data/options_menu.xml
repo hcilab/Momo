@@ -1,3 +1,24 @@
 <Level>
 	<GameObject file="xml_data/options_message.xml"/>
+
+	<GameObject file="xml_data/button.xml" tag="GameSettings">
+		<Transform>
+			<Translation x="250.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="IOSettings">
+		<Transform>
+			<Translation x="250.0" y="125.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="StatsSettings">
+		<Transform>
+			<Translation x="250.0" y="200.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="CustomizeSettings">
+		<Transform>
+			<Translation x="250.0" y="275.0"/>
+		</Transform>
+	</GameObject>
 </Level>

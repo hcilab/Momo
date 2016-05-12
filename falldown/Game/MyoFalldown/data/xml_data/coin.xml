@@ -1,0 +1,34 @@
+<GameObject>
+	<Render>
+		<Ellipse x="0.0" y="0.0" halfWidth="4.0" halfHeight="6.0">
+			<FillColor r="255" g="255" b="0" a="255"/>
+			<StrokeColor r="255" g="255" b="0" a="255"/>
+		</Ellipse>
+	</Render>
+	
+	<RigidBody
+		type="dynamic"
+		linearDamping="0.0"
+		angularDamping="0.0"
+		gravityScale="0.0"
+		allowSleep="true"
+		awake="false"
+		fixedRotation="true"
+		bullet="false"
+		active="true"
+	>
+		<Fixture
+			density="0.12"
+			friction="0.6"
+			restitution="0.4"
+			isSensor="true"
+		>
+			<Shape type="circle" x="0.0" y="0.0" radius="6.0"/>
+		</Fixture>
+	</RigidBody>
+	
+	<CoinEventHandler>
+		<CoinCollected scoreValue="10" coinParameterName="coin" scoreValueParameterName="scoreValue"/>
+		<DestroyCoin coinParameterName="coin"/>
+	</CoinEventHandler>
+</GameObject>

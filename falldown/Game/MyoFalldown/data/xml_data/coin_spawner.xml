@@ -1,0 +1,14 @@
+<GameObject>
+	<CoinSpawnerController
+		coinFile="xml_data/coin.xml"
+		tag="coin"
+		spawnRelativeTo="platform"
+		minSpawnWaitTime="10000"
+		maxSpawnWaitTime="20000"
+		minHorizontalOffset="-20.0"
+		maxHorizontalOffset="20.0"
+		minVerticalOffset="-17.0"
+		maxVerticalOffset="-12.0"
+		riseSpeed="30.0"
+	/>
+</GameObject>

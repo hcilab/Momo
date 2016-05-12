@@ -1,9 +1,5 @@
 <GameObject>
 	<Render>
-		<Ellipse x="0.0" y="0.0" halfWidth="10.0" halfHeight="10.0">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255"/>
-		</Ellipse> 
 		<Sprite>
 			<Image src="images/SoccerBall.png" x="0.0" y="0.0" height="20.0" width="20.0"/>
 		</Sprite>
@@ -28,6 +24,10 @@
 		>
 			<Shape type="circle" x="0.0" y="0.0" radius="10.0"/>
 		</Fixture>
+		
+		<OnCollideEvents>
+			<Event collidedWith="coin" eventType="COIN_COLLECTED" coinParameterName="coin"/>
+		</OnCollideEvents>
 	</RigidBody>
 	
 	<PlayerController acceleration="10.0" maxSpeed="200.0" jumpForce="5.0"/>

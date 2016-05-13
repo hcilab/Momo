@@ -332,6 +332,10 @@ public class GameStateController implements IGameStateController, IEventListener
       {
         goToState(gameState_OptionsMenu);
       }
+      else if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_CalibrateMenu);
+      }
     }
     else if (currentState == gameState_InGame)
     {

@@ -20,6 +20,7 @@ enum ComponentType
   BUTTON,
   LEVEL_DISPLAY,
   LEVEL_PARAMETERS,
+  MUSIC_PLAYER,
 }
 
 interface IComponent
@@ -585,9 +586,9 @@ class RigidBodyComponent extends Component
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
           eventManager.queueEvent(event);
         }
-        else if (onCollideEvent.eventType == EventType.GAME_OVER)
+        else if (onCollideEvent.eventType == EventType.GAME_OVER) //<>//
         { //<>//
-          eventManager.queueEvent(new Event(EventType.GAME_OVER)); //<>//
+          eventManager.queueEvent(new Event(EventType.GAME_OVER));
         }
         else if (onCollideEvent.eventType == EventType.DESTROY_COIN)
         {
@@ -625,12 +626,12 @@ class RigidBodyComponent extends Component
   
   private float pixelsToMeters(float pixels)
   {
-    return pixels / 10.0f;
+    return pixels / 50.0f;
   }
   
   private float metersToPixels(float meters)
   {
-    return meters * 10.0f;
+    return meters * 50.0f;
   }
 }
 
@@ -646,6 +647,8 @@ class PlayerControllerComponent extends Component implements IEventListener
   private boolean upButtonDown;
   private boolean leftButtonDown;
   private boolean rightButtonDown;
+  
+  private SoundFile jumpSound;
   
   public PlayerControllerComponent(IGameObject _gameObject)
   {
@@ -686,6 +689,11 @@ class PlayerControllerComponent extends Component implements IEventListener
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     riseSpeed = 0.0f;
+    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
+    jumpSound.rate(xmlComponent.getFloat("rate"));
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    jumpSound.amp(xmlComponent.getFloat("amp"));
+    jumpSound.add(xmlComponent.getFloat("add"));
   }
   
   @Override public ComponentType getComponentType()
@@ -719,11 +727,12 @@ class PlayerControllerComponent extends Component implements IEventListener
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
         if (tcomponent != null)
         {
-          if ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed)
-              || linearVelocity.y == 0.0f)
+          if (moveVector.y < 0.0f
+              && ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed) || linearVelocity.y == 0.0f))
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce * deltaTime), gameObject.getTranslation(), true);
-          }
+            jumpSound.play(); //<>//
+          } //<>//
         }
       }
     }
@@ -731,8 +740,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     {
       gameObject.translate(moveVector);
     }
-  } //<>//
-   //<>//
+  }
+  
   @Override public void handleEvent(IEvent event)
   {
     if (event.getEventType() == EventType.UP_BUTTON_PRESSED)
@@ -804,8 +813,8 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   
   private float disappearHeight;
   private float spawnHeight;
-  
-  private int minGapsPerLevel;
+   //<>//
+  private int minGapsPerLevel; //<>//
   private int maxGapsPerLevel;
   
   private float minGapSize;
@@ -813,8 +822,8 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   private float minDistanceBetweenGaps;
   
   private float minHeightBetweenPlatformLevels;
-  private float maxHeightBetweenPlatformLevels; //<>//
-  private float nextHeightBetweenPlatformLevels; //<>//
+  private float maxHeightBetweenPlatformLevels;
+  private float nextHeightBetweenPlatformLevels;
   
   private String currentRiseSpeedParameterName;
   private float riseSpeed;
@@ -943,6 +952,7 @@ class CoinEventHandlerComponent extends Component implements IEventListener
   private int scoreValue;
   private String coinCollectedCoinParameterName;
   private String scoreValueParameterName;
+  private SoundFile coinCollectedSound;
   
   private String destroyCoinCoinParameterName;
   
@@ -973,6 +983,11 @@ class CoinEventHandlerComponent extends Component implements IEventListener
         scoreValue = xmlCoinEventComponent.getInt("scoreValue");
         coinCollectedCoinParameterName = xmlCoinEventComponent.getString("coinParameterName");
         scoreValueParameterName = xmlCoinEventComponent.getString("scoreValueParameterName");
+        coinCollectedSound = new SoundFile(mainObject, xmlCoinEventComponent.getString("coinCollectedSoundFile"));
+        coinCollectedSound.rate(xmlCoinEventComponent.getFloat("rate"));
+        try {coinCollectedSound.pan(xmlCoinEventComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+        coinCollectedSound.amp(xmlCoinEventComponent.getFloat("amp"));
+        coinCollectedSound.add(xmlCoinEventComponent.getFloat("add"));
       }
       else if (xmlCoinEventComponent.getName().equals("DestroyCoin"))
       {
@@ -1000,6 +1015,7 @@ class CoinEventHandlerComponent extends Component implements IEventListener
         updateScoreEvent.addIntParameter(scoreValueParameterName, scoreValue);
         eventManager.queueEvent(updateScoreEvent);
         gameObjectManager.removeGameObject(gameObject.getUID());
+        coinCollectedSound.play();
       }
     }
     else if (event.getEventType() == EventType.DESTROY_COIN)
@@ -1192,6 +1208,7 @@ class ButtonComponent extends Component implements IEventListener
 {
   private int height;
   private int width;
+  private SoundFile buttonClickedSound;
 
   public ButtonComponent(GameObject _gameObject)
   {
@@ -1212,6 +1229,11 @@ class ButtonComponent extends Component implements IEventListener
   {
     height = xmlComponent.getInt("height");
     width = xmlComponent.getInt("width");
+    buttonClickedSound = new SoundFile(mainObject, xmlComponent.getString("buttonClickedSound"));
+    buttonClickedSound.rate(xmlComponent.getFloat("rate"));
+    try { buttonClickedSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    buttonClickedSound.amp(xmlComponent.getFloat("amp"));
+    buttonClickedSound.add(xmlComponent.getFloat("add"));
   }
 
   @Override public ComponentType getComponentType()
@@ -1228,6 +1250,8 @@ class ButtonComponent extends Component implements IEventListener
   {
     if (event.getEventType() == EventType.MOUSE_CLICKED)
     {
+      buttonClickedSound.play();
+      
       float xButton = gameObject.getTranslation().x;
       float yButton = gameObject.getTranslation().y;
 
@@ -1300,8 +1324,13 @@ class LevelParametersComponent extends Component
   private float currentRiseSpeed;
   private int levelUpTime;
   private int timePassed;
+  private int bonusScorePerLevel;
+  private int timePerBonusScore;
+  private String scoreValueParameterName;
+  private int bonusTimePassed;
   private String currentLevelParameterName;
   private String currentRiseSpeedParameterName;
+  private SoundFile levelUpSound;
   
   public LevelParametersComponent(IGameObject _gameObject)
   {
@@ -1322,8 +1351,17 @@ class LevelParametersComponent extends Component
     currentRiseSpeed = levelOneRiseSpeed + (riseSpeedChangePerLevel * (currentLevel - 1));
     levelUpTime = xmlComponent.getInt("levelUpTime");
     timePassed = levelUpTime - 1;
+    bonusScorePerLevel = xmlComponent.getInt("bonusScorePerLevel");
+    timePerBonusScore = xmlComponent.getInt("timePerBonusScore");
+    scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
+    bonusTimePassed = 0;
     currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+    levelUpSound = new SoundFile(mainObject, xmlComponent.getString("levelUpSoundFile"));
+    levelUpSound.rate(xmlComponent.getFloat("rate"));
+    try { levelUpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    levelUpSound.amp(xmlComponent.getFloat("amp"));
+    levelUpSound.add(xmlComponent.getFloat("add"));
   }
   
   @Override public ComponentType getComponentType()
@@ -1343,12 +1381,24 @@ class LevelParametersComponent extends Component
       }
       timePassed = 0;
     }
+    
+    bonusTimePassed += deltaTime;
+    
+    if (bonusTimePassed > timePerBonusScore)
+    {
+      Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+      updateScoreEvent.addIntParameter(scoreValueParameterName, bonusScorePerLevel * currentLevel);
+      eventManager.queueEvent(updateScoreEvent);
+      bonusTimePassed = 0;
+    }
   }
   
   private void levelUp()
   {
     ++currentLevel;
     currentRiseSpeed += riseSpeedChangePerLevel;
+    
+    levelUpSound.play();
     
     Event levelUpEvent = new Event(EventType.LEVEL_UP);
     levelUpEvent.addIntParameter(currentLevelParameterName, currentLevel);
@@ -1374,6 +1424,41 @@ class LevelParametersComponent extends Component
   public float getCurrentRiseSpeed()
   {
     return currentRiseSpeed;
+  }
+}
+
+class MusicPlayerComponent extends Component
+{
+  SoundFile music;
+  
+  public MusicPlayerComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+  }
+  
+  @Override public void destroy()
+  {
+    music.stop();
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    music = new SoundFile(mainObject, xmlComponent.getString("musicFile"));
+    music.rate(xmlComponent.getFloat("rate"));
+    // pan is not supported in stereo. that's fine, just continue.
+    try { music.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    music.amp(xmlComponent.getFloat("amp"));
+    music.add(xmlComponent.getFloat("add"));
+    music.loop();
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.MUSIC_PLAYER;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
   }
 }
 
@@ -1418,16 +1503,18 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   {
     component = new LevelParametersComponent(gameObject);
   }
+  else if (componentName.equals("Button"))
+  {
+    component = new ButtonComponent(gameObject);
+  }
+  else if (componentName.equals("MusicPlayer"))
+  {
+    component = new MusicPlayerComponent(gameObject);
+  }
   
   if (component != null)
   {
     component.fromXML(xmlComponent);
-  }
-  else if (componentName.equals("Button"))
-  {
-    component = new ButtonComponent(gameObject);
-    component.fromXML(xmlComponent);
-    return component;
   }
   
   return component;

@@ -4,8 +4,16 @@
 		maxLevel="99" 
 		levelOneRiseSpeed="3.5"
 		riseSpeedChangePerLevel="0.7"
-		levelUpTime="1000"
+		levelUpTime="5000"
+		bonusScorePerLevel="1"
+		timePerBonusScore="1000"
+		scoreValueParameterName="scoreValue"
 		currentLevelParameterName="currentLevel"
 		currentRiseSpeedParameterName="currentRiseSpeed"
+		levelUpSoundFile="sound_effects/Rise01.aif"
+		rate="1.0"
+		pan="0.0"
+		amp="1.0"
+		add="0.0"
 	/>
 </GameObject>

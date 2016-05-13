@@ -14,5 +14,8 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 	</Render>
-	<ScoreTracker scoreValueParameterName="scoreValue" scoreTextPrefix="Score: "/>
+	<ScoreTracker 
+		scoreValueParameterName="scoreValue" 
+		scoreTextPrefix="Score: "
+	/>
 </GameObject>

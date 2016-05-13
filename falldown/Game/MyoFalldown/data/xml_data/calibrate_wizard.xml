@@ -1,0 +1,33 @@
+<GameObject>
+	<Render>
+		<Text
+			string="Left: 5"
+			fontName="Arial" 
+			size="24"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="0.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Calibration Menu"
+			fontName="Arial" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="0.0"
+			y="-100.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+	</Render>
+  <CalibrateWizard/>
+  <Countdown countdownFrom="5"/>
+</GameObject>
+

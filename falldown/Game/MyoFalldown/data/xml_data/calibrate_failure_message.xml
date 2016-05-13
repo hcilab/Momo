@@ -1,9 +1,9 @@
-<GameObject>
+<GameObject tag="options_message">
 	<Render>
 		<Text
-			string="Myo Falldown"
-			fontName="Andy Bold" 
-			size="60"
+			string="Calibration Menu"
+			fontName="Arial" 
+			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
@@ -13,9 +13,9 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		
+
 		<Text
-			string="Left Arrow Key Starts Game"
+			string="Currently using keyboard game controls."
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
@@ -27,9 +27,18 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		
+
+		<Rect x="250.0" y="300.0" halfWidth="50.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
+		<Rect x="250.0" y="375.0" halfWidth="50.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
+
 		<Text
-			string="Right Arrow Key for Options Menu"
+			string="Calibrate"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
@@ -42,14 +51,14 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
-			string="Up Arrow Key for Calibration Menu"
+			string="Main Menu"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="350.0"
+			y="375.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

@@ -1,45 +1,60 @@
 interface IEmgManager {
-  void calibrate();
+  boolean registerAction(String label);
   HashMap<String, Float> poll();
   void onEmg(long nowMillis, int[] sensorData);
 }
 
 
-IEmgManager createEmgManager(MyoFalldown mainApp) {
-  IEmgManager emgManager;
-  try {
-    emgManager = new EmgManager(mainApp);
-  } catch (RuntimeException e) { // no arm-band connected
-    emgManager = new NullEmgManager();
+// Ensuring that only a single myo is ever instantiated is essential. Each myo
+// instance requires a significant amount of computation, and having multiple
+// instances creates a performance impact on gameplay.
+//
+// TODO: this is a hack. These methods should really be contained within a
+// static class, but Processing is making it very hard to do so.
+Myo myoSingleton = null;
+
+Myo getMyoSingleton() throws MyoNotConnectedException {
+  if (myoSingleton == null) {
+    try {
+      myoSingleton = new Myo(mainObject);
+    } catch (RuntimeException e) {
+      throw new MyoNotConnectedException();
+    }
+    myoSingleton.withEmg();
   }
-  return emgManager;
+  return myoSingleton;
 }
 
+class MyoNotConnectedException extends Exception {}
+// ================================================================================
+
+
 class EmgManager implements IEmgManager {
-  Myo myo;
+  Myo myo_unused;
   MyoAPI myoAPI;
   String SETTINGS_EMG_CONTROL_POLICY;
-  boolean calibrated;
 
-  EmgManager(MyoFalldown mainApp) {
-    myo = new Myo(mainApp);
-    myo.withEmg();
+  EmgManager() throws MyoNotConnectedException {
+    // not directly needed here, just need to make one in instantiated
+    myo_unused = getMyoSingleton();
+
     myoAPI = new MyoAPI();
     SETTINGS_EMG_CONTROL_POLICY = "DIFF";
-    calibrated = false;
   }
 
-  void calibrate() {
-    println("Left:");
-    myoAPI.registerAction("LEFT", 5000);
-    println("Right:");
-    myoAPI.registerAction("RIGHT", 5000);
-    calibrated = true;
+  boolean registerAction(String label) {
+    Event event;
+
+    try {
+      myoAPI.registerAction(label, 0);
+
+    } catch (CalibrationFailedException e) {
+      return false;
+    }
+    return true;
   }
 
   HashMap<String, Float> poll() {
-    assert(calibrated);
-
     HashMap<String, Float> readings = myoAPI.poll();
     Float left = readings.get("LEFT");
     Float right = readings.get("RIGHT");
@@ -55,7 +70,7 @@ class EmgManager implements IEmgManager {
         } else {
           toReturn.put("RIGHT", right-left);
           toReturn.put("LEFT", 0.0);
-        } 
+        }
         break;
 
       case "MAX":
@@ -79,8 +94,8 @@ class EmgManager implements IEmgManager {
 
 class NullEmgManager implements IEmgManager {
 
-  void calibrate() {
-    println("[WARNING] No myo armband detected. Aborting calibration");
+  boolean registerAction(String label) {
+    return false;
   }
 
   HashMap<String, Float> poll() {

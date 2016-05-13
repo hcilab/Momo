@@ -3,7 +3,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 interface IMyoAPI {
-  void registerAction(String label, int delayMillis);
+  void registerAction(String label, int delayMillis) throws CalibrationFailedException;
   void registerActionManual(String label, int sensorID);
   HashMap<String, Float> poll();
   void onEmg(long nowMicros, int[] sensorData);
@@ -38,7 +38,7 @@ class MyoAPI implements IMyoAPI {
   // calibrated based on the current EMG sensor readings. Calibration baselines
   // are captured <delayMillis> ms after invoking function.
   //
-  void registerAction(String label, int delayMillis) {
+  void registerAction(String label, int delayMillis) throws CalibrationFailedException {
     int strongestID = -1;
     float strongestReading = 0;
     float mav = 0;
@@ -54,6 +54,11 @@ class MyoAPI implements IMyoAPI {
         strongestID = i;
       }
     }
+
+    if (strongestID == -1 || strongestReading == 0) {
+      throw new CalibrationFailedException();
+    }
+
     SensorConfig s = new SensorConfig(strongestID, strongestReading);
     registeredSensors.put(label, s);
     println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
@@ -158,3 +163,5 @@ private class Sample {
     this.sensorData = sensorData;
   }
 }
+
+class CalibrationFailedException extends Exception {}

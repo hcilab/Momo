@@ -181,6 +181,82 @@ public class GameState_CustomizeSettings implements IGameState
   }
 }
 
+public class GameState_CalibrateMenu implements IGameState
+{
+  public GameState_CalibrateMenu()
+  {
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_menu.xml");
+
+    try {
+      emgManager = new EmgManager();
+    } catch (MyoNotConnectedException e) {
+      println("[WARNING] No Myo Armband detected. Aborting Calibration (Menu)");
+      Event event = new Event(EventType.CALIBRATE_FAILURE);
+      eventManager.queueEvent(event);
+    }
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
+public class GameState_CalibrateSuccess implements IGameState
+{
+  public GameState_CalibrateSuccess()
+  {
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_success.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
+public class GameState_CalibrateFailure implements IGameState
+{
+  public GameState_CalibrateFailure()
+  {
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_failure.xml");
+    emgManager = new NullEmgManager(); // calibration failed, fallback to stubbed-out readings
+    println("[INFO] Falling back to Keyboard controls.");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
 public class GameStateController implements IGameStateController, IEventListener
 {
   private IGameState gameState_MainMenu;
@@ -190,6 +266,9 @@ public class GameStateController implements IGameStateController, IEventListener
   private IGameState gameState_IOSettings;
   private IGameState gameState_StatsSettings;
   private IGameState gameState_CustomizeSettings;
+  private IGameState gameState_CalibrateMenu;
+  private IGameState gameState_CalibrateSuccess;
+  private IGameState gameState_CalibrateFailure;
   
   private IGameState currentState;
   
@@ -202,8 +281,11 @@ public class GameStateController implements IGameStateController, IEventListener
     gameState_IOSettings = new GameState_IOSettings();
     gameState_StatsSettings = new GameState_StatsSettings();
     gameState_CustomizeSettings = new GameState_CustomizeSettings();
+    gameState_CalibrateMenu = new GameState_CalibrateMenu();
+    gameState_CalibrateSuccess = new GameState_CalibrateSuccess();
+    gameState_CalibrateFailure = new GameState_CalibrateFailure();
     
-    goToState(gameState_MainMenu);
+    goToState(gameState_CalibrateFailure);
     
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
     eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
@@ -211,6 +293,10 @@ public class GameStateController implements IGameStateController, IEventListener
     eventManager.register(EventType.MOUSE_CLICKED, this);
     eventManager.register(EventType.BUTTON_CLICKED, this);
     eventManager.register(EventType.GAME_OVER, this);
+    eventManager.register(EventType.CALIBRATE_SUCCESS, this);
+    eventManager.register(EventType.CALIBRATE_FAILURE, this);
+    eventManager.register(EventType.CALIBRATE_DONE, this);
+    eventManager.register(EventType.CALIBRATE_RETRY, this);
   }
   
   @Override public void update(int deltaTime)
@@ -245,6 +331,10 @@ public class GameStateController implements IGameStateController, IEventListener
       else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
       {
         goToState(gameState_OptionsMenu);
+      }
+      else if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_CalibrateMenu);
       }
     }
     else if (currentState == gameState_InGame)
@@ -307,6 +397,32 @@ public class GameStateController implements IGameStateController, IEventListener
       if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
       {
         goToState(gameState_OptionsMenu);
+      }
+    }
+    else if (currentState == gameState_CalibrateMenu)
+    {
+      if (event.getEventType() == EventType.CALIBRATE_SUCCESS)
+      {
+        goToState(gameState_CalibrateSuccess);
+      }
+      else if (event.getEventType() == EventType.CALIBRATE_FAILURE)
+      {
+        goToState(gameState_CalibrateFailure);
+      }
+    }
+    else if (currentState == gameState_CalibrateSuccess || currentState == gameState_CalibrateFailure)
+    {
+      if (event.getEventType() == EventType.BUTTON_CLICKED)
+      {
+        String tag = event.getRequiredStringParameter("tag");
+        if (tag.equals("MainMenu"))
+        {
+          goToState(gameState_MainMenu);
+        }
+        else if (tag.equals("Calibrate"))
+        {
+          goToState(gameState_CalibrateMenu);
+        }
       }
     }
   }

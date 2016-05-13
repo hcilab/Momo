@@ -34,6 +34,14 @@ enum EventType
   GAME_OVER,
   DESTROY_COIN,
   LEVEL_UP,
+  
+  // Events associated with the calibrate screen
+  CALIBRATE_DONE,
+  CALIBRATE_RETRY,
+  CALIBRATE_SUCCESS,
+  CALIBRATE_FAILURE,
+
+  COUNTDOWN_UPDATE,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -230,6 +238,13 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.GAME_OVER);
     addEventTypeToMaps(EventType.DESTROY_COIN);
     addEventTypeToMaps(EventType.LEVEL_UP);
+
+    addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
+    addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
+    addEventTypeToMaps(EventType.CALIBRATE_DONE);
+    addEventTypeToMaps(EventType.CALIBRATE_RETRY);
+
+    addEventTypeToMaps(EventType.COUNTDOWN_UPDATE);
   }
   
   private void addEventTypeToMaps(EventType eventType)
@@ -257,25 +272,6 @@ class EventManager implements IEventManager
   
   @Override public void sendEvents()
   {
-    for (Map.Entry entry : eventMap.entrySet())
-    {
-      EventType eventType = (EventType)entry.getKey();
-      LinkedList<IEvent> eventQueue = (LinkedList<IEvent>)entry.getValue();
-      
-      IEvent event = eventQueue.pollFirst();
-      while (event != null)
-      {
-        for (IEventListener listener : listeners.get(eventType))
-        {
-          listener.handleEvent(event);
-        }
-        
-        event = eventQueue.pollFirst();
-      }
-     
-      assert(eventQueue.size() == 0);
-    }
-    
     for (Map.Entry entry : addMap.entrySet())
     {
       EventType eventType = (EventType)entry.getKey();
@@ -300,6 +296,25 @@ class EventManager implements IEventManager
       }
       
       listenersToRemove.clear();
+    }
+
+    for (Map.Entry entry : eventMap.entrySet())
+    {
+      EventType eventType = (EventType)entry.getKey();
+      LinkedList<IEvent> eventQueue = (LinkedList<IEvent>)entry.getValue();
+      
+      IEvent event = eventQueue.pollFirst();
+      while (event != null)
+      {
+        for (IEventListener listener : listeners.get(eventType))
+        {
+          listener.handleEvent(event);
+        }
+        
+        event = eventQueue.pollFirst();
+      }
+     
+      assert(eventQueue.size() == 0);
     }
   }
 }

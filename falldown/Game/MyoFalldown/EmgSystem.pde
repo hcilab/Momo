@@ -5,10 +5,10 @@ interface IEmgManager {
 }
 
 
-IEmgManager createEmgManager(MyoFalldown mainApp) {
+IEmgManager createEmgManager() {
   IEmgManager emgManager;
   try {
-    emgManager = new EmgManager(mainApp);
+    emgManager = new EmgManager(mainObject);
   } catch (RuntimeException e) { // no arm-band connected
     emgManager = new NullEmgManager();
   }

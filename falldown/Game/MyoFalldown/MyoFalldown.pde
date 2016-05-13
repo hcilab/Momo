@@ -17,10 +17,17 @@ import org.jbox2d.collision.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.callbacks.ContactListener;
 import org.jbox2d.callbacks.ContactImpulse;
+
 import sprites.utils.*;
 import sprites.maths.*;
 import sprites.*;
+
 import de.voidplus.myo.*;
+
+import processing.sound.SoundFile;
+
+// The main class needs to be available globally for some subsystems.
+MyoFalldown mainObject;
 
 // The GameObject system.
 IGameObjectManager gameObjectManager;
@@ -55,6 +62,8 @@ void setup()
   imageMode(CENTER);
   shapeMode(CENTER);
   
+  mainObject = this;
+  
   gameObjectManager = new GameObjectManager();
   
   eventManager = new EventManager();
@@ -68,7 +77,7 @@ void setup()
   
   gameStateController = new GameStateController();
 
-  emgManager = createEmgManager(this);
+  emgManager = createEmgManager();
   emgManager.calibrate();
   
   lastFrameTime = millis();
@@ -90,10 +99,6 @@ void draw()
   
   eventManager.sendEvents();
   gameStateController.update(deltaTime);
-}
-
-void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
-  emgManager.onEmg(nowMilliseconds, sensorData);
 }
 
 void keyPressed()
@@ -155,6 +160,10 @@ void mouseClicked()
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
   return;
+}
+
+void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
+  emgManager.onEmg(nowMilliseconds, sensorData);
 }
 
 class FalldownContactListener implements ContactListener

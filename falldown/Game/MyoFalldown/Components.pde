@@ -256,7 +256,6 @@ class RenderComponent extends Component
         offsetShapes.add(offsetShape);
       }
       else if (xmlRenderable.getName().equals("Sprite")){
-       //println("Sprite Detected");
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
@@ -390,7 +389,6 @@ class RenderComponent extends Component
      image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
       image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    }
-   println(212/(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width));
    //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
    //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
@@ -450,7 +448,6 @@ class RenderComponent extends Component
    
      if((gameObject.getTranslation().x == 5) || (ceil(gameObject.getTranslation().x) == 495)){
        tileWallSprite(offsetSprite);
-         println(gameObject.getTag());
      } 
      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
      float elapsedTime = (float) sw.getElapsedTime();

@@ -17,6 +17,8 @@ enum ComponentType
   COIN_EVENT_HANDLER,
   COIN_SPAWNER_CONTROLLER,
   SCORE_TRACKER,
+  CALIBRATE_WIZARD,
+  COUNTDOWN,
   BUTTON,
   LEVEL_DISPLAY,
   LEVEL_PARAMETERS,
@@ -1238,6 +1240,135 @@ class ScoreTrackerComponent extends Component implements IEventListener
   }
 }
 
+class CalibrateWizardComponent extends Component implements IEventListener
+{
+  ArrayList<String> actionsToRegister;
+  String currentAction;
+  
+  public CalibrateWizardComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    
+    actionsToRegister = new ArrayList<String>();
+    actionsToRegister.add("LEFT");
+    actionsToRegister.add("RIGHT");
+
+    currentAction = actionsToRegister.remove(0);
+    eventManager.register(EventType.COUNTDOWN_UPDATE, this);
+  }
+  
+  @Override public void destroy()
+  {
+    eventManager.deregister(EventType.COUNTDOWN_UPDATE, this);
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    // can I read in actionsToRegister from XML?
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.CALIBRATE_WIZARD;
+  }
+  
+  @Override public void handleEvent(IEvent event)
+  {
+    int countValue = event.getRequiredIntParameter("value");
+    updateRenderComponent(countValue);
+
+    if (countValue == 0)
+    {
+      // register action
+      boolean success = emgManager.registerAction(currentAction);
+      if (!success) {
+        Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
+        eventManager.queueEvent(failureEvent);
+      }
+
+      // increment action
+      if (actionsToRegister.size() == 0)
+      {
+        Event successEvent = new Event(EventType.CALIBRATE_SUCCESS);
+        eventManager.queueEvent(successEvent);
+      }
+      else {
+        currentAction = actionsToRegister.remove(0);
+      }
+
+      // reset counter
+      CountdownComponent c = (CountdownComponent) gameObject.getComponent(ComponentType.COUNTDOWN);
+      c.reset();
+    }
+  }
+
+  private void updateRenderComponent(int currentCount)
+  {
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+    if (component != null)
+    {
+      RenderComponent renderComponent = (RenderComponent)component;
+      RenderComponent.Text text = renderComponent.getTexts().get(0);
+      if (text != null)
+      {
+        text.string = currentAction + ": " + Integer.toString(currentCount);
+      }
+    }
+  }
+}
+
+
+class CountdownComponent extends Component 
+{
+  private int value;
+  private int countdownFrom;
+  private int sinceLastTick;
+  
+  public CountdownComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    
+    value = 0;
+    countdownFrom = 0;
+    sinceLastTick = 0;
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    countdownFrom = xmlComponent.getInt("countdownFrom");
+    reset();
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.COUNTDOWN;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    sinceLastTick += deltaTime;
+    if (sinceLastTick >= 1000)
+    {
+      value -= 1;
+      sinceLastTick = 0;
+      sendEvent();
+    }
+
+  }
+
+  public void reset() {
+    value = countdownFrom;
+    sinceLastTick = 0;
+    sendEvent();
+  }
+
+  private void sendEvent() {
+    Event event = new Event(EventType.COUNTDOWN_UPDATE);
+    event.addIntParameter("value", value);
+    eventManager.queueEvent(event);
+  }
+}
+
 class ButtonComponent extends Component implements IEventListener
 {
   private int height;
@@ -1528,6 +1659,14 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("ScoreTracker"))
   {
     component = new ScoreTrackerComponent(gameObject);
+  }
+  else if (componentName.equals("CalibrateWizard"))
+  {
+    component = new CalibrateWizardComponent(gameObject);
+  }
+  else if (componentName.equals("Countdown"))
+  {
+    component = new CountdownComponent(gameObject);
   }
   else if (componentName.equals("LevelDisplay"))
   {

@@ -40,6 +40,8 @@ enum EventType
   CALIBRATE_RETRY,
   CALIBRATE_SUCCESS,
   CALIBRATE_FAILURE,
+
+  COUNTDOWN_UPDATE,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -241,6 +243,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
     addEventTypeToMaps(EventType.CALIBRATE_DONE);
     addEventTypeToMaps(EventType.CALIBRATE_RETRY);
+
+    addEventTypeToMaps(EventType.COUNTDOWN_UPDATE);
   }
   
   private void addEventTypeToMaps(EventType eventType)

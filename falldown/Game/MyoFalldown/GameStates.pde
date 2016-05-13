@@ -194,7 +194,7 @@ public class GameState_CalibrateMenu implements IGameState
     try {
       emgManager = new EmgManager();
     } catch (MyoNotConnectedException e) {
-      println("[WARNING] No Myo Armband detected. Aborting Calibration.");
+      println("[WARNING] No Myo Armband detected. Aborting Calibration (Menu)");
       Event event = new Event(EventType.CALIBRATE_FAILURE);
       eventManager.queueEvent(event);
     }
@@ -203,9 +203,6 @@ public class GameState_CalibrateMenu implements IGameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
-
-    println("[INFO] Calibrating...");
-    emgManager.calibrate();
   }
   
   @Override public void onExit()

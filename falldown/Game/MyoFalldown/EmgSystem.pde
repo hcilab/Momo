@@ -1,5 +1,5 @@
 interface IEmgManager {
-  void calibrate();
+  boolean registerAction(String label);
   HashMap<String, Float> poll();
   void onEmg(long nowMillis, int[] sensorData);
 }
@@ -33,7 +33,6 @@ class EmgManager implements IEmgManager {
   Myo myo_unused;
   MyoAPI myoAPI;
   String SETTINGS_EMG_CONTROL_POLICY;
-  boolean calibrated;
 
   EmgManager() throws MyoNotConnectedException {
     // not directly needed here, just need to make one in instantiated
@@ -41,30 +40,21 @@ class EmgManager implements IEmgManager {
 
     myoAPI = new MyoAPI();
     SETTINGS_EMG_CONTROL_POLICY = "DIFF";
-    calibrated = false;
   }
 
-  void calibrate() {
+  boolean registerAction(String label) {
     Event event;
+
     try {
-      println("Left:");
-      myoAPI.registerAction("LEFT", 5000);
-      println("Right:");
-      myoAPI.registerAction("RIGHT", 5000);
+      myoAPI.registerAction(label, 0);
+
     } catch (CalibrationFailedException e) {
-      println("[WARNING] No EMG activity detected. Aborting Calibration.");
-      event = new Event(EventType.CALIBRATE_FAILURE);
-      eventManager.queueEvent(event);
-      return;
+      return false;
     }
-    calibrated = true;
-    event = new Event(EventType.CALIBRATE_SUCCESS);
-    eventManager.queueEvent(event);
+    return true;
   }
 
   HashMap<String, Float> poll() {
-    assert(calibrated);
-
     HashMap<String, Float> readings = myoAPI.poll();
     Float left = readings.get("LEFT");
     Float right = readings.get("RIGHT");
@@ -104,10 +94,8 @@ class EmgManager implements IEmgManager {
 
 class NullEmgManager implements IEmgManager {
 
-  void calibrate() {
-    println("[WARNING] No myo armband detected. Aborting calibration");
-    Event event = new Event(EventType.CALIBRATE_FAILURE);
-    eventManager.queueEvent(event);
+  boolean registerAction(String label) {
+    return false;
   }
 
   HashMap<String, Float> poll() {

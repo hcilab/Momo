@@ -1,9 +1,9 @@
-<GameObject>
+<GameObject tag="customize_settings_message">
 	<Render>
 		<Text
-			string="Options"
-			fontName="Andy Bold"
-			size="50"
+			string="CUSTOMIZE SETTINGS"
+			fontName="Andy Bold" 
+			size="30"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
@@ -13,77 +13,74 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		<Rect x="250.0" y="125.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<Rect x="250.0" y="200.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<Rect x="250.0" y="275.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<Rect x="250.0" y="350.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
 		<Text
-			string="Game"
+			string="Ball"
 			fontName="Arial"
-			size="35"
+			size="20"
 			antialiasing="true"
-			alignX="center"
+			alignX="left"
 			alignY="baseline"
-			x="250.0"
-			y="137.0"
+			x="25.0"
+			y="125.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
-			string="I/O"
+			string="Coins"
 			fontName="Arial"
-			size="35"
+			size="20"
 			antialiasing="true"
-			alignX="center"
+			alignX="left"
 			alignY="baseline"
-			x="250.0"
-			y="212.0"
+			x="25.0"
+			y="175.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
-			string="Stats"
+			string="Obstacle"
 			fontName="Arial"
-			size="35"
+			size="20"
 			antialiasing="true"
-			alignX="center"
+			alignX="left"
 			alignY="baseline"
-			x="250.0"
-			y="287.0"
+			x="25.0"
+			y="225.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
-			string="Customize"
+			string="Background"
 			fontName="Arial"
-			size="35"
+			size="20"
 			antialiasing="true"
-			alignX="center"
+			alignX="left"
 			alignY="baseline"
-			x="250.0"
-			y="362.0"
+			x="25.0"
+			y="275.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="Music Selection"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="325.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
 			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial" 
+			fontName="Arial"
 			size="20"
 			antialiasing="true"
 			alignX="center"

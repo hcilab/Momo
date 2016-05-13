@@ -1,6 +1,6 @@
 <GameObject>
 	<Render>
-		<Rect x="0.0" y="0.0" halfWidth="250.0" halfHeight="0.5">
+		<Rect x="0.0" y="0.0" halfWidth="240.0" halfHeight="1.5">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255"/>
 		</Rect>
@@ -10,7 +10,7 @@
 	</Render>
 	
 	<RigidBody
-		type="kinematic"
+		type="static"
 		linearDamping="0.0"
 		angularDamping="0.0"
 		gravityScale="0.0"
@@ -26,11 +26,12 @@
 			restitution="0.3"
 			isSensor="true"
 		>
-			<Shape type="box" halfWidth="250.0" halfHeight="1.0"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="250.0" halfHeight="1.5"/>
 		</Fixture>
 		
 		<OnCollideEvents>
 			<Event collidedWith="player" eventType="GAME_OVER"/>
+			<Event collidedWith="coin" eventType="DESTROY_COIN" coinParameterName="coin"/>
 		</OnCollideEvents>
 	</RigidBody>
 </GameObject>

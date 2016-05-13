@@ -56,7 +56,7 @@ public class GameState_InGame implements IGameState
   
   @Override public void onEnter()
   {
-    gameObjectManager.fromXML("xml_data/sample_level.xml");
+    gameObjectManager.fromXML("xml_data/game.xml");
   }
   
   @Override public void update(int deltaTime)
@@ -93,11 +93,103 @@ public class GameState_OptionsMenu implements IGameState
   }
 }
 
+public class GameState_GameSettings implements IGameState
+{
+  public GameState_GameSettings()
+  {
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/game_settings.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
+public class GameState_IOSettings implements IGameState
+{
+  public GameState_IOSettings()
+  {
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/io_settings.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
+public class GameState_StatsSettings implements IGameState
+{
+  public GameState_StatsSettings()
+  {
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/stats_settings.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
+public class GameState_CustomizeSettings implements IGameState
+{
+  public GameState_CustomizeSettings()
+  {
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/customize_settings.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+}
+
 public class GameStateController implements IGameStateController, IEventListener
 {
   private IGameState gameState_MainMenu;
   private IGameState gameState_InGame;
   private IGameState gameState_OptionsMenu;
+  private IGameState gameState_GameSettings;
+  private IGameState gameState_IOSettings;
+  private IGameState gameState_StatsSettings;
+  private IGameState gameState_CustomizeSettings;
   
   private IGameState currentState;
   
@@ -106,12 +198,18 @@ public class GameStateController implements IGameStateController, IEventListener
     gameState_MainMenu = new GameState_MainMenu();
     gameState_InGame = new GameState_InGame();
     gameState_OptionsMenu = new GameState_OptionsMenu();
+    gameState_GameSettings = new GameState_GameSettings();
+    gameState_IOSettings = new GameState_IOSettings();
+    gameState_StatsSettings = new GameState_StatsSettings();
+    gameState_CustomizeSettings = new GameState_CustomizeSettings();
     
     goToState(gameState_MainMenu);
     
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
     eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
     eventManager.register(EventType.RIGHT_BUTTON_RELEASED, this);
+    eventManager.register(EventType.MOUSE_CLICKED, this);
+    eventManager.register(EventType.BUTTON_CLICKED, this);
     eventManager.register(EventType.GAME_OVER, this);
   }
   
@@ -161,6 +259,54 @@ public class GameStateController implements IGameStateController, IEventListener
       if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
       {
         goToState(gameState_MainMenu);
+      }
+      else if (event.getEventType() == EventType.BUTTON_CLICKED)
+      {
+        String tag = event.getRequiredStringParameter("tag");
+        if (tag.equals("GameSettings"))
+        {
+          goToState(gameState_GameSettings);
+        }
+        else if (tag.equals("IOSettings"))
+        {
+          goToState(gameState_IOSettings);
+        }
+        else if (tag.equals("StatsSettings"))
+        {
+          goToState(gameState_StatsSettings);
+        }
+        else if (tag.equals("CustomizeSettings"))
+        {
+          goToState(gameState_CustomizeSettings);
+        }
+      }
+    }
+    else if (currentState == gameState_GameSettings)
+    {
+      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_OptionsMenu);
+      }
+    }
+    else if (currentState == gameState_IOSettings)
+    {
+      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_OptionsMenu);
+      }
+    }
+    else if (currentState == gameState_StatsSettings)
+    {
+      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_OptionsMenu);
+      }
+    }
+    else if (currentState == gameState_CustomizeSettings)
+    {
+      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
+      {
+        goToState(gameState_OptionsMenu);
       }
     }
   }

@@ -22,7 +22,18 @@ enum EventType
   LEFT_BUTTON_RELEASED,
   RIGHT_BUTTON_RELEASED,
   
+  COIN_COLLECTED,
+  UPDATE_SCORE,
+
+  // Mouse clicked events.
+  MOUSE_CLICKED,
+
+  // Button clicked events.
+  BUTTON_CLICKED,
+
   GAME_OVER,
+  DESTROY_COIN,
+  LEVEL_UP,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -90,6 +101,10 @@ class Event implements IEvent
   public Event(EventType _eventType)
   {
     eventType = _eventType;
+    stringParameters = new HashMap<String, String>();
+    floatParameters = new HashMap<String, Float>();
+    intParameters = new HashMap<String, Integer>();
+    gameObjectParameters = new HashMap<String, IGameObject>();
   }
   
   @Override public EventType getEventType()
@@ -205,7 +220,16 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.LEFT_BUTTON_RELEASED);
     addEventTypeToMaps(EventType.RIGHT_BUTTON_RELEASED);
     
+    addEventTypeToMaps(EventType.COIN_COLLECTED);
+    addEventTypeToMaps(EventType.UPDATE_SCORE);
+
+    addEventTypeToMaps(EventType.MOUSE_CLICKED);
+
+    addEventTypeToMaps(EventType.BUTTON_CLICKED);
+
     addEventTypeToMaps(EventType.GAME_OVER);
+    addEventTypeToMaps(EventType.DESTROY_COIN);
+    addEventTypeToMaps(EventType.LEVEL_UP);
   }
   
   private void addEventTypeToMaps(EventType eventType)

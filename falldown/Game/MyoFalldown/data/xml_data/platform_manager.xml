@@ -5,7 +5,7 @@
 		maxPlatformLevels="100"
 		leftSide="10.0"
 		rightSide="490.0"
-		disappearHeight="10.0"
+		disappearHeight="50.0"
 		spawnHeight="495.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"
@@ -14,7 +14,7 @@
 		minDistanceBetweenGaps="50.0"
 		minHeightBetweenPlatformLevels="50.0"
 		maxHeightBetweenPlatformLevels="100.0"
-		riseSpeed="30.0"
+		currentRiseSpeedParameterName="currentRiseSpeed"
 	>
 	</PlatformManagerController>
 </GameObject>

@@ -28,7 +28,11 @@
 		>
 			<Shape type="circle" x="0.0" y="0.0" radius="10.0"/>
 		</Fixture>
+		
+		<OnCollideEvents>
+			<Event collidedWith="coin" eventType="COIN_COLLECTED" coinParameterName="coin"/>
+		</OnCollideEvents>
 	</RigidBody>
 	
-	<PlayerController acceleration="10.0" maxSpeed="200.0" jumpForce="5.0"/>
+	<PlayerController acceleration="10.0" maxSpeed="200.0" jumpForce="5.0" currentRiseSpeedParameterName="currentRiseSpeed"/>
 </GameObject>

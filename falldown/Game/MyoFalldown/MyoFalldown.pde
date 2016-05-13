@@ -148,6 +148,15 @@ void keyReleased()
   }
 }
 
+void mouseClicked()
+{
+  Event event = new Event(EventType.MOUSE_CLICKED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
 class FalldownContactListener implements ContactListener
 {
   @Override public void beginContact(Contact contact)
@@ -158,8 +167,8 @@ class FalldownContactListener implements ContactListener
     RigidBodyComponent rigidBodyA = (RigidBodyComponent)objectA.getComponent(ComponentType.RIGID_BODY);
     RigidBodyComponent rigidBodyB = (RigidBodyComponent)objectB.getComponent(ComponentType.RIGID_BODY);
     
-    rigidBodyA.onCollisionEnter(contact, objectB);
-    rigidBodyB.onCollisionEnter(contact, objectA);
+    rigidBodyA.onCollisionEnter(objectB);
+    rigidBodyB.onCollisionEnter(objectA);
   }
   
   @Override public void endContact(Contact contact)

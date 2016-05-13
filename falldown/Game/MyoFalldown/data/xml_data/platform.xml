@@ -30,7 +30,7 @@
 			restitution="0.3"
 			isSensor="false"
 		>
-			<Shape type="box" halfWidth="0.5" halfHeight="5.0"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="5.0"/>
 		</Fixture>
 	</RigidBody>
 </GameObject>

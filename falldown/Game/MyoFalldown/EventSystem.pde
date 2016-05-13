@@ -268,25 +268,6 @@ class EventManager implements IEventManager
   
   @Override public void sendEvents()
   {
-    for (Map.Entry entry : eventMap.entrySet())
-    {
-      EventType eventType = (EventType)entry.getKey();
-      LinkedList<IEvent> eventQueue = (LinkedList<IEvent>)entry.getValue();
-      
-      IEvent event = eventQueue.pollFirst();
-      while (event != null)
-      {
-        for (IEventListener listener : listeners.get(eventType))
-        {
-          listener.handleEvent(event);
-        }
-        
-        event = eventQueue.pollFirst();
-      }
-     
-      assert(eventQueue.size() == 0);
-    }
-    
     for (Map.Entry entry : addMap.entrySet())
     {
       EventType eventType = (EventType)entry.getKey();
@@ -311,6 +292,25 @@ class EventManager implements IEventManager
       }
       
       listenersToRemove.clear();
+    }
+
+    for (Map.Entry entry : eventMap.entrySet())
+    {
+      EventType eventType = (EventType)entry.getKey();
+      LinkedList<IEvent> eventQueue = (LinkedList<IEvent>)entry.getValue();
+      
+      IEvent event = eventQueue.pollFirst();
+      while (event != null)
+      {
+        for (IEventListener listener : listeners.get(eventType))
+        {
+          listener.handleEvent(event);
+        }
+        
+        event = eventQueue.pollFirst();
+      }
+     
+      assert(eventQueue.size() == 0);
     }
   }
 }

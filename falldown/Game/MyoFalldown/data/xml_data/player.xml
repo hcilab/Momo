@@ -4,7 +4,7 @@
 			<SpriteSheet src="images/stash.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="16" vertCount="16" farmeFreq="1f"
-				zOrder="0" height="128.0" scaleHeight="30"> 
+				zOrder="0" height="128.0" scaleHeight="25"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

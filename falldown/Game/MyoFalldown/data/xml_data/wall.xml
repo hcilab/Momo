@@ -1,15 +1,15 @@
 <GameObject>
 	<Render>
-		<Rect x="0.0" y="0.0" halfWidth="5.0" halfHeight="250.0">
+		<!-- <Rect x="0.0" y="0.0" halfWidth="5.0" halfHeight="250.0">
 			<FillColor r="0" g="0" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="255" a="255"/>
-		</Rect>
+		</Rect> -->
 		<Sprite>
 			<!-- <Image src="grass.png" x="0.0" y="0.0"   height="500.0" width="10"> </Image> --> 
-			<SpriteSheet src="images/brickPlatform.png" alphaImage=""
+			<SpriteSheet src="images/brick.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="0" height="32.0" scaleHeight="10"> 
+				zOrder="50" height="16.0" scaleHeight="10"> 
 			</SpriteSheet> 
 		</Sprite> 
 

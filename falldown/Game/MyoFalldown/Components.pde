@@ -363,7 +363,7 @@ class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
-  private void tilePlatformSprite(OffsetSheetSprite sprite)
+   private void tilePlatformSprite(OffsetSheetSprite sprite)
   {
    sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, gameObject.getTranslation().y + sprite.translation.y);
    sprite.sheetSprite.draw();
@@ -376,9 +376,25 @@ class RenderComponent extends Component
       sprite.sheetSprite.draw();
    }
    sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
-  // sprite.sheetSprite.draw();
+    sprite.sheetSprite.draw();
    sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
-  // sprite.sheetSprite.draw();
+   sprite.sheetSprite.draw();
+  }
+  
+  private void tileImagePlatform(OffsetPImage img)
+  {
+   image(img.pimage, gameObject.getTranslation().x + img.translation.x, gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   int width =  15;
+   int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
+   for(int i =1; i < tilelength+1; i++){
+     image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+      image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   }
+   println(212/(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width));
+   //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
+   //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   //image(img.pimage,ceil(gameObject.getTranslation().x + img.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
   }
   
   private void tileWallSprite(OffsetSheetSprite sprite){  
@@ -389,8 +405,16 @@ class RenderComponent extends Component
    for(int i =0; i < tilelength+1; i++){
       sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, (i*height));
       sprite.sheetSprite.draw();
-   }
-    
+   } 
+  }
+  
+  private void tileDeathCeiling(OffsetSheetSprite sprite){
+   int width = (int)sprite.sheetSprite.getWidth();
+   int tilelength = 500/width;
+   for(int i =0; i < tilelength+1; i++){
+     sprite.sheetSprite.setXY((i*width), gameObject.getTranslation().y + sprite.translation.y);
+     sprite.sheetSprite.draw();
+   } 
   }
   
   @Override public ComponentType getComponentType()
@@ -409,21 +433,29 @@ class RenderComponent extends Component
     }
     for (OffsetPImage offsetImage : offsetPImages)
     {
+      if(gameObject.getScale().x>1)
+        tileImagePlatform(offsetImage);
+      else
       image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
     }
     
     for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
-       offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
-       if(gameObject.getScale().x * offsetSprite.scale.x >1){
-         tilePlatformSprite(offsetSprite);
-       }
-      // println(gameObject.getTranslation().x + " " + offsetSprite.translation.x);
-       if((gameObject.getTranslation().x == 5) || (gameObject.getTranslation().x == 495))
-         tileWallSprite(offsetSprite);
-       offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
-       float elapsedTime = (float) sw.getElapsedTime();
-       S4P.updateSprites(elapsedTime);
-       offsetSprite.sheetSprite.draw();
+     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
+     if(gameObject.getScale().x * offsetSprite.scale.x >1){
+       tilePlatformSprite(offsetSprite);
+     }
+     if((gameObject.getTranslation().x == 250) && (gameObject.getTranslation().y == 33.5)){
+       tileDeathCeiling(offsetSprite);
+     }
+   
+     if((gameObject.getTranslation().x == 5) || (ceil(gameObject.getTranslation().x) == 495)){
+       tileWallSprite(offsetSprite);
+         println(gameObject.getTag());
+     } 
+     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+     float elapsedTime = (float) sw.getElapsedTime();
+     S4P.updateSprites(elapsedTime);
+     offsetSprite.sheetSprite.draw();
     }
     
     for (Text text : texts)
@@ -494,12 +526,12 @@ class RigidBodyComponent extends Component
     else if (bodyType.equals("kinematic"))
     {
       bodyDefinition.type = BodyType.KINEMATIC;
-    }
+    } //<>//
     else if (bodyType.equals("dynamic"))
     {
       bodyDefinition.type = BodyType.DYNAMIC;
     }
-    else
+    else //<>//
     {
       print("Unknown rigid body type: " + bodyType);
       assert(false);
@@ -639,12 +671,12 @@ class RigidBodyComponent extends Component
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  } 
+  }  //<>//
   
   public void setLinearVelocity(PVector linearVelocity)
   {
     body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y)));
-  }
+  } //<>//
   
   public void applyForce(PVector force, PVector position)
   {
@@ -719,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
   }
   
   @Override public void fromXML(XML xmlComponent)
-  {
+  { //<>//
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
     jumpForce = xmlComponent.getFloat("jumpForce");
@@ -731,7 +763,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
   }
-  
+   //<>//
   @Override public ComponentType getComponentType()
   {
     return ComponentType.PLAYER_CONTROLLER;

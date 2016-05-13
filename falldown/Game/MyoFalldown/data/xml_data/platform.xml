@@ -5,10 +5,11 @@
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect> -->
 		<Sprite>
-			<SpriteSheet src="images/brickPlatform.png" alphaImage=""
+			<!-- <Image src="images/o3.png" x="0.0" y="0.0"   width="15" height="15"/>  -->
+			<SpriteSheet src="images/brick.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="32.0" scaleHeight="10"> 
+				zOrder="0" height="16.0" scaleHeight="10"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

@@ -1,9 +1,16 @@
 <GameObject>
 	<Render>
-		<Ellipse x="0.0" y="0.0" halfWidth="4.0" halfHeight="6.0">
+		<!-- <Ellipse x="0.0" y="0.0" halfWidth="4.0" halfHeight="6.0">
 			<FillColor r="255" g="255" b="0" a="255"/>
 			<StrokeColor r="255" g="255" b="0" a="255"/>
-		</Ellipse>
+		</Ellipse> -->
+		<Sprite>
+			<SpriteSheet src="images/coin_sheet.png" alphaImage=""
+					x="0.0" y="0.0"  
+					horzCount="6" vertCount="1" farmeFreq="3f"
+					zOrder="5" height="42.0" scaleHeight="15"> 
+			</SpriteSheet> 
+		</Sprite>
 	</Render>
 	
 	<RigidBody

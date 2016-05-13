@@ -447,8 +447,10 @@ class RenderComponent extends Component
      if((gameObject.getTranslation().x == 250) && (gameObject.getTranslation().y == 33.5)){
        tileDeathCeiling(offsetSprite);
      }
-     if((gameObject.getTranslation().x == 5) || (gameObject.getTranslation().x == 495)){
+   
+     if((gameObject.getTranslation().x == 5) || (ceil(gameObject.getTranslation().x) == 495)){
        tileWallSprite(offsetSprite);
+         println(gameObject.getTag());
      } 
      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
      float elapsedTime = (float) sw.getElapsedTime();
@@ -524,7 +526,7 @@ class RigidBodyComponent extends Component
     else if (bodyType.equals("kinematic"))
     {
       bodyDefinition.type = BodyType.KINEMATIC;
-    }
+    } //<>//
     else if (bodyType.equals("dynamic"))
     {
       bodyDefinition.type = BodyType.DYNAMIC;
@@ -669,7 +671,7 @@ class RigidBodyComponent extends Component
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  } 
+  }  //<>//
   
   public void setLinearVelocity(PVector linearVelocity)
   {
@@ -749,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
   }
   
   @Override public void fromXML(XML xmlComponent)
-  {
+  { //<>//
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
     jumpForce = xmlComponent.getFloat("jumpForce");

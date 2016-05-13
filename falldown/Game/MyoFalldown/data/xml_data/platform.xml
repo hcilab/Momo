@@ -1,14 +1,14 @@
 <GameObject>
 	<Render>
-		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="5.0">
+		<!-- <Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="5.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
+		</Rect> -->
 		<Sprite>
-			<SpriteSheet src="block.png" alphaImage=""
+			<SpriteSheet src="images/brickPlatform.png" alphaImage=""
 				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="0" height="120.0" scaleHeight="10"> 
+				horzCount="1" vertCount="1" farmeFreq="0f"
+				zOrder="0" height="32.0" scaleHeight="10"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

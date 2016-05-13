@@ -4,6 +4,9 @@
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255"/>
 		</Rect>
+		<Sprite>
+			<Image src="images/brickFull.png" x="0.0" y="0.0"   width="500.0" height="10"/> 
+		</Sprite>
 	</Render>
 	
 	<RigidBody

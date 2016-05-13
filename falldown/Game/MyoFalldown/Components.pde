@@ -81,7 +81,19 @@ class RenderComponent extends Component
     } 
   }
   
-  
+  private class OffsetPImage
+  {
+    public PImage pimage;
+    public PVector translation;
+    public PVector scale;
+    
+    public OffsetPImage(PImage _pimage, PVector _translation, PVector _scale)
+    {
+      pimage = _pimage;
+      translation = _translation;
+      scale = _scale;
+    }
+  } 
   
   private class OffsetSheetSprite
   {
@@ -122,6 +134,7 @@ class RenderComponent extends Component
   private ArrayList<OffsetPShape> offsetShapes;
   private ArrayList<Text> texts;
   private ArrayList<OffsetSheetSprite> offsetSheetSprites;
+  private ArrayList<OffsetPImage> offsetPImages;
   private StopWatch sw;
   
   public RenderComponent(GameObject _gameObject)
@@ -131,7 +144,8 @@ class RenderComponent extends Component
     offsetShapes = new ArrayList<OffsetPShape>();
     texts = new ArrayList<Text>();
     offsetSheetSprites = new ArrayList<OffsetSheetSprite>();
-     sw = new StopWatch();
+    offsetPImages = new  ArrayList<OffsetPImage>();
+    sw = new StopWatch();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -237,10 +251,18 @@ class RenderComponent extends Component
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
                new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))
             );
-            offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
+            offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("horzCount")*xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
             offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
             offsetSheetSprite.sheetSprite.setScale(xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"));
             offsetSheetSprites.add(offsetSheetSprite);
+         }
+          else if(xmlSpriteComponent.getName().equals("Image")){
+            OffsetPImage offsetsprite = new OffsetPImage(
+              loadImage(xmlSpriteComponent.getString("src")),
+              new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
+              new PVector(xmlSpriteComponent.getFloat("width"), xmlSpriteComponent.getFloat("height"))
+            );
+            offsetPImages.add(offsetsprite);
          }
        }
          
@@ -330,6 +352,36 @@ class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
+  private void tilePlatformSprite(OffsetSheetSprite sprite)
+  {
+   sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, gameObject.getTranslation().y + sprite.translation.y);
+   sprite.sheetSprite.draw();
+   int width = (int)sprite.sheetSprite.getWidth();
+   int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
+   for(int i =1; i < tilelength+1; i++){
+      sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x + (i*width)), gameObject.getTranslation().y + sprite.translation.y);
+      sprite.sheetSprite.draw();
+      sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (i*width)), gameObject.getTranslation().y + sprite.translation.y);
+      sprite.sheetSprite.draw();
+   }
+   sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
+  // sprite.sheetSprite.draw();
+   sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
+  // sprite.sheetSprite.draw();
+  }
+  
+  private void tileWallSprite(OffsetSheetSprite sprite){  
+   //wall height is 500 with width of 10
+   //tile length will be 50 starting from top
+   int height = (int)sprite.sheetSprite.getHeight();
+   int tilelength = 500/height;
+   for(int i =0; i < tilelength+1; i++){
+      sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, (i*height));
+      sprite.sheetSprite.draw();
+   }
+    
+  }
+  
   @Override public ComponentType getComponentType()
   {
     return ComponentType.RENDER;
@@ -344,23 +396,23 @@ class RenderComponent extends Component
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
     }
+    for (OffsetPImage offsetImage : offsetPImages)
+    {
+      image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
+    }
+    
     for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
        offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
        if(gameObject.getScale().x * offsetSprite.scale.x >1){
-         println(gameObject.getScale().x + " " + offsetSprite.scale.x + "  " + gameObject.getScale().y * offsetSprite.scale.y);
-         //Sprite newSprite = offsetSprite.sheetSprite;
-         // newSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x + 100, gameObject.getTranslation().y + offsetSprite.translation.y);
-         // //newSprite.setFrameSequence(0, 1, 0.0f);  
-         //   newSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
-         //   //newSprite.setScale(1);
-         // S4P.registerSprite(newSprite);
-         //PImage img = loadImage("block.png");
-         //image(img,gameObject.getTranslation().x + offsetSprite.translation.x+10, gameObject.getTranslation().y + offsetSprite.translation.y,10,10);
+         tilePlatformSprite(offsetSprite);
        }
+      // println(gameObject.getTranslation().x + " " + offsetSprite.translation.x);
+       if((gameObject.getTranslation().x == 5) || (gameObject.getTranslation().x == 495))
+         tileWallSprite(offsetSprite);
        offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
        float elapsedTime = (float) sw.getElapsedTime();
        S4P.updateSprites(elapsedTime);
-       S4P.drawSprites();
+       offsetSprite.sheetSprite.draw();
     }
     
     for (Text text : texts)
@@ -474,7 +526,7 @@ class RigidBodyComponent extends Component
               print("Unknown fixture shape type: " + shapeType);
               assert(false);
             }
-          }
+          } //<>//
         }
         
         body.createFixture(fixtureDef);
@@ -619,7 +671,7 @@ class PlayerControllerComponent extends Component implements IEventListener //<>
     moveVector.add(getKeyboardInput());
     moveVector.add(getEmgInput());
 
-    moveVector.normalize();
+    moveVector.normalize(); //<>//
     
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
@@ -699,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener //<>
     }
     return p;
   }
-
+ //<>//
   private PVector getEmgInput() {
     HashMap<String, Float> readings = emgManager.poll();
     return new PVector(

@@ -4,6 +4,15 @@
 			<FillColor r="0" g="0" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="255" a="255"/>
 		</Rect>
+		<Sprite>
+			<!-- <Image src="grass.png" x="0.0" y="0.0"   height="500.0" width="10"> </Image> --> 
+			<SpriteSheet src="images/brickPlatform.png" alphaImage=""
+				x="0.0" y="0.0"  
+				horzCount="1" vertCount="1" farmeFreq="0.0f"
+				zOrder="0" height="32.0" scaleHeight="10"> 
+			</SpriteSheet> 
+		</Sprite> 
+
 	</Render>
 	
 	<RigidBody

@@ -1,15 +1,10 @@
 <GameObject>
 	<Render>
-		<!-- <Ellipse x="0.0" y="0.0" halfWidth="10.0" halfHeight="10.0">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255"/>
-
-		</Ellipse> -->
 		<Sprite>
-			<SpriteSheet src="SoccerBall.png" alphaImage=""
+			<SpriteSheet src="images/stash.png" alphaImage=""
 				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="0" height="597.0" scaleHeight="20"> 
+				horzCount="16" vertCount="16" farmeFreq="1f"
+				zOrder="0" height="128.0" scaleHeight="30"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

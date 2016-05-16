@@ -363,7 +363,7 @@ class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
-   private void tilePlatformSprite(OffsetSheetSprite sprite)
+  private void tilePlatformSprite(OffsetSheetSprite sprite)
   {
    sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, gameObject.getTranslation().y + sprite.translation.y);
    sprite.sheetSprite.draw();
@@ -376,7 +376,7 @@ class RenderComponent extends Component
       sprite.sheetSprite.draw();
    }
    sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
-    sprite.sheetSprite.draw();
+   sprite.sheetSprite.draw();
    sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
    sprite.sheetSprite.draw();
   }
@@ -388,9 +388,9 @@ class RenderComponent extends Component
    int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
    for(int i =1; i < tilelength+1; i++){
      image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-      image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+     image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    }
-   println(212/(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width));
+   //println(212/(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width));
    //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
    //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
@@ -410,9 +410,10 @@ class RenderComponent extends Component
   
   private void tileDeathCeiling(OffsetSheetSprite sprite){
    int width = (int)sprite.sheetSprite.getWidth();
-   int tilelength = 500/width;
-   for(int i =0; i < tilelength+1; i++){
-     sprite.sheetSprite.setXY((i*width), gameObject.getTranslation().y + sprite.translation.y);
+   int tilelength = 480/width;
+   for(int i =0; i < tilelength-1; i++){
+     // println(i*width);
+     sprite.sheetSprite.setXY((30+i*width), gameObject.getTranslation().y + sprite.translation.y);
      sprite.sheetSprite.draw();
    } 
   }
@@ -441,21 +442,22 @@ class RenderComponent extends Component
     
     for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
      offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
-     if(gameObject.getScale().x * offsetSprite.scale.x >1){
+     if(gameObject.getTag().equals("platform")){
        tilePlatformSprite(offsetSprite);
+       
      }
-     if((gameObject.getTranslation().x == 250) && (gameObject.getTranslation().y == 33.5)){
+     if(gameObject.getTag().equals("death_ceiling")){
        tileDeathCeiling(offsetSprite);
      }
    
-     if((gameObject.getTranslation().x == 5) || (ceil(gameObject.getTranslation().x) == 495)){
+     if(gameObject.getTag().equals("wall")){
        tileWallSprite(offsetSprite);
-         println(gameObject.getTag());
      } 
      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
      float elapsedTime = (float) sw.getElapsedTime();
      S4P.updateSprites(elapsedTime);
      offsetSprite.sheetSprite.draw();
+     
     }
     
     for (Text text : texts)
@@ -524,7 +526,7 @@ class RigidBodyComponent extends Component
       bodyDefinition.type = BodyType.STATIC;
     }
     else if (bodyType.equals("kinematic"))
-    {
+    { //<>//
       bodyDefinition.type = BodyType.KINEMATIC;
     } //<>//
     else if (bodyType.equals("dynamic"))
@@ -669,7 +671,7 @@ class RigidBodyComponent extends Component
   }
   
   public PVector getLinearVelocity()
-  {
+  { //<>//
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
   }  //<>//
   
@@ -749,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     
     eventManager.deregister(EventType.LEVEL_UP, this);
   }
-  
+   //<>//
   @Override public void fromXML(XML xmlComponent)
   { //<>//
     acceleration = xmlComponent.getFloat("acceleration");

@@ -6,10 +6,10 @@
 		</Rect> -->
 		<Sprite>
 			<!-- <Image src="images/o3.png" x="0.0" y="0.0"   width="15" height="15"/>  -->
-			<SpriteSheet src="images/brick.png" alphaImage=""
+			<SpriteSheet src="images/block/grassMid.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="16.0" scaleHeight="10"> 
+				zOrder="0" height="70.0" scaleHeight="15"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>
@@ -31,7 +31,7 @@
 			restitution="0.3"
 			isSensor="false"
 		>
-			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="5.0"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="7.5"/>
 		</Fixture>
 	</RigidBody>
 </GameObject>

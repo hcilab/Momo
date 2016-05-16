@@ -5,7 +5,7 @@
 			<StrokeColor r="255" g="255" b="0" a="255"/>
 		</Ellipse> -->
 		<Sprite>
-			<SpriteSheet src="images/coin_sheet.png" alphaImage=""
+			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
 					x="0.0" y="0.0"  
 					horzCount="6" vertCount="1" farmeFreq="3f"
 					zOrder="5" height="42.0" scaleHeight="15"> 

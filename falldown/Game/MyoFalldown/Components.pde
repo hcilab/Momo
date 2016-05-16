@@ -1449,16 +1449,16 @@ class CountdownComponent extends Component
 
 class ButtonComponent extends Component implements IEventListener
 {
-  private int height;
-  private int width;
+  private int buttonHeight;
+  private int buttonWidth;
   private SoundFile buttonClickedSound;
 
   public ButtonComponent(GameObject _gameObject)
   {
     super(_gameObject);
 
-    height = 0;
-    width = 0;
+    buttonHeight = 0;
+    buttonWidth = 0;
 
     eventManager.register(EventType.MOUSE_CLICKED, this);
   }
@@ -1471,8 +1471,8 @@ class ButtonComponent extends Component implements IEventListener
   @Override public void fromXML(XML xmlComponent)
   {
     // Multiply the height and width by the scale values to make the button that size
-    height = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
-    width = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+    buttonHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    buttonWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
     buttonClickedSound = new SoundFile(mainObject, xmlComponent.getString("buttonClickedSound"));
     buttonClickedSound.rate(xmlComponent.getFloat("rate"));
     try { buttonClickedSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
@@ -1496,13 +1496,19 @@ class ButtonComponent extends Component implements IEventListener
     {
       buttonClickedSound.play();
       
-      float xButton = gameObject.getTranslation().x;
-      float yButton = gameObject.getTranslation().y;
+      float widthScale = (width / 500.0f);
+      float heightScale = (height / 500.0f);
+      
+      float xButton = gameObject.getTranslation().x * widthScale;
+      float yButton = gameObject.getTranslation().y * heightScale;
+      
+      float actualButtonWidth = buttonWidth * widthScale;
+      float actualButtonHeight = buttonHeight * heightScale;
 
       int xMouse = event.getRequiredIntParameter("mouseX");
       int yMouse = event.getRequiredIntParameter("mouseY");
 
-      if(xButton - 0.5 * width <= xMouse && xButton + 0.5 * width >= xMouse && yButton - 0.5 * height <= yMouse && yButton + 0.5 * height >= yMouse)
+      if(xButton - 0.5 * actualButtonWidth <= xMouse && xButton + 0.5 * actualButtonWidth >= xMouse && yButton - 0.5 * actualButtonHeight <= yMouse && yButton + 0.5 * actualButtonHeight >= yMouse)
       {
         Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
         buttonEvent.addStringParameter("tag",gameObject.getTag());

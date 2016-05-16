@@ -22,13 +22,14 @@
 	<GameObject file="xml_data/platform.xml">
 		<Transform>
 			<Translation x="250.0" y="495.0"/>
-			<Scale x="480.0" y="1.0"/>
+			<Scale x="480.0" y="10.0"/>
 		</Transform>
 	</GameObject>
 	
 	<GameObject file="xml_data/death_ceiling.xml" tag="death_ceiling">
 		<Transform>
-			<Translation x="250.0" y="33.5"/>
+			<Translation x="250.0" y="36.0"/>
+			<Scale x="480.0" y="10.0"/>
 		</Transform>
 	</GameObject>
 	

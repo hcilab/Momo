@@ -879,6 +879,8 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   private float leftSide;
   private float rightSide;
   
+  private float platformHeight;
+  
   private float disappearHeight;
   private float spawnHeight;
    //<>//
@@ -888,6 +890,16 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   private float minGapSize;
   private float maxGapSize;
   private float minDistanceBetweenGaps;
+  
+  private String obstacleFile;
+  private String obstacleTag;
+  private float obstacleChance;
+  private float obstacleMinWidth;
+  private float obstacleMaxWidth;
+  private float obstacleMinHeight;
+  private float obstacleMaxHeight;
+  private float obstacleMinHorizontalOffset;
+  private float obstacleMaxHorizontalOffset;
   
   private float minHeightBetweenPlatformLevels;
   private float maxHeightBetweenPlatformLevels;
@@ -917,6 +929,7 @@ class PlatformManagerControllerComponent extends Component implements IEventList
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
     rightSide = xmlComponent.getFloat("rightSide");
+    platformHeight = xmlComponent.getFloat("platformHeight");
     disappearHeight = xmlComponent.getFloat("disappearHeight");
     spawnHeight = xmlComponent.getFloat("spawnHeight");
     minGapsPerLevel = xmlComponent.getInt("minGapsPerLevel");
@@ -924,6 +937,15 @@ class PlatformManagerControllerComponent extends Component implements IEventList
     minGapSize = xmlComponent.getFloat("minGapSize");
     maxGapSize = xmlComponent.getFloat("maxGapSize");
     minDistanceBetweenGaps = xmlComponent.getFloat("minDistanceBetweenGaps");
+    obstacleFile = xmlComponent.getString("obstacleFile");
+    obstacleTag = xmlComponent.getString("obstacleTag");
+    obstacleChance = xmlComponent.getFloat("obstacleChance");
+    obstacleMinWidth = xmlComponent.getFloat("obstacleMinWidth");
+    obstacleMaxWidth = xmlComponent.getFloat("obstacleMaxWidth");
+    obstacleMinHeight = xmlComponent.getFloat("obstacleMinHeight");
+    obstacleMaxHeight = xmlComponent.getFloat("obstacleMaxHeight");
+    obstacleMinHorizontalOffset = xmlComponent.getFloat("obstacleMinHorizontalOffset");
+    obstacleMaxHorizontalOffset = xmlComponent.getFloat("obstacleMaxHorizontalOffset");
     minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
@@ -984,10 +1006,27 @@ class PlatformManagerControllerComponent extends Component implements IEventList
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
       float platformWidth = platformRange.y - platformRange.x;
       
-      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, 1.0));
+      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
       platform.setTag(tag);
       setPlatformRiseSpeed(platform);
       platforms.add(platform);
+      
+      float generateObstacle = random(0.0, 1.0);
+      if (generateObstacle < obstacleChance)
+      {
+        float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
+        float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
+        float obstacleOffset = random(obstacleMinHorizontalOffset, obstacleMaxHorizontalOffset);
+        
+        IGameObject obstacle = gameObjectManager.addGameObject(
+          obstacleFile, 
+          new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),
+          new PVector(obstacleWidth, obstacleHeight)
+        );
+        obstacle.setTag(obstacleTag);
+        setPlatformRiseSpeed(obstacle);
+        platforms.add(obstacle);
+      }
     }
   }
   

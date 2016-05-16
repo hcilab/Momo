@@ -55,7 +55,7 @@ int lastFrameTime;
 void setup()
 {
   size(500, 500);
-  //fullScreen();
+  surface.setResizable(true);
   
   rectMode(CENTER);
   ellipseMode(CENTER);
@@ -88,6 +88,7 @@ void draw()
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
   
+  scale(width / 500.0, height / 500.0);
   background(255, 255, 255);
   
   // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.

@@ -92,7 +92,7 @@ void draw()
   background(255, 255, 255);
   
   // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
-  if (deltaTime > 20)
+  if (deltaTime > 100)
   {
     deltaTime = 16;
   }

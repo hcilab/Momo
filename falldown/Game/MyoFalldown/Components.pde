@@ -270,11 +270,14 @@ class RenderComponent extends Component
             offsetSheetSprites.add(offsetSheetSprite);
          }
           else if(xmlSpriteComponent.getName().equals("Image")){
+            PImage bgsize =  loadImage(xmlSpriteComponent.getString("src"));
+            bgsize.resize(500,500);
             OffsetPImage offsetsprite = new OffsetPImage(
-              loadImage(xmlSpriteComponent.getString("src")),
+              bgsize,
               new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
               new PVector(xmlSpriteComponent.getFloat("width"), xmlSpriteComponent.getFloat("height"))
             );
+            background(offsetsprite.pimage);
             offsetPImages.add(offsetsprite);
          }
        }
@@ -432,13 +435,7 @@ class RenderComponent extends Component
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
     }
-    for (OffsetPImage offsetImage : offsetPImages)
-    {
-      if(gameObject.getScale().x>1)
-        tileImagePlatform(offsetImage);
-      else
-      image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
-    }
+   
     
     for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
      offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
@@ -458,6 +455,14 @@ class RenderComponent extends Component
      S4P.updateSprites(elapsedTime);
      offsetSprite.sheetSprite.draw();
      
+    }
+   for (OffsetPImage offsetImage : offsetPImages)
+    {
+       background(offsetImage.pimage);
+      //if(gameObject.getScale().x>1)
+      //  tileImagePlatform(offsetImage);
+      //else
+      //image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
     }
     
     for (Text text : texts)
@@ -521,7 +526,7 @@ class RigidBodyComponent extends Component
     BodyDef bodyDefinition = new BodyDef();
     
     String bodyType = xmlComponent.getString("type");
-    if (bodyType.equals("static"))
+    if (bodyType.equals("static")) //<>//
     {
       bodyDefinition.type = BodyType.STATIC;
     }
@@ -666,7 +671,7 @@ class RigidBodyComponent extends Component
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
           eventManager.queueEvent(event);
         }
-      }
+      } //<>//
     }
   }
   
@@ -746,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.deregister(EventType.RIGHT_BUTTON_PRESSED, this);
     
     eventManager.deregister(EventType.UP_BUTTON_RELEASED, this);
-    eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this);
+    eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this); //<>//
     eventManager.deregister(EventType.RIGHT_BUTTON_RELEASED, this);
     
     eventManager.deregister(EventType.LEVEL_UP, this);

@@ -28,12 +28,8 @@
 	
 	<GameObject file="xml_data/death_ceiling.xml" tag="death_ceiling">
 		<Transform>
-<<<<<<< HEAD
 			<Translation x="250.0" y="41.5"/>
-=======
-			<Translation x="250.0" y="36.0"/>
-			<Scale x="480.0" y="10.0"/>
->>>>>>> refs/remotes/origin/development
+			<Scale x="480.0" y="1.0"/>
 		</Transform>
 	</GameObject>
 	
@@ -50,6 +46,8 @@
 			<Translation x="15.0" y="24.0"/>
 		</Transform>
 	</GameObject>
+
+	<GameObject file="xml_data/background.xml" tag="background"></GameObject>
 	
 	<GameObject file="xml_data/coin_spawner.xml"/>
 	

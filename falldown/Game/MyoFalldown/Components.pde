@@ -1424,8 +1424,9 @@ class ButtonComponent extends Component implements IEventListener
 
   @Override public void fromXML(XML xmlComponent)
   {
-    height = xmlComponent.getInt("height");
-    width = xmlComponent.getInt("width");
+    // Multiply the height and width by the scale values to make the button that size
+    height = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    width = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
     buttonClickedSound = new SoundFile(mainObject, xmlComponent.getString("buttonClickedSound"));
     buttonClickedSound.rate(xmlComponent.getFloat("rate"));
     try { buttonClickedSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}

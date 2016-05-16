@@ -27,6 +27,19 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
+			string="0"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="450.0"
+			y="125.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
 			string="Total Coins Collected"
 			fontName="Arial"
 			size="20"
@@ -34,6 +47,19 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
+			y="175.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="0"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="450.0"
 			y="175.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
@@ -53,6 +79,19 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
+			string="0"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="450.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
 			string="High Score"
 			fontName="Arial"
 			size="20"
@@ -65,7 +104,20 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		<Rect x="250.0" y="375.0" halfWidth="50.0" halfHeight="25.0">
+		<Text
+			string="0"
+			fontName="Arial"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="450.0"
+			y="275.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Rect x="250.0" y="375.0" halfWidth="100.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>

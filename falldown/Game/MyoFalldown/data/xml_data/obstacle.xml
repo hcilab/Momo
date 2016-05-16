@@ -1,0 +1,29 @@
+<GameObject>
+	<Render>
+		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
+	</Render>
+	
+	<RigidBody
+		type="kinematic"
+		linearDamping="0.0"
+		angularDamping="0.0"
+		gravityScale="0.0"
+		allowSleep="true"
+		awake="false"
+		fixedRotation="true"
+		bullet="false"
+		active="true"
+	>
+		<Fixture
+			density="1.0"
+			friction="0.4"
+			restitution="0.3"
+			isSensor="false"
+		>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5"/>
+		</Fixture>
+	</RigidBody>
+</GameObject>

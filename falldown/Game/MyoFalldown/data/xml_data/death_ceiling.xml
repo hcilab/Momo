@@ -6,6 +6,7 @@
 		</Rect> -->
 		<Sprite>
 			<!-- <Image src="images/brickFull.png" x="0.0" y="0.0"   width="500.0" height="10"/>  -->
+
 			<SpriteSheet src="images/block/spikesTop.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0.0f"

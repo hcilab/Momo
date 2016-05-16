@@ -7,7 +7,7 @@
 		rightSide="490.0"
 		platformHeight="10.0"
 		disappearHeight="75.0"
-		spawnHeight="495.0"
+		spawnHeight="525.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"
 		minGapSize="25.0"
@@ -22,8 +22,8 @@
 		obstacleMinHorizontalOffset="-20.0"
 		obstacleMaxHorizontalOffset="20.0"
 		minDistanceBetweenGaps="50.0"
-		minHeightBetweenPlatformLevels="50.0"
-		maxHeightBetweenPlatformLevels="100.0"
+		minHeightBetweenPlatformLevels="80.0"
+		maxHeightBetweenPlatformLevels="120.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 	>
 	</PlatformManagerController>

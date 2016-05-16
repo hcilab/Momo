@@ -707,6 +707,9 @@ class PlayerControllerComponent extends Component implements IEventListener
 {
   private float acceleration;
   private float maxSpeed; //<>//
+  private float minInputThreshold;
+  private float leftSensitivity;
+  private float rightSensitivity;
   private float jumpForce;
   
   private String currentRiseSpeedParameterName;
@@ -715,6 +718,10 @@ class PlayerControllerComponent extends Component implements IEventListener
   private boolean upButtonDown;
   private boolean leftButtonDown;
   private boolean rightButtonDown;
+  
+  private boolean jumping;
+  private int jumpDelay;
+  private int jumpTime;
   
   private SoundFile jumpSound;
   
@@ -754,6 +761,9 @@ class PlayerControllerComponent extends Component implements IEventListener
   { //<>//
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
+    minInputThreshold = xmlComponent.getFloat("minInputThreshold");
+    leftSensitivity = xmlComponent.getFloat("leftSensitivity");
+    rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     riseSpeed = 0.0f;
@@ -762,6 +772,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
+    jumping = false;
+    jumpDelay = 1000;
   }
    //<>//
   @Override public ComponentType getComponentType()
@@ -776,7 +788,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     moveVector.add(getKeyboardInput());
     moveVector.add(getEmgInput());
 
-    moveVector.normalize(); //<>//
+    smoothControls(moveVector, deltaTime);
     
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
@@ -798,7 +810,7 @@ class PlayerControllerComponent extends Component implements IEventListener
           if (moveVector.y < 0.0f
               && ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed) || linearVelocity.y == 0.0f))
           {
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce * deltaTime), gameObject.getTranslation(), true);
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
           } //<>//
         }
@@ -864,6 +876,52 @@ class PlayerControllerComponent extends Component implements IEventListener
     return new PVector(
       readings.get("RIGHT")-readings.get("LEFT"),
       -readings.get("JUMP"));
+  }
+  
+  private void smoothControls(PVector moveVector, int deltaTime)
+  {
+    if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
+    {
+      moveVector.x = 0.0f;
+    } //<>//
+    else if (moveVector.x < 0.0f) //<>//
+    {
+      moveVector.x += minInputThreshold;
+      moveVector.x *= leftSensitivity * (1.0f - minInputThreshold);
+      
+      if (moveVector.x < -1.0f)
+      {
+        moveVector.x = -1.0f;
+      }
+    }
+    else
+    {
+      moveVector.x -= minInputThreshold;
+      moveVector.x *= rightSensitivity * (1.0f - minInputThreshold);
+      
+      if (moveVector.x > 1.0f)
+      {
+        moveVector.x = 1.0f;
+      }
+    }
+    
+    if (jumping)
+    {
+      jumpTime += deltaTime;
+      if (jumpTime > jumpDelay)
+      {
+        jumping = false;
+        jumpTime = 0;
+      }
+      else
+      {
+        moveVector.y = 0.0f;
+      }
+    }
+    else if (moveVector.y < 0.0f)
+    {
+      jumping = true;
+    }
   }
 }
 

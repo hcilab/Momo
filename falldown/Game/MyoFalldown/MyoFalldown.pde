@@ -53,6 +53,9 @@ final String LEFT_DIRECTION_LABEL = "LEFT";
 final String RIGHT_DIRECTION_LABEL = "RIGHT";
 final String JUMP_DIRECTION_LABEL = "JUMP";
 
+// The Options menu object, contains methods to alter sub menus
+OptionsObject optionsMenu;
+
 void setup()
 {
   size(500, 500);
@@ -80,6 +83,8 @@ void setup()
   emgManager = new NullEmgManager();
   
   lastFrameTime = millis();
+
+  optionsMenu = new OptionsObject();
 } 
 
 void draw()

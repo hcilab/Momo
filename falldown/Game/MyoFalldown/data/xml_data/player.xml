@@ -40,7 +40,7 @@
 		minInputThreshold="0.3"
 		leftSensitivity="1.5"
 		rightSensitivity="1.5"
-		jumpForce="3.52"
+		jumpForce="-3.52"
 		jumpSoundFile="sound_effects/boing_spring.wav"
 		rate="1.0"
 		pan="0.0"

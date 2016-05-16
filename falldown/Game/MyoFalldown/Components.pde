@@ -770,7 +770,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
     jumping = false;
-    jumpDelay = 1000;
+    jumpDelay = 50;
   }
    //<>//
   @Override public ComponentType getComponentType()
@@ -807,7 +807,7 @@ class PlayerControllerComponent extends Component implements IEventListener
           if (moveVector.y < 0.0f
               && ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed) || linearVelocity.y == 0.0f))
           {
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce), gameObject.getTranslation(), true);
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
           } //<>//
         }

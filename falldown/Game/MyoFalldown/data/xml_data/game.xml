@@ -7,19 +7,21 @@
 		</Transform>
 	</GameObject>
 	
-	<GameObject file="xml_data/wall.xml">
+  <GameObject file="xml_data/wall.xml" tag="left_wall">
 		<Transform>
 			<Translation x="5.0" y="250.0"/>
+      <Scale x="10.0" y="1.0"/>
 		</Transform>
 	</GameObject>
 	
-	<GameObject file="xml_data/wall.xml">
+  <GameObject file="xml_data/wall.xml" tag="right_wall">
 		<Transform>
 			<Translation x="495.0" y="250.0"/>
+      <Scale x="10.0" y="1.0"/>
 		</Transform>
 	</GameObject>
 	
-	<GameObject file="xml_data/platform.xml">
+  <GameObject file="xml_data/platform.xml" tag="platform">
 		<Transform>
 			<Translation x="250.0" y="495.0"/>
 			<Scale x="480.0" y="10.0"/>

@@ -308,7 +308,8 @@ class GameObjectManager implements IGameObjectManager
     for (Map.Entry entry : gameObjects.entrySet())
     {
       IGameObject gameObject = (IGameObject)entry.getValue();
-      removeList.add(gameObject.getUID());
+      gameObject.destroy();
     }
+    gameObjects.clear();
   }
 }

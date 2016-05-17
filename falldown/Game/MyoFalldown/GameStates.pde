@@ -1,4 +1,4 @@
-//========================================================================================
+ //========================================================================================
 // Author: David Hanna
 //
 // The abstraction of a game state.
@@ -324,17 +324,22 @@ public class GameStateController implements IGameStateController, IEventListener
   {
     if (currentState == gameState_MainMenu)
     {
-      if (event.getEventType() == EventType.LEFT_BUTTON_RELEASED)
+      if (event.getEventType() == EventType.BUTTON_CLICKED)
       {
-        goToState(gameState_InGame);
-      }
-      else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-      else if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_CalibrateMenu);
+        String tag = event.getRequiredStringParameter("tag");
+        
+        if (tag.equals("start_game"))
+        {
+          goToState(gameState_InGame);
+        }
+        else if (tag.equals("options_menu"))
+        {
+          goToState(gameState_OptionsMenu);
+        }
+        else if (tag.equals("re-calibrate"))
+        {
+          goToState(gameState_CalibrateMenu);
+        }
       }
     }
     else if (currentState == gameState_InGame)

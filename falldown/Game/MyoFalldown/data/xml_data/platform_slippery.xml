@@ -1,13 +1,9 @@
 <GameObject>
 	<Render>
-		<Sprite>
-			<Image src="images/block/grassBL.png" x="0.0" y="0.0"   width="470" height="15"/>
-			<!-- <SpriteSheet src="images/block/o3.png" alphaImage=""
-				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="212.0" scaleHeight="1"> 
-			</SpriteSheet>  -->
-		</Sprite> 
+		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
+			<FillColor r="0" g="0" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="255" a="255"/>
+		</Rect>
 	</Render>
 	
 	<RigidBody
@@ -23,13 +19,11 @@
 	>
 		<Fixture
 			density="1.0"
-			friction="0.925"
+			friction="0.01"
 			restitution="0.3"
 			isSensor="false"
 		>
-
 			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5"/>
-
 		</Fixture>
 	</RigidBody>
 </GameObject>

@@ -36,7 +36,7 @@
 	
 	<CoinEventHandler>
 		<CoinCollected 
-			scoreValue="500" 
+			scoreValue="200" 
 			coinParameterName="coin" 
 			scoreValueParameterName="scoreValue"
 			coinCollectedSoundFile="sound_effects/Coin01.aif"

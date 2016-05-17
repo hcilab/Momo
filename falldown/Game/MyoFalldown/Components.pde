@@ -256,7 +256,6 @@ class RenderComponent extends Component
         offsetShapes.add(offsetShape);
       }
       else if (xmlRenderable.getName().equals("Sprite")){
-       //println("Sprite Detected");
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
@@ -392,10 +391,17 @@ class RenderComponent extends Component
      image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
      image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    }
+<<<<<<< HEAD
   
    float percentage =  ((gameObject.getScale().x -(2*tilelength*width+width))/2)/15; 
    PImage cropImg = img.pimage.get(0,0,floor(percentage*212),212);
    image(cropImg,+ gameObject.getTranslation().x + img.translation.x + ((tilelength+1) * width),gameObject.getTranslation().y + img.translation.y, percentage * 15 ,15);
+=======
+   //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
+   //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+   //image(img.pimage,ceil(gameObject.getTranslation().x + img.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+>>>>>>> refs/remotes/origin/development
   }
   
   private void tileWallSprite(OffsetSheetSprite sprite){  
@@ -715,6 +721,9 @@ class PlayerControllerComponent extends Component implements IEventListener
 {
   private float acceleration;
   private float maxSpeed; //<>//
+  private float minInputThreshold;
+  private float leftSensitivity;
+  private float rightSensitivity;
   private float jumpForce;
   
   private String currentRiseSpeedParameterName;
@@ -723,6 +732,10 @@ class PlayerControllerComponent extends Component implements IEventListener
   private boolean upButtonDown;
   private boolean leftButtonDown;
   private boolean rightButtonDown;
+  
+  private boolean jumping;
+  private int jumpDelay;
+  private int jumpTime;
   
   private SoundFile jumpSound;
   
@@ -762,6 +775,9 @@ class PlayerControllerComponent extends Component implements IEventListener
   { //<>//
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
+    minInputThreshold = xmlComponent.getFloat("minInputThreshold");
+    leftSensitivity = xmlComponent.getFloat("leftSensitivity");
+    rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     riseSpeed = 0.0f;
@@ -770,6 +786,8 @@ class PlayerControllerComponent extends Component implements IEventListener
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
+    jumping = false;
+    jumpDelay = 50;
   }
    //<>//
   @Override public ComponentType getComponentType()
@@ -784,7 +802,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     moveVector.add(getKeyboardInput());
     moveVector.add(getEmgInput());
 
-    moveVector.normalize(); //<>//
+    smoothControls(moveVector, deltaTime);
     
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
@@ -806,7 +824,7 @@ class PlayerControllerComponent extends Component implements IEventListener
           if (moveVector.y < 0.0f
               && ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed) || linearVelocity.y == 0.0f))
           {
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, moveVector.y * jumpForce * deltaTime), gameObject.getTranslation(), true);
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
           } //<>//
         }
@@ -873,6 +891,52 @@ class PlayerControllerComponent extends Component implements IEventListener
       readings.get("RIGHT")-readings.get("LEFT"),
       -readings.get("JUMP"));
   }
+  
+  private void smoothControls(PVector moveVector, int deltaTime)
+  {
+    if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
+    {
+      moveVector.x = 0.0f;
+    } //<>//
+    else if (moveVector.x < 0.0f) //<>//
+    {
+      moveVector.x += minInputThreshold;
+      moveVector.x *= leftSensitivity * (1.0f - minInputThreshold);
+      
+      if (moveVector.x < -1.0f)
+      {
+        moveVector.x = -1.0f;
+      }
+    }
+    else
+    {
+      moveVector.x -= minInputThreshold;
+      moveVector.x *= rightSensitivity * (1.0f - minInputThreshold);
+      
+      if (moveVector.x > 1.0f)
+      {
+        moveVector.x = 1.0f;
+      }
+    }
+    
+    if (jumping)
+    {
+      jumpTime += deltaTime;
+      if (jumpTime > jumpDelay)
+      {
+        jumping = false;
+        jumpTime = 0;
+      }
+      else
+      {
+        moveVector.y = 0.0f;
+      }
+    }
+    else if (moveVector.y < 0.0f)
+    {
+      jumping = true;
+    }
+  }
 }
 
 class PlatformManagerControllerComponent extends Component implements IEventListener
@@ -880,6 +944,11 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   private LinkedList<IGameObject> platforms;
   
   private String platformFile;
+  private boolean platformMods;
+  private String slipperyPlatformFile;
+  private float slipperyPlatformChance;
+  private String stickyPlatformFile;
+  private float stickyPlatformChance;
   private String tag;
   
   private int maxPlatformLevels;
@@ -933,6 +1002,11 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
+    platformMods = xmlComponent.getString("platformMods").equals("true") ? true : false;
+    slipperyPlatformFile = xmlComponent.getString("slipperyPlatformFile");
+    slipperyPlatformChance = xmlComponent.getFloat("slipperyPlatformChance");
+    stickyPlatformFile = xmlComponent.getString("stickyPlatformFile");
+    stickyPlatformChance = xmlComponent.getFloat("stickyPlatformChance");
     tag = xmlComponent.getString("tag");
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
@@ -1014,7 +1088,28 @@ class PlatformManagerControllerComponent extends Component implements IEventList
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
       float platformWidth = platformRange.y - platformRange.x;
       
-      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+      IGameObject platform;
+      
+      if (platformMods)
+      {
+        if (random(0.0, 1.0) < slipperyPlatformChance)
+        {
+          platform = gameObjectManager.addGameObject(slipperyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+        else if (random(0.0, 1.0) < stickyPlatformChance)
+        {
+          platform = gameObjectManager.addGameObject(stickyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+        else
+        {
+          platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+      }
+      else
+      {
+        platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+      }
+      
       platform.setTag(tag);
       setPlatformRiseSpeed(platform);
       platforms.add(platform);

@@ -13,7 +13,7 @@
 		type="dynamic"
 		linearDamping="0.0"
 		angularDamping="0.01"
-		gravityScale="1.3"
+		gravityScale="0.3"
 		allowSleep="false"
 		awake="true"
 		fixedRotation="true"
@@ -21,9 +21,9 @@
 		active="true"
 	>
 		<Fixture
-			density="0.06"
-			friction="0.7"
-			restitution="0.4"
+			density="0.24"
+			friction="0.925"
+			restitution="0.1"
 			isSensor="false"
 		>
 			<Shape type="circle" x="0.0" y="0.0" radius="12.5"/>
@@ -34,10 +34,13 @@
 		</OnCollideEvents>
 	</RigidBody>
 	
-	<PlayerController 
-		acceleration="0.45" 
-		maxSpeed="350.0" 
-		jumpForce="0.24"
+	<PlayerController
+		acceleration="0.8"
+		maxSpeed="350.0"
+		minInputThreshold="0.3"
+		leftSensitivity="1.5"
+		rightSensitivity="1.5"
+		jumpForce="-3.52"
 		jumpSoundFile="sound_effects/boing_spring.wav"
 		rate="1.0"
 		pan="0.0"

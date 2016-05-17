@@ -798,7 +798,7 @@ class PlayerControllerComponent extends Component implements IEventListener
         rigidBodyComponent.applyForce(new PVector(moveVector.x * acceleration * deltaTime, 0.0f), gameObject.getTranslation());
       }
       
-      ArrayList<IGameObject> platformManagerList = gameObjectManager.getGameObjectsByTag("platform_manager");
+      ArrayList<IGameObject> platformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("platform_manager");
       if (!platformManagerList.isEmpty())
       {
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
@@ -1028,7 +1028,7 @@ class PlatformManagerControllerComponent extends Component implements IEventList
     while (!platforms.isEmpty() && platforms.getFirst().getTranslation().y < disappearHeight)
     {
       IGameObject platform = platforms.removeFirst();
-      gameObjectManager.removeGameObject(platform.getUID());
+      gameStateController.getGameObjectManager().removeGameObject(platform.getUID());
     }
     
     if (platforms.isEmpty()
@@ -1077,20 +1077,20 @@ class PlatformManagerControllerComponent extends Component implements IEventList
       {
         if (random(0.0, 1.0) < slipperyPlatformChance)
         {
-          platform = gameObjectManager.addGameObject(slipperyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+          platform = gameStateController.getGameObjectManager().addGameObject(slipperyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
         }
         else if (random(0.0, 1.0) < stickyPlatformChance)
         {
-          platform = gameObjectManager.addGameObject(stickyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+          platform = gameStateController.getGameObjectManager().addGameObject(stickyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
         }
         else
         {
-          platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+          platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
         }
       }
       else
       {
-        platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
       }
       
       platform.setTag(tag);
@@ -1104,7 +1104,7 @@ class PlatformManagerControllerComponent extends Component implements IEventList
         float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
         float obstacleOffset = random(obstacleMinHorizontalOffset, obstacleMaxHorizontalOffset);
         
-        IGameObject obstacle = gameObjectManager.addGameObject(
+        IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(
           obstacleFile, 
           new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),
           new PVector(obstacleWidth, obstacleHeight)
@@ -1207,7 +1207,7 @@ class CoinEventHandlerComponent extends Component implements IEventListener
         Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
         updateScoreEvent.addIntParameter(scoreValueParameterName, scoreValue);
         eventManager.queueEvent(updateScoreEvent);
-        gameObjectManager.removeGameObject(gameObject.getUID());
+        gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
         coinCollectedSound.play();
       }
     }
@@ -1215,7 +1215,7 @@ class CoinEventHandlerComponent extends Component implements IEventListener
     {
       if (event.getRequiredGameObjectParameter(destroyCoinCoinParameterName).getUID() == gameObject.getUID())
       {
-        gameObjectManager.removeGameObject(gameObject.getUID());
+        gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
       }
     }
     else if (event.getEventType() == EventType.LEVEL_UP)
@@ -1306,7 +1306,7 @@ class CoinSpawnerControllerComponent extends Component implements IEventListener
   
   private void spawnCoin()
   {
-    ArrayList<IGameObject> spawnRelativeToList = gameObjectManager.getGameObjectsByTag(spawnRelativeTo);
+    ArrayList<IGameObject> spawnRelativeToList = gameStateController.getGameObjectManager().getGameObjectsByTag(spawnRelativeTo);
     
     int index = 0;
     while (index < spawnRelativeToList.size())
@@ -1328,7 +1328,7 @@ class CoinSpawnerControllerComponent extends Component implements IEventListener
       PVector translation = spawnRelativeToObject.getTranslation();
       PVector offset = new PVector(random(minHorizontalOffset, maxHorizontalOffset), random(minVerticalOffset, maxVerticalOffset));
       
-      IGameObject coin = gameObjectManager.addGameObject(coinFile, translation.add(offset), new PVector(1.0, 1.0));
+      IGameObject coin = gameStateController.getGameObjectManager().addGameObject(coinFile, translation.add(offset), new PVector(1.0, 1.0));
       coin.setTag(tag);
       IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
       if (component != null)

@@ -29,9 +29,6 @@ import processing.sound.SoundFile;
 // The main class needs to be available globally for some subsystems.
 MyoFalldown mainObject;
 
-// The GameObject system.
-IGameObjectManager gameObjectManager;
-
 // The Event system.
 IEventManager eventManager;
 
@@ -63,8 +60,6 @@ void setup()
   shapeMode(CENTER);
   
   mainObject = this;
-  
-  gameObjectManager = new GameObjectManager();
   
   eventManager = new EventManager();
   

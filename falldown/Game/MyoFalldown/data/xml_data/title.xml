@@ -22,19 +22,38 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="200.0"
+			y="150.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		
-		<Rect x="250.0" y="200.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="150.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
 		
 		<Text
 			string="Options Menu"
+			fontName="Arial" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		
+		<Rect x="250.0" y="225.0" halfWidth="95.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
+		
+		<Text
+			string="Calibrate"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
@@ -53,20 +72,20 @@
 		</Rect>
 		
 		<Text
-			string="Re-Calibrate Myo"
+			string="Exit"
 			fontName="Arial" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="400.0"
+			y="375.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		
-		<Rect x="250.0" y="400.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="375.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>

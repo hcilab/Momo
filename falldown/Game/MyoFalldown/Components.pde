@@ -96,7 +96,7 @@ class RenderComponent extends Component
     public PImage pimage;
     public PVector translation;
     public PVector scale;
-    
+
     public OffsetPImage(PImage _pimage, PVector _translation, PVector _scale)
     {
       pimage = _pimage;
@@ -270,14 +270,12 @@ class RenderComponent extends Component
             offsetSheetSprites.add(offsetSheetSprite);
          }
           else if(xmlSpriteComponent.getName().equals("Image")){
-            PImage bgsize =  loadImage(xmlSpriteComponent.getString("src"));
-            bgsize.resize(500,500);
             OffsetPImage offsetsprite = new OffsetPImage(
-              bgsize,
+              loadImage(xmlSpriteComponent.getString("src")),
               new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
               new PVector(xmlSpriteComponent.getFloat("width"), xmlSpriteComponent.getFloat("height"))
             );
-            background(offsetsprite.pimage);
+             offsetsprite.pimage.resize(xmlSpriteComponent.getInt("width"),xmlSpriteComponent.getInt("height"));
             offsetPImages.add(offsetsprite);
          }
        }
@@ -386,6 +384,7 @@ class RenderComponent extends Component
   
   private void tileImagePlatform(OffsetPImage img)
   {
+    //original Image height;
    image(img.pimage, gameObject.getTranslation().x + img.translation.x, gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    int width =  15;
    int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
@@ -393,11 +392,10 @@ class RenderComponent extends Component
      image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
      image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    }
-   //println(212/(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width));
-   //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
-   //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   //image(img.pimage,ceil(gameObject.getTranslation().x + img.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
+  
+   float percentage =  ((gameObject.getScale().x -(2*tilelength*width+width))/2)/15; 
+   PImage cropImg = img.pimage.get(0,0,floor(percentage*212),212);
+   image(cropImg,+ gameObject.getTranslation().x + img.translation.x + ((tilelength+1) * width),gameObject.getTranslation().y + img.translation.y, percentage * 15 ,15);
   }
   
   private void tileWallSprite(OffsetSheetSprite sprite){  
@@ -409,16 +407,18 @@ class RenderComponent extends Component
       sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, (i*height));
       sprite.sheetSprite.draw();
    } 
+   
   }
   
   private void tileDeathCeiling(OffsetSheetSprite sprite){
    int width = (int)sprite.sheetSprite.getWidth();
-   int tilelength = 480/width;
-   for(int i =0; i < tilelength-1; i++){
-     // println(i*width);
+   int tilelength = 470/width;
+   for(int i =0; i < tilelength; i++){
      sprite.sheetSprite.setXY((30+i*width), gameObject.getTranslation().y + sprite.translation.y);
      sprite.sheetSprite.draw();
    } 
+    sprite.sheetSprite.setXY((470-(30+(tilelength-1)*width))+((tilelength)*width), gameObject.getTranslation().y + sprite.translation.y);
+    sprite.sheetSprite.draw();
   }
   
   @Override public ComponentType getComponentType()
@@ -458,11 +458,12 @@ class RenderComponent extends Component
     }
    for (OffsetPImage offsetImage : offsetPImages)
     {
-       background(offsetImage.pimage);
-      //if(gameObject.getScale().x>1)
-      //  tileImagePlatform(offsetImage);
-      //else
-      //image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
+       //background(offsetImage.pimage);
+       if(gameObject.getTag().equals("platform")){
+         PImage cropImg = offsetImage.pimage.get(0,0,(int)gameObject.getScale().x,(int)gameObject.getScale().y);
+        image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x , gameObject.getScale().y );
+       }
+       
     }
     
     for (Text text : texts)
@@ -525,7 +526,7 @@ class RigidBodyComponent extends Component
   {
     BodyDef bodyDefinition = new BodyDef();
     
-    String bodyType = xmlComponent.getString("type");
+    String bodyType = xmlComponent.getString("type"); //<>//
     if (bodyType.equals("static")) //<>//
     {
       bodyDefinition.type = BodyType.STATIC;
@@ -670,7 +671,7 @@ class RigidBodyComponent extends Component
           Event event = new Event(EventType.DESTROY_COIN);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
           eventManager.queueEvent(event);
-        }
+        } //<>//
       } //<>//
     }
   }
@@ -750,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.deregister(EventType.LEFT_BUTTON_PRESSED, this);
     eventManager.deregister(EventType.RIGHT_BUTTON_PRESSED, this);
     
-    eventManager.deregister(EventType.UP_BUTTON_RELEASED, this);
+    eventManager.deregister(EventType.UP_BUTTON_RELEASED, this); //<>//
     eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this); //<>//
     eventManager.deregister(EventType.RIGHT_BUTTON_RELEASED, this);
     

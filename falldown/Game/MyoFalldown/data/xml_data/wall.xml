@@ -6,10 +6,10 @@
 		</Rect> -->
 		<Sprite>
 			<!-- <Image src="grass.png" x="0.0" y="0.0"   height="500.0" width="10"> </Image> --> 
-			<SpriteSheet src="images/block/brick.png" alphaImage=""
+			<SpriteSheet src="images/block/grassMid.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="50" height="16.0" scaleHeight="20"> 
+				zOrder="50" height="70.0" scaleHeight="20"> 
 			</SpriteSheet> 
 		</Sprite> 
 

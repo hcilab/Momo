@@ -22,7 +22,7 @@
 	<GameObject file="xml_data/platform.xml" tag="platform">
 		<Transform>
 			<Translation x="250.0" y="495.0"/>
-			<Scale x="480.0" y="10.0"/>
+			<Scale x="480.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 	

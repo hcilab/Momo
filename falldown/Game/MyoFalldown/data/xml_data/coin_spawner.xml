@@ -7,8 +7,8 @@
 		maxSpawnWaitTime="20000"
 		minHorizontalOffset="-20.0"
 		maxHorizontalOffset="20.0"
-		minVerticalOffset="-17.0"
-		maxVerticalOffset="-12.0"
+		minVerticalOffset="-25.0"
+		maxVerticalOffset="-10.0"
 		minHeight="60.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 	/>

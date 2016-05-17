@@ -231,6 +231,11 @@ public class GameState_GameSettings extends GameState
 
 public class GameState_IOSettings extends GameState
 {
+  GCustomSlider musicVolSlider;
+  GCustomSlider effectsVolSlider;
+  GCustomSlider leftEMGSlider;
+  GCustomSlider rightEMGSlider;
+
   public GameState_IOSettings()
   {
     super();
@@ -239,6 +244,29 @@ public class GameState_IOSettings extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/io_settings.xml");
+    musicVolSlider = new GCustomSlider(mainObject,275,140,200,50,"images/blue_arrow_and_slider");
+    musicVolSlider.setShowDecor(false,true,true,true);
+    musicVolSlider.setNbrTicks(5);
+    int musicVal = (int)(optionsMenu.getIOSettings().getMusicVol() * 100.0);
+    musicVolSlider.setLimits(musicVal, 0, 100);
+
+    effectsVolSlider = new GCustomSlider(mainObject,275,195,200,50,"images/blue_arrow_and_slider");
+    effectsVolSlider.setShowDecor(false,true,true,true);
+    effectsVolSlider.setNbrTicks(5);
+    int seVal = (int)(optionsMenu.getIOSettings().getSEVol() * 100.0);
+    effectsVolSlider.setLimits(seVal, 0, 100);
+
+    leftEMGSlider = new GCustomSlider(mainObject,275,290,200,50,"images/blue_arrow_and_slider");
+    leftEMGSlider.setShowDecor(false,true,false,false);
+    leftEMGSlider.setNbrTicks(5);
+    int leftVal = (int)(optionsMenu.getIOSettings().getLeftSens() * 5.0);
+    leftEMGSlider.setLimits(leftVal, 0.2, 5.0);
+
+    rightEMGSlider = new GCustomSlider(mainObject,275,345,200,50,"images/blue_arrow_and_slider");
+    rightEMGSlider.setShowDecor(false,true,false,false);
+    rightEMGSlider.setNbrTicks(5);
+    int rightVal = (int)(optionsMenu.getIOSettings().getRightSens() * 5.0);
+    rightEMGSlider.setLimits(rightVal, 0.2, 5.0);
   }
 
   @Override public void update(int deltaTime)
@@ -250,6 +278,10 @@ public class GameState_IOSettings extends GameState
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
+    musicVolSlider.dispose();
+    effectsVolSlider.dispose();
+    leftEMGSlider.dispose();
+    rightEMGSlider.dispose();
   }
   
   private void handleEvents()

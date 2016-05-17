@@ -710,7 +710,6 @@ class PlayerControllerComponent extends Component implements IEventListener
   private float jumpForce;
   
   private String currentRiseSpeedParameterName;
-  private float riseSpeed;
   
   private boolean upButtonDown;
   private boolean leftButtonDown;
@@ -737,8 +736,6 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.register(EventType.UP_BUTTON_RELEASED, this);
     eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
     eventManager.register(EventType.RIGHT_BUTTON_RELEASED, this);
-    
-    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
@@ -750,8 +747,6 @@ class PlayerControllerComponent extends Component implements IEventListener
     eventManager.deregister(EventType.UP_BUTTON_RELEASED, this);
     eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this);
     eventManager.deregister(EventType.RIGHT_BUTTON_RELEASED, this);
-    
-    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -763,14 +758,13 @@ class PlayerControllerComponent extends Component implements IEventListener
     rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    riseSpeed = 0.0f;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
     jumping = false;
-    jumpDelay = 50;
+    jumpDelay = 500;
   }
    //<>//
   @Override public ComponentType getComponentType()
@@ -804,8 +798,7 @@ class PlayerControllerComponent extends Component implements IEventListener
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
         if (tcomponent != null) //<>//
         {
-          if (moveVector.y < 0.0f
-              && ((linearVelocity.y < 0.01f - riseSpeed && linearVelocity.y > -0.01f - riseSpeed) || linearVelocity.y == 0.0f))
+          if (moveVector.y < 0.0f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
@@ -844,10 +837,6 @@ class PlayerControllerComponent extends Component implements IEventListener
     else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
     {
       rightButtonDown = false;
-    }
-    else if (event.getEventType() == EventType.LEVEL_UP)
-    {
-      riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
     }
   }
 

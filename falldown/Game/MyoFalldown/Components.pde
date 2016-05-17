@@ -927,6 +927,11 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   private LinkedList<IGameObject> platforms;
   
   private String platformFile;
+  private boolean platformMods;
+  private String slipperyPlatformFile;
+  private float slipperyPlatformChance;
+  private String stickyPlatformFile;
+  private float stickyPlatformChance;
   private String tag;
   
   private int maxPlatformLevels;
@@ -980,6 +985,11 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
+    platformMods = xmlComponent.getString("platformMods").equals("true") ? true : false;
+    slipperyPlatformFile = xmlComponent.getString("slipperyPlatformFile");
+    slipperyPlatformChance = xmlComponent.getFloat("slipperyPlatformChance");
+    stickyPlatformFile = xmlComponent.getString("stickyPlatformFile");
+    stickyPlatformChance = xmlComponent.getFloat("stickyPlatformChance");
     tag = xmlComponent.getString("tag");
     maxPlatformLevels = xmlComponent.getInt("maxPlatformLevels");
     leftSide = xmlComponent.getFloat("leftSide");
@@ -1061,7 +1071,28 @@ class PlatformManagerControllerComponent extends Component implements IEventList
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
       float platformWidth = platformRange.y - platformRange.x;
       
-      IGameObject platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+      IGameObject platform;
+      
+      if (platformMods)
+      {
+        if (random(0.0, 1.0) < slipperyPlatformChance)
+        {
+          platform = gameObjectManager.addGameObject(slipperyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+        else if (random(0.0, 1.0) < stickyPlatformChance)
+        {
+          platform = gameObjectManager.addGameObject(stickyPlatformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+        else
+        {
+          platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+        }
+      }
+      else
+      {
+        platform = gameObjectManager.addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+      }
+      
       platform.setTag(tag);
       setPlatformRiseSpeed(platform);
       platforms.add(platform);

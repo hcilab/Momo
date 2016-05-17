@@ -1,12 +1,17 @@
 <GameObject>
 	<PlatformManagerController
 		platformFile="xml_data/platform.xml"
+		platformMods="true"
+		slipperyPlatformFile="xml_data/platform_slippery.xml"
+		slipperyPlatformChance="0.1"
+		stickyPlatformFile="xml_data/platform_sticky.xml"
+		stickyPlatformChance="0.1"
 		tag="platform"
 		maxPlatformLevels="100"
 		leftSide="10.0"
 		rightSide="490.0"
 		platformHeight="10.0"
-		disappearHeight="75.0"
+		disappearHeight="60.0"
 		spawnHeight="525.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"

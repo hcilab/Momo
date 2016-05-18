@@ -1655,7 +1655,7 @@ class ButtonComponent extends Component
   }
 }
 
-class SliderComponent extends Component implements IEventListener
+class SliderComponent extends Component
 {
   private int sliderHeight;
   private int sliderWidth;
@@ -1666,15 +1666,10 @@ class SliderComponent extends Component implements IEventListener
 
     sliderHeight = 0;
     sliderWidth = 0;
-
-    eventManager.register(EventType.MOUSE_DRAGGED, this);
-    eventManager.register(EventType.MOUSE_RELEASED, this);
   }
 
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.MOUSE_DRAGGED, this);
-    eventManager.deregister(EventType.MOUSE_RELEASED, this);
   }
 
   @Override public void fromXML(XML xmlComponent)
@@ -1691,10 +1686,10 @@ class SliderComponent extends Component implements IEventListener
 
   @Override public void update(int deltaTime)
   {
-
+    handleEvents();
   }
 
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
     float widthScale = (width / 500.0f);
     float heightScale = (height / 500.0f);
@@ -1711,18 +1706,20 @@ class SliderComponent extends Component implements IEventListener
     float yTop = ySlider - actualSliderHeight * 0.5;
     float yBottom = ySlider + actualSliderHeight * 0.5;
 
-    int xMouse = event.getRequiredIntParameter("mouseX");
-    int yMouse = event.getRequiredIntParameter("mouseY");
-    if (event.getEventType() == EventType.MOUSE_DRAGGED)
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_DRAGGED))
     {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
         renderComponent.getShapes().get(1).translation.x = xMouse - gameObject.getTranslation().x;
       }
     }
-    else if (event.getEventType() == EventType.MOUSE_RELEASED)
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_RELEASED))
     {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
@@ -1756,7 +1753,7 @@ class SliderComponent extends Component implements IEventListener
           }
           optionsMenu.getIOSettings().setRightSensitivity(sensVal);
         }
-       }
+      }
     }
   }
 }

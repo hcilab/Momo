@@ -763,7 +763,7 @@ class PlayerControllerComponent extends Component
     riseSpeed = 0.0f;
     isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
-    gapDirection = "LEFT";
+    gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
@@ -884,11 +884,11 @@ class PlayerControllerComponent extends Component
     if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
     {
       // platform extends all the way to left wall (i.e., no gap to the left)
-      direction = "RIGHT";
+      direction = RIGHT_DIRECTION_LABEL;
     }
     else
     {
-      direction = "LEFT";
+      direction = LEFT_DIRECTION_LABEL;
     }
     return direction;
   }
@@ -898,14 +898,14 @@ class PlayerControllerComponent extends Component
   {
     HashMap<String, Float> readings = emgManager.poll();
     return new PVector(
-      readings.get("RIGHT")-readings.get("LEFT"),
-      -readings.get("JUMP"));
+      readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL),
+      -readings.get(JUMP_DIRECTION_LABEL));
   }
   
   private void correctControls(PVector moveVector)
   {
     Float magnitude = moveVector.mag();
-    if (gapDirection == "LEFT")
+    if (gapDirection == LEFT_DIRECTION_LABEL)
     {
       moveVector.x = -magnitude;
     }
@@ -1449,8 +1449,8 @@ class CalibrateWizardComponent extends Component
     super(_gameObject);
     
     actionsToRegister = new ArrayList<String>();
-    actionsToRegister.add("LEFT");
-    actionsToRegister.add("RIGHT");
+    actionsToRegister.add(LEFT_DIRECTION_LABEL);
+    actionsToRegister.add(RIGHT_DIRECTION_LABEL);
 
     currentAction = actionsToRegister.remove(0);
   }

@@ -700,7 +700,7 @@ class RigidBodyComponent extends Component
   }
 }
 
-class PlayerControllerComponent extends Component implements IEventListener
+class PlayerControllerComponent extends Component
 {
   private float acceleration;
   private float maxSpeed; //<>//
@@ -728,25 +728,10 @@ class PlayerControllerComponent extends Component implements IEventListener
     upButtonDown = false;
     leftButtonDown = false;
     rightButtonDown = false;
-    
-    eventManager.register(EventType.UP_BUTTON_PRESSED, this);
-    eventManager.register(EventType.LEFT_BUTTON_PRESSED, this);
-    eventManager.register(EventType.RIGHT_BUTTON_PRESSED, this);
-    
-    eventManager.register(EventType.UP_BUTTON_RELEASED, this);
-    eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
-    eventManager.register(EventType.RIGHT_BUTTON_RELEASED, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.UP_BUTTON_PRESSED, this);
-    eventManager.deregister(EventType.LEFT_BUTTON_PRESSED, this);
-    eventManager.deregister(EventType.RIGHT_BUTTON_PRESSED, this);
-    
-    eventManager.deregister(EventType.UP_BUTTON_RELEASED, this);
-    eventManager.deregister(EventType.LEFT_BUTTON_RELEASED, this);
-    eventManager.deregister(EventType.RIGHT_BUTTON_RELEASED, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -774,6 +759,8 @@ class PlayerControllerComponent extends Component implements IEventListener
   
   @Override public void update(int deltaTime)
   {
+    handleEvents();
+    
     PVector moveVector = new PVector();
     
     moveVector.add(getKeyboardInput());
@@ -811,36 +798,9 @@ class PlayerControllerComponent extends Component implements IEventListener
       gameObject.translate(moveVector);
     }
   }
-  
-  @Override public void handleEvent(IEvent event)
-  {
-    if (event.getEventType() == EventType.UP_BUTTON_PRESSED)
-    {
-      upButtonDown = true;
-    }
-    else if (event.getEventType() == EventType.LEFT_BUTTON_PRESSED)
-    {
-      leftButtonDown = true;
-    }
-    else if (event.getEventType() == EventType.RIGHT_BUTTON_PRESSED)
-    {
-      rightButtonDown = true;
-    }
-    else if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-    {
-      upButtonDown = false;
-    }
-    else if (event.getEventType() == EventType.LEFT_BUTTON_RELEASED)
-    {
-      leftButtonDown = false; 
-    }
-    else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
-    {
-      rightButtonDown = false;
-    }
-  }
 
-  private PVector getKeyboardInput() {
+  private PVector getKeyboardInput() 
+  {
     PVector p = new PVector();
     if (upButtonDown)
     {
@@ -856,8 +816,30 @@ class PlayerControllerComponent extends Component implements IEventListener
     }
     return p;
   }
+  
+  private void handleEvents()
+  {
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
+      upButtonDown = true;
+      
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)
+      leftButtonDown = true;
+      
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
+      rightButtonDown = true;
+      
+    if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0)
+      upButtonDown = false;
+      
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_RELEASED).size() > 0)
+      leftButtonDown = false;
+      
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0)
+      rightButtonDown = false;
+  }
  //<>//
-  private PVector getEmgInput() {
+  private PVector getEmgInput() 
+  {
     HashMap<String, Float> readings = emgManager.poll();
     return new PVector(
       readings.get("RIGHT")-readings.get("LEFT"),
@@ -911,7 +893,7 @@ class PlayerControllerComponent extends Component implements IEventListener
   }
 }
 
-class PlatformManagerControllerComponent extends Component implements IEventListener
+class PlatformManagerControllerComponent extends Component
 {
   private LinkedList<IGameObject> platforms;
   
@@ -962,13 +944,10 @@ class PlatformManagerControllerComponent extends Component implements IEventList
     super (_gameObject);
     
     platforms = new LinkedList<IGameObject>();
-    
-    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1014,6 +993,8 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   
   @Override public void update(int deltaTime)
   {
+    handleEvents();
+    
     while (!platforms.isEmpty() && platforms.getFirst().getTranslation().y < disappearHeight)
     {
       IGameObject platform = platforms.removeFirst();
@@ -1105,9 +1086,9 @@ class PlatformManagerControllerComponent extends Component implements IEventList
     }
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.LEVEL_UP)
+    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
       riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
       
@@ -1129,7 +1110,7 @@ class PlatformManagerControllerComponent extends Component implements IEventList
   }
 }
 
-class CoinEventHandlerComponent extends Component implements IEventListener
+class CoinEventHandlerComponent extends Component
 {
   private int scoreValue;
   private String coinCollectedCoinParameterName;
@@ -1143,17 +1124,10 @@ class CoinEventHandlerComponent extends Component implements IEventListener
   public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    
-    eventManager.register(EventType.COIN_COLLECTED, this);
-    eventManager.register(EventType.DESTROY_COIN, this);
-    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.COIN_COLLECTED, this);
-    eventManager.deregister(EventType.DESTROY_COIN, this);
-    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1187,9 +1161,14 @@ class CoinEventHandlerComponent extends Component implements IEventListener
     return ComponentType.COIN_EVENT_HANDLER;
   }
   
-  @Override public void handleEvent(IEvent event)
+  @Override public void update(int deltaTime)
   {
-    if (event.getEventType() == EventType.COIN_COLLECTED)
+    handleEvents();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.COIN_COLLECTED))
     {
       if (event.getRequiredGameObjectParameter(coinCollectedCoinParameterName).getUID() == gameObject.getUID())
       {
@@ -1200,14 +1179,14 @@ class CoinEventHandlerComponent extends Component implements IEventListener
         coinCollectedSound.play();
       }
     }
-    else if (event.getEventType() == EventType.DESTROY_COIN)
+    for (IEvent event : eventManager.getEvents(EventType.DESTROY_COIN))
     {
       if (event.getRequiredGameObjectParameter(destroyCoinCoinParameterName).getUID() == gameObject.getUID())
       {
         gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
       }
     }
-    else if (event.getEventType() == EventType.LEVEL_UP)
+    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
       if (component != null)
@@ -1219,7 +1198,7 @@ class CoinEventHandlerComponent extends Component implements IEventListener
   }
 }
 
-class CoinSpawnerControllerComponent extends Component implements IEventListener
+class CoinSpawnerControllerComponent extends Component
 {
   private String coinFile;
   private String tag;
@@ -1244,13 +1223,10 @@ class CoinSpawnerControllerComponent extends Component implements IEventListener
   public CoinSpawnerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    
-    eventManager.register(EventType.LEVEL_UP, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1283,6 +1259,8 @@ class CoinSpawnerControllerComponent extends Component implements IEventListener
   
   @Override public void update(int deltaTime)
   {
+    handleEvents();
+    
     timePassed += deltaTime;
     
     if (timePassed > nextSpawnTime)
@@ -1328,16 +1306,16 @@ class CoinSpawnerControllerComponent extends Component implements IEventListener
     }
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.LEVEL_UP)
+    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
       riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
     }
   }
 }
 
-class ScoreTrackerComponent extends Component implements IEventListener
+class ScoreTrackerComponent extends Component
 {
   private String scoreValueParameterName;
   private String scoreTextPrefix;
@@ -1348,13 +1326,10 @@ class ScoreTrackerComponent extends Component implements IEventListener
     super(_gameObject);
     
     totalScore = 0;
-    
-    eventManager.register(EventType.UPDATE_SCORE, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.UPDATE_SCORE, this);
     // add score obtained from game to cumulative score here.
   }
   
@@ -1369,24 +1344,32 @@ class ScoreTrackerComponent extends Component implements IEventListener
     return ComponentType.SCORE_TRACKER;
   }
   
-  @Override public void handleEvent(IEvent event)
+  @Override public void update(int deltaTime)
   {
-    totalScore += event.getRequiredIntParameter(scoreValueParameterName);
-    
-    IComponent component = gameObject.getComponent(ComponentType.RENDER);
-    if (component != null)
+    handleEvents();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.UPDATE_SCORE))
     {
-      RenderComponent renderComponent = (RenderComponent)component;
-      RenderComponent.Text text = renderComponent.getTexts().get(0);
-      if (text != null)
+      totalScore += event.getRequiredIntParameter(scoreValueParameterName);
+    
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)
       {
-        text.string = scoreTextPrefix + Integer.toString(totalScore);
+        RenderComponent renderComponent = (RenderComponent)component;
+        RenderComponent.Text text = renderComponent.getTexts().get(0);
+        if (text != null)
+        {
+          text.string = scoreTextPrefix + Integer.toString(totalScore);
+        }
       }
     }
   }
 }
 
-class CalibrateWizardComponent extends Component implements IEventListener
+class CalibrateWizardComponent extends Component
 {
   ArrayList<String> actionsToRegister;
   String currentAction;
@@ -1400,12 +1383,10 @@ class CalibrateWizardComponent extends Component implements IEventListener
     actionsToRegister.add("RIGHT");
 
     currentAction = actionsToRegister.remove(0);
-    eventManager.register(EventType.COUNTDOWN_UPDATE, this);
   }
   
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.COUNTDOWN_UPDATE, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1418,33 +1399,41 @@ class CalibrateWizardComponent extends Component implements IEventListener
     return ComponentType.CALIBRATE_WIZARD;
   }
   
-  @Override public void handleEvent(IEvent event)
+  @Override public void update(int deltaTime)
   {
-    int countValue = event.getRequiredIntParameter("value");
-    updateRenderComponent(countValue);
-
-    if (countValue == 0)
+    handleEvents();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.COUNTDOWN_UPDATE))
     {
-      // register action
-      boolean success = emgManager.registerAction(currentAction);
-      if (!success) {
-        Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
-        eventManager.queueEvent(failureEvent);
-      }
-
-      // increment action
-      if (actionsToRegister.size() == 0)
+      int countValue = event.getRequiredIntParameter("value");
+      updateRenderComponent(countValue);
+  
+      if (countValue == 0)
       {
-        Event successEvent = new Event(EventType.CALIBRATE_SUCCESS);
-        eventManager.queueEvent(successEvent);
+        // register action
+        boolean success = emgManager.registerAction(currentAction);
+        if (!success) {
+          Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
+          eventManager.queueEvent(failureEvent);
+        }
+  
+        // increment action
+        if (actionsToRegister.size() == 0)
+        {
+          Event successEvent = new Event(EventType.CALIBRATE_SUCCESS);
+          eventManager.queueEvent(successEvent);
+        }
+        else {
+          currentAction = actionsToRegister.remove(0);
+        }
+  
+        // reset counter
+        CountdownComponent c = (CountdownComponent) gameObject.getComponent(ComponentType.COUNTDOWN);
+        c.reset();
       }
-      else {
-        currentAction = actionsToRegister.remove(0);
-      }
-
-      // reset counter
-      CountdownComponent c = (CountdownComponent) gameObject.getComponent(ComponentType.COUNTDOWN);
-      c.reset();
     }
   }
 
@@ -1515,7 +1504,7 @@ class CountdownComponent extends Component
   }
 }
 
-class ButtonComponent extends Component implements IEventListener
+class ButtonComponent extends Component
 {
   private int buttonHeight;
   private int buttonWidth;
@@ -1527,13 +1516,10 @@ class ButtonComponent extends Component implements IEventListener
 
     buttonHeight = 0;
     buttonWidth = 0;
-
-    eventManager.register(EventType.MOUSE_CLICKED, this);
   }
 
   @Override public void destroy()
   {
-    eventManager.deregister(EventType.MOUSE_CLICKED, this);
   }
 
   @Override public void fromXML(XML xmlComponent)
@@ -1555,12 +1541,12 @@ class ButtonComponent extends Component implements IEventListener
 
   @Override public void update(int deltaTime)
   {
-
+    handleEvents();
   }
 
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.MOUSE_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_CLICKED))
     {
       buttonClickedSound.play();
       
@@ -1586,7 +1572,7 @@ class ButtonComponent extends Component implements IEventListener
   }
 }
 
-class LevelDisplayComponent extends Component implements IEventListener
+class LevelDisplayComponent extends Component
 {
   private String currentLevelParameterName;
   private String levelTextPrefix;
@@ -1594,13 +1580,6 @@ class LevelDisplayComponent extends Component implements IEventListener
   public LevelDisplayComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    
-    eventManager.register(EventType.LEVEL_UP, this);
-  }
-  
-  @Override public void destroy()
-  {
-    eventManager.deregister(EventType.LEVEL_UP, this);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1614,9 +1593,14 @@ class LevelDisplayComponent extends Component implements IEventListener
     return ComponentType.LEVEL_DISPLAY;
   }
   
-  @Override public void handleEvent(IEvent event)
+  @Override public void update(int deltaTime)
   {
-    if (event.getEventType() == EventType.LEVEL_UP)
+    handleEvents();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
       IComponent component = gameObject.getComponent(ComponentType.RENDER);
       if (component != null)  
@@ -1628,7 +1612,7 @@ class LevelDisplayComponent extends Component implements IEventListener
            text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
          }
       }
-    }    
+    }
   }
 }
 

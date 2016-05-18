@@ -1,21 +1,32 @@
 <GameObject tag="stats_settings_message">
 	<Render>
 		<Text
-			string="STATS SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="Gameplay Record"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="75.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Line>
+		
+		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Ellipse>
+		
 		<Text
 			string="Total # Games Played"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -28,7 +39,7 @@
 		</Text>
 		<Text
 			string="0"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="right"
@@ -41,7 +52,7 @@
 		</Text>
 		<Text
 			string="Total Coins Collected"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -54,7 +65,7 @@
 		</Text>
 		<Text
 			string="0"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="right"
@@ -67,7 +78,7 @@
 		</Text>
 		<Text
 			string="Total Obstaces Jumped"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -80,7 +91,7 @@
 		</Text>
 		<Text
 			string="0"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="right"
@@ -93,7 +104,7 @@
 		</Text>
 		<Text
 			string="High Score"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -106,7 +117,7 @@
 		</Text>
 		<Text
 			string="0"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="right"
@@ -117,32 +128,19 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		<Rect x="250.0" y="375.0" halfWidth="100.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
+		<Rect x="470.0" y="485.0" halfWidth="25.0" halfHeight="10.0">
+			<FillColor r="255" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
 		</Rect>
 		<Text
-			string="Clear Stats"
-			fontName="Arial"
-			size="25"
+			string="Clear"
+			fontName="Moire"
+			size="10"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="384.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
+			alignY="center"
+			x="470.0"
+			y="485.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

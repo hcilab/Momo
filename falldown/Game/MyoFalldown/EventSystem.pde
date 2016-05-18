@@ -16,6 +16,7 @@ enum EventType
   UP_BUTTON_PRESSED,
   LEFT_BUTTON_PRESSED,
   RIGHT_BUTTON_PRESSED,
+  SPACEBAR_PRESSED,
   
   // Key released events.
   UP_BUTTON_RELEASED,
@@ -36,8 +37,6 @@ enum EventType
   LEVEL_UP,
   
   // Events associated with the calibrate screen
-  CALIBRATE_DONE,
-  CALIBRATE_RETRY,
   CALIBRATE_SUCCESS,
   CALIBRATE_FAILURE,
 
@@ -71,26 +70,19 @@ public interface IEvent
   public IGameObject getRequiredGameObjectParameter(String name);
 }
 
-// A class must implement this interface to register as a listener for events.
-interface IEventListener
-{
-  // When an event is sent by the manager, this method will receive it.
-  public void handleEvent(IEvent event);
-}
-
 // The Event Manager keeps track of listeners and forwards events to them.
 interface IEventManager
 {
-  // Register and deregister your object to certain event types.
-  public void register(EventType eventType, IEventListener listener);
-  public void deregister(EventType eventType, IEventListener listener);
-  
   // Use queueEvent to send out an event you have created to all listeners.
-  // It will be queued for sending during the sendEvents() part of the main loop.
+  // It will be received by listeners next frame.
   public void queueEvent(IEvent event);
   
-  // Only the main loop should call this. Sends all queued events out to listeners.
-  public void sendEvents();
+  // Returns the events of a given type that were queued last frame.
+  public ArrayList<IEvent> getEvents(EventType eventType);
+  
+  // Only the main loop should call this. Clears ready events from last frame and 
+  // moves the queued events to the ready events for this frame.
+  public void update();
 }
 
 //-------------------------------------------------------------------------
@@ -207,22 +199,21 @@ class Event implements IEvent
 
 class EventManager implements IEventManager
 {
-  private HashMap<EventType, LinkedList<IEventListener>> listeners;
-  private HashMap<EventType, LinkedList<IEventListener>> addMap;
-  private HashMap<EventType, LinkedList<IEventListener>> removeMap;
+  // queued events will be ready and received by listeners next frame. cleared each frame.
+  private HashMap<EventType, ArrayList<IEvent>> queuedEvents;
   
-  private HashMap<EventType, LinkedList<IEvent>> eventMap;
+  // ready events are cleared and added to from queued events each frame.
+  private HashMap<EventType, ArrayList<IEvent>> readyEvents;
   
   public EventManager()
   {
-    listeners = new HashMap<EventType, LinkedList<IEventListener>>();
-    addMap = new HashMap<EventType, LinkedList<IEventListener>>();
-    removeMap = new HashMap<EventType, LinkedList<IEventListener>>();
-    eventMap = new HashMap<EventType, LinkedList<IEvent>>();
+    queuedEvents = new HashMap<EventType, ArrayList<IEvent>>();
+    readyEvents = new HashMap<EventType, ArrayList<IEvent>>();
     
     addEventTypeToMaps(EventType.UP_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.LEFT_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.RIGHT_BUTTON_PRESSED);
+    addEventTypeToMaps(EventType.SPACEBAR_PRESSED);
     
     addEventTypeToMaps(EventType.UP_BUTTON_RELEASED);
     addEventTypeToMaps(EventType.LEFT_BUTTON_RELEASED);
@@ -241,80 +232,42 @@ class EventManager implements IEventManager
 
     addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
-    addEventTypeToMaps(EventType.CALIBRATE_DONE);
-    addEventTypeToMaps(EventType.CALIBRATE_RETRY);
 
     addEventTypeToMaps(EventType.COUNTDOWN_UPDATE);
   }
   
   private void addEventTypeToMaps(EventType eventType)
   {
-    listeners.put(eventType, new LinkedList<IEventListener>());
-    addMap.put(eventType, new LinkedList<IEventListener>());
-    removeMap.put(eventType, new LinkedList<IEventListener>());
-    eventMap.put(eventType, new LinkedList<IEvent>());
-  }
-  
-  @Override public void register(EventType eventType, IEventListener listener)
-  {
-    addMap.get(eventType).add(listener);
-  }
-  
-  @Override public void deregister(EventType eventType, IEventListener listener)
-  {
-    removeMap.get(eventType).add(listener);
+    queuedEvents.put(eventType, new ArrayList<IEvent>());
+    readyEvents.put(eventType, new ArrayList<IEvent>());
   }
   
   @Override public void queueEvent(IEvent event)
   {
-    eventMap.get(event.getEventType()).addLast(event);
+    queuedEvents.get(event.getEventType()).add(event);
   }
   
-  @Override public void sendEvents()
+  @Override public ArrayList<IEvent> getEvents(EventType eventType)
   {
-    for (Map.Entry entry : addMap.entrySet())
+    return readyEvents.get(eventType);
+  }
+  
+  @Override public void update()
+  {
+    for (Map.Entry entry : queuedEvents.entrySet())
     {
       EventType eventType = (EventType)entry.getKey();
-      LinkedList<IEventListener> listenersToAdd = (LinkedList<IEventListener>)entry.getValue();
+      ArrayList<IEvent> queuedEventsList = (ArrayList<IEvent>)entry.getValue();
       
-      for (IEventListener listener : listenersToAdd)
+      ArrayList<IEvent> readyEventsList = readyEvents.get(eventType);
+      readyEventsList.clear();
+      
+      for (IEvent event : queuedEventsList)
       {
-        listeners.get(eventType).add(listener);
+        readyEventsList.add(event);
       }
       
-      listenersToAdd.clear();
-    }
-    
-    for (Map.Entry entry : removeMap.entrySet())
-    {
-      EventType eventType = (EventType)entry.getKey();
-      LinkedList<IEventListener> listenersToRemove = (LinkedList<IEventListener>)entry.getValue();
-      
-      for (IEventListener listener : listenersToRemove)
-      {
-        listeners.get(eventType).remove(listener);
-      }
-      
-      listenersToRemove.clear();
-    }
-
-    for (Map.Entry entry : eventMap.entrySet())
-    {
-      EventType eventType = (EventType)entry.getKey();
-      LinkedList<IEvent> eventQueue = (LinkedList<IEvent>)entry.getValue();
-      
-      IEvent event = eventQueue.pollFirst();
-      while (event != null)
-      {
-        for (IEventListener listener : listeners.get(eventType))
-        {
-          listener.handleEvent(event);
-        }
-        
-        event = eventQueue.pollFirst();
-      }
-     
-      assert(eventQueue.size() == 0);
+      queuedEventsList.clear();
     }
   }
 }

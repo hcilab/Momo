@@ -1,21 +1,32 @@
 <GameObject tag="customize_settings_message">
 	<Render>
 		<Text
-			string="CUSTOMIZE SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="Customize!"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="75.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Line>
+		
+		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Ellipse>
+		
 		<Text
 			string="Ball"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -28,7 +39,7 @@
 		</Text>
 		<Text
 			string="Coins"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -41,7 +52,7 @@
 		</Text>
 		<Text
 			string="Obstacle"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -54,7 +65,7 @@
 		</Text>
 		<Text
 			string="Background"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -67,26 +78,13 @@
 		</Text>
 		<Text
 			string="Music Selection"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
 			y="325.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

@@ -1,22 +1,32 @@
 <GameObject tag="options_message">
 	<Render>
 		<Text
-			string="Calibration Menu"
-			fontName="Arial" 
-			size="20"
+			string="EMG Calibration"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="150.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Line>
+		
+		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Ellipse>
 
 		<Text
-			string="Currently using keyboard game controls."
-			fontName="Arial" 
+			string="EMG is NOT calibrated."
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -27,41 +37,38 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-
-		<Rect x="250.0" y="300.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<Rect x="250.0" y="375.0" halfWidth="50.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-
+		
 		<Text
-			string="Calibrate"
-			fontName="Arial" 
+			string="Keyboard controls are still available."
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="300.0"
+			y="280.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+
 		<Text
-			string="Main Menu"
-			fontName="Arial" 
+			string="Begin Calibration"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="375.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+		
+		<Rect x="250.0" y="350.0" halfWidth="100.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
 	</Render>
 </GameObject>

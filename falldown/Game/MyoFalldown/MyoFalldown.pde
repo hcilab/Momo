@@ -1,6 +1,4 @@
-import g4p_controls.*;
-
- //================================================================================================================
+//================================================================================================================
 // MyoFalldown
 // Author: David Hanna
 //
@@ -177,15 +175,6 @@ void mouseClicked()
 
 void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
   emgManager.onEmg(nowMilliseconds, sensorData);
-}
-
-void handleSliderEvents(GValueControl slider, GEvent event)
-{
-  Event sliderEvent = new Event(EventType.SLIDER_CLICKED);
-  sliderEvent.addFloatParameter("yPos", slider.getY());
-  sliderEvent.addFloatParameter("sliderValue",slider.getValueF());
-  eventManager.queueEvent(sliderEvent);
-  return;
 }
 
 class FalldownContactListener implements ContactListener

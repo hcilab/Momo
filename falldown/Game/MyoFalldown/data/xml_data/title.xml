@@ -2,13 +2,13 @@
 	<Render>
 		<Text
 			string="Myo Falldown"
-			fontName="Andy Bold" 
+			fontName="Moire Bold" 
 			size="60"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="75.0"
+			y="100.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
@@ -16,7 +16,7 @@
 		
 		<Text
 			string="Start Game"
-			fontName="Arial" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -35,38 +35,57 @@
 		
 		<Text
 			string="Options Menu"
-			fontName="Arial" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="300.0"
+			y="275.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		
-		<Rect x="250.0" y="300.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="275.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
 		
 		<Text
-			string="Re-Calibrate Myo"
-			fontName="Arial" 
+			string="Calibrate"
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="400.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		
-		<Rect x="250.0" y="400.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="350.0" halfWidth="95.0" halfHeight="25.0">
+			<FillColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255"/>
+		</Rect>
+		
+		<Text
+			string="Exit"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="425.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		
+		<Rect x="250.0" y="425.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>

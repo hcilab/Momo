@@ -1,7 +1,3 @@
 <Level>
-  <GameObject file="xml_data/calibrate_wizard.xml">
-		<Transform>
-			<Translation x="250.0" y="250.0"/>
-		</Transform>
-  </GameObject>
+  <GameObject file="xml_data/calibrate_wizard.xml"/>
 </Level>

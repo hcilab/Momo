@@ -2,7 +2,7 @@
 	<Render>
 		<Text
 			string="Score: 0"
-			fontName="Arial" 
+			fontName="Moire" 
 			size="24"
 			antialiasing="true"
 			alignX="right"

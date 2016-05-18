@@ -1,21 +1,32 @@
 <GameObject tag="game_settings_message">
 	<Render>
 		<Text
-			string="GAME SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="Game Settings"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="75.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Line>
+		
+		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="255" g="0" b="0" a="255"/>
+		</Ellipse>
+		
 		<Text
 			string="Starting Level"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -28,7 +39,7 @@
 		</Text>
 		<Text
 			string="Increase Difficulty Over Time"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -41,7 +52,7 @@
 		</Text>
 		<Text
 			string="Obstacles"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -54,26 +65,13 @@
 		</Text>
 		<Text
 			string="Terrain Mods"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
 			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>

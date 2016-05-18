@@ -29,9 +29,6 @@ import processing.sound.SoundFile;
 // The main class needs to be available globally for some subsystems.
 MyoFalldown mainObject;
 
-// The GameObject system.
-IGameObjectManager gameObjectManager;
-
 // The Event system.
 IEventManager eventManager;
 
@@ -64,8 +61,6 @@ void setup()
   
   mainObject = this;
   
-  gameObjectManager = new GameObjectManager();
-  
   eventManager = new EventManager();
   
   gravity = new Vec2(0.0, 10.0);
@@ -76,6 +71,7 @@ void setup()
   positionIterations = 2;
   
   gameStateController = new GameStateController();
+  gameStateController.pushState(new GameState_MainMenu());
 
   emgManager = new NullEmgManager();
   
@@ -99,7 +95,7 @@ void draw()
     deltaTime = 16;
   }
   
-  eventManager.sendEvents();
+  eventManager.update();
   gameStateController.update(deltaTime);
 }
 
@@ -126,6 +122,12 @@ void keyPressed()
         eventManager.queueEvent(event); 
         return;
     }
+  }
+  else if (key == ' ')
+  {
+    event = new Event(EventType.SPACEBAR_PRESSED);
+    eventManager.queueEvent(event);
+    return;
   }
 }
 

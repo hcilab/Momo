@@ -31,6 +31,7 @@
 		
 		<OnCollideEvents>
 			<Event collidedWith="coin" eventType="COIN_COLLECTED" coinParameterName="coin"/>
+			<Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
 		</OnCollideEvents>
 	</RigidBody>
 	
@@ -47,5 +48,7 @@
 		amp="1.0"
 		add="0.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
+		collidedPlatformParameterName="platform"
+		isBeginnerMode="false"
 	/>
 </GameObject>

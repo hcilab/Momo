@@ -1713,7 +1713,7 @@ class SliderComponent extends Component
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
-        renderComponent.getShapes().get(1).translation.x = xMouse - gameObject.getTranslation().x;
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
       }
     }
     for (IEvent event : eventManager.getEvents(EventType.MOUSE_RELEASED))
@@ -1723,7 +1723,7 @@ class SliderComponent extends Component
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
-        renderComponent.getShapes().get(1).translation.x = xMouse - gameObject.getTranslation().x;
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
         float sliderPixelVal = xMouse - (xLeft);
         float sliderVal = sliderPixelVal/actualSliderWidth * 100;
         String tag = gameObject.getTag();

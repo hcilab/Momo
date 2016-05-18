@@ -2,6 +2,7 @@ interface IEmgManager {
   boolean registerAction(String label);
   HashMap<String, Float> poll();
   void onEmg(long nowMillis, int[] sensorData);
+  boolean isCalibrated();
 }
 
 
@@ -89,6 +90,10 @@ class EmgManager implements IEmgManager {
   void onEmg(long nowMillis, int[] sensorData) {
     myoAPI.onEmg(nowMillis, sensorData);
   }
+  
+  boolean isCalibrated() {
+    return true;
+  }
 }
 
 
@@ -107,4 +112,8 @@ class NullEmgManager implements IEmgManager {
   }
 
   void onEmg(long nowMillis, int[] sensorData) {} // no-op
+  
+  boolean isCalibrated() {
+    return false;
+  }
 }

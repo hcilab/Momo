@@ -6,4 +6,10 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="calibrate">
+		<Transform>
+			<Translation x="110.0" y="470.0"/>
+			<Scale x="100.0" y="20.0"/>
+		</Transform>
+	</GameObject>
 </Level>

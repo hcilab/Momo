@@ -35,7 +35,7 @@
 
 		<Text
 			string="Re-Calibrate"
-			fontName="Moire" 
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="center"

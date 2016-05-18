@@ -14,7 +14,6 @@ public interface IGameState
   public void update(int deltaTime);
   public void onExit();
   public IGameObjectManager getGameObjectManager();
-  public void handleEvent(IEvent event);
 }
 
 public abstract class GameState implements IGameState
@@ -34,8 +33,6 @@ public abstract class GameState implements IGameState
   {
     return gameObjectManager;
   }
-  
-  @Override abstract public void handleEvent(IEvent event);
 }
 
 public interface IGameStateController
@@ -66,6 +63,7 @@ public class GameState_MainMenu extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
@@ -73,9 +71,9 @@ public class GameState_MainMenu extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
       
@@ -83,13 +81,20 @@ public class GameState_MainMenu extends GameState
       {
         gameStateController.pushState(new GameState_InGame());
       }
-      else if (tag.equals("options_menu"))
+      else if (tag.equals("options_menu")) 
       {
         gameStateController.pushState(new GameState_OptionsMenu());
       }
       else if (tag.equals("calibrate"))
       {
-        gameStateController.pushState(new GameState_CalibrateFailure());
+        if (emgManager.isCalibrated())
+        {
+          gameStateController.pushState(new GameState_CalibrateSuccess());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_CalibrateFailure());
+        }
       }
       else if (tag.equals("exit"))
       {
@@ -115,6 +120,7 @@ public class GameState_InGame extends GameState
   {
     gameObjectManager.update(deltaTime);
     physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
+    handleEvents();
   }
   
   @Override public void onExit()
@@ -122,13 +128,13 @@ public class GameState_InGame extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.SPACEBAR_PRESSED)
+    for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
     {
       gameStateController.pushState(new GameState_IOSettings());
     }
-    else if (event.getEventType() == EventType.GAME_OVER)
+    for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
       gameStateController.popState();
       //gameStateController.pushState(new GameState_PostGame());
@@ -151,6 +157,7 @@ public class GameState_OptionsMenu extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
@@ -158,9 +165,9 @@ public class GameState_OptionsMenu extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("GameSettings"))
@@ -202,6 +209,7 @@ public class GameState_GameSettings extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -209,9 +217,9 @@ public class GameState_GameSettings extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
@@ -236,6 +244,7 @@ public class GameState_IOSettings extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -243,13 +252,26 @@ public class GameState_IOSettings extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
-      if (event.getRequiredStringParameter("tag").equals("back"))
+      String tag = event.getRequiredStringParameter("tag");
+      
+      if (tag.equals("back"))
       {
         gameStateController.popState();
+      }
+      else if (tag.equals("calibrate"))
+      {
+        if (emgManager.isCalibrated())
+        {
+          gameStateController.pushState(new GameState_CalibrateSuccess());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_CalibrateFailure());
+        }
       }
     }
   }
@@ -270,6 +292,7 @@ public class GameState_StatsSettings extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -277,9 +300,9 @@ public class GameState_StatsSettings extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
@@ -304,6 +327,7 @@ public class GameState_CustomizeSettings extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -311,9 +335,9 @@ public class GameState_CustomizeSettings extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
@@ -346,6 +370,7 @@ public class GameState_CalibrateMenu extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
@@ -353,14 +378,14 @@ public class GameState_CalibrateMenu extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.CALIBRATE_SUCCESS)
+    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_SUCCESS))
     {
       gameStateController.popState();
       gameStateController.pushState(new GameState_CalibrateSuccess());
     }
-    else if (event.getEventType() == EventType.CALIBRATE_FAILURE)
+    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_FAILURE))
     {
       gameStateController.popState();
       gameStateController.pushState(new GameState_CalibrateFailure());
@@ -383,6 +408,7 @@ public class GameState_CalibrateSuccess extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -390,9 +416,9 @@ public class GameState_CalibrateSuccess extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("back"))
@@ -425,6 +451,7 @@ public class GameState_CalibrateFailure extends GameState
   @Override public void update(int deltaTime)
   {
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
@@ -432,9 +459,9 @@ public class GameState_CalibrateFailure extends GameState
     gameObjectManager.clearGameObjects();
   }
   
-  @Override public void handleEvent(IEvent event)
+  private void handleEvents()
   {
-    if (event.getEventType() == EventType.BUTTON_CLICKED)
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("back"))
@@ -464,7 +491,6 @@ public class GameStateController implements IGameStateController
     if (!stateStack.isEmpty())
     {
       stateStack.peekLast().update(deltaTime);
-      handleEvents();
     }
   }
   
@@ -488,29 +514,5 @@ public class GameStateController implements IGameStateController
   @Override public IGameObjectManager getGameObjectManager()
   {
     return stateStack.peekLast().getGameObjectManager();
-  }
-  
-  private void handleEvents()
-  {
-    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
-    {
-      stateStack.peekLast().handleEvent(event);
-    }
-    for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
-    {
-      stateStack.peekLast().handleEvent(event);
-    }
-    for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
-    {
-      stateStack.peekLast().handleEvent(event);
-    }
-    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_SUCCESS))
-    {
-      stateStack.peekLast().handleEvent(event);
-    }
-    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_FAILURE))
-    {
-      stateStack.peekLast().handleEvent(event);
-    }
   }
 }

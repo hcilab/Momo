@@ -620,6 +620,12 @@ class RigidBodyComponent extends Component
               onCollideEvent.eventParameters = new HashMap<String, String>();
               onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
             }
+            else if (stringEventType.equals("PLAYER_PLATFORM_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_PLATFORM_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
+            }
             
             onCollideEvents.add(onCollideEvent);
           }
@@ -659,6 +665,12 @@ class RigidBodyComponent extends Component
         {
           Event event = new Event(EventType.DESTROY_COIN);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION)
+        {
+          Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
           eventManager.queueEvent(event);
         }
       }
@@ -710,7 +722,12 @@ class PlayerControllerComponent extends Component
   private float jumpForce;
   
   private String currentRiseSpeedParameterName;
-  
+  private float riseSpeed;
+
+  private boolean isBeginnerMode;
+  private String collidedPlatformParameterName;
+  private String gapDirection;
+
   private boolean upButtonDown;
   private boolean leftButtonDown;
   private boolean rightButtonDown;
@@ -743,6 +760,10 @@ class PlayerControllerComponent extends Component
     rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
+    riseSpeed = 0.0f;
+    isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
+    collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
+    gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
@@ -765,6 +786,11 @@ class PlayerControllerComponent extends Component
     
     moveVector.add(getKeyboardInput());
     moveVector.add(getEmgInput());
+
+    if (isBeginnerMode)
+    {
+      correctControls(moveVector);
+    }
 
     smoothControls(moveVector, deltaTime);
     
@@ -836,16 +862,60 @@ class PlayerControllerComponent extends Component
       
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0)
       rightButtonDown = false;
+
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);
+      gapDirection = determineGapDirection(platform);
+    }
   }
+
+  private String determineGapDirection(IGameObject platform)
+  {
+    IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0);
+    assert (leftWall != null);
+
+    float wallWidth = leftWall.getScale().x;
+    float playerWidth = gameObject.getScale().x;
+    float platformPositionX = platform.getTranslation().x;
+    float platformWidth = platform.getScale().x;
+
+    String direction = "";
+    if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
+    {
+      // platform extends all the way to left wall (i.e., no gap to the left)
+      direction = RIGHT_DIRECTION_LABEL;
+    }
+    else
+    {
+      direction = LEFT_DIRECTION_LABEL;
+    }
+    return direction;
+  }
+
  //<>//
   private PVector getEmgInput() 
   {
     HashMap<String, Float> readings = emgManager.poll();
     return new PVector(
-      readings.get("RIGHT")-readings.get("LEFT"),
-      -readings.get("JUMP"));
+      readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL),
+      -readings.get(JUMP_DIRECTION_LABEL));
   }
   
+  private void correctControls(PVector moveVector)
+  {
+    Float magnitude = moveVector.mag();
+    if (gapDirection == LEFT_DIRECTION_LABEL)
+    {
+      moveVector.x = -magnitude;
+    }
+    else
+    {
+      moveVector.x = magnitude;
+    }
+    moveVector.y = 0;
+  }
+
   private void smoothControls(PVector moveVector, int deltaTime)
   {
     if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
@@ -1379,8 +1449,8 @@ class CalibrateWizardComponent extends Component
     super(_gameObject);
     
     actionsToRegister = new ArrayList<String>();
-    actionsToRegister.add("LEFT");
-    actionsToRegister.add("RIGHT");
+    actionsToRegister.add(LEFT_DIRECTION_LABEL);
+    actionsToRegister.add(RIGHT_DIRECTION_LABEL);
 
     currentAction = actionsToRegister.remove(0);
   }

@@ -49,6 +49,10 @@ IEmgManager emgManager;
 // Top-level game loop variables.
 int lastFrameTime;
 
+final String LEFT_DIRECTION_LABEL = "LEFT";
+final String RIGHT_DIRECTION_LABEL = "RIGHT";
+final String JUMP_DIRECTION_LABEL = "JUMP";
+
 void setup()
 {
   size(500, 500);

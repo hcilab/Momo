@@ -6,6 +6,32 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+
+	<GameObject file="xml_data/slider.xml" tag="music">
+		<Transform>
+			<Translation x="375" y="170"/>
+			<Scale x="200" y="20"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/slider.xml" tag="sound_effects">
+		<Transform>
+			<Translation x="375" y="220"/>
+			<Scale x="200" y="20"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/slider.xml" tag="left_sensitivity">
+		<Transform>
+			<Translation x="375" y="320"/>
+			<Scale x="200" y="20"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/slider.xml" tag="right_sensitivity">
+		<Transform>
+			<Translation x="375" y="370"/>
+			<Scale x="200" y="20"/>
+		</Transform>
+	</GameObject>
+
 	<GameObject file="xml_data/button.xml" tag="calibrate">
 		<Transform>
 			<Translation x="110.0" y="470.0"/>

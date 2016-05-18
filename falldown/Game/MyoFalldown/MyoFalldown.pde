@@ -173,6 +173,24 @@ void mouseClicked()
   return;
 }
 
+void mouseDragged()
+{
+  Event event = new Event(EventType.MOUSE_DRAGGED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
+void mouseReleased()
+{
+  Event event = new Event(EventType.MOUSE_RELEASED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
 void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
   emgManager.onEmg(nowMilliseconds, sensorData);
 }

@@ -23,6 +23,7 @@ enum ComponentType
   LEVEL_DISPLAY,
   LEVEL_PARAMETERS,
   MUSIC_PLAYER,
+  SLIDER,
 }
 
 interface IComponent
@@ -1654,6 +1655,112 @@ class ButtonComponent extends Component
   }
 }
 
+class SliderComponent extends Component implements IEventListener
+{
+  private int sliderHeight;
+  private int sliderWidth;
+
+  public SliderComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+
+    sliderHeight = 0;
+    sliderWidth = 0;
+
+    eventManager.register(EventType.MOUSE_DRAGGED, this);
+    eventManager.register(EventType.MOUSE_RELEASED, this);
+  }
+
+  @Override public void destroy()
+  {
+    eventManager.deregister(EventType.MOUSE_DRAGGED, this);
+    eventManager.deregister(EventType.MOUSE_RELEASED, this);
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    // Multiply the height and width by the scale values to make the button that size
+    sliderHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    sliderWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.SLIDER;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+
+  }
+
+  @Override public void handleEvent(IEvent event)
+  {
+    float widthScale = (width / 500.0f);
+    float heightScale = (height / 500.0f);
+
+    float xSlider = gameObject.getTranslation().x * widthScale;
+    float ySlider = gameObject.getTranslation().y * heightScale;
+
+    float actualSliderWidth = sliderWidth * widthScale;
+    float actualSliderHeight = sliderHeight * heightScale;
+
+    // Slider rect boundaries
+    float xLeft = xSlider - actualSliderWidth * 0.5;
+    float xRight = xSlider + actualSliderWidth * 0.5;
+    float yTop = ySlider - actualSliderHeight * 0.5;
+    float yBottom = ySlider + actualSliderHeight * 0.5;
+
+    int xMouse = event.getRequiredIntParameter("mouseX");
+    int yMouse = event.getRequiredIntParameter("mouseY");
+    if (event.getEventType() == EventType.MOUSE_DRAGGED)
+    {
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = xMouse - gameObject.getTranslation().x;
+      }
+    }
+    else if (event.getEventType() == EventType.MOUSE_RELEASED)
+    {
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = xMouse - gameObject.getTranslation().x;
+        float sliderPixelVal = xMouse - (xLeft);
+        float sliderVal = sliderPixelVal/actualSliderWidth * 100;
+        String tag = gameObject.getTag();
+        if (tag.equals("music"))
+        {
+          optionsMenu.getIOSettings().setMusicVol(sliderVal);
+        }
+        else if (tag.equals("sound_effects"))
+        {
+          optionsMenu.getIOSettings().setSEVol(sliderVal);
+        }
+        else if (tag.equals("left_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setLeftSensitivity(sensVal);
+        }
+        else if (tag.equals("right_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setRightSensitivity(sensVal);
+        }
+       }
+    }
+  }
+}
+
 class LevelDisplayComponent extends Component
 {
   private String currentLevelParameterName;
@@ -1902,6 +2009,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("MusicPlayer"))
   {
     component = new MusicPlayerComponent(gameObject);
+  }
+  else if (componentName.equals("Slider"))
+  {
+    component = new SliderComponent(gameObject);
   }
   
   if (component != null)

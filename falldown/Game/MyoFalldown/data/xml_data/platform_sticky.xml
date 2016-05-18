@@ -4,6 +4,9 @@
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
+		<!-- <Sprite>
+			<Image src="images/block/grassBL.png" x="0.0" y="0.0"   width="470" height="15"/>
+		</Sprite> -->
 	</Render>
 	
 	<RigidBody

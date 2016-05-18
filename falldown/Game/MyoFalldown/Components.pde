@@ -263,7 +263,7 @@ class RenderComponent extends Component
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
                new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))
             );
-            offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("horzCount")*xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
+            offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
             offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
             offsetSheetSprite.sheetSprite.setScale(xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"));
             offsetSheetSprites.add(offsetSheetSprite);
@@ -391,17 +391,10 @@ class RenderComponent extends Component
      image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
      image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
    }
-<<<<<<< HEAD
-  
+
    float percentage =  ((gameObject.getScale().x -(2*tilelength*width+width))/2)/15; 
    PImage cropImg = img.pimage.get(0,0,floor(percentage*212),212);
    image(cropImg,+ gameObject.getTranslation().x + img.translation.x + ((tilelength+1) * width),gameObject.getTranslation().y + img.translation.y, percentage * 15 ,15);
-=======
-   //PImage cropImg = img.pimage.get(0,0,(int)(gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width),212);
-   //image(cropImg,gameObject.getTranslation().x + img.translation.x +(tilelength+2)*width,gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   //image(img.pimage, floor(gameObject.getTranslation().x + img.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   //image(img.pimage,ceil(gameObject.getTranslation().x + img.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
->>>>>>> refs/remotes/origin/development
   }
   
   private void tileWallSprite(OffsetSheetSprite sprite){  
@@ -434,6 +427,7 @@ class RenderComponent extends Component
   
   @Override public void update(int deltaTime)
   {  
+    
     for (OffsetPShape offsetShape : offsetShapes)
     {
       offsetShape.pshape.resetMatrix();
@@ -460,7 +454,7 @@ class RenderComponent extends Component
      float elapsedTime = (float) sw.getElapsedTime();
      S4P.updateSprites(elapsedTime);
      offsetSprite.sheetSprite.draw();
-     
+    // S4P.drawSprites();
     }
    for (OffsetPImage offsetImage : offsetPImages)
     {
@@ -532,7 +526,7 @@ class RigidBodyComponent extends Component
   {
     BodyDef bodyDefinition = new BodyDef();
     
-    String bodyType = xmlComponent.getString("type"); //<>//
+    String bodyType = xmlComponent.getString("type"); //<>// //<>//
     if (bodyType.equals("static")) //<>//
     {
       bodyDefinition.type = BodyType.STATIC;
@@ -677,7 +671,7 @@ class RigidBodyComponent extends Component
           Event event = new Event(EventType.DESTROY_COIN);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
           eventManager.queueEvent(event);
-        } //<>//
+        } //<>// //<>//
       } //<>//
     }
   }
@@ -757,7 +751,7 @@ class PlayerControllerComponent extends Component implements IEventListener
     
     eventManager.register(EventType.LEVEL_UP, this);
   }
-  
+   //<>//
   @Override public void destroy()
   {
     eventManager.deregister(EventType.UP_BUTTON_PRESSED, this);

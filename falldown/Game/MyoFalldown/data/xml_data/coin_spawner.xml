@@ -8,7 +8,7 @@
 		minHorizontalOffset="-20.0"
 		maxHorizontalOffset="20.0"
 		minVerticalOffset="-25.0"
-		maxVerticalOffset="-10.0"
+		maxVerticalOffset="-20.0"
 		minHeight="60.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 	/>

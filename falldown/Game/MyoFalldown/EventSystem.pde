@@ -28,6 +28,8 @@ enum EventType
 
   // Mouse clicked events.
   MOUSE_CLICKED,
+  MOUSE_DRAGGED,
+  MOUSE_RELEASED,
 
   // Button clicked events.
   BUTTON_CLICKED,
@@ -225,6 +227,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.UPDATE_SCORE);
 
     addEventTypeToMaps(EventType.MOUSE_CLICKED);
+    addEventTypeToMaps(EventType.MOUSE_DRAGGED);
+    addEventTypeToMaps(EventType.MOUSE_RELEASED);
 
     addEventTypeToMaps(EventType.BUTTON_CLICKED);
 

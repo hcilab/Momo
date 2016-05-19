@@ -51,6 +51,32 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
+			string="0"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="190.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="100"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="190.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
 			string="Sound Effects Volume"
 			fontName="Moire"
 			size="20"
@@ -59,6 +85,32 @@
 			alignY="baseline"
 			x="50.0"
 			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="0"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="100"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="240.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
@@ -90,6 +142,32 @@
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
 		<Text
+			string="Less"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="More"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
 			string="Right"
 			fontName="Moire"
 			size="20"
@@ -102,7 +180,32 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		
+		<Text
+			string="Less"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="390.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
+		<Text
+			string="More"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="390.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255"/>
+		</Text>
 		<Text
 			string="Calibrate"
 			fontName="Moire" 
@@ -116,11 +219,9 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255"/>
 		</Text>
-		
 		<Rect x="110.0" y="470.0" halfWidth="100.0" halfHeight="20.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
 		</Rect>
-		
 	</Render>
 </GameObject>

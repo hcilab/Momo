@@ -23,6 +23,7 @@ enum ComponentType
   LEVEL_DISPLAY,
   LEVEL_PARAMETERS,
   MUSIC_PLAYER,
+  SLIDER,
 }
 
 interface IComponent
@@ -1176,13 +1177,17 @@ class CoinEventHandlerComponent extends Component
   
   private String currentRiseSpeedParameterName;
   
+  private int totalCoinsCollected;
+
   public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
+    totalCoinsCollected = 0;
   }
   
   @Override public void destroy()
   {
+    optionsMenu.getStatsSettings().incrementNumCoinsCollected(totalCoinsCollected);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1232,6 +1237,7 @@ class CoinEventHandlerComponent extends Component
         eventManager.queueEvent(updateScoreEvent);
         gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
         coinCollectedSound.play();
+        totalCoinsCollected++;
       }
     }
     for (IEvent event : eventManager.getEvents(EventType.DESTROY_COIN))
@@ -1386,6 +1392,13 @@ class ScoreTrackerComponent extends Component
   @Override public void destroy()
   {
     // add score obtained from game to cumulative score here.
+    int highScore = optionsMenu.getStatsSettings().getHighScore();
+
+    if(totalScore > highScore)
+    {
+      optionsMenu.getStatsSettings().setHighScore(totalScore);
+    }
+    optionsMenu.getStatsSettings().incrementNumGamesPlayed();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1621,6 +1634,109 @@ class ButtonComponent extends Component
         buttonEvent.addStringParameter("tag",gameObject.getTag());
         eventManager.queueEvent(buttonEvent);
         buttonClickedSound.play();
+      }
+    }
+  }
+}
+
+class SliderComponent extends Component
+{
+  private int sliderHeight;
+  private int sliderWidth;
+
+  public SliderComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+
+    sliderHeight = 0;
+    sliderWidth = 0;
+  }
+
+  @Override public void destroy()
+  {
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    // Multiply the height and width by the scale values to make the button that size
+    sliderHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    sliderWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.SLIDER;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+  }
+
+  private void handleEvents()
+  {
+    float widthScale = (width / 500.0f);
+    float heightScale = (height / 500.0f);
+
+    float xSlider = gameObject.getTranslation().x * widthScale;
+    float ySlider = gameObject.getTranslation().y * heightScale;
+
+    float actualSliderWidth = sliderWidth * widthScale;
+    float actualSliderHeight = sliderHeight * heightScale;
+
+    // Slider rect boundaries
+    float xLeft = xSlider - actualSliderWidth * 0.5;
+    float xRight = xSlider + actualSliderWidth * 0.5;
+    float yTop = ySlider - actualSliderHeight * 0.5;
+    float yBottom = ySlider + actualSliderHeight * 0.5;
+
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_DRAGGED))
+    {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+      }
+    }
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_RELEASED))
+    {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+        float sliderPixelVal = xMouse - (xLeft);
+        float sliderVal = sliderPixelVal/actualSliderWidth * 100;
+        String tag = gameObject.getTag();
+        if (tag.equals("music"))
+        {
+          optionsMenu.getIOSettings().setMusicVol(sliderVal);
+        }
+        else if (tag.equals("sound_effects"))
+        {
+          optionsMenu.getIOSettings().setSEVol(sliderVal);
+        }
+        else if (tag.equals("left_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setLeftSensitivity(sensVal);
+        }
+        else if (tag.equals("right_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setRightSensitivity(sensVal);
+        }
       }
     }
   }
@@ -1874,6 +1990,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("MusicPlayer"))
   {
     component = new MusicPlayerComponent(gameObject);
+  }
+  else if (componentName.equals("Slider"))
+  {
+    component = new SliderComponent(gameObject);
   }
   
   if (component != null)

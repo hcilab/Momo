@@ -7,4 +7,11 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="GameSettings">
+		<Transform>
+			<Translation x="250.0" y="384.0"/>
+			<Scale x="150.0" y="50.0"/>
+		</Transform>
+	</GameObject>
 </Level>

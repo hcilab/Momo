@@ -16,6 +16,7 @@ enum EventType
   UP_BUTTON_PRESSED,
   LEFT_BUTTON_PRESSED,
   RIGHT_BUTTON_PRESSED,
+  DOWN_BUTTON_PRESSED,
   SPACEBAR_PRESSED,
   
   // Key released events.
@@ -218,6 +219,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.UP_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.LEFT_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.RIGHT_BUTTON_PRESSED);
+    addEventTypeToMaps(EventType.DOWN_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.SPACEBAR_PRESSED);
     
     addEventTypeToMaps(EventType.UP_BUTTON_RELEASED);

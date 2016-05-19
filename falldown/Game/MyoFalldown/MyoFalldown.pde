@@ -133,6 +133,10 @@ void keyPressed()
         event = new Event(EventType.RIGHT_BUTTON_PRESSED);
         eventManager.queueEvent(event); 
         return;
+      case DOWN:
+        event = new Event(EventType.DOWN_BUTTON_PRESSED);
+        eventManager.queueEvent(event);
+        return;
     }
   }
   else if (key == ' ')

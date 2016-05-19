@@ -1,4 +1,4 @@
- //================================================================================================================
+//================================================================================================================
 // MyoFalldown
 // Author: David Hanna
 //
@@ -49,6 +49,15 @@ IEmgManager emgManager;
 // Top-level game loop variables.
 int lastFrameTime;
 PShape bg;
+
+
+final String LEFT_DIRECTION_LABEL = "LEFT";
+final String RIGHT_DIRECTION_LABEL = "RIGHT";
+final String JUMP_DIRECTION_LABEL = "JUMP";
+
+OptionsObject optionsMenu;
+
+
 void setup()
 {
   size(500, 500);
@@ -76,7 +85,10 @@ void setup()
   emgManager = new NullEmgManager();
   
   lastFrameTime = millis();
+
  bg = loadShape("images/background/testBG.svg");
+
+  optionsMenu = new OptionsObject();
 } 
 
 void draw()
@@ -158,6 +170,24 @@ void keyReleased()
 void mouseClicked()
 {
   Event event = new Event(EventType.MOUSE_CLICKED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
+void mouseDragged()
+{
+  Event event = new Event(EventType.MOUSE_DRAGGED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
+}
+
+void mouseReleased()
+{
+  Event event = new Event(EventType.MOUSE_RELEASED);
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);

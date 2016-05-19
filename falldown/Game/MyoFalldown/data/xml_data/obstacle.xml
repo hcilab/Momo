@@ -1,9 +1,6 @@
 <GameObject>
 	<Render>
-		<!-- <Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect> -->
+
 		<Sprite>
 			<SpriteSheet src="images/obstacle/pokerMad.png" alphaImage=""
 				x="0.0" y="0.0"  
@@ -11,6 +8,7 @@
 				zOrder="0" height="142.0" scaleHeight="1"> 
 			</SpriteSheet> 
 		</Sprite>
+
 	</Render>
 	
 	<RigidBody

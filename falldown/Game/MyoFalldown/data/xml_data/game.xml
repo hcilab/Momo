@@ -59,4 +59,6 @@
 	<GameObject file="xml_data/coin_spawner.xml"/>
 	
 	<GameObject file="xml_data/music_player.xml"/>
+	
+	<GameObject file="xml_data/stats_collector.xml"/>
 </Level>

@@ -23,6 +23,7 @@ enum ComponentType
   LEVEL_DISPLAY,
   LEVEL_PARAMETERS,
   MUSIC_PLAYER,
+  SLIDER,
 }
 
 interface IComponent
@@ -131,8 +132,9 @@ class RenderComponent extends Component
     public PVector translation;
     public color fillColor;
     public color strokeColor;
+    public float strokeWeight;
     
-    public Text(String _string, PFont _font, int _alignX, int _alignY, PVector _translation, color _fillColor, color _strokeColor)
+    public Text(String _string, PFont _font, int _alignX, int _alignY, PVector _translation, color _fillColor, color _strokeColor, float _strokeWeight)
     {
       string = _string;
       font = _font;
@@ -141,6 +143,7 @@ class RenderComponent extends Component
       translation = _translation;
       fillColor = _fillColor;
       strokeColor = _strokeColor;
+      strokeWeight = _strokeWeight;
     }
   }
   
@@ -316,7 +319,8 @@ class RenderComponent extends Component
           alignY = BOTTOM;
         }
         
-        color[] fillAndStrokeColor = parseColorComponents(xmlRenderable);
+        float[] strokeWeight = new float[1];
+        color[] fillAndStrokeColor = parseColorComponents(xmlRenderable, strokeWeight);
         
         texts.add(new Text(
           xmlRenderable.getString("string"),
@@ -325,7 +329,8 @@ class RenderComponent extends Component
           alignY,
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
           fillAndStrokeColor[0],
-          fillAndStrokeColor[1]
+          fillAndStrokeColor[1],
+          strokeWeight[0]
         ));
       }
     }
@@ -333,13 +338,15 @@ class RenderComponent extends Component
   
   private void parseShapeComponents(XML xmlShape, OffsetPShape offsetShape)
   {
-    color[] fillAndStrokeColor = parseColorComponents(xmlShape);
+    float[] strokeWeight = new float[1];
+    color[] fillAndStrokeColor = parseColorComponents(xmlShape, strokeWeight);
     offsetShape.pshape.setFill(fillAndStrokeColor[0]);
     offsetShape.pshape.setStroke(fillAndStrokeColor[1]);
+    offsetShape.pshape.setStrokeWeight(strokeWeight[0]);
   }
   
   // returns fill color in position 0 and stroke color in position 1
-  private color[] parseColorComponents(XML xmlParent)
+  private color[] parseColorComponents(XML xmlParent, float[] outStrokeWeight)
   {
     color[] fillAndStrokeColor = new color[2];
     
@@ -352,6 +359,7 @@ class RenderComponent extends Component
       else if (xmlShapeComponent.getName().equals("StrokeColor"))
       {
         fillAndStrokeColor[1] = parseColor(xmlShapeComponent);
+        outStrokeWeight[0] = xmlShapeComponent.getFloat("strokeWeight");
       }
     }
     
@@ -474,6 +482,7 @@ class RenderComponent extends Component
       textAlign(text.alignX, text.alignY);
       fill(text.fillColor);
       stroke(text.strokeColor);
+      strokeWeight(text.strokeWeight);
       text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y);
     }
   }
@@ -734,9 +743,6 @@ class PlayerControllerComponent extends Component
   private float leftSensitivity;
   private float rightSensitivity;
   private float jumpForce;
-  
-  private String currentRiseSpeedParameterName;
-  private float riseSpeed;
 
   private boolean isBeginnerMode;
   private String collidedPlatformParameterName;
@@ -746,7 +752,6 @@ class PlayerControllerComponent extends Component
   private boolean leftButtonDown;
   private boolean rightButtonDown;
   
-  private boolean jumping;
   private int jumpDelay;
   private int jumpTime;
   
@@ -774,17 +779,14 @@ class PlayerControllerComponent extends Component
     leftSensitivity = xmlComponent.getFloat("leftSensitivity");
     rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
-    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    riseSpeed = 0.0f;
     isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
-    gapDirection = "LEFT";
+    gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
-    jumping = false;
     jumpDelay = 500;
   }
    //<>//
@@ -826,7 +828,7 @@ class PlayerControllerComponent extends Component
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
         if (tcomponent != null) //<>//
         {
-          if (moveVector.y < 0.0f)
+          if (moveVector.y < -0.5f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
@@ -899,11 +901,11 @@ class PlayerControllerComponent extends Component
     if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
     {
       // platform extends all the way to left wall (i.e., no gap to the left)
-      direction = "RIGHT";
+      direction = RIGHT_DIRECTION_LABEL;
     }
     else
     {
-      direction = "LEFT";
+      direction = LEFT_DIRECTION_LABEL;
     }
     return direction;
   }
@@ -913,14 +915,14 @@ class PlayerControllerComponent extends Component
   {
     HashMap<String, Float> readings = emgManager.poll();
     return new PVector(
-      readings.get("RIGHT")-readings.get("LEFT"),
-      -readings.get("JUMP"));
+      readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL),
+      -readings.get(JUMP_DIRECTION_LABEL));
   }
   
   private void correctControls(PVector moveVector)
   {
     Float magnitude = moveVector.mag();
-    if (gapDirection == "LEFT")
+    if (gapDirection == LEFT_DIRECTION_LABEL)
     {
       moveVector.x = -magnitude;
     }
@@ -958,22 +960,14 @@ class PlayerControllerComponent extends Component
       }
     }
     
-    if (jumping)
+    jumpTime += deltaTime;
+    if (upButtonDown && jumpTime > jumpDelay)
     {
-      jumpTime += deltaTime;
-      if (jumpTime > jumpDelay)
-      {
-        jumping = false;
-        jumpTime = 0;
-      }
-      else
-      {
-        moveVector.y = 0.0f;
-      }
+      jumpTime = 0;
     }
-    else if (moveVector.y < 0.0f)
+    else
     {
-      jumping = true;
+      moveVector.y = 0.0f;
     }
   }
 }
@@ -1206,13 +1200,17 @@ class CoinEventHandlerComponent extends Component
   
   private String currentRiseSpeedParameterName;
   
+  private int totalCoinsCollected;
+
   public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
+    totalCoinsCollected = 0;
   }
   
   @Override public void destroy()
   {
+    optionsMenu.getStatsSettings().incrementNumCoinsCollected(totalCoinsCollected);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1262,6 +1260,7 @@ class CoinEventHandlerComponent extends Component
         eventManager.queueEvent(updateScoreEvent);
         gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
         coinCollectedSound.play();
+        totalCoinsCollected++;
       }
     }
     for (IEvent event : eventManager.getEvents(EventType.DESTROY_COIN))
@@ -1416,6 +1415,13 @@ class ScoreTrackerComponent extends Component
   @Override public void destroy()
   {
     // add score obtained from game to cumulative score here.
+    int highScore = optionsMenu.getStatsSettings().getHighScore();
+
+    if(totalScore > highScore)
+    {
+      optionsMenu.getStatsSettings().setHighScore(totalScore);
+    }
+    optionsMenu.getStatsSettings().incrementNumGamesPlayed();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1464,8 +1470,8 @@ class CalibrateWizardComponent extends Component
     super(_gameObject);
     
     actionsToRegister = new ArrayList<String>();
-    actionsToRegister.add("LEFT");
-    actionsToRegister.add("RIGHT");
+    actionsToRegister.add(LEFT_DIRECTION_LABEL);
+    actionsToRegister.add(RIGHT_DIRECTION_LABEL);
 
     currentAction = actionsToRegister.remove(0);
   }
@@ -1633,8 +1639,6 @@ class ButtonComponent extends Component
   {
     for (IEvent event : eventManager.getEvents(EventType.MOUSE_CLICKED))
     {
-      buttonClickedSound.play();
-      
       float widthScale = (width / 500.0f);
       float heightScale = (height / 500.0f);
       
@@ -1652,6 +1656,110 @@ class ButtonComponent extends Component
         Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
         buttonEvent.addStringParameter("tag",gameObject.getTag());
         eventManager.queueEvent(buttonEvent);
+        buttonClickedSound.play();
+      }
+    }
+  }
+}
+
+class SliderComponent extends Component
+{
+  private int sliderHeight;
+  private int sliderWidth;
+
+  public SliderComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+
+    sliderHeight = 0;
+    sliderWidth = 0;
+  }
+
+  @Override public void destroy()
+  {
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    // Multiply the height and width by the scale values to make the button that size
+    sliderHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    sliderWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.SLIDER;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+  }
+
+  private void handleEvents()
+  {
+    float widthScale = (width / 500.0f);
+    float heightScale = (height / 500.0f);
+
+    float xSlider = gameObject.getTranslation().x * widthScale;
+    float ySlider = gameObject.getTranslation().y * heightScale;
+
+    float actualSliderWidth = sliderWidth * widthScale;
+    float actualSliderHeight = sliderHeight * heightScale;
+
+    // Slider rect boundaries
+    float xLeft = xSlider - actualSliderWidth * 0.5;
+    float xRight = xSlider + actualSliderWidth * 0.5;
+    float yTop = ySlider - actualSliderHeight * 0.5;
+    float yBottom = ySlider + actualSliderHeight * 0.5;
+
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_DRAGGED))
+    {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+      }
+    }
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_RELEASED))
+    {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+        float sliderPixelVal = xMouse - (xLeft);
+        float sliderVal = sliderPixelVal/actualSliderWidth * 100;
+        String tag = gameObject.getTag();
+        if (tag.equals("music"))
+        {
+          optionsMenu.getIOSettings().setMusicVol(sliderVal);
+        }
+        else if (tag.equals("sound_effects"))
+        {
+          optionsMenu.getIOSettings().setSEVol(sliderVal);
+        }
+        else if (tag.equals("left_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setLeftSensitivity(sensVal);
+        }
+        else if (tag.equals("right_sensitivity"))
+        {
+          float sensVal = sliderVal * 5;
+          if (sensVal < 0.2)
+          {
+            sensVal = 0.2;
+          }
+          optionsMenu.getIOSettings().setRightSensitivity(sensVal);
+        }
       }
     }
   }
@@ -1905,6 +2013,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("MusicPlayer"))
   {
     component = new MusicPlayerComponent(gameObject);
+  }
+  else if (componentName.equals("Slider"))
+  {
+    component = new SliderComponent(gameObject);
   }
   
   if (component != null)

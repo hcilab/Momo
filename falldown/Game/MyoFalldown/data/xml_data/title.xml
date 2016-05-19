@@ -11,7 +11,7 @@
 			y="100.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
 		<Text
@@ -25,12 +25,12 @@
 			y="200.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
 		<Rect x="250.0" y="200.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
 		
 		<Text
@@ -44,12 +44,12 @@
 			y="275.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
 		<Rect x="250.0" y="275.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
 		
 		<Text
@@ -63,12 +63,12 @@
 			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
 		<Rect x="250.0" y="350.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
 		
 		<Text
@@ -82,12 +82,12 @@
 			y="425.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
 		<Rect x="250.0" y="425.0" halfWidth="95.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
+			<FillColor r="255" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
 	</Render>
 </GameObject>

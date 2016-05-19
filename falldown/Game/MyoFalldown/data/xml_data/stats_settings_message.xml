@@ -17,7 +17,7 @@
       <FillColor a="255" b="0" g="0" r="0"/>
       <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
     </Text>
-    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="3" x="450.0" y="125.0">
+    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="4" x="450.0" y="125.0">
       <FillColor a="255" b="0" g="0" r="0"/>
       <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
     </Text>

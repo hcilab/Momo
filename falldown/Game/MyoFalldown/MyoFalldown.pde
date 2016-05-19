@@ -76,8 +76,8 @@ void setup()
   physicsWorld = new World(gravity); // gravity
   contactListener = new FalldownContactListener();
   physicsWorld.setContactListener(contactListener);
-  velocityIterations = 6;  // Our simple games probably don't need as much iteration.
-  positionIterations = 2;
+  velocityIterations = 3;  // Our simple games probably don't need as much iteration.
+  positionIterations = 1;
   
   gameStateController = new GameStateController();
   gameStateController.pushState(new GameState_MainMenu());

@@ -1,17 +1,21 @@
 <GameObject>
 	<Render>
+		<!-- Left end marker -->
 		<Rect x="0.0" y="0.0" halfWidth="0.01" halfHeight="0.5">
 			<FillColor r="96" g="96" b="96" a="255"/>
 			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
 		</Rect>
+		<!-- Horizontal slider line -->
 		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.1">
 			<FillColor r="96" g="96" b="96" a="255"/>
 			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
 		</Rect>
+		<!-- Right end marker -->
 		<Rect x="0.0" y="0.0" halfWidth="0.01" halfHeight="0.5">
 			<FillColor r="96" g="96" b="96" a="255"/>
 			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
 		</Rect>
+		<!-- Ticks on slider's horizontal slider line -->
 		<Rect x="0.0" y="0.0" halfWidth="0.005" halfHeight="0.35">
 			<FillColor r="96" g="96" b="96" a="255"/>
 			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
@@ -28,6 +32,7 @@
 			<FillColor r="96" g="96" b="96" a="255"/>
 			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
 		</Rect>
+		<!-- Rect that moves back and forth on slider -->
 		<Rect x="0.0" y="0.0" halfWidth="0.025" halfHeight="0.5">
 			<FillColor r="0" g="0" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="255" a="255" strokeWeight="1.0"/>

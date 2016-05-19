@@ -11,8 +11,8 @@
 				x="0.0" y="0.0" width="139"
 				horzCount="1" vertCount="1" farmeFreq="0.0f"
 				zOrder="0" height="250.0" scaleHeight="20"> 
-			</SpriteSheet> --> 
-		</Sprite>
+			</SpriteSheet>  -->
+		</Sprite> 
 	</Render>
 	
 	<RigidBody

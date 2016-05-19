@@ -1,149 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject tag="stats_settings_message">
-	<Render>
-		<Text
-			string="Gameplay Record"
-			fontName="Moire Bold" 
-			size="40"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="25.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		
-		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Line>
-		
-		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-		
-		<Text
-			string="Total # Games Played"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="125.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="125.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Total Coins Collected"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="175.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="175.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Total Obstaces Jumped"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="High Score"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="470.0" y="485.0" halfWidth="25.0" halfHeight="10.0">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
-		<Text
-			string="Clear"
-			fontName="Moire"
-			size="10"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="470.0"
-			y="485.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-	</Render>
+  <Render>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire Bold" size="40" string="Gameplay Record" x="250.0" y="25.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Line height="5.0" width="1.0" x="0.0" x1="0.0" x2="500.0" y="0.0" y1="10.0" y2="10.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Line>
+    <Ellipse halfHeight="15.0" halfWidth="15.0" x="25.0" y="25.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+    </Ellipse>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="Total # Games Played" x="25.0" y="125.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="3" x="450.0" y="125.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="Total Coins Collected" x="25.0" y="175.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="12" x="450.0" y="175.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="Total Obstaces Jumped" x="25.0" y="225.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="0" x="450.0" y="225.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="High Score" x="25.0" y="275.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="right" alignY="baseline" antialiasing="true" fontName="Moire" size="20" string="4990" x="450.0" y="275.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Rect halfHeight="10.0" halfWidth="25.0" x="470.0" y="485.0">
+      <FillColor a="255" b="0" g="0" r="255"/>
+      <StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+    </Rect>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="10" string="Clear" x="470.0" y="485.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+  </Render>
 </GameObject>

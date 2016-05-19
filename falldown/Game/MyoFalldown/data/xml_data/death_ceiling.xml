@@ -5,14 +5,14 @@
 			<StrokeColor r="255" g="0" b="0" a="255"/>
 		</Rect> -->
 		<Sprite>
-			<Image src="images/death_ceiling/SpikeFull.png" x="0.0" y="0.0"   width="470" height="20"/> 
+			<Image src="images/death_ceiling/SpikeFull.png" x="0.0" y="0.0"   width="1" height="1" resizeHeight="470" resizeWidth="20"/> 
 
 			<!-- <SpriteSheet src="images/block/spike.png" alphaImage=""
 				x="0.0" y="0.0" width="139"
 				horzCount="1" vertCount="1" farmeFreq="0.0f"
 				zOrder="0" height="250.0" scaleHeight="20"> 
-			</SpriteSheet> --> 
-		</Sprite>
+			</SpriteSheet>  -->
+		</Sprite> 
 	</Render>
 	
 	<RigidBody

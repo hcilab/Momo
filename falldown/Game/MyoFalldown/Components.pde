@@ -441,8 +441,8 @@ class RenderComponent extends Component
      offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
      if(gameObject.getTag().equals("platform")){
        tilePlatformSprite(offsetSprite);
-       
      }
+     
      if(gameObject.getTag().equals("death_ceiling")){
        tileDeathCeiling(offsetSprite);
      }
@@ -454,14 +454,16 @@ class RenderComponent extends Component
      float elapsedTime = (float) sw.getElapsedTime();
      S4P.updateSprites(elapsedTime);
      offsetSprite.sheetSprite.draw();
-    // S4P.drawSprites();
     }
    for (OffsetPImage offsetImage : offsetPImages)
     {
-       //background(offsetImage.pimage);
        if(gameObject.getTag().equals("platform")){
          PImage cropImg = offsetImage.pimage.get(0,0,(int)gameObject.getScale().x,(int)gameObject.getScale().y);
         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x , gameObject.getScale().y );
+       }
+       if(gameObject.getTag().equals("death_ceiling")){
+         println(gameObject.getScale().x + " " + gameObject.getScale().y);
+         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x , gameObject.getScale().y); 
        }
        
     }
@@ -524,9 +526,9 @@ class RigidBodyComponent extends Component
   
   @Override public void fromXML(XML xmlComponent)
   {
-    BodyDef bodyDefinition = new BodyDef();
+    BodyDef bodyDefinition = new BodyDef(); //<>//
     
-    String bodyType = xmlComponent.getString("type"); //<>// //<>// //<>//
+    String bodyType = xmlComponent.getString("type"); //<>// //<>//
     if (bodyType.equals("static")) //<>//
     {
       bodyDefinition.type = BodyType.STATIC;
@@ -669,9 +671,9 @@ class RigidBodyComponent extends Component
           eventManager.queueEvent(event);
         }
         else if (onCollideEvent.eventType == EventType.GAME_OVER) //<>//
-        { //<>//
+        { //<>// //<>//
           eventManager.queueEvent(new Event(EventType.GAME_OVER));
-        } //<>//
+        }
         else if (onCollideEvent.eventType == EventType.DESTROY_COIN)
         {
           Event event = new Event(EventType.DESTROY_COIN);
@@ -749,9 +751,9 @@ class PlayerControllerComponent extends Component
   private int jumpTime;
   
   private SoundFile jumpSound;
-  
+   //<>//
   public PlayerControllerComponent(IGameObject _gameObject)
-  { //<>//
+  {
     super(_gameObject);
     
     upButtonDown = false;

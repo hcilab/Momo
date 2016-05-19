@@ -1,10 +1,10 @@
 <GameObject>
 	<Render>
 		<Sprite>
-			<SpriteSheet src="images/player/P1.png" alphaImage=""
+			<SpriteSheet src="images/player/P1Low.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="3" vertCount="3" defaultCount="7" farmeFreq="1f"
-				zOrder="0" height="426.0" scaleHeight="30"> 
+				zOrder="0" height="128.0" scaleHeight="25"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>
@@ -21,7 +21,7 @@
 		active="true"
 	>
 		<Fixture
-			density="0.11"
+			density="0.15"
 			friction="0.925"
 			restitution="0.1"
 			isSensor="false"

@@ -48,7 +48,7 @@ IEmgManager emgManager;
 
 // Top-level game loop variables.
 int lastFrameTime;
-PImage bg;
+PShape bg;
 void setup()
 {
   size(500, 500);
@@ -76,19 +76,17 @@ void setup()
   emgManager = new NullEmgManager();
   
   lastFrameTime = millis();
- bg = loadImage("images/background/faded.png");
+ bg = loadShape("images/background/testBG.svg");
 } 
 
 void draw()
 {
+   
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
   scale(width / 500.0, height / 500.0);
-  //println((width) + " " + (height));
-  bg.resize(width,height);
-   background(bg);
-  
+  shape(bg,250,250);
   // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
   if (deltaTime > 100)
   {

@@ -1,12 +1,12 @@
 <GameObject>
 	<Render>
-		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
+		<!-- <Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<!-- <Sprite>
-			<Image src="images/block/grassBL.png" x="0.0" y="0.0"   width="470" height="15"/>
-		</Sprite> -->
+		</Rect> -->
+		<Sprite>
+			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="470" height="15"/>
+		</Sprite>
 	</Render>
 	
 	<RigidBody

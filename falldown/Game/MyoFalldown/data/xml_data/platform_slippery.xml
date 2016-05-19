@@ -5,7 +5,7 @@
 			<StrokeColor r="0" g="0" b="255" a="255"/>
 		</Rect> -->
 		<Sprite>
-			<Image src="images/block/slipperyBL.png" x="0.0" y="0.0"  width="470" height="15"/>
+			<Image src="images/block/snowBL.png" x="0.0" y="0.0"  width="470" height="15"/>
 		</Sprite>
 	</Render>
 	

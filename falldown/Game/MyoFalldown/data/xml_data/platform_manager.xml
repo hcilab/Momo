@@ -23,7 +23,7 @@
 		obstacleMinWidth="5.0"
 		obstacleMaxWidth="8.0"
 		obstacleMinHeight="25.0"
-		obstacleMaxHeight="50.0"
+		obstacleMaxHeight="40.0"
 		obstacleMinHorizontalOffset="-20.0"
 		obstacleMaxHorizontalOffset="20.0"
 		minDistanceBetweenGaps="50.0"

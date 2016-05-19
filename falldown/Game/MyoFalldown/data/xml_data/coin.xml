@@ -7,7 +7,7 @@
 		<Sprite>
 			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
 					x="0.0" y="0.0"  
-					horzCount="6" vertCount="1" farmeFreq="3f"
+					horzCount="6" vertCount="1" defaultCount="6" farmeFreq="1f"
 					zOrder="5" height="42.0" scaleHeight="15"> 
 			</SpriteSheet> 
 		</Sprite>

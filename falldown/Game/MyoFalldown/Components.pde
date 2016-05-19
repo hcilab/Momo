@@ -1198,18 +1198,14 @@ class CoinEventHandlerComponent extends Component
   private String destroyCoinCoinParameterName;
   
   private String currentRiseSpeedParameterName;
-  
-  private int totalCoinsCollected;
 
   public CoinEventHandlerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    totalCoinsCollected = 0;
   }
   
   @Override public void destroy()
   {
-    optionsMenu.getStatsSettings().incrementNumCoinsCollected(totalCoinsCollected);
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1259,7 +1255,6 @@ class CoinEventHandlerComponent extends Component
         eventManager.queueEvent(updateScoreEvent);
         gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
         coinCollectedSound.play();
-        totalCoinsCollected++;
       }
     }
     for (IEvent event : eventManager.getEvents(EventType.DESTROY_COIN))
@@ -1413,14 +1408,6 @@ class ScoreTrackerComponent extends Component
   
   @Override public void destroy()
   {
-    // add score obtained from game to cumulative score here.
-    int highScore = optionsMenu.getStatsSettings().getHighScore();
-
-    if(totalScore > highScore)
-    {
-      optionsMenu.getStatsSettings().setHighScore(totalScore);
-    }
-    optionsMenu.getStatsSettings().incrementNumGamesPlayed();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -1746,11 +1733,11 @@ class SliderComponent extends Component
         String tag = gameObject.getTag();
         if (tag.equals("music"))
         {
-          optionsMenu.getIOSettings().setMusicVol(sliderVal);
+          options.getIOOptions().setMusicVolume(sliderVal);
         }
         else if (tag.equals("sound_effects"))
         {
-          optionsMenu.getIOSettings().setSEVol(sliderVal);
+          options.getIOOptions().setSoundEffectsVolume(sliderVal);
         }
         else if (tag.equals("left_sensitivity"))
         {
@@ -1759,7 +1746,7 @@ class SliderComponent extends Component
           {
             sensVal = 0.2;
           }
-          optionsMenu.getIOSettings().setLeftSensitivity(sensVal);
+          options.getIOOptions().setLeftEMGSensitivity(sensVal);
         }
         else if (tag.equals("right_sensitivity"))
         {
@@ -1768,7 +1755,7 @@ class SliderComponent extends Component
           {
             sensVal = 0.2;
           }
-          optionsMenu.getIOSettings().setRightSensitivity(sensVal);
+          options.getIOOptions().setRightEMGSensitivity(sensVal);
         }
       }
     }

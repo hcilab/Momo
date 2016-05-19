@@ -46,6 +46,9 @@ IGameStateController gameStateController;
 // Handles EMG input
 IEmgManager emgManager;
 
+// Manages the save_data.xml file.
+IOptions options;
+
 // Top-level game loop variables.
 int lastFrameTime;
 PShape bg;
@@ -54,9 +57,6 @@ PShape bg;
 final String LEFT_DIRECTION_LABEL = "LEFT";
 final String RIGHT_DIRECTION_LABEL = "RIGHT";
 final String JUMP_DIRECTION_LABEL = "JUMP";
-
-OptionsObject optionsMenu;
-
 
 void setup()
 {
@@ -84,21 +84,22 @@ void setup()
 
   emgManager = new NullEmgManager();
   
+  options = new Options();
+  
   lastFrameTime = millis();
 
- bg = loadShape("images/background/testBG.svg");
-
-  optionsMenu = new OptionsObject();
+  bg = loadShape("images/background/testBG.svg");
 } 
 
 void draw()
 {
-   
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
+  
   scale(width / 500.0, height / 500.0);
   shape(bg,250,250);
+  
   // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
   if (deltaTime > 100)
   {

@@ -1683,6 +1683,17 @@ class SliderComponent extends Component
     // Multiply the height and width by the scale values to make the button that size
     sliderHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
     sliderWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+
+    // Adjust ticks on slider
+    RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
+    renderComponent.getShapes().get(0).translation.x = -(sliderWidth * 0.5);
+    renderComponent.getShapes().get(2).translation.x = sliderWidth * 0.5;
+
+    float distBetweenTicks = sliderWidth / 5.0;
+    for(int j = 1, i = 3; i < 7; i++, j++)
+    {
+      renderComponent.getShapes().get(i).translation.x = -(sliderWidth * 0.5) + distBetweenTicks * j;
+    }
   }
 
   @Override public ComponentType getComponentType()
@@ -1719,7 +1730,7 @@ class SliderComponent extends Component
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
-        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+        renderComponent.getShapes().get(7).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
       }
     }
     for (IEvent event : eventManager.getEvents(EventType.MOUSE_RELEASED))
@@ -1729,7 +1740,7 @@ class SliderComponent extends Component
       if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
       {
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
-        renderComponent.getShapes().get(1).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
+        renderComponent.getShapes().get(7).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
         float sliderPixelVal = xMouse - (xLeft);
         float sliderVal = sliderPixelVal/actualSliderWidth * 100;
         String tag = gameObject.getTag();

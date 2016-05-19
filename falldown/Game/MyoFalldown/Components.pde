@@ -720,9 +720,6 @@ class PlayerControllerComponent extends Component
   private float leftSensitivity;
   private float rightSensitivity;
   private float jumpForce;
-  
-  private String currentRiseSpeedParameterName;
-  private float riseSpeed;
 
   private boolean isBeginnerMode;
   private String collidedPlatformParameterName;
@@ -732,7 +729,6 @@ class PlayerControllerComponent extends Component
   private boolean leftButtonDown;
   private boolean rightButtonDown;
   
-  private boolean jumping;
   private int jumpDelay;
   private int jumpTime;
   
@@ -759,8 +755,6 @@ class PlayerControllerComponent extends Component
     leftSensitivity = xmlComponent.getFloat("leftSensitivity");
     rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
-    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    riseSpeed = 0.0f;
     isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
@@ -769,7 +763,6 @@ class PlayerControllerComponent extends Component
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     jumpSound.amp(xmlComponent.getFloat("amp"));
     jumpSound.add(xmlComponent.getFloat("add"));
-    jumping = false;
     jumpDelay = 500;
   }
    //<>//
@@ -811,7 +804,7 @@ class PlayerControllerComponent extends Component
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
         if (tcomponent != null) //<>//
         {
-          if (moveVector.y < 0.0f)
+          if (moveVector.y < -0.5f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
             jumpSound.play(); //<>//
@@ -943,22 +936,14 @@ class PlayerControllerComponent extends Component
       }
     }
     
-    if (jumping)
+    jumpTime += deltaTime;
+    if (upButtonDown && jumpTime > jumpDelay)
     {
-      jumpTime += deltaTime;
-      if (jumpTime > jumpDelay)
-      {
-        jumping = false;
-        jumpTime = 0;
-      }
-      else
-      {
-        moveVector.y = 0.0f;
-      }
+      jumpTime = 0;
     }
-    else if (moveVector.y < 0.0f)
+    else
     {
-      jumping = true;
+      moveVector.y = 0.0f;
     }
   }
 }
@@ -1618,8 +1603,6 @@ class ButtonComponent extends Component
   {
     for (IEvent event : eventManager.getEvents(EventType.MOUSE_CLICKED))
     {
-      buttonClickedSound.play();
-      
       float widthScale = (width / 500.0f);
       float heightScale = (height / 500.0f);
       
@@ -1637,6 +1620,7 @@ class ButtonComponent extends Component
         Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
         buttonEvent.addStringParameter("tag",gameObject.getTag());
         eventManager.queueEvent(buttonEvent);
+        buttonClickedSound.play();
       }
     }
   }

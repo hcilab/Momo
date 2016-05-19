@@ -132,8 +132,9 @@ class RenderComponent extends Component
     public PVector translation;
     public color fillColor;
     public color strokeColor;
+    public float strokeWeight;
     
-    public Text(String _string, PFont _font, int _alignX, int _alignY, PVector _translation, color _fillColor, color _strokeColor)
+    public Text(String _string, PFont _font, int _alignX, int _alignY, PVector _translation, color _fillColor, color _strokeColor, float _strokeWeight)
     {
       string = _string;
       font = _font;
@@ -142,6 +143,7 @@ class RenderComponent extends Component
       translation = _translation;
       fillColor = _fillColor;
       strokeColor = _strokeColor;
+      strokeWeight = _strokeWeight;
     }
   }
   
@@ -316,7 +318,8 @@ class RenderComponent extends Component
           alignY = BOTTOM;
         }
         
-        color[] fillAndStrokeColor = parseColorComponents(xmlRenderable);
+        float[] strokeWeight = new float[1];
+        color[] fillAndStrokeColor = parseColorComponents(xmlRenderable, strokeWeight);
         
         texts.add(new Text(
           xmlRenderable.getString("string"),
@@ -325,7 +328,8 @@ class RenderComponent extends Component
           alignY,
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
           fillAndStrokeColor[0],
-          fillAndStrokeColor[1]
+          fillAndStrokeColor[1],
+          strokeWeight[0]
         ));
       }
     }
@@ -333,13 +337,15 @@ class RenderComponent extends Component
   
   private void parseShapeComponents(XML xmlShape, OffsetPShape offsetShape)
   {
-    color[] fillAndStrokeColor = parseColorComponents(xmlShape);
+    float[] strokeWeight = new float[1];
+    color[] fillAndStrokeColor = parseColorComponents(xmlShape, strokeWeight);
     offsetShape.pshape.setFill(fillAndStrokeColor[0]);
     offsetShape.pshape.setStroke(fillAndStrokeColor[1]);
+    offsetShape.pshape.setStrokeWeight(strokeWeight[0]);
   }
   
   // returns fill color in position 0 and stroke color in position 1
-  private color[] parseColorComponents(XML xmlParent)
+  private color[] parseColorComponents(XML xmlParent, float[] outStrokeWeight)
   {
     color[] fillAndStrokeColor = new color[2];
     
@@ -352,6 +358,7 @@ class RenderComponent extends Component
       else if (xmlShapeComponent.getName().equals("StrokeColor"))
       {
         fillAndStrokeColor[1] = parseColor(xmlShapeComponent);
+        outStrokeWeight[0] = xmlShapeComponent.getFloat("strokeWeight");
       }
     }
     
@@ -462,6 +469,7 @@ class RenderComponent extends Component
       textAlign(text.alignX, text.alignY);
       fill(text.fillColor);
       stroke(text.strokeColor);
+      strokeWeight(text.strokeWeight);
       text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y);
     }
   }

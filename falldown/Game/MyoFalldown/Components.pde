@@ -470,7 +470,6 @@ class RenderComponent extends Component
         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x , gameObject.getScale().y );
        }
        if(gameObject.getTag().equals("death_ceiling")){
-         println(gameObject.getScale().x + " " + gameObject.getScale().y);
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x , gameObject.getScale().y); 
        }
        

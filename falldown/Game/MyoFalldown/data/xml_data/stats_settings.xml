@@ -14,4 +14,57 @@
 			<Scale x="150.0" y="50.0"/>
 		</Transform>
 	</GameObject>
+
+	<GameObject file="xml_data/stats_table.xml" tag="stats_table">
+		<Transform>
+			<Translation x="250.0" y="260.0"/>
+		</Transform>
+	</GameObject>
+
+  <!-- 9 data rows -->
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="120.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="160.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="200.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="240.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="280.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="320.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="360.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="400.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/stats_row.xml" tag="stats_row">
+		<Transform>
+			<Translation x="250.0" y="440.0"/>
+		</Transform>
+	</GameObject>
 </Level>

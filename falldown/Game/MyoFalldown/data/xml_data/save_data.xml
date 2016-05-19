@@ -14,7 +14,7 @@
 	/>
 	
 	<Stats>
-		<!-- date is in seconds since Epoch --!>
+		<!-- date is in seconds since Epoch -->
 		<Record level="4" score="1234" time_played_millis="123456" avg_speed="13.0" coins_collected="32" date="0613162785" />
 		<Record level="13" score="65123" time_played_millis="432561" avg_speed="7.8" coins_collected="106" date="0513172785" />
 	</Stats>

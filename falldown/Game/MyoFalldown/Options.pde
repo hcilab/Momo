@@ -33,17 +33,25 @@ public interface IGameOptions
   public void setPlatformMods(boolean platformMods);
 }
 
+enum IOInputMode
+{
+  DIFFERENCE,
+  MAX,
+}
+
 public interface IIOOptions
 {
   public float getMusicVolume();
   public float getSoundEffectsVolume();
   public float getLeftEMGSensitivity();
   public float getRightEMGSensitivity();
+  public IOInputMode getIOInputMode();
   
   public void setMusicVolume(float volume);
   public void setSoundEffectsVolume(float volume);
   public void setLeftEMGSensitivity(float sensitivity);
   public void setRightEMGSensitivity(float sensitivity);
+  public void setIOInputMode(IOInputMode mode);
 }
 
 public interface IStats
@@ -222,6 +230,9 @@ public class Options implements IOptions
     private final String SOUND_EFFECTS_VOLUME = "sound_effects_volume";
     private final String LEFT_EMG_SENSITIVITY = "left_emg_sensitivity";
     private final String RIGHT_EMG_SENSITIVITY = "right_emg_sensitivity";
+    private final String IO_INPUT_MODE = "input_mode";
+    private final String IO_INPUT_MODE_MAX = "max";
+    private final String IO_INPUT_MODE_DIFFERENCE = "difference";
     
     private XML xmlIO;
     
@@ -229,6 +240,7 @@ public class Options implements IOptions
     private float soundEffectsVolume;
     private float leftEMGSensitivity;
     private float rightEMGSensitivity;
+    private IOInputMode inputMode;
 
     private IOOptions()
     {
@@ -238,6 +250,15 @@ public class Options implements IOptions
       soundEffectsVolume = xmlIO.getFloat(SOUND_EFFECTS_VOLUME);
       leftEMGSensitivity = xmlIO.getFloat(LEFT_EMG_SENSITIVITY);
       rightEMGSensitivity = xmlIO.getFloat(RIGHT_EMG_SENSITIVITY);
+      String inputModeString = xmlIO.getString(IO_INPUT_MODE);
+      if (inputModeString.equals("max"))
+      {
+        inputMode = IOInputMode.MAX;
+      }
+      else
+      {
+        inputMode = IOInputMode.DIFFERENCE;
+      }
     }
 
     @Override public float getMusicVolume()
@@ -259,6 +280,11 @@ public class Options implements IOptions
     {
       return rightEMGSensitivity;
     }
+    
+    @Override public IOInputMode getIOInputMode()
+    {
+      return inputMode;
+    }
 
     @Override public void setMusicVolume(float volume)
     {
@@ -278,14 +304,28 @@ public class Options implements IOptions
     {
       leftEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
       xmlIO.setFloat(LEFT_EMG_SENSITIVITY, leftEMGSensitivity);
-      saveXML(xmlIO, SAVE_DATA_FILE_NAME); 
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME); 
     }
 
     @Override public void setRightEMGSensitivity(float sensitivity)
     {
       rightEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
       xmlIO.setFloat(RIGHT_EMG_SENSITIVITY, rightEMGSensitivity);
-      saveXML(xmlIO, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+    }
+    
+    @Override public void setIOInputMode(IOInputMode mode)
+    {
+      inputMode = mode;
+      if (inputMode == IOInputMode.MAX)
+      {
+        xmlIO.setString(IO_INPUT_MODE, IO_INPUT_MODE_MAX);
+      }
+      else if (inputMode == IOInputMode.DIFFERENCE)
+      {
+        xmlIO.setString(IO_INPUT_MODE, IO_INPUT_MODE_DIFFERENCE);
+      }
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
     }
   }
   

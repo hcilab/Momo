@@ -97,6 +97,14 @@ public class GameState_MainMenu extends GameState
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
       }
+      else if (tag.equals("help"))
+      {
+        gameStateController.pushState(new GameState_Help());
+      }
+      else if (tag.equals("credits"))
+      {
+        gameStateController.pushState(new GameState_Credits());
+      }
       else if (tag.equals("exit"))
       {
         gameStateController.popState();
@@ -538,6 +546,78 @@ public class GameState_CustomizeSettings extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/customize_settings.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_Credits extends GameState
+{
+  public GameState_Credits()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/credits.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_Help extends GameState
+{
+  public GameState_Help()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/help.xml");
   }
 
   @Override public void update(int deltaTime)

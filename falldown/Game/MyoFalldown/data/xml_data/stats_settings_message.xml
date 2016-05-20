@@ -39,6 +39,20 @@
 			<Image  src="images/button/buttonNormal.png" x="450.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
 		</Sprite>
 
+		<Text
+			string="*** use the UP and DOWN arrows to see older records ***"
+			fontName="Moire Bold" 
+			size="12"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="480.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
 		<Rect x="470.0" y="485.0" halfWidth="25.0" halfHeight="10.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>

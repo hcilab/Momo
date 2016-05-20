@@ -284,10 +284,13 @@ public class GameState_GameSettings extends GameState
 
 public class GameState_IOSettings extends GameState
 {
+  public boolean ioModeLoaded;
 
   public GameState_IOSettings()
   {
     super();
+
+    ioModeLoaded = false;
   }
 
   @Override public void onEnter()
@@ -371,6 +374,29 @@ public class GameState_DefineInput extends GameState
   {
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!ioModeLoaded)
+    {
+      // Load the correct checkbox from the save_data file
+      IOInputMode mode = options.getIOOptions().getIOInputMode();
+      if (gameObjectManager.getGameObjectsByTag("message").size() > 0)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        if (renderComponent.getShapes().get(5).translation.y == 0)
+        {
+          if (mode == IOInputMode.DIFFERENCE)
+          {
+            renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 375;
+            ioModeLoaded = true;
+          }
+          else if (mode == IOInputMode.MAX)
+          {
+            renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 420;
+            ioModeLoaded = true;
+          }
+        }
+      }
+    }
   }
 
   @Override public void onExit()

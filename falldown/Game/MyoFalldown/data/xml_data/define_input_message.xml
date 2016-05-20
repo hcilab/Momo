@@ -19,11 +19,6 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Line>
 
-		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-
 		<Text
 			string="Difference (default):"
 			fontName="Moire Bold" 

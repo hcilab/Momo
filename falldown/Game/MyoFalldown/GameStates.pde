@@ -303,6 +303,11 @@ public class GameState_IOSettings extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadFromSaveData();
+    }
   }
 
   @Override public void onExit()
@@ -326,7 +331,7 @@ public class GameState_IOSettings extends GameState
         {
           options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
           RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y - 45;
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y - 45;
         }
       }
       else if (tag.equals("max"))
@@ -335,7 +340,7 @@ public class GameState_IOSettings extends GameState
         {
           options.getIOOptions().setIOInputMode(IOInputMode.MAX);
           RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 45;
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 45;
         }
       }
       else if (tag.equals("define_input"))
@@ -360,15 +365,15 @@ public class GameState_IOSettings extends GameState
   {
     IOInputMode mode = options.getIOOptions().getIOInputMode();
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-    if (renderComponent.getShapes().get(5).translation.y == 0)
+    if (renderComponent.getShapes().get(4).translation.y == 0)
     {
       if (mode == IOInputMode.DIFFERENCE)
       {
-        renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 375;
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 375;
       }
       else if (mode == IOInputMode.MAX)
       {
-        renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 420;
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 420;
       }
     }
     saveDataLoaded = true;
@@ -390,13 +395,9 @@ public class GameState_DefineInput extends GameState
 
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
-
-    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
-    {
-      loadFromSaveData();
-    }
   }
 
   @Override public void onExit()

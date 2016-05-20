@@ -65,6 +65,13 @@ public interface IStats
 
 public interface IGameRecord
 {
+  public Comparator<IGameRecord> createByLevelAchievedComparator();
+  public Comparator<IGameRecord> createByScoreAchievedComparator();
+  public Comparator<IGameRecord> createByTimePlayedComparator();
+  public Comparator<IGameRecord> createByAverageSpeedComparator();
+  public Comparator<IGameRecord> createByCoinsCollectedComparator();
+  public Comparator<IGameRecord> createByDateComparator();
+
   public int getLevelAchieved();
   public int getScoreAchieved();
   public int getTimePlayed();
@@ -364,6 +371,36 @@ public class Options implements IOptions
         coinsCollected = -1;
         date = -1;
       }
+
+      @Override public Comparator<IGameRecord> createByLevelAchievedComparator()
+      {
+        return new ByLevelAchievedComparator();
+      }
+
+      @Override public Comparator<IGameRecord> createByScoreAchievedComparator()
+      {
+        return new ByScoreAchievedComparator();
+      }
+
+      @Override public Comparator<IGameRecord> createByTimePlayedComparator()
+      {
+        return new ByTimePlayedComparator();
+      }
+
+      @Override public Comparator<IGameRecord> createByAverageSpeedComparator()
+      {
+        return new ByAverageSpeedComparator();
+      }
+
+      @Override public Comparator<IGameRecord> createByCoinsCollectedComparator()
+      {
+        return new ByCoinsCollectedComparator();
+      }
+
+      @Override public Comparator<IGameRecord> createByDateComparator()
+      {
+        return new ByDateComparator();
+      }
       
       @Override public int getLevelAchieved()
       {
@@ -494,6 +531,55 @@ public class Options implements IOptions
       
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
+
+    public class ByLevelAchievedComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Integer.compare(g1.getLevelAchieved(), g2.getLevelAchieved());
+      }
+    }
+
+    public class ByScoreAchievedComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Integer.compare(g1.getScoreAchieved(), g2.getScoreAchieved());
+      }
+    }
+
+    public class ByTimePlayedComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Integer.compare(g1.getTimePlayed(), g2.getTimePlayed());
+      }
+    }
+
+    public class ByAverageSpeedComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Float.compare(g1.getAverageSpeed(), g2.getAverageSpeed());
+      }
+    }
+
+    public class ByCoinsCollectedComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Integer.compare(g1.getCoinsCollected(), g2.getCoinsCollected());
+      }
+    }
+
+    public class ByDateComparator implements Comparator<IGameRecord>
+    {
+      @Override public int compare(IGameRecord g1, IGameRecord g2)
+      {
+        return Long.compare(g1.getDate(), g2.getDate());
+      }
+    }
+
   }
   
   //--------------------------------------------

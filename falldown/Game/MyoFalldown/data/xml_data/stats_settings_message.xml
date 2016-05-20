@@ -25,6 +25,25 @@
 			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="50.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="130.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="210.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="290.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="370.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="450.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+
 		<Rect x="470.0" y="485.0" halfWidth="25.0" halfHeight="10.0">
 			<FillColor r="255" g="0" b="0" a="255"/>
 			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>

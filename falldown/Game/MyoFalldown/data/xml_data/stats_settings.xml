@@ -21,6 +21,43 @@
 		</Transform>
 	</GameObject>
 
+	<GameObject file="xml_data/button.xml" tag="level_achieved">
+		<Transform>
+			<Translation x="50.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="score_achieved">
+		<Transform>
+			<Translation x="130.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="coins_collected">
+		<Transform>
+			<Translation x="210.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="average_speed">
+		<Transform>
+			<Translation x="290.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="time_played">
+		<Transform>
+			<Translation x="370.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="date">
+		<Transform>
+			<Translation x="450.0" y="80.0"/>
+			<Scale x="80.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+
   <!-- 9 data rows -->
   <GameObject file="xml_data/stats_row.xml" tag="stats_row">
 		<Transform>

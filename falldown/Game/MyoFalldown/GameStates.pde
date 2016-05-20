@@ -398,7 +398,6 @@ public class GameState_DefineInput extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
-    refreshVisibleRecords();
   }
 
   @Override public void onExit()
@@ -446,6 +445,7 @@ public class GameState_StatsSettings extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+    refreshVisibleRecords();
   }
 
   @Override public void onExit()

@@ -457,40 +457,32 @@ public class GameState_StatsSettings extends GameState
   {
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
-      if (event.getRequiredStringParameter("tag").equals("back"))
-      {
-        gameStateController.popState();
-      }
-      else
-      {
-        String sortBy = event.getRequiredStringParameter("tag");
-        assert(sortBy != null);
+      IGameRecord record = options.getStats().createGameRecord();
 
-        IGameRecord record = options.getStats().createGameRecord();
-        switch (sortBy)
-        {
-          case "level_achieved":
-            Collections.sort(records, Collections.reverseOrder(record.createByLevelAchievedComparator()));
-            break;
-          case "score_achieved":
-            Collections.sort(records, Collections.reverseOrder(record.createByScoreAchievedComparator()));
-            break;
-          case "time_played":
-            Collections.sort(records, Collections.reverseOrder(record.createByTimePlayedComparator()));
-            break;
-          case "average_speed":
-            Collections.sort(records, Collections.reverseOrder(record.createByAverageSpeedComparator()));
-            break;
-          case "coins_collected":
-            Collections.sort(records, Collections.reverseOrder(record.createByCoinsCollectedComparator()));
-            break;
-          case "date":
-            Collections.sort(records, Collections.reverseOrder(record.createByDateComparator()));
-            break;
-          default:
-            println("[ERROR] Unrecognized sort-order specified for Options::Stats_Menu");
-            break;
-        }
+      String tag = event.getRequiredStringParameter("tag");
+      switch (tag)
+      {
+        case "back":
+          gameStateController.popState();
+          break;
+        case "level_achieved":
+          Collections.sort(records, Collections.reverseOrder(record.createByLevelAchievedComparator()));
+          break;
+        case "score_achieved":
+          Collections.sort(records, Collections.reverseOrder(record.createByScoreAchievedComparator()));
+          break;
+        case "time_played":
+          Collections.sort(records, Collections.reverseOrder(record.createByTimePlayedComparator()));
+          break;
+        case "average_speed":
+          Collections.sort(records, Collections.reverseOrder(record.createByAverageSpeedComparator()));
+          break;
+        case "coins_collected":
+          Collections.sort(records, Collections.reverseOrder(record.createByCoinsCollectedComparator()));
+          break;
+        case "date":
+          Collections.sort(records, Collections.reverseOrder(record.createByDateComparator()));
+          break;
       }
     }
 

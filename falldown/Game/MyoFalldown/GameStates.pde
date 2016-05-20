@@ -398,6 +398,7 @@ public class GameState_DefineInput extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+    refreshVisibleRecords();
   }
 
   @Override public void onExit()
@@ -421,14 +422,20 @@ public class GameState_DefineInput extends GameState
 
 public class GameState_StatsSettings extends GameState
 {
+
+  final int NUM_RECORDS_VISIBLE = 9;
+  int topRow;
+
   public GameState_StatsSettings()
   {
     super();
+    topRow = 0;
   }
 
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/stats_settings.xml");
+    topRow = 0;
   }
 
   @Override public void update(int deltaTime)
@@ -450,6 +457,46 @@ public class GameState_StatsSettings extends GameState
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
         gameStateController.popState();
+      }
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.UP_BUTTON_PRESSED))
+    {
+      if (topRow > 0)
+        topRow--;
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.DOWN_BUTTON_PRESSED))
+    {
+      if (topRow < options.getStats().getGameRecords().size())
+        topRow++;
+    }
+  }
+
+  private void refreshVisibleRecords()
+  {
+    ArrayList<IGameObject> tableRows = gameStateController.getGameObjectManager().getGameObjectsByTag("stats_row");
+
+    ArrayList<IGameRecord> records = options.getStats().getGameRecords();
+    for (int i=0; i<tableRows.size(); i++)
+    {
+      RenderComponent renderComponent = (RenderComponent) tableRows.get(i).getComponent(ComponentType.RENDER);
+      if (renderComponent != null)
+      {
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+
+        IGameRecordViewHelper viewHelper;
+        if (topRow+i >= 0 && topRow+i < records.size())
+          viewHelper = new GameRecordViewHelper(records.get(topRow+i));
+        else
+          viewHelper = new GameRecordViewHelper(null);
+
+        texts.get(0).string = viewHelper.getLevelAchieved();
+        texts.get(1).string = viewHelper.getScoreAchieved();
+        texts.get(2).string = viewHelper.getCoinsCollected();
+        texts.get(3).string = viewHelper.getAverageSpeed();
+        texts.get(4).string = viewHelper.getTimePlayed();
+        texts.get(5).string = viewHelper.getDate();
       }
     }
   }

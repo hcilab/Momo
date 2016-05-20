@@ -11,6 +11,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Date;
 
+import java.text.SimpleDateFormat;
+
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;

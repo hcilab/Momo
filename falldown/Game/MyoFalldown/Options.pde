@@ -84,6 +84,16 @@ public interface ICustomizeOptions
 {
 }
 
+public interface IGameRecordViewHelper
+{
+  public String getLevelAchieved();
+  public String getScoreAchieved();
+  public String getTimePlayed();
+  public String getAverageSpeed();
+  public String getCoinsCollected();
+  public String getDate();
+}
+
 
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -494,5 +504,68 @@ public class Options implements IOptions
     private CustomizeOptions()
     {
     }
+  }
+}
+
+public class GameRecordViewHelper implements IGameRecordViewHelper
+{
+  private final String EMPTY_VALUE = "---";
+  private IGameRecord gameRecord;
+
+  public GameRecordViewHelper(IGameRecord _gameRecord)
+  {
+    gameRecord = _gameRecord;
+  }
+
+  @Override public String getLevelAchieved()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+    else
+      return Integer.toString(gameRecord.getLevelAchieved());
+  }
+
+  @Override public String getScoreAchieved()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+    else
+      return Integer.toString(gameRecord.getScoreAchieved());
+  }
+
+  @Override public String getTimePlayed()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+
+    int milliseconds = gameRecord.getTimePlayed();
+    int seconds = (milliseconds/1000) % 60;
+    int minutes = milliseconds/60000;
+    return String.format("%3d:%02d", minutes, seconds);
+  }
+
+  @Override public String getAverageSpeed()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+    else
+      return String.format("%.1f", gameRecord.getAverageSpeed());
+  }
+
+  @Override public String getCoinsCollected()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+    else
+      return Integer.toString(gameRecord.getCoinsCollected());
+  }
+
+  @Override public String getDate()
+  {
+    if (gameRecord == null)
+      return EMPTY_VALUE;
+
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM dd, ''yy");
+    return dateFormatter.format(new Date(gameRecord.getDate()));
   }
 }

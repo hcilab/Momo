@@ -317,6 +317,24 @@ public class GameState_IOSettings extends GameState
       {
         gameStateController.popState();
       }
+      else if (tag.equals("max"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y - 45;
+        }
+      }
+      else if (tag.equals("difference"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.MAX)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 45;
+        }
+      }
       else if (tag.equals("calibrate"))
       {
         if (emgManager.isCalibrated())

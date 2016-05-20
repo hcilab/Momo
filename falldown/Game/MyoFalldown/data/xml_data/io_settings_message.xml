@@ -28,13 +28,52 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="125.0"
+			y="100.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
 			string="Music Volume"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="130.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="0"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="145.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="100"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="145.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Sound Effects Volume"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"
@@ -73,53 +112,27 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Sound Effects Volume"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="50.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="275.0"
-			y="240.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="100"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="475.0"
-			y="240.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="EMG Sensitivity"
+			string="EMG"
 			fontName="Moire"
 			size="25"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="275.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Sensitivity"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="250.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -131,8 +144,8 @@
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="50.0"
-			y="325.0"
+			x="75.0"
+			y="275.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -145,7 +158,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="275.0"
-			y="340.0"
+			y="290.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -158,7 +171,7 @@
 			alignX="right"
 			alignY="baseline"
 			x="475.0"
-			y="340.0"
+			y="290.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -170,8 +183,8 @@
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="50.0"
-			y="375.0"
+			x="75.0"
+			y="320.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -184,7 +197,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="275.0"
-			y="390.0"
+			y="340.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -197,11 +210,62 @@
 			alignX="right"
 			alignY="baseline"
 			x="475.0"
-			y="390.0"
+			y="340.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Text
+			string="Input"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="355.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Max"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="75.0"
+			y="380.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="375.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Text
+			string="Difference (default)"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="75.0"
+			y="425.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="420.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Rect x="375" y="420.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
 		<Text
 			string="Calibrate"
 			fontName="Moire" 

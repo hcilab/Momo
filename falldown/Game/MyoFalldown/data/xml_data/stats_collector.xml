@@ -1,0 +1,7 @@
+<GameObject>
+	<StatsCollector
+		currentLevelParameterName="currentLevel"
+		scoreValueParameterName="scoreValue"
+		currentSpeedParameterName="currentSpeed"
+	/>
+</GameObject>

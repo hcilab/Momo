@@ -139,7 +139,56 @@ public class GameState_InGame extends GameState
     for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
       gameStateController.popState();
-      //gameStateController.pushState(new GameState_PostGame());
+      gameStateController.pushState(new GameState_PostGame());
+    }
+  }
+}
+
+public class GameState_PostGame extends GameState
+{
+  public GameState_PostGame()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/post_game.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else if (tag.equals("play_again"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_InGame());
+      }
+      else if (tag.equals("gameplay_record"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_OptionsMenu());
+        gameStateController.pushState(new GameState_StatsSettings());
+      }
     }
   }
 }

@@ -8,7 +8,7 @@
 // INTERFACE
 //-------------------------------------------------------------------
 
-enum ComponentType
+public enum ComponentType
 {
   RENDER,
   RIGID_BODY,
@@ -24,9 +24,11 @@ enum ComponentType
   LEVEL_PARAMETERS,
   MUSIC_PLAYER,
   SLIDER,
+  STATS_COLLECTOR,
+  POST_GAME_CONTROLLER,
 }
 
-interface IComponent
+public interface IComponent
 {
   public void            destroy();
   public void            fromXML(XML xmlComponent);
@@ -44,7 +46,7 @@ interface IComponent
 // IMPLEMENTATION
 //-----------------------------------------------------------------
 
-abstract class Component implements IComponent
+public abstract class Component implements IComponent
 {
   protected IGameObject gameObject;
   
@@ -75,7 +77,7 @@ abstract class Component implements IComponent
   }
 }
 
-class RenderComponent extends Component
+public class RenderComponent extends Component
 {
   public class OffsetPShape
   {
@@ -479,7 +481,7 @@ class RenderComponent extends Component
   }
 }
 
-class RigidBodyComponent extends Component
+public class RigidBodyComponent extends Component
 {
   private class OnCollideEvent
   {
@@ -673,7 +675,13 @@ class RigidBodyComponent extends Component
   public PVector getLinearVelocity() //<>//
   { //<>// //<>//
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  }  //<>//
+  } //<>//
+  
+  public float getSpeed()
+  {
+    PVector linearVelocity = getLinearVelocity();
+    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));
+  }
   
   public void setLinearVelocity(PVector linearVelocity)
   {
@@ -705,7 +713,7 @@ class RigidBodyComponent extends Component
   }
 }
 
-class PlayerControllerComponent extends Component
+public class PlayerControllerComponent extends Component
 {
   private float acceleration;
   private float maxSpeed; //<>//
@@ -713,6 +721,7 @@ class PlayerControllerComponent extends Component
   private float leftSensitivity;
   private float rightSensitivity;
   private float jumpForce;
+  private String currentSpeedParameterName;
 
   private boolean isBeginnerMode;
   private String collidedPlatformParameterName;
@@ -749,6 +758,7 @@ class PlayerControllerComponent extends Component
     leftSensitivity = xmlComponent.getFloat("leftSensitivity");
     rightSensitivity = xmlComponent.getFloat("rightSensitivity");
     jumpForce = xmlComponent.getFloat("jumpForce");
+    currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
     isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL; //<>//
@@ -781,6 +791,8 @@ class PlayerControllerComponent extends Component
 
     smoothControls(moveVector, deltaTime);
     
+    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
+    
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
     {
@@ -805,11 +817,16 @@ class PlayerControllerComponent extends Component
           } //<>//
         }
       }
+      
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed());
     }
     else 
     {
       gameObject.translate(moveVector);
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
     }
+    
+    eventManager.queueEvent(currentSpeedEvent);
   }
 
   private PVector getKeyboardInput() 
@@ -942,7 +959,7 @@ class PlayerControllerComponent extends Component
   }
 }
 
-class PlatformManagerControllerComponent extends Component
+public class PlatformManagerControllerComponent extends Component
 {
   private LinkedList<IGameObject> platforms;
   
@@ -1159,7 +1176,7 @@ class PlatformManagerControllerComponent extends Component
   }
 }
 
-class CoinEventHandlerComponent extends Component
+public class CoinEventHandlerComponent extends Component
 {
   private int scoreValue;
   private String coinCollectedCoinParameterName;
@@ -1247,7 +1264,7 @@ class CoinEventHandlerComponent extends Component
   }
 }
 
-class CoinSpawnerControllerComponent extends Component
+public class CoinSpawnerControllerComponent extends Component
 {
   private String coinFile;
   private String tag;
@@ -1364,7 +1381,7 @@ class CoinSpawnerControllerComponent extends Component
   }
 }
 
-class ScoreTrackerComponent extends Component
+public class ScoreTrackerComponent extends Component
 {
   private String scoreValueParameterName;
   private String scoreTextPrefix;
@@ -1417,7 +1434,7 @@ class ScoreTrackerComponent extends Component
   }
 }
 
-class CalibrateWizardComponent extends Component
+public class CalibrateWizardComponent extends Component
 {
   ArrayList<String> actionsToRegister;
   String currentAction;
@@ -1501,7 +1518,7 @@ class CalibrateWizardComponent extends Component
 }
 
 
-class CountdownComponent extends Component 
+public class CountdownComponent extends Component 
 {
   private int value;
   private int countdownFrom;
@@ -1552,7 +1569,7 @@ class CountdownComponent extends Component
   }
 }
 
-class ButtonComponent extends Component
+public class ButtonComponent extends Component
 {
   private int buttonHeight;
   private int buttonWidth;
@@ -1619,7 +1636,7 @@ class ButtonComponent extends Component
   }
 }
 
-class SliderComponent extends Component
+public class SliderComponent extends Component
 {
   private int sliderHeight;
   private int sliderWidth;
@@ -1733,7 +1750,7 @@ class SliderComponent extends Component
   }
 }
 
-class LevelDisplayComponent extends Component
+public class LevelDisplayComponent extends Component
 {
   private String currentLevelParameterName;
   private String levelTextPrefix;
@@ -1777,7 +1794,7 @@ class LevelDisplayComponent extends Component
   }
 }
 
-class LevelParametersComponent extends Component
+public class LevelParametersComponent extends Component
 {
   private int startingLevel;
   private int currentLevel;
@@ -1890,7 +1907,7 @@ class LevelParametersComponent extends Component
   }
 }
 
-class MusicPlayerComponent extends Component
+public class MusicPlayerComponent extends Component
 {
   SoundFile music;
   
@@ -1922,6 +1939,138 @@ class MusicPlayerComponent extends Component
   
   @Override public void update(int deltaTime)
   {
+  }
+}
+
+public class StatsCollectorComponent extends Component
+{
+  private String currentLevelParameterName;
+  private String scoreValueParameterName;
+  private String currentSpeedParameterName;
+  
+  private int levelAchieved;
+  private int scoreAchieved;
+  private int timePlayed;
+  private float speedInstances;
+  private float averageSpeed;
+  private int coinsCollected;
+  
+  public StatsCollectorComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    
+    levelAchieved = 0;
+    scoreAchieved = 0;
+    timePlayed = 0;
+    speedInstances = 0.0f;
+    averageSpeed = 0.0f;
+    coinsCollected = 0;
+  }
+  
+  @Override public void destroy()
+  {
+    IStats stats = options.getStats();
+    
+    IGameRecord record = stats.createGameRecord();
+    record.setLevelAchieved(levelAchieved); 
+    record.setScoreAchieved(scoreAchieved);
+    record.setTimePlayed(timePlayed);
+    record.setAverageSpeed(averageSpeed);
+    record.setCoinsCollected(coinsCollected);
+    record.setDate(new Date().getTime());
+    
+    stats.addGameRecord(record);
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
+    scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
+    currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.STATS_COLLECTOR;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+    timePlayed += deltaTime;
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
+    {
+      levelAchieved = event.getRequiredIntParameter(currentLevelParameterName);
+    }
+    for (IEvent event : eventManager.getEvents(EventType.UPDATE_SCORE))
+    {
+      scoreAchieved += event.getRequiredIntParameter(scoreValueParameterName);
+    }
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_CURRENT_SPEED))
+    {
+      float currentSpeed = event.getRequiredFloatParameter(currentSpeedParameterName);
+      speedInstances += 1.0f;
+      averageSpeed = (((speedInstances - 1.0f) * averageSpeed) + currentSpeed) / speedInstances;
+    }
+    for (IEvent event : eventManager.getEvents(EventType.COIN_COLLECTED))
+    {
+      coinsCollected++;
+    }
+  }
+}
+
+public class PostGameControllerComponent extends Component
+{
+  private IGameRecord lastGameRecord;
+  private boolean textIsSet;
+  
+  public PostGameControllerComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    
+    ArrayList<IGameRecord> records = options.getStats().getGameRecords();
+    lastGameRecord = records.get(records.size() - 1);
+    textIsSet = false;
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.POST_GAME_CONTROLLER;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    if (!textIsSet)
+    {
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)
+      {
+        RenderComponent renderComponent = (RenderComponent)component;
+        ArrayList<RenderComponent.Text> textElements = renderComponent.getTexts();
+        textElements.get(0).string = Integer.toString(lastGameRecord.getLevelAchieved());
+        textElements.get(1).string = Integer.toString(lastGameRecord.getScoreAchieved());
+        textElements.get(2).string = Integer.toString((int)(lastGameRecord.getAverageSpeed()));
+        textElements.get(3).string = Integer.toString(lastGameRecord.getCoinsCollected());
+        int milliseconds = lastGameRecord.getTimePlayed();                                                                     
+        int seconds = (milliseconds/1000) % 60;                                                                            
+        int minutes = milliseconds/60000;  
+        textElements.get(4).string = String.format("%3d:%02d", minutes, seconds); 
+      }
+      
+      textIsSet = true;
+    }
   }
 }
 
@@ -1985,6 +2134,14 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("Slider"))
   {
     component = new SliderComponent(gameObject);
+  }
+  else if (componentName.equals("StatsCollector"))
+  {
+    component = new StatsCollectorComponent(gameObject);
+  }
+  else if (componentName.equals("PostGameController"))
+  {
+    component = new PostGameControllerComponent(gameObject);
   }
   
   if (component != null)

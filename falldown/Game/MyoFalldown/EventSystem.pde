@@ -44,6 +44,7 @@ enum EventType
 
   COUNTDOWN_UPDATE,
 
+  PLAYER_CURRENT_SPEED,
   PLAYER_PLATFORM_COLLISION,
 }
 
@@ -240,6 +241,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
 
     addEventTypeToMaps(EventType.COUNTDOWN_UPDATE);
+    
+    addEventTypeToMaps(EventType.PLAYER_CURRENT_SPEED);
     addEventTypeToMaps(EventType.PLAYER_PLATFORM_COLLISION);
   }
   

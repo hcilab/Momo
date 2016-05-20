@@ -58,6 +58,7 @@ public interface IStats
 {
   public ArrayList<IGameRecord> getGameRecords();
   
+  public IGameRecord createGameRecord();
   public void addGameRecord(IGameRecord record);
   public void clear();
 }
@@ -453,6 +454,11 @@ public class Options implements IOptions
     {
       return gameRecords;
     }
+    
+    @Override public IGameRecord createGameRecord()
+    {
+      return new GameRecord();
+    }
   
     @Override public void addGameRecord(IGameRecord record)
     {
@@ -475,6 +481,8 @@ public class Options implements IOptions
       {
         xmlStats.removeChild(xmlStats.getChild(childName));
       }
+      
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
   

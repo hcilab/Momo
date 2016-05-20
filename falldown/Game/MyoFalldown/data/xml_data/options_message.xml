@@ -49,13 +49,13 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="125.0"
-			y="300.0"
+			x="250.0"
+			y="275.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="125.0" y="300.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="275.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
@@ -67,13 +67,13 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="375.0"
-			y="300.0"
+			x="250.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="375.0" y="300.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="350.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>
@@ -86,12 +86,12 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="400.0"
+			y="425.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="250.0" y="400.0" halfWidth="95.0" halfHeight="25.0">
+		<Rect x="250.0" y="425.0" halfWidth="95.0" halfHeight="25.0">
 			<FillColor r="0" g="255" b="0" a="255"/>
 			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Rect>

@@ -82,7 +82,8 @@ public interface ICustomizeOptions
 
 public class Options implements IOptions
 {
-  private final String SAVE_DATA_FILE_NAME = "xml_data/save_data.xml";
+  private final String SAVE_DATA_FILE_NAME_IN = "xml_data/save_data.xml";
+  private final String SAVE_DATA_FILE_NAME_OUT = "data/xml_data/save_data.xml"; 
   private XML xmlSaveData;
   
   private IGameOptions gameOptions;
@@ -92,7 +93,7 @@ public class Options implements IOptions
   
   public Options()
   {
-    xmlSaveData = loadXML(SAVE_DATA_FILE_NAME);
+    xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     
     gameOptions = new GameOptions();
     stats = new Stats();
@@ -180,35 +181,35 @@ public class Options implements IOptions
     {
       startingLevel = _startingLevel;
       xmlGame.setInt(STARTING_LEVEL, startingLevel);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
     @Override public void setLevelUpOverTime(boolean _levelUpOverTime)
     {
       levelUpOverTime = _levelUpOverTime;
       xmlGame.setString(LEVEL_UP_OVER_TIME, levelUpOverTime ? "true" : "false");
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
     @Override public void setAutoDirect(boolean _autoDirect)
     {
       autoDirect = _autoDirect;
       xmlGame.setString(AUTO_DIRECT, autoDirect ? "true" : "false");
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
     @Override public void setObstacles(boolean _obstacles)
     {
       obstacles = _obstacles;
       xmlGame.setString(OBSTACLES, obstacles ? "true" : "false");
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
     @Override public void setPlatformMods(boolean _platformMods)
     {
       platformMods = _platformMods;
       xmlGame.setString(PLATFORM_MODS, platformMods ? "true" : "false");
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
 
@@ -264,28 +265,28 @@ public class Options implements IOptions
     {
       musicVolume = volume / 100.0f;
       xmlIO.setFloat(MUSIC_VOLUME, musicVolume);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     @Override public void setSoundEffectsVolume(float volume)
     {
       soundEffectsVolume = volume / 100.0f;
       xmlIO.setFloat(SOUND_EFFECTS_VOLUME, soundEffectsVolume);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     @Override public void setLeftEMGSensitivity(float sensitivity)
     {
       leftEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
       xmlIO.setFloat(LEFT_EMG_SENSITIVITY, leftEMGSensitivity);
-      saveXML(xmlIO, SAVE_DATA_FILE_NAME); 
+      saveXML(xmlIO, SAVE_DATA_FILE_NAME_OUT); 
     }
 
     @Override public void setRightEMGSensitivity(float sensitivity)
     {
       rightEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
       xmlIO.setFloat(RIGHT_EMG_SENSITIVITY, rightEMGSensitivity);
-      saveXML(xmlIO, SAVE_DATA_FILE_NAME);
+      saveXML(xmlIO, SAVE_DATA_FILE_NAME_OUT);
     }
   }
   
@@ -423,7 +424,7 @@ public class Options implements IOptions
       xmlRecord.setFloat(XML_AVERAGE_SPEED, record.getAverageSpeed());
       xmlRecord.setInt(XML_COINS_COLLECTED, record.getCoinsCollected());
       xmlRecord.setString(XML_DATE, Long.toString(record.getDate()));
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
     @Override public void clear()

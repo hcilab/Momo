@@ -502,7 +502,7 @@ public class GameState_StatsSettings extends GameState
 
     for (IEvent event : eventManager.getEvents(EventType.DOWN_BUTTON_PRESSED))
     {
-      if (topRow < options.getStats().getGameRecords().size())
+      if (topRow+NUM_RECORDS_VISIBLE-1 < options.getStats().getGameRecords().size())
         topRow++;
     }
   }
@@ -513,9 +513,10 @@ public class GameState_StatsSettings extends GameState
 
     for (int i=0; i<tableRows.size(); i++)
     {
-      RenderComponent renderComponent = (RenderComponent) tableRows.get(i).getComponent(ComponentType.RENDER);
-      if (renderComponent != null)
+      IComponent component = tableRows.get(i).getComponent(ComponentType.RENDER);
+      if (component != null)
       {
+        RenderComponent renderComponent = (RenderComponent) component;
         ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
 
         IGameRecordViewHelper viewHelper;

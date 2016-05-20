@@ -32,13 +32,19 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/button.xml" tag="max">
+	<GameObject file="xml_data/button.xml" tag="define_input">
+		<Transform>
+			<Translation x="25.0" y="355.0"/>
+			<Scale x="20.0" y="20.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="difference">
 		<Transform>
 			<Translation x="375.0" y="375.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
-	<GameObject file="xml_data/button.xml" tag="difference">
+	<GameObject file="xml_data/button.xml" tag="max">
 		<Transform>
 			<Translation x="375.0" y="420.0"/>
 			<Scale x="20.0" y="20.0"/>

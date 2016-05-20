@@ -317,23 +317,27 @@ public class GameState_IOSettings extends GameState
       {
         gameStateController.popState();
       }
-      else if (tag.equals("max"))
-      {
-        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
-        {
-          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
-          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y - 45;
-        }
-      }
       else if (tag.equals("difference"))
       {
         if (options.getIOOptions().getIOInputMode() == IOInputMode.MAX)
         {
           options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
           RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 45;
+          renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y - 45;
         }
+      }
+      else if (tag.equals("max"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(5).translation.y = renderComponent.getShapes().get(5).translation.y + 45;
+        }
+      }
+      else if (tag.equals("define_input"))
+      {
+        gameStateController.pushState(new GameState_DefineInput());
       }
       else if (tag.equals("calibrate"))
       {
@@ -345,6 +349,44 @@ public class GameState_IOSettings extends GameState
         {
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
+      }
+    }
+  }
+}
+
+public class GameState_DefineInput extends GameState
+{
+
+  public GameState_DefineInput()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/define_input.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
       }
     }
   }

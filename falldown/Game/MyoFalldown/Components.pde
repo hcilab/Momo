@@ -106,6 +106,8 @@ class RenderComponent extends Component
     }
   } 
   
+ 
+  
 
  
 
@@ -258,6 +260,14 @@ class RenderComponent extends Component
         parseShapeComponents(xmlRenderable, offsetShape);
         offsetShapes.add(offsetShape);
       }
+      else if(xmlRenderable.getName().equals("SVG")){
+         OffsetPShape offsetShape = new OffsetPShape(
+         loadShape(xmlRenderable.getString("src")),
+          new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
+          new PVector(xmlRenderable.getFloat("width"), xmlRenderable.getFloat("height"))
+        );
+         offsetShapes.add(offsetShape);
+      }
       else if (xmlRenderable.getName().equals("Sprite")){
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
@@ -371,39 +381,7 @@ class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
-  private void tilePlatformSprite(OffsetSheetSprite sprite)
-  {
-   sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, gameObject.getTranslation().y + sprite.translation.y);
-   sprite.sheetSprite.draw();
-   int width = (int)sprite.sheetSprite.getWidth();
-   int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
-   for(int i =1; i < tilelength+1; i++){
-      sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x + (i*width)), gameObject.getTranslation().y + sprite.translation.y);
-      sprite.sheetSprite.draw();
-      sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (i*width)), gameObject.getTranslation().y + sprite.translation.y);
-      sprite.sheetSprite.draw();
-   }
-   sprite.sheetSprite.setXY(floor(gameObject.getTranslation().x + sprite.translation.x +  (gameObject.getScale().x -(2*tilelength*width+width))/2 + ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
-   sprite.sheetSprite.draw();
-   sprite.sheetSprite.setXY(ceil(gameObject.getTranslation().x + sprite.translation.x - (gameObject.getScale().x -(2*tilelength*width+width))/2 - ((tilelength) * width)), gameObject.getTranslation().y + sprite.translation.y);
-   sprite.sheetSprite.draw();
-  }
-  
-  private void tileImagePlatform(OffsetPImage img)
-  {
-    //original Image height;
-   image(img.pimage, gameObject.getTranslation().x + img.translation.x, gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   int width =  15;
-   int tilelength = (int)((((gameObject.getScale().x-width)/width)/2)); 
-   for(int i =1; i < tilelength+1; i++){
-     image(img.pimage, gameObject.getTranslation().x + img.translation.x + (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-     image(img.pimage, gameObject.getTranslation().x + img.translation.x - (i*width), gameObject.getTranslation().y + img.translation.y, img.scale.x,img.scale.y);
-   }
 
-   float percentage =  ((gameObject.getScale().x -(2*tilelength*width+width))/2)/15; 
-   PImage cropImg = img.pimage.get(0,0,floor(percentage*212),212);
-   image(cropImg,+ gameObject.getTranslation().x + img.translation.x + ((tilelength+1) * width),gameObject.getTranslation().y + img.translation.y, percentage * 15 ,15);
-  }
   
   private void tileWallSprite(OffsetSheetSprite sprite){  
    //wall height is 500 with width of 10
@@ -417,16 +395,6 @@ class RenderComponent extends Component
    
   }
   
-  private void tileDeathCeiling(OffsetSheetSprite sprite){
-   int width = (int)sprite.sheetSprite.getWidth();
-   int tilelength = 470/width;
-   for(int i =0; i < tilelength; i++){
-     sprite.sheetSprite.setXY((30+i*width), gameObject.getTranslation().y + sprite.translation.y);
-     sprite.sheetSprite.draw();
-   } 
-    sprite.sheetSprite.setXY((470-(30+(tilelength-1)*width))+((tilelength)*width), gameObject.getTranslation().y + sprite.translation.y);
-    sprite.sheetSprite.draw();
-  }
   
   @Override public ComponentType getComponentType()
   {
@@ -442,18 +410,19 @@ class RenderComponent extends Component
       offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
+     // println(gameObject.getScale().x + " " + offsetShape.scale.x + " " +gameObject.getScale().y + " " + offsetShape.scale.y);
     }
    
     
     for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
      offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
-     if(gameObject.getTag().equals("platform")){
-       tilePlatformSprite(offsetSprite);
-     }
+     //if(gameObject.getTag().equals("platform")){
+     //  tilePlatformSprite(offsetSprite);
+     //}
      
-     if(gameObject.getTag().equals("death_ceiling")){
-       tileDeathCeiling(offsetSprite);
-     }
+     //if(gameObject.getTag().equals("death_ceiling")){
+     //  tileDeathCeiling(offsetSprite);
+     //}
    
      if(gameObject.getTag().equals("left_wall") || gameObject.getTag().equals("right_wall")){
        tileWallSprite(offsetSprite);
@@ -472,7 +441,6 @@ class RenderComponent extends Component
        else if(gameObject.getTag().equals("death_ceiling")){
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x * offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y); 
        }else{
-         println( gameObject.getScale().x + " " +  offsetImage.scale.x + " " + gameObject.getScale().y + " " +  offsetImage.scale.y);
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y ); 
        }
        
@@ -558,22 +526,22 @@ class RigidBodyComponent extends Component
       assert(false);
     }
      
-    bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y));
+    bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y)); //<>//
     bodyDefinition.angle = 0.0f;
-    bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping");
-    bodyDefinition.angularDamping = xmlComponent.getFloat("angularDamping");
+    bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping"); //<>//
+    bodyDefinition.angularDamping = xmlComponent.getFloat("angularDamping"); //<>//
     bodyDefinition.gravityScale = xmlComponent.getFloat("gravityScale");
     bodyDefinition.allowSleep = xmlComponent.getString("allowSleep").equals("true") ? true : false;
     bodyDefinition.awake = xmlComponent.getString("awake").equals("true") ? true : false;
     bodyDefinition.fixedRotation = xmlComponent.getString("fixedRotation").equals("true") ? true : false;
-    bodyDefinition.bullet = xmlComponent.getString("bullet").equals("true") ? true : false;
+    bodyDefinition.bullet = xmlComponent.getString("bullet").equals("true") ? true : false; //<>//
     bodyDefinition.active = xmlComponent.getString("active").equals("true") ? true : false;
-    bodyDefinition.userData = gameObject;
+    bodyDefinition.userData = gameObject; //<>//
     
     body = physicsWorld.createBody(bodyDefinition);
      //<>//
     for (XML rigidBodyComponent : xmlComponent.getChildren()) //<>//
-    {
+    { //<>//
       if (rigidBodyComponent.getName().equals("Fixture"))
       {
         FixtureDef fixtureDef = new FixtureDef();
@@ -603,7 +571,7 @@ class RigidBodyComponent extends Component
               boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));
               boxShape.setAsBox(
                 pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x,  //<>//
-                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y //<>//
+                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y //<>// //<>//
               );
               
               fixtureDef.shape = boxShape;
@@ -634,7 +602,7 @@ class RigidBodyComponent extends Component
               onCollideEvent.eventParameters = new HashMap<String, String>();
               onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
             }
-            else if (stringEventType.equals("GAME_OVER"))
+            else if (stringEventType.equals("GAME_OVER")) //<>//
             {
               onCollideEvent.eventType = EventType.GAME_OVER;
             }
@@ -702,8 +670,8 @@ class RigidBodyComponent extends Component
     } //<>//
   } //<>//
   
-  public PVector getLinearVelocity()
-  { //<>//
+  public PVector getLinearVelocity() //<>//
+  { //<>// //<>//
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
   }  //<>//
   
@@ -724,14 +692,14 @@ class RigidBodyComponent extends Component
       new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)),
       wakeUp
     );
-  }
+  } //<>//
   
-  private float pixelsToMeters(float pixels)
+  private float pixelsToMeters(float pixels) //<>//
   {
     return pixels / 50.0f;
   } //<>//
    //<>//
-  private float metersToPixels(float meters)
+  private float metersToPixels(float meters) //<>//
   {
     return meters * 50.0f;
   }
@@ -761,7 +729,7 @@ class PlayerControllerComponent extends Component
    //<>//
   public PlayerControllerComponent(IGameObject _gameObject)
   {
-    super(_gameObject);
+    super(_gameObject); //<>//
     
     upButtonDown = false;
     leftButtonDown = false;
@@ -783,7 +751,7 @@ class PlayerControllerComponent extends Component
     jumpForce = xmlComponent.getFloat("jumpForce");
     isBeginnerMode = xmlComponent.getString("isBeginnerMode").equals("true") ? true : false;
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
-    gapDirection = LEFT_DIRECTION_LABEL;
+    gapDirection = LEFT_DIRECTION_LABEL; //<>//
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
@@ -819,7 +787,7 @@ class PlayerControllerComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
-         || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
+         || (moveVector.x < 0 && linearVelocity.x > -maxSpeed)) //<>//
       {
         rigidBodyComponent.applyForce(new PVector(moveVector.x * acceleration * deltaTime, 0.0f), gameObject.getTranslation());
       }
@@ -856,13 +824,13 @@ class PlayerControllerComponent extends Component
       p.x -= 1.0f;
     }
     if (rightButtonDown)
-    {
+    { //<>//
       p.x += 1.0f;
     }
     return p;
   }
-  
-  private void handleEvents()
+   //<>//
+  private void handleEvents() //<>//
   {
     if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
       upButtonDown = true;
@@ -940,7 +908,7 @@ class PlayerControllerComponent extends Component
     if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold) //<>// //<>//
     { //<>//
       moveVector.x = 0.0f;
-    } //<>//
+    } //<>// //<>//
     else if (moveVector.x < 0.0f) //<>//
     {
       moveVector.x += minInputThreshold;
@@ -968,8 +936,8 @@ class PlayerControllerComponent extends Component
       jumpTime = 0;
     }
     else
-    {
-      moveVector.y = 0.0f;
+    { //<>//
+      moveVector.y = 0.0f; //<>//
     }
   }
 }
@@ -1031,8 +999,8 @@ class PlatformManagerControllerComponent extends Component
   {
   }
   
-  @Override public void fromXML(XML xmlComponent)
-  {
+  @Override public void fromXML(XML xmlComponent) //<>//
+  { //<>//
     platformFile = xmlComponent.getString("platformFile");
     platformMods = xmlComponent.getString("platformMods").equals("true") ? true : false;
     slipperyPlatformFile = xmlComponent.getString("slipperyPlatformFile");

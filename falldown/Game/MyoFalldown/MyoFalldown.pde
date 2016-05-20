@@ -50,9 +50,10 @@ IEmgManager emgManager;
 IOptions options;
 
 // Top-level game loop variables.
+
 int lastFrameTime;
 PShape bg;
-
+PShape opbg;
 
 final String LEFT_DIRECTION_LABEL = "LEFT";
 final String RIGHT_DIRECTION_LABEL = "RIGHT";
@@ -89,6 +90,7 @@ void setup()
   lastFrameTime = millis();
 
   bg = loadShape("images/background/testBG.svg");
+  opbg =  loadShape("images/background/opacityBG.svg");
 } 
 
 void draw()
@@ -98,9 +100,7 @@ void draw()
   lastFrameTime = currentFrameTime;
   
   scale(width / 500.0, height / 500.0);
-  shape(bg,250,250);
-  
-  // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
+
   if (deltaTime > 100)
   {
     deltaTime = 16;

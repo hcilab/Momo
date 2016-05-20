@@ -19,10 +19,6 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Line>
 		
-		<Ellipse x="25.0" y="25.0" halfWidth="15.0" halfHeight="15.0">
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
 		
 		<Text
 			string="Audio"
@@ -219,9 +215,8 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="110.0" y="470.0" halfWidth="100.0" halfHeight="20.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="110.0" y="470.0"   width="200" height="80" resizeHeight="190" resizeWidth="50"/>
+		</Sprite>
 	</Render>
 </GameObject>

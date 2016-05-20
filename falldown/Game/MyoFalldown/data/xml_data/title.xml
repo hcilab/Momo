@@ -28,10 +28,9 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
-		<Rect x="250.0" y="200.0" halfWidth="95.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="200.0"   width="190" height="80" resizeHeight="190" resizeWidth="50"/>
+		</Sprite>
 		
 		<Text
 			string="Options Menu"
@@ -47,10 +46,9 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
-		<Rect x="250.0" y="275.0" halfWidth="95.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="275.0"   width="190" height="80" resizeHeight="190" resizeWidth="50"/>
+		</Sprite>
 		
 		<Text
 			string="Calibrate"
@@ -66,10 +64,9 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
-		<Rect x="250.0" y="350.0" halfWidth="95.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="190" height="80" resizeHeight="190" resizeWidth="50"/>
+		</Sprite>
 		
 		<Text
 			string="Exit"
@@ -85,9 +82,8 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
-		<Rect x="250.0" y="425.0" halfWidth="95.0" halfHeight="25.0">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="425.0"   width="190" height="80" resizeHeight="190" resizeWidth="50"/>
+		</Sprite>
 	</Render>
 </GameObject>

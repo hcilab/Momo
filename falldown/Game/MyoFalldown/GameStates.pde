@@ -284,10 +284,13 @@ public class GameState_GameSettings extends GameState
 
 public class GameState_IOSettings extends GameState
 {
+  public boolean saveDataLoaded;
 
   public GameState_IOSettings()
   {
     super();
+
+    saveDataLoaded = false;
   }
 
   @Override public void onEnter()
@@ -300,6 +303,11 @@ public class GameState_IOSettings extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadFromSaveData();
+    }
   }
 
   @Override public void onExit()
@@ -317,6 +325,28 @@ public class GameState_IOSettings extends GameState
       {
         gameStateController.popState();
       }
+      else if (tag.equals("difference"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.MAX)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y - 45;
+        }
+      }
+      else if (tag.equals("max"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 45;
+        }
+      }
+      else if (tag.equals("define_input"))
+      {
+        gameStateController.pushState(new GameState_DefineInput());
+      }
       else if (tag.equals("calibrate"))
       {
         if (emgManager.isCalibrated())
@@ -327,6 +357,63 @@ public class GameState_IOSettings extends GameState
         {
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
+      }
+    }
+  }
+
+  private void loadFromSaveData()
+  {
+    IOInputMode mode = options.getIOOptions().getIOInputMode();
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    if (renderComponent.getShapes().get(4).translation.y == 0)
+    {
+      if (mode == IOInputMode.DIFFERENCE)
+      {
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 375;
+      }
+      else if (mode == IOInputMode.MAX)
+      {
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(4).translation.y + 420;
+      }
+    }
+    saveDataLoaded = true;
+  }
+}
+
+public class GameState_DefineInput extends GameState
+{
+
+  public GameState_DefineInput()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/define_input.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
       }
     }
   }

@@ -1,0 +1,166 @@
+<GameObject tag="define_input_message">
+	<Render>
+		<Text
+			string="Input"
+			fontName="Moire Bold" 
+			size="40"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="25.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+
+		<Text
+			string="Difference (default):"
+			fontName="Moire Bold" 
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="25.0"
+			y="100.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="In this mode, control over your muscles is important. The"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="125"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="speed of the character is determined by the flexion or"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="140"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="extension of your muscle and the relaxation of the other."
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="155"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="When moving one way, the other muscle needs to be relaxed"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="170"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="or it will slow your movement (i.e., When trying to move"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="185"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="right, try to use only your right muscle, and completely"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="200"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="relax your left muscle)."
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="215"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Max:"
+			fontName="Moire Bold" 
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="25.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="In this mode, the strongest of the two muscle readings is"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="275"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="used to control the speed of the character."
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="290"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	</Render>
+</GameObject>

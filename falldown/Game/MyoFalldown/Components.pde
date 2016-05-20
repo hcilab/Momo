@@ -963,7 +963,7 @@ class PlayerControllerComponent extends Component
     }
     
     jumpTime += deltaTime;
-    if (upButtonDown && jumpTime > jumpDelay)
+    if (moveVector.y < -0.5  && jumpTime > jumpDelay)
     {
       jumpTime = 0;
     }

@@ -473,6 +473,9 @@ public class GameState_StatsSettings extends GameState
         case "back":
           gameStateController.popState();
           break;
+        case "clear_stats":
+          gameStateController.pushState(new GameState_ClearStats_Confirm());
+          break;
         case "level_achieved":
           Collections.sort(records, Collections.reverseOrder(record.createByLevelAchievedComparator()));
           break;
@@ -531,6 +534,49 @@ public class GameState_StatsSettings extends GameState
         texts.get(3).string = viewHelper.getAverageSpeed();
         texts.get(4).string = viewHelper.getTimePlayed();
         texts.get(5).string = viewHelper.getDate();
+      }
+    }
+  }
+}
+
+public class GameState_ClearStats_Confirm extends GameState
+{
+  public GameState_ClearStats_Confirm()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/clear_stats.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      switch(tag)
+      {
+        case "yes":
+          options.getStats().clear();
+          gameStateController.popState();
+          break;
+        case "no":
+          gameStateController.popState();
+          break;
       }
     }
   }

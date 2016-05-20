@@ -104,4 +104,12 @@
 			<Translation x="250.0" y="440.0"/>
 		</Transform>
 	</GameObject>
+
+  <!-- Clear button -->
+	<GameObject file="xml_data/button.xml" tag="clear_stats">
+		<Transform>
+			<Translation x="470.0" y="485.0"/>
+			<Scale x="50.0" y="20.0"/>
+		</Transform>
+	</GameObject>
 </Level>

@@ -1758,6 +1758,22 @@ public class SliderComponent extends Component
       }
     }
     
+    for(IEvent event : eventManager.getEvents(EventType.MOUSE_MOVED))
+    {
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+
+      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      {
+        cursor(HAND);
+        hover = true;
+      }
+      else if (!hover)
+      {
+        cursor(ARROW);
+      }
+    }
+
     if (active)
     {
       for (IEvent event : eventManager.getEvents(EventType.MOUSE_DRAGGED))

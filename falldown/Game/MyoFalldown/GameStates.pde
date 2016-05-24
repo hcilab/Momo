@@ -631,7 +631,14 @@ public class GameState_Credits extends GameState
 
   @Override public void onEnter()
   {
-    gameObjectManager.fromXML("xml_data/credits.xml");
+    if (options.getCredits().isAnonymous())
+    {
+      gameObjectManager.fromXML("xml_data/credits_anonymous.xml");
+    }
+    else
+    {
+      gameObjectManager.fromXML("xml_data/credits.xml");
+    }
   }
 
   @Override public void update(int deltaTime)

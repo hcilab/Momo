@@ -16,6 +16,7 @@ public interface IOptions
   public IIOOptions getIOOptions();
   public IStats getStats();
   public ICustomizeOptions getCustomizeOptions();
+  public ICredits getCredits();
 }
 
 public interface IGameOptions
@@ -101,7 +102,10 @@ public interface IGameRecordViewHelper
   public String getDate();
 }
 
-
+public interface ICredits
+{
+  public boolean isAnonymous();
+}
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
 //------------------------------------------------------------------------------------------------
@@ -116,6 +120,7 @@ public class Options implements IOptions
   private IStats stats;
   private IIOOptions IOOptions;
   private ICustomizeOptions customizeOptions;
+  private ICredits credits;
   
   public Options()
   {
@@ -125,6 +130,7 @@ public class Options implements IOptions
     stats = new Stats();
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
+    credits = new Credits();
   }
   
   @Override public IGameOptions getGameOptions()
@@ -147,6 +153,10 @@ public class Options implements IOptions
     return customizeOptions;
   }
 
+  @Override public ICredits getCredits()
+  {
+    return credits;
+  }
   //--------------------------------------------
   // GAME OPTIONS
   //--------------------------------------------
@@ -589,6 +599,30 @@ public class Options implements IOptions
   {
     private CustomizeOptions()
     {
+    }
+  }
+
+  //--------------------------------------------
+  // CREDITS SETTINGS
+  //--------------------------------------------
+  public class Credits implements ICredits
+  {
+    private final String XML_CREDITS = "Credits";
+    private final String ANONYMOUS = "anonymous";
+
+    private XML xmlStats;
+    private boolean anonymous;
+
+    private Credits()
+    {
+      xmlStats = xmlSaveData.getChild(XML_CREDITS);
+
+      anonymous = Boolean.parseBoolean(xmlStats.getString(ANONYMOUS));
+    }
+
+    @Override public boolean isAnonymous()
+    {
+      return anonymous;
     }
   }
 }

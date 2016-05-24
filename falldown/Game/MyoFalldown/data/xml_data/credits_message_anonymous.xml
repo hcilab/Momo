@@ -1,0 +1,76 @@
+<GameObject>
+	<Render>
+		<Text
+			string="Credits"
+			fontName="Moire Bold" 
+			size="40"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="25.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Line>
+
+		<Text
+			string="Special Thanks.................................................................."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="25.0"
+			y="75.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Myo"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="75.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="Assets..........................................."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="25.0"
+			y="115.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Myo (Hand gesture images)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="115.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+	</Render>
+</GameObject>

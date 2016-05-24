@@ -19,5 +19,8 @@
     <Record avg_speed="83.81485" coins_collected="0" date="1464107844800" level="1" score="3" time_played_millis="3903"/>
     <Record avg_speed="160.15448" coins_collected="0" date="1464108076233" level="1" score="4" time_played_millis="4301"/>
   </Stats>
+
+  <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
+  <Credits anonymous="false"/>
   <Unlocked/>
 </SaveData>

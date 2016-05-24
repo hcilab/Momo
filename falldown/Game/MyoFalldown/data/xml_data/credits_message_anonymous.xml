@@ -72,5 +72,57 @@
 			<FillColor r="0" g="0" b="0" a="475"/>
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
+		<Text
+			string="From OpenGameArt.org:"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="135.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="bevouliin (Players and spikes)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="155.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Kenney.nl (Platforms and obstacles)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="175.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="sujit1717 (Backgrounds)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="195.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
 	</Render>
 </GameObject>

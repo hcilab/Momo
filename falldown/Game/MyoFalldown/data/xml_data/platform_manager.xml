@@ -21,13 +21,13 @@
 		obstacleChance="0.2"
 		obstacleMinWidth="5.0"
 		obstacleMaxWidth="8.0"
-		obstacleMinHeight="10.0"
-		obstacleMaxHeight="20.0"
+		obstacleMinHeight="25.0"
+		obstacleMaxHeight="40.0"
 		obstacleMinHorizontalOffset="-20.0"
 		obstacleMaxHorizontalOffset="20.0"
 		minDistanceBetweenGaps="50.0"
-		minHeightBetweenPlatformLevels="80.0"
-		maxHeightBetweenPlatformLevels="120.0"
+		minHeightBetweenPlatformLevels="115.0"
+		maxHeightBetweenPlatformLevels="160.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 	>
 	</PlatformManagerController>

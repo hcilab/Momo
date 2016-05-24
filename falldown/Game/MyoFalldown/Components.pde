@@ -1655,6 +1655,31 @@ public class ButtonComponent extends Component
         buttonClickedSound.play();
       }
     }
+
+    for(IEvent event : eventManager.getEvents(EventType.MOUSE_MOVED))
+    {
+      float widthScale = (width / 500.0f);
+      float heightScale = (height / 500.0f);
+
+      float xButton = gameObject.getTranslation().x * widthScale;
+      float yButton = gameObject.getTranslation().y * heightScale;
+
+      float actualButtonWidth = buttonWidth * widthScale;
+      float actualButtonHeight = buttonHeight * heightScale;
+
+      int xMouse = event.getRequiredIntParameter("mouseX");
+      int yMouse = event.getRequiredIntParameter("mouseY");
+
+      if (xButton - 0.5 * actualButtonWidth <= xMouse && xButton + 0.5 * actualButtonWidth >= xMouse && yButton - 0.5 * actualButtonHeight <= yMouse && yButton + 0.5 * actualButtonHeight >= yMouse)
+      {
+        cursor(HAND);
+        hover = true;
+      }
+      else if (!hover)
+      {
+        cursor(ARROW);
+      }
+    }
   }
 }
 

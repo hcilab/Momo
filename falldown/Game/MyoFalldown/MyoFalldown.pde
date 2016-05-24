@@ -64,6 +64,8 @@ final String LEFT_DIRECTION_LABEL = "LEFT";
 final String RIGHT_DIRECTION_LABEL = "RIGHT";
 final String JUMP_DIRECTION_LABEL = "JUMP";
 
+boolean hover = false;
+
 void setup()
 {
   size(500, 500);
@@ -100,6 +102,7 @@ void setup()
 
 void draw()
 {
+  hover = false;
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
@@ -207,6 +210,15 @@ void mouseReleased()
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
+}
+
+void mouseMoved()
+{
+  Event event = new Event(EventType.MOUSE_MOVED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+  return;
 }
 
 void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {

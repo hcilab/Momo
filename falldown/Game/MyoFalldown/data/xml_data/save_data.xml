@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SaveData>
   <Game auto_direct="false" level_up_over_time="true" obstacles="true" platform_mods="true" starting_level="1" terrain_mods="true"/>
-
-  <IO input_mode="difference" left_sensitivity="51.0" music="0.505" right_sensitivity="47.5" sound_effects="0.705"/>
-
+  <IO input_mode="difference" left_emg_sensitivity="50.0" left_sensitivity="51.0" music="0.505" right_emg_sensitivity="17.5" right_sensitivity="47.5" sound_effects="0.705"/>
   <Stats>
     <!-- date is in seconds since Epoch -->
     <Record avg_speed="13.0" coins_collected="32" date="0613162785" level="4" score="1234" time_played_millis="123456"/>
     <Record avg_speed="7.8" coins_collected="106" date="0513172785" level="13" score="65123" time_played_millis="432561"/>
     <Record avg_speed="163.21713" coins_collected="0" date="1463764973140" level="1" score="3" time_played_millis="3963"/>
     <Record avg_speed="114.361534" coins_collected="0" date="1463765043156" level="2" score="6" time_played_millis="5584"/>
+    <Record avg_speed="54.69569" coins_collected="0" date="1464106913504" level="4" score="37" time_played_millis="16872"/>
+    <Record avg_speed="123.6893" coins_collected="0" date="1464106937322" level="4" score="37" time_played_millis="16293"/>
+    <Record avg_speed="102.12304" coins_collected="4" date="1464107075056" level="14" score="2468" time_played_millis="66370"/>
+    <Record avg_speed="145.02905" coins_collected="0" date="1464107173557" level="1" score="4" time_played_millis="4479"/>
+    <Record avg_speed="158.84184" coins_collected="0" date="1464107370136" level="1" score="4" time_played_millis="4111"/>
+    <Record avg_speed="171.90149" coins_collected="0" date="1464107651122" level="1" score="3" time_played_millis="3786"/>
+    <Record avg_speed="83.33329" coins_collected="0" date="1464107696848" level="1" score="2" time_played_millis="2885"/>
+    <Record avg_speed="83.87063" coins_collected="0" date="1464107826151" level="1" score="3" time_played_millis="3878"/>
+    <Record avg_speed="83.81485" coins_collected="0" date="1464107844800" level="1" score="3" time_played_millis="3903"/>
+    <Record avg_speed="160.15448" coins_collected="0" date="1464108076233" level="1" score="4" time_played_millis="4301"/>
   </Stats>
   <Unlocked/>
 </SaveData>

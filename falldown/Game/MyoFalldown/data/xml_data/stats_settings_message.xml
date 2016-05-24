@@ -39,6 +39,86 @@
 			<Image  src="images/button/buttonNormal.png" x="450.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
 		</Sprite>
 
+		<!-- Titles -->
+		<Text
+			string="Level"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="50"
+			y="80"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Score"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="130"
+			y="80.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Coins"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="210.0"
+			y="80.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Avg Speed"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="290.0"
+			y="80.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Duration"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="370.0"
+			y="80.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Date"
+			fontName="Moire Bold" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="450.0"
+			y="80.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
 		<Text
 			string="*** use the UP and DOWN arrows to see more records ***"
 			fontName="Moire Bold" 

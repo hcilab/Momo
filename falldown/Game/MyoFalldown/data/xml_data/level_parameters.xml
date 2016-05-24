@@ -1,6 +1,5 @@
 <GameObject>
-	<LevelParameters 
-		startingLevel="1" 
+	<LevelParameters  
 		maxLevel="99" 
 		levelOneRiseSpeed="3.5"
 		riseSpeedChangePerLevel="0.7"

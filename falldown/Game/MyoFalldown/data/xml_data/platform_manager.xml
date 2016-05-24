@@ -1,7 +1,6 @@
 <GameObject>
 	<PlatformManagerController
 		platformFile="xml_data/platform.xml"
-		platformMods="true"
 		slipperyPlatformFile="xml_data/platform_slippery.xml"
 		slipperyPlatformChance="0.1"
 		stickyPlatformFile="xml_data/platform_sticky.xml"

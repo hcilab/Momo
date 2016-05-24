@@ -1,5 +1,48 @@
 <GameObject tag="io_settings_message">
+	<IOOptionsController
+		musicSliderTag="music"
+		musicSliderLeftBoundary="275.0"
+		musicSliderRightBoundary="475.0"
+		musicSliderYPosition="108.0"
+		soundEffectsSliderTag="sound_effects"
+		soundEffectsSliderLeftBoundary="275.0"
+		soundEffectsSliderRightBoundary="475.0"
+		soundEffectsSliderYPosition="153.0"
+		leftSensitivitySliderTag="left_sensitivity"
+		leftSensitivitySliderLeftBoundary="275.0"
+		leftSensitivitySliderRightBoundary="475.0"
+		rightSensitivitySliderTag="right_sensitivity"
+		rightSensitivitySliderLeftBoundary="275.0"
+		rightSensitivitySliderRightBoundary="475.0"
+	/>
 	<Render>
+		<Text
+			string="xxx"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="0.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="xxx"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="0.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	
 		<Text
 			string="System Settings"
 			fontName="Moire Bold" 

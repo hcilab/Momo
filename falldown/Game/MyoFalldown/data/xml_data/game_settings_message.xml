@@ -1,5 +1,51 @@
 <GameObject tag="game_settings_message">
+	<GameOptionsController
+		sliderTag="starting_level"
+		sliderLeftBoundary="275.0"
+		sliderRightBoundary="475.0"
+		yPosition="123.0"
+		increaseDifficultyOverTimeTag="increase_difficulty_over_time"
+		autoDirectTag="auto_direct"
+		obstaclesTag="obstacles"
+		terrainModsTag="terrain_mods"
+		checkBoxXPosition="375.0"
+		falseDisplacement="5000.0"
+	/>
 	<Render>
+		<Text
+			string="xxx"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="0.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Rect x="375.0" y="200.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="250.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="300.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="350.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+	
 		<Text
 			string="Game Settings"
 			fontName="Moire Bold" 
@@ -19,7 +65,6 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Line>
 		
-		
 		<Text
 			string="Starting Level"
 			fontName="Moire"
@@ -28,24 +73,74 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="125.0"
+			y="150.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Increase Difficulty Over Time"
+			string="1"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="170.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="99"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="170.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Text
+			string="Increase Level Over Time"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="175.0"
+			y="200.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect x="375" y="200.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
+		<Text
+			string="Auto Direct"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="250.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
 		<Text
 			string="Obstacles"
 			fontName="Moire"
@@ -54,11 +149,16 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="225.0"
+			y="300.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect x="375.0" y="300.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
 		<Text
 			string="Terrain Mods"
 			fontName="Moire"
@@ -67,10 +167,14 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="275.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect x="375.0" y="350.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
 	</Render>
 </GameObject>

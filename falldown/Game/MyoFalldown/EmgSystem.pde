@@ -33,14 +33,14 @@ class MyoNotConnectedException extends Exception {}
 class EmgManager implements IEmgManager {
   Myo myo_unused;
   MyoAPI myoAPI;
-  String SETTINGS_EMG_CONTROL_POLICY;
+  IOInputMode SETTINGS_EMG_CONTROL_POLICY;
 
   EmgManager() throws MyoNotConnectedException {
     // not directly needed here, just need to make one in instantiated
     myo_unused = getMyoSingleton();
 
     myoAPI = new MyoAPI();
-    SETTINGS_EMG_CONTROL_POLICY = "DIFF";
+    SETTINGS_EMG_CONTROL_POLICY = options.getIOOptions().getIOInputMode();
   }
 
   boolean registerAction(String label) {
@@ -65,7 +65,7 @@ class EmgManager implements IEmgManager {
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
     toReturn.put(JUMP_DIRECTION_LABEL, jump);
     switch (SETTINGS_EMG_CONTROL_POLICY) {
-      case "DIFF":
+      case DIFFERENCE:
         if (left > right) {
           toReturn.put(LEFT_DIRECTION_LABEL, left-right);
           toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
@@ -75,7 +75,7 @@ class EmgManager implements IEmgManager {
         }
         break;
 
-      case "MAX":
+      case MAX:
         if (left > right) {
           toReturn.put(LEFT_DIRECTION_LABEL, left);
           toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);

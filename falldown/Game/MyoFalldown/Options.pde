@@ -331,14 +331,14 @@ public class Options implements IOptions
 
     @Override public void setLeftEMGSensitivity(float sensitivity)
     {
-      leftEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
+      leftEMGSensitivity = sensitivity;
       xmlIO.setFloat(LEFT_EMG_SENSITIVITY, leftEMGSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     @Override public void setRightEMGSensitivity(float sensitivity)
     {
-      rightEMGSensitivity = sensitivity < 0.2f ? 0.2f : sensitivity / 5.0f;
+      rightEMGSensitivity = sensitivity;
       xmlIO.setFloat(RIGHT_EMG_SENSITIVITY, rightEMGSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
@@ -678,7 +678,7 @@ public class GameRecordViewHelper implements IGameRecordViewHelper
       return EMPTY_VALUE;
     else
       return Integer.toString(gameRecord.getCoinsCollected());
-  }
+  } 
 
   @Override public String getDate()
   {

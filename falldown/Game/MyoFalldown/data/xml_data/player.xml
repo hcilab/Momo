@@ -2,9 +2,9 @@
 	<Render>
 		<Sprite>
 			<SpriteSheet src="images/player/monster.png" alphaImage=""
-				x="0.0" y="0.0"  
+				x="0.0" y="0.0"
 				horzCount="16" vertCount="1" defaultCount="7" farmeFreq="1f"
-				zOrder="0" height="436.0" scaleHeight="26"> 
+				zOrder="0" height="436.0" scaleHeight="1"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>
@@ -26,7 +26,7 @@
 			restitution="0.1"
 			isSensor="false"
 		>
-			<Shape type="circle" x="0.0" y="0.0" radius="12.5"/>
+			<Shape type="circle" x="0.0" y="0.0" radius="0.5"/>
 		</Fixture>
 		
 		<OnCollideEvents>
@@ -39,8 +39,6 @@
 		acceleration="0.8"
 		maxSpeed="350.0"
 		minInputThreshold="0.3"
-		leftSensitivity="1.5"
-		rightSensitivity="1.5"
 		jumpForce="-3.52"
 		jumpSoundFile="sound_effects/boing_spring.wav"
 		rate="1.0"
@@ -49,6 +47,5 @@
 		add="0.0"
 		collidedPlatformParameterName="platform"
 		currentSpeedParameterName="currentSpeed"
-		isBeginnerMode="false"
 	/>
 </GameObject>

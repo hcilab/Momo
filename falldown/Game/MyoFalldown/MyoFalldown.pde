@@ -177,13 +177,20 @@ void keyReleased()
   }
 }
 
+void mousePressed()
+{
+  Event event = new Event(EventType.MOUSE_PRESSED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+}
+
 void mouseClicked()
 {
   Event event = new Event(EventType.MOUSE_CLICKED);
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
-  return;
 }
 
 void mouseDragged()
@@ -192,7 +199,6 @@ void mouseDragged()
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
-  return;
 }
 
 void mouseReleased()
@@ -201,7 +207,6 @@ void mouseReleased()
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
-  return;
 }
 
 void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {

@@ -40,6 +40,8 @@ public interface IGameStateController
   public void update(int deltaTime);
   public void pushState(GameState nextState);
   public void popState();
+  public IGameState getCurrentState();
+  public IGameState getPreviousState();
   public IGameObjectManager getGameObjectManager();
 }
 
@@ -269,8 +271,8 @@ public class GameState_GameSettings extends GameState
   @Override public void update(int deltaTime)
   {
     shape(opbg,250,250,500,500);
-    gameObjectManager.update(deltaTime);
     handleEvents();
+    gameObjectManager.update(deltaTime);
   }
 
   @Override public void onExit()
@@ -285,6 +287,16 @@ public class GameState_GameSettings extends GameState
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
         gameStateController.popState();
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("starting_level"))
+      {
+        float sliderValue = event.getRequiredFloatParameter("sliderValue");
+        int startingLevel = (int)(((98.0f * (sliderValue / 100.0f)) + 1.0f));
+        options.getGameOptions().setStartingLevel(startingLevel);
       }
     }
   }
@@ -365,6 +377,47 @@ public class GameState_IOSettings extends GameState
         {
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      float sliderValue = event.getRequiredFloatParameter("sliderValue");
+      
+      if (tag.equals("music"))
+      {
+        options.getIOOptions().setMusicVolume(sliderValue);
+        
+        IGameState previousState = gameStateController.getPreviousState();
+        if (previousState != null)
+        {
+          ArrayList<IGameObject> musicPlayerList = previousState.getGameObjectManager().getGameObjectsByTag("music_player");
+          if (musicPlayerList.size() > 0)
+          {
+            IGameObject musicPlayer = musicPlayerList.get(0);
+            IComponent component = musicPlayer.getComponent(ComponentType.MUSIC_PLAYER);
+            if (component != null)
+            {
+              MusicPlayerComponent musicPlayerComponent = (MusicPlayerComponent)component;
+              musicPlayerComponent.setMusicVolume(options.getIOOptions().getMusicVolume());
+            }
+          }
+        }
+      }
+      else if (tag.equals("sound_effects"))
+      {
+        options.getIOOptions().setSoundEffectsVolume(sliderValue);
+      }
+      else if (tag.equals("left_sensitivity"))
+      {
+        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
+        options.getIOOptions().setLeftEMGSensitivity(sensitivityValue);
+      }
+      else if (tag.equals("right_sensitivity"))
+      {
+        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
+        options.getIOOptions().setRightEMGSensitivity(sensitivityValue);
       }
     }
   }
@@ -866,6 +919,20 @@ public class GameStateController implements IGameStateController
     {
       exit();
     }
+  }
+  
+  @Override public IGameState getCurrentState()
+  {
+    return stateStack.peekLast();
+  }
+  
+  @Override public IGameState getPreviousState()
+  {
+    if (stateStack.size() < 2)
+    {
+      return null;
+    }
+    return stateStack.get(stateStack.size() - 2);
   }
   
   @Override public IGameObjectManager getGameObjectManager()

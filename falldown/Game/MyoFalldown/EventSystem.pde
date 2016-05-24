@@ -28,12 +28,16 @@ enum EventType
   UPDATE_SCORE,
 
   // Mouse clicked events.
+  MOUSE_PRESSED,
   MOUSE_CLICKED,
   MOUSE_DRAGGED,
   MOUSE_RELEASED,
 
   // Button clicked events.
   BUTTON_CLICKED,
+  
+  SLIDER_DRAGGED,
+  SLIDER_RELEASED,
 
   GAME_OVER,
   DESTROY_COIN,
@@ -229,11 +233,15 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.COIN_COLLECTED);
     addEventTypeToMaps(EventType.UPDATE_SCORE);
 
+    addEventTypeToMaps(EventType.MOUSE_PRESSED);
     addEventTypeToMaps(EventType.MOUSE_CLICKED);
     addEventTypeToMaps(EventType.MOUSE_DRAGGED);
     addEventTypeToMaps(EventType.MOUSE_RELEASED);
 
     addEventTypeToMaps(EventType.BUTTON_CLICKED);
+    
+    addEventTypeToMaps(EventType.SLIDER_DRAGGED);
+    addEventTypeToMaps(EventType.SLIDER_RELEASED);
 
     addEventTypeToMaps(EventType.GAME_OVER);
     addEventTypeToMaps(EventType.DESTROY_COIN);

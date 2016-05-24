@@ -1136,7 +1136,7 @@ public class PlatformManagerControllerComponent extends Component
       {
         float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
         float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
-        float obstacleOffset = random(obstacleMinHorizontalOffset, obstacleMaxHorizontalOffset);
+        float obstacleOffset = random(max(-platformWidth/2, obstacleMinHorizontalOffset), min(platformWidth/2, obstacleMaxHorizontalOffset));
         
         IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(
           obstacleFile, 

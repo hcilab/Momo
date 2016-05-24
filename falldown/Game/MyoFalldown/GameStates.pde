@@ -512,28 +512,32 @@ public class GameState_StatsSettings extends GameState
 
   private void refreshVisibleRecords()
   {
-    ArrayList<IGameObject> tableRows = gameStateController.getGameObjectManager().getGameObjectsByTag("stats_row");
-
-    for (int i=0; i<tableRows.size(); i++)
+    ArrayList<IGameObject> tableRows = new ArrayList<IGameObject>();
+    for (int i=0; i<NUM_RECORDS_VISIBLE; i++)
     {
-      IComponent component = tableRows.get(i).getComponent(ComponentType.RENDER);
-      if (component != null)
+      tableRows = gameStateController.getGameObjectManager().getGameObjectsByTag(String.format("stats_row_%d", i));
+
+      if (tableRows.size() == 1)
       {
-        RenderComponent renderComponent = (RenderComponent) component;
-        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        IComponent component = tableRows.get(0).getComponent(ComponentType.RENDER);
+        if (component != null)
+        {
+          RenderComponent renderComponent = (RenderComponent) component;
+          ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
 
-        IGameRecordViewHelper viewHelper;
-        if (topRow+i >= 0 && topRow+i < records.size())
-          viewHelper = new GameRecordViewHelper(records.get(topRow+i));
-        else
-          viewHelper = new GameRecordViewHelper(null);
+          IGameRecordViewHelper viewHelper;
+          if (topRow+i >= 0 && topRow+i < records.size())
+            viewHelper = new GameRecordViewHelper(records.get(topRow+i));
+          else
+            viewHelper = new GameRecordViewHelper(null);
 
-        texts.get(0).string = viewHelper.getLevelAchieved();
-        texts.get(1).string = viewHelper.getScoreAchieved();
-        texts.get(2).string = viewHelper.getCoinsCollected();
-        texts.get(3).string = viewHelper.getAverageSpeed();
-        texts.get(4).string = viewHelper.getTimePlayed();
-        texts.get(5).string = viewHelper.getDate();
+          texts.get(0).string = viewHelper.getLevelAchieved();
+          texts.get(1).string = viewHelper.getScoreAchieved();
+          texts.get(2).string = viewHelper.getCoinsCollected();
+          texts.get(3).string = viewHelper.getAverageSpeed();
+          texts.get(4).string = viewHelper.getTimePlayed();
+          texts.get(5).string = viewHelper.getDate();
+        }
       }
     }
   }

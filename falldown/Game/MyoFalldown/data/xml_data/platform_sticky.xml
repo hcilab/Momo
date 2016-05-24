@@ -22,7 +22,7 @@
 	>
 		<Fixture
 			density="1.0"
-			friction="4.3"
+			friction="2.5"
 			restitution="0.0"
 			isSensor="false"
 		>

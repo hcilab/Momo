@@ -40,7 +40,7 @@
 		</Sprite>
 
 		<Text
-			string="*** use the UP and DOWN arrows to see older records ***"
+			string="*** use the UP and DOWN arrows to see more records ***"
 			fontName="Moire Bold" 
 			size="12"
 			antialiasing="true"

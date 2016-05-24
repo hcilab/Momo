@@ -33,7 +33,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Use either the keyboard controls or the Myo armband to"
+			string="Use either the Myo armband or the keyboard controls to"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -72,7 +72,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="obstacles, collect coins, and maneuver across the platforms"
+			string="obstacles and collect coins to increase your score and"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -85,7 +85,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="to avoid colliding with the spikes at the top of your screen."
+			string="unlock new items to customize your game experience!"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

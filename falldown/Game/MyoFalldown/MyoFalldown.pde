@@ -122,7 +122,12 @@ void keyPressed()
 {
   Event event;
   
-  if (key == CODED)
+  if (key == ESC)
+  {
+    key = 0; // override so that signal is not propogated on to kill window
+    return;
+  }
+  else if (key == CODED)
   {
     switch (keyCode)
     {
@@ -158,6 +163,11 @@ void keyReleased()
 {
   Event event;
   
+  if (key == ESC)
+  {
+    key = 0; // override so that signal is not propogated on to kill window
+    return;
+  }
   if (key == CODED)
   {
     switch (keyCode)

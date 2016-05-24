@@ -5,12 +5,7 @@
 			<StrokeColor r="0" g="0" b="255" a="255"/>
 		</Rect> -->
 		<Sprite>
-			<!-- <Image src="grass.png" x="0.0" y="0.0"   height="500.0" width="10"> </Image> --> 
-			<SpriteSheet src="images/block/sandCenter.png" alphaImage=""
-				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="50" height="70.0" scaleHeight="20"> 
-			</SpriteSheet> 
+			<Image src="images/block/sandWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
 		</Sprite> 
 
 	</Render>

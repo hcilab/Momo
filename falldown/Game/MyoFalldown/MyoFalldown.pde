@@ -94,7 +94,7 @@ void setup()
   
   lastFrameTime = millis();
 
-  bg = loadShape("images/background/testBG.svg");
+  bg = loadShape("images/background/sky.svg");
   opbg =  loadShape("images/background/opacityBG.svg");
 } 
 

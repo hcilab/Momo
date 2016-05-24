@@ -34,10 +34,20 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<SpriteSheet src="images/player/P1LowGS.png" alphaImage=""
+			<SpriteSheet src="images/player/monsterGrey.png" alphaImage=""
 				x="100.0" y="115.0"  
-				horzCount="3" vertCount="3" defaultCount="7" farmeFreq="1f"
-				zOrder="0" height="128.0" scaleHeight="30"> 
+				horzCount="16" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="436.0" scaleHeight="30"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/player/dragonGrey.png" alphaImage=""
+				x="175.0" y="115.0"  
+				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="436.0" scaleHeight="30"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/player/grumpyBirdGrey.png" alphaImage=""
+				x="265.0" y="115.0"  
+				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="436.0" scaleHeight="30"> 
 			</SpriteSheet> 
 		</Sprite>
 		<Text
@@ -92,5 +102,8 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Sprite>
+			<Image  src="images/button/musicNote.png" x="200.0" y="315.0"   width="30" height="30" resizeHeight="30" resizeWidth="30"/>
+		</Sprite>
 	</Render>
 </GameObject>

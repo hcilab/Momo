@@ -1,12 +1,7 @@
 <GameObject>
 	<Render>
 		<Sprite>
-			<Image src="images/block/grassBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="470" resizeWidth="20"/>
-			<!-- <SpriteSheet src="images/block/o3.png" alphaImage=""
-				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="212.0" scaleHeight="1"> 
-			</SpriteSheet>  -->
+			<Image src="images/block/grassBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="470" resizeHeight="20"/>
 		</Sprite> 
 	</Render>
 	

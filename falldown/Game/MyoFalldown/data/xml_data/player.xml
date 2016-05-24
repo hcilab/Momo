@@ -4,7 +4,7 @@
 			<SpriteSheet src="images/player/grumpyBird.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="8" vertCount="1" defaultCount="7" farmeFreq="1f"
-				zOrder="0" height="688.0" scaleHeight="25"> 
+				zOrder="0" height="436.0" scaleHeight="25"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

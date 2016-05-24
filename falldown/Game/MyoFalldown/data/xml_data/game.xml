@@ -11,7 +11,7 @@
   <GameObject file="xml_data/wall.xml" tag="left_wall">
 		<Transform>
 			<Translation x="5.0" y="250.0"/>
-      		<Scale x="10.0" y="1.0"/>
+      		<Scale x="20" y="500.0"/>
 		</Transform>
 	</GameObject>
 	
@@ -20,7 +20,7 @@
   <GameObject file="xml_data/wall.xml" tag="right_wall">
 		<Transform>
 			<Translation x="495.0" y="250.0"/>
-      		<Scale x="10.0" y="1.0"/>
+      		<Scale x="20" y="500"/>
 		</Transform>
 	</GameObject>
 	

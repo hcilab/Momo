@@ -11,7 +11,7 @@
 		rightSide="487.0"
 		platformHeight="15.0"
 		disappearHeight="60.0"
-		spawnHeight="600.0"
+		spawnHeight="700.0"
 		minGapsPerLevel="1"
 		maxGapsPerLevel="2"
 		minGapSize="30.0"

@@ -18,7 +18,7 @@
 		maxGapSize="50.0"
 		obstacleFile="xml_data/obstacle.xml"
 		obstacleTag="obstacle"
-		obstacleChance="0.2"
+		obstacleChance="1"
 		obstacleMinWidth="5.0"
 		obstacleMaxWidth="8.0"
 		obstacleMinHeight="25.0"
@@ -26,7 +26,7 @@
 		obstacleMinHorizontalOffset="-20.0"
 		obstacleMaxHorizontalOffset="20.0"
 		minDistanceBetweenGaps="50.0"
-		minHeightBetweenPlatformLevels="115.0"
+		minHeightBetweenPlatformLevels="100.0"
 		maxHeightBetweenPlatformLevels="160.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 	>

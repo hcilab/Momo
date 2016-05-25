@@ -843,7 +843,7 @@ public class GameState_CalibrateMenu extends GameState
     for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_FAILURE))
     {
       gameStateController.popState();
-      gameStateController.pushState(new GameState_CalibrateFailure());
+      gameStateController.pushState(new GameState_CalibrateFailureConfirm());
     }
   }
 }
@@ -929,6 +929,44 @@ public class GameState_CalibrateFailure extends GameState
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+    }
+  }
+}
+
+public class GameState_CalibrateFailureConfirm extends GameState
+{
+  public GameState_CalibrateFailureConfirm()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_failure_confirm.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("ok"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
       }
     }
   }

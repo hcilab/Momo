@@ -109,7 +109,50 @@ public class GameState_MainMenu extends GameState
       }
       else if (tag.equals("exit"))
       {
-        gameStateController.popState();
+        gameStateController.pushState(new GameState_Confirm_Quit());
+      }
+    }
+  }
+}
+
+public class GameState_Confirm_Quit extends GameState
+{
+  public GameState_Confirm_Quit()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/confirm_quit.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      switch(tag)
+      {
+        case "yes":
+          gameStateController.popState();
+          gameStateController.popState();
+          break;
+        case "no":
+          gameStateController.popState();
+          break;
       }
     }
   }
@@ -143,6 +186,10 @@ public class GameState_InGame extends GameState
   private void handleEvents()
   {
     for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
     {
       gameStateController.pushState(new GameState_IOSettings());
     }
@@ -796,7 +843,7 @@ public class GameState_CalibrateMenu extends GameState
     for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_FAILURE))
     {
       gameStateController.popState();
-      gameStateController.pushState(new GameState_CalibrateFailure());
+      gameStateController.pushState(new GameState_CalibrateFailureConfirm());
     }
   }
 }
@@ -882,6 +929,44 @@ public class GameState_CalibrateFailure extends GameState
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+    }
+  }
+}
+
+public class GameState_CalibrateFailureConfirm extends GameState
+{
+  public GameState_CalibrateFailureConfirm()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_failure_confirm.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("ok"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
       }
     }
   }

@@ -1,10 +1,10 @@
 <GameObject>
 	<Render>
 		<Sprite>
-			<SpriteSheet src="images/player/monster.png" alphaImage=""
-				x="0.0" y="0.0"
-				horzCount="16" vertCount="1" defaultCount="7" farmeFreq="1f"
-				zOrder="0" height="436.0" scaleHeight="1"> 
+			<SpriteSheet src="images/player/ballBlue.png" alphaImage=""
+				x="0.0" y="0.0"  
+				horzCount="1" vertCount="1" defaultCount="1" farmeFreq="1f"
+				zOrder="0" height="40.0" scaleHeight="1"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>

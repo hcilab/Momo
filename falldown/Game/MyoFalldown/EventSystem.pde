@@ -18,6 +18,7 @@ enum EventType
   RIGHT_BUTTON_PRESSED,
   DOWN_BUTTON_PRESSED,
   SPACEBAR_PRESSED,
+  ESCAPE_PRESSED,
   
   // Key released events.
   UP_BUTTON_RELEASED,
@@ -32,6 +33,7 @@ enum EventType
   MOUSE_CLICKED,
   MOUSE_DRAGGED,
   MOUSE_RELEASED,
+  MOUSE_MOVED,
 
   // Button clicked events.
   BUTTON_CLICKED,
@@ -225,6 +227,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.RIGHT_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.DOWN_BUTTON_PRESSED);
     addEventTypeToMaps(EventType.SPACEBAR_PRESSED);
+    addEventTypeToMaps(EventType.ESCAPE_PRESSED);
     
     addEventTypeToMaps(EventType.UP_BUTTON_RELEASED);
     addEventTypeToMaps(EventType.LEFT_BUTTON_RELEASED);
@@ -237,6 +240,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.MOUSE_CLICKED);
     addEventTypeToMaps(EventType.MOUSE_DRAGGED);
     addEventTypeToMaps(EventType.MOUSE_RELEASED);
+    addEventTypeToMaps(EventType.MOUSE_MOVED);
 
     addEventTypeToMaps(EventType.BUTTON_CLICKED);
     

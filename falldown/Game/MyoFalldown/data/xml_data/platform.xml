@@ -1,7 +1,7 @@
 <GameObject>
 	<Render>
 		<Sprite>
-			<Image src="images/block/grassBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="470" resizeHeight="20"/>
+			<Image src="images/block/grassBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite> 
 	</Render>
 	

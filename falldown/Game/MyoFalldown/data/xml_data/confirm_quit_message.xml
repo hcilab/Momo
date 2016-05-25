@@ -1,7 +1,9 @@
 <GameObject>
 	<Render>
+
+    <!-- Title -->
 		<Text
-			string="EMG Calibration"
+			string="Really Quit?"
 			fontName="Moire Bold" 
 			size="40"
 			antialiasing="true"
@@ -19,35 +21,57 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Line>
 
+    <!-- Message -->
 		<Text
-			string="EMG controls are ready to use!"
-			fontName="Moire" 
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="250.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-
-		<Text
-			string="Re-Calibrate"
-			fontName="Moire"
+			string="All settings and game history will be saved."
+			fontName="Moire Bold" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="350.0"
+			y="150.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
+    <!-- Button Text -->
+		<Text
+			string="No"
+			fontName="Moire Bold" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="150.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Yes"
+			fontName="Moire Bold" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="350.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+    <!-- Buttons -->
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="150.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
 		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="350.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
+		</Sprite>
+
 	</Render>
 </GameObject>
+

@@ -132,11 +132,9 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-
-		<Rect x="30.0" y="485.0" halfWidth="25.0" halfHeight="10.0">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<Sprite>
+			<Image  src="images/button/redButton.png" x="30.0" y="485.0"   width="50" height="30"  resizeWidth="50" resizeHeight="30"/>
+		</Sprite>
 		<Text
 			string="Clear"
 			fontName="Moire"
@@ -145,7 +143,7 @@
 			alignX="center"
 			alignY="center"
 			x="30.0"
-			y="485.0"
+			y="483.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

@@ -189,6 +189,10 @@ public class GameState_InGame extends GameState
     {
       gameStateController.pushState(new GameState_IOSettings());
     }
+    for (IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
     for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
       gameStateController.popState();

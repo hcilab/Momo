@@ -124,6 +124,8 @@ void keyPressed()
   
   if (key == ESC)
   {
+    event = new Event(EventType.ESCAPE_PRESSED);
+    eventManager.queueEvent(event);
     key = 0; // override so that signal is not propogated on to kill window
     return;
   }

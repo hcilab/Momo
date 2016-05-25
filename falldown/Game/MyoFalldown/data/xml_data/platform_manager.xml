@@ -18,7 +18,7 @@
 		maxGapSize="50.0"
 		obstacleFile="xml_data/obstacle.xml"
 		obstacleTag="obstacle"
-		obstacleChance="1"
+		obstacleChance="0.3"
 		obstacleMinWidth="5.0"
 		obstacleMaxWidth="8.0"
 		obstacleMinHeight="25.0"

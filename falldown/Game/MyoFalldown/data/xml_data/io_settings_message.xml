@@ -326,7 +326,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="110.0" y="470.0"   width="200" height="80" resizeHeight="190" resizeWidth="50"/>
+			<Image  src="images/button/buttonNormal.png" x="110.0" y="470.0"   width="200" height="80" resizeHeight="200" resizeWidth="80"/>
 		</Sprite>
 	</Render>
 </GameObject>

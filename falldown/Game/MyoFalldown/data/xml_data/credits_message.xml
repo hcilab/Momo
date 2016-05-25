@@ -166,7 +166,7 @@
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Institue of Biomedical Engineering, UNB"
+			string="Institute of Biomedical Engineering, UNB"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -292,6 +292,32 @@
 			alignY="center"
 			x="475.0"
 			y="430.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="From Incompetech.com:"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="450.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Kevin MacLeod (Music)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="470.0"
 		>
 			<FillColor r="0" g="0" b="0" a="475"/>
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>

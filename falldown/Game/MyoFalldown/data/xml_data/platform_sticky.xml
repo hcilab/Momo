@@ -1,11 +1,7 @@
 <GameObject>
 	<Render>
-		<!-- <Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect> -->
 		<Sprite>
-			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="20" resizeWidth="470"/>
+			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="474"/>
 		</Sprite>
 	</Render>
 	

@@ -12,21 +12,21 @@
   <GameObject file="xml_data/wall.xml" tag="left_wall">
 		<Transform>
 			<Translation x="5.0" y="250.0"/>
-      		<Scale x="20" y="500.0"/>
+      		<Scale x="15" y="500.0"/>
 		</Transform>
 	</GameObject>
 
   <GameObject file="xml_data/wall.xml" tag="right_wall">
 		<Transform>
 			<Translation x="495.0" y="250.0"/>
-      		<Scale x="20" y="500"/>
+      		<Scale x="15" y="500"/>
 		</Transform>
 	</GameObject>
 
   <GameObject file="xml_data/platform.xml">
 		<Transform>
-			<Translation x="255.0" y="495.0"/>
-			<Scale x="480.0" y="15.0"/>
+			<Translation x="250" y="495.0"/>
+			<Scale x="475.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 	

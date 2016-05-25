@@ -3,13 +3,15 @@
 		coinFile="xml_data/coin.xml"
 		tag="coin"
 		spawnRelativeTo="platform"
-		minSpawnWaitTime="10000"
-		maxSpawnWaitTime="20000"
+		levelOneAvgSpawnTime="20000"
+		spawnTimeDecreasePerLevel="190"
+		spawnTimeRandomWindowSize="1000"
 		minHorizontalOffset="-20.0"
 		maxHorizontalOffset="20.0"
 		minVerticalOffset="-25.0"
 		maxVerticalOffset="-20.0"
 		minHeight="525.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
+		currentLevelParameterName="currentLevel"
 	/>
 </GameObject>

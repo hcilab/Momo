@@ -1291,8 +1291,9 @@ public class CoinSpawnerControllerComponent extends Component
   private String tag;
   
   private String spawnRelativeTo;
-  private int minSpawnWaitTime;
-  private int maxSpawnWaitTime;
+  private int levelOneAvgSpawnTime;
+  private int spawnTimeDecreasePerLevel;
+  private int spawnTimeRandomWindowSize;
   private int nextSpawnTime;
   private int timePassed;
   
@@ -1304,6 +1305,8 @@ public class CoinSpawnerControllerComponent extends Component
   
   private float minHeight;
   
+  private String currentLevelParameterName;
+  private int currentLevel;
   private String currentRiseSpeedParameterName;
   private float riseSpeed;
   
@@ -1323,8 +1326,10 @@ public class CoinSpawnerControllerComponent extends Component
     
     spawnRelativeTo = xmlComponent.getString("spawnRelativeTo");
  
-    maxSpawnWaitTime = xmlComponent.getInt("maxSpawnWaitTime");
-    nextSpawnTime = int(random(minSpawnWaitTime, maxSpawnWaitTime));
+    levelOneAvgSpawnTime = xmlComponent.getInt("levelOneAvgSpawnTime");
+    spawnTimeDecreasePerLevel = xmlComponent.getInt("spawnTimeDecreasePerLevel");
+    spawnTimeRandomWindowSize = xmlComponent.getInt("spawnTimeRandomWindowSize");
+    nextSpawnTime = calculateNextSpawnTime();
     timePassed = 0;
     
     minHorizontalOffset = xmlComponent.getFloat("minHorizontalOffset");
@@ -1335,6 +1340,8 @@ public class CoinSpawnerControllerComponent extends Component
     
     minHeight = xmlComponent.getFloat("minHeight");
     
+    currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
+    currentLevel = 1;
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     riseSpeed = 0.0f;
   }
@@ -1354,7 +1361,7 @@ public class CoinSpawnerControllerComponent extends Component
     {
       spawnCoin();
       timePassed = 0;
-      nextSpawnTime = int(random(minSpawnWaitTime, maxSpawnWaitTime));
+      nextSpawnTime = calculateNextSpawnTime();
     }
   }
   
@@ -1397,8 +1404,15 @@ public class CoinSpawnerControllerComponent extends Component
   {
     for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
+      currentLevel = event.getRequiredIntParameter(currentLevelParameterName);
       riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
     }
+  }
+
+  private int calculateNextSpawnTime()
+  {
+    int avgSpawnTime = levelOneAvgSpawnTime - (currentLevel-1)*spawnTimeDecreasePerLevel;
+    return int(random(avgSpawnTime - spawnTimeRandomWindowSize/2, avgSpawnTime + spawnTimeRandomWindowSize/2));
   }
 }
 

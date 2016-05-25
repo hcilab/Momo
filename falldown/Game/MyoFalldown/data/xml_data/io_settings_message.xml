@@ -16,32 +16,53 @@
 		rightSensitivitySliderRightBoundary="475.0"
 	/>
 	<Render>
-		<Text
-			string="xxx"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="0.0"
-			y="0.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="xxx"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="0.0"
-			y="0.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
+		<!-- The position of these components within this file is very important,
+		they are being indexed according to their position in application code.
+		Moving these components, or inserting components above this position will
+		likely break application logic.-->
+			<Text
+				string="xxx"
+				fontName="Arial"
+				size="10"
+				antialiasing="true"
+				alignX="center"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Text
+				string="xxx"
+				fontName="Arial"
+				size="10"
+				antialiasing="true"
+				alignX="center"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Text
+				string="Quit Game"
+				fontName="Moire" 
+				size="20"
+				antialiasing="true"
+				alignX="center"
+				alignY="center"
+				x="110.0"
+				y="470.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Sprite>
+				<Image	src="images/button/buttonNormal.png" x="110.0" y="470.0" width="200" height="80" resizeWidth="190" resizeHeight="50"/>
+			</Sprite>
+		<!-- =================================================================== -->
 	
 		<Text
 			string="System Settings"
@@ -319,14 +340,14 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="110.0"
+			x="390.0"
 			y="470.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="110.0" y="470.0"   width="200" height="80" resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="390.0" y="470.0"   width="200" height="80" resizeWidth="190" resizeHeight="50"/>
 		</Sprite>
 	</Render>
 </GameObject>

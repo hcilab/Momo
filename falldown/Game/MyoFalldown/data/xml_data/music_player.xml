@@ -1,6 +1,6 @@
 <GameObject>
 	<MusicPlayer
-		musicFile="music/Megalovania.wav"
+		musicFile="music/EDMDetectionMode.wav"
 		rate="1.0"
 		pan="0.0"
 		amp="1.0"

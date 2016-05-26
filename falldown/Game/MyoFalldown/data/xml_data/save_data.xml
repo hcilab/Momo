@@ -68,6 +68,6 @@
     <Record avg_speed="42.109726" coins_collected="14" date="1464272133256" level="1" score="7169" time_played_millis="170854"/>
   </Stats>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
-  <Credits anonymous="false"/>
+  <Credits anonymous="true"/>
   <Unlocked/>
 </SaveData>

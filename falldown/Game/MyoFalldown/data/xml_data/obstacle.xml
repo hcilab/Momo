@@ -5,12 +5,10 @@
 			<SpriteSheet src="images/obstacle/pokerMad.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="142.0" scaleHeight="1"> 
+				zOrder="0" height="146.0" scaleHeight="1"> 
 			</SpriteSheet> 
 		</Sprite>
-
 	</Render>
-	
 	<RigidBody
 		type="kinematic"
 		linearDamping="0.0"

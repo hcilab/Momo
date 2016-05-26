@@ -832,15 +832,15 @@ public class PlayerControllerComponent extends Component
     PVector p = new PVector(); //<>// //<>// //<>//
     if (upButtonDown) //<>// //<>// //<>//
     {
-      p.y -= 1.0f;
+      p.y -= 10.0f;
     }
     if (leftButtonDown)
     {
-      p.x -= 1.0f;
+      p.x -= 10.0f;
     }
     if (rightButtonDown)
     { //<>//
-      p.x += 1.0f;
+      p.x += 10.0f;
     } //<>//
     return p;
   }

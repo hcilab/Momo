@@ -1352,15 +1352,18 @@ public class CoinSpawnerControllerComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    handleEvents();
-    
-    timePassed += deltaTime;
-    
-    if (timePassed > nextSpawnTime)
+    if (!options.getGameOptions().getAutoDirect())
     {
-      spawnCoin();
-      timePassed = 0;
-      nextSpawnTime = calculateNextSpawnTime();
+      handleEvents();
+    
+      timePassed += deltaTime;
+      
+      if (timePassed > nextSpawnTime)
+      {
+        spawnCoin();
+        timePassed = 0;
+        nextSpawnTime = calculateNextSpawnTime();
+      }
     }
   }
   

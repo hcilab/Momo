@@ -14,7 +14,7 @@ import java.util.Comparator;
 import java.util.Collections;
 
 import java.text.SimpleDateFormat;
-
+ 
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
@@ -54,21 +54,21 @@ IEmgManager emgManager;
 // Manages the save_data.xml file.
 IOptions options;
 
-// Top-level game loop variables.
+// Top-level game variables.
+final String LEFT_DIRECTION_LABEL = "LEFT";
+final String RIGHT_DIRECTION_LABEL = "RIGHT";
+final String JUMP_DIRECTION_LABEL = "JUMP";
 
 int lastFrameTime;
 int lastFrameWidth;
 int lastFrameHeight;
 int currentFrameWidth;
 int currentFrameHeight;
+
+boolean mouseHand;
+
 PShape bg;
 PShape opbg;
-
-final String LEFT_DIRECTION_LABEL = "LEFT";
-final String RIGHT_DIRECTION_LABEL = "RIGHT";
-final String JUMP_DIRECTION_LABEL = "JUMP";
-
-boolean hover = false;
 
 void setup()
 {
@@ -103,6 +103,8 @@ void setup()
 
   currentFrameWidth = width;
   currentFrameHeight = height;
+  
+  mouseHand = false;
 
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityBG.svg");
@@ -110,8 +112,6 @@ void setup()
 
 void draw()
 {
-  hover = false;
-  
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
@@ -144,6 +144,17 @@ void draw()
   
   eventManager.update();
   gameStateController.update(deltaTime);
+  
+  if (mouseHand)
+  {
+    cursor(HAND);
+  }
+  else
+  {
+    cursor(ARROW);
+  }
+  
+  mouseHand = false;
 }
 
 void keyPressed()

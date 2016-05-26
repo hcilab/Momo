@@ -1608,6 +1608,8 @@ public class ButtonComponent extends Component
   private int buttonHeight;
   private int buttonWidth;
   
+  private boolean mouseOver;
+  
   private SoundFile buttonClickedSound;
   private float amplitude;
 
@@ -1617,6 +1619,8 @@ public class ButtonComponent extends Component
 
     buttonHeight = 0;
     buttonWidth = 0;
+    
+    mouseOver = false;
   }
 
   @Override public void destroy()
@@ -1642,57 +1646,34 @@ public class ButtonComponent extends Component
 
   @Override public void update(int deltaTime)
   {
-    handleEvents();
-  }
-
-  private void handleEvents()
-  {
+    float widthScale = (width / 500.0f);
+    float heightScale = (height / 500.0f);
+    
+    float xButton = gameObject.getTranslation().x * widthScale;
+    float yButton = gameObject.getTranslation().y * heightScale;
+    
+    float actualButtonWidth = buttonWidth * widthScale;
+    float actualButtonHeight = buttonHeight * heightScale;
+    
+    if (xButton - 0.5 * actualButtonWidth <= mouseX && xButton + 0.5 * actualButtonWidth >= mouseX && yButton - 0.5 * actualButtonHeight <= mouseY && yButton + 0.5 * actualButtonHeight >= mouseY)
+    {
+      mouseOver = true;
+      mouseHand = true;
+    }
+    else
+    {
+      mouseOver = false;
+    }
+    
     for (IEvent event : eventManager.getEvents(EventType.MOUSE_CLICKED))
     {
-      float widthScale = (width / 500.0f);
-      float heightScale = (height / 500.0f);
-      
-      float xButton = gameObject.getTranslation().x * widthScale;
-      float yButton = gameObject.getTranslation().y * heightScale;
-      
-      float actualButtonWidth = buttonWidth * widthScale;
-      float actualButtonHeight = buttonHeight * heightScale;
-
-      int xMouse = event.getRequiredIntParameter("mouseX");
-      int yMouse = event.getRequiredIntParameter("mouseY");
-
-      if(xButton - 0.5 * actualButtonWidth <= xMouse && xButton + 0.5 * actualButtonWidth >= xMouse && yButton - 0.5 * actualButtonHeight <= yMouse && yButton + 0.5 * actualButtonHeight >= yMouse)
+      if (mouseOver)
       {
         Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
         buttonEvent.addStringParameter("tag",gameObject.getTag());
         eventManager.queueEvent(buttonEvent);
         buttonClickedSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
         buttonClickedSound.play();
-      }
-    }
-
-    for(IEvent event : eventManager.getEvents(EventType.MOUSE_MOVED))
-    {
-      float widthScale = (width / 500.0f);
-      float heightScale = (height / 500.0f);
-
-      float xButton = gameObject.getTranslation().x * widthScale;
-      float yButton = gameObject.getTranslation().y * heightScale;
-
-      float actualButtonWidth = buttonWidth * widthScale;
-      float actualButtonHeight = buttonHeight * heightScale;
-
-      int xMouse = event.getRequiredIntParameter("mouseX");
-      int yMouse = event.getRequiredIntParameter("mouseY");
-
-      if (xButton - 0.5 * actualButtonWidth <= xMouse && xButton + 0.5 * actualButtonWidth >= xMouse && yButton - 0.5 * actualButtonHeight <= yMouse && yButton + 0.5 * actualButtonHeight >= yMouse)
-      {
-        cursor(HAND);
-        hover = true;
-      }
-      else if (!hover)
-      {
-        cursor(ARROW);
       }
     }
   }
@@ -1702,6 +1683,7 @@ public class SliderComponent extends Component
 {
   private int sliderHeight;
   private int sliderWidth;
+  private boolean mouseOver;
   private boolean active;
 
   public SliderComponent(GameObject _gameObject)
@@ -1710,6 +1692,7 @@ public class SliderComponent extends Component
 
     sliderHeight = 0;
     sliderWidth = 0;
+    mouseOver = false;
     active = false;
   }
 
@@ -1742,50 +1725,35 @@ public class SliderComponent extends Component
 
   @Override public void update(int deltaTime)
   {
-    handleEvents();
-  }
-
-  private void handleEvents()
-  {
     float widthScale = (width / 500.0f);
     float heightScale = (height / 500.0f);
-
-    float xSlider = gameObject.getTranslation().x * widthScale;
-    float ySlider = gameObject.getTranslation().y * heightScale;
-
-    float actualSliderWidth = sliderWidth * widthScale;
-    float actualSliderHeight = sliderHeight * heightScale;
-
+    
+    PVector screenTranslation = new PVector(gameObject.getTranslation().x * widthScale, gameObject.getTranslation().y * heightScale);
+    
+    int actualSliderWidth = (int)(sliderWidth * widthScale);
+    int actualSliderHeight = (int)(sliderHeight * heightScale);
+    
     // Slider rect boundaries
-    float xLeft = xSlider - actualSliderWidth * 0.5;
-    float xRight = xSlider + actualSliderWidth * 0.5;
-    float yTop = ySlider - actualSliderHeight * 0.5;
-    float yBottom = ySlider + actualSliderHeight * 0.5;
-
-    for (IEvent event : eventManager.getEvents(EventType.MOUSE_PRESSED))
+    int xLeft = (int)(screenTranslation.x - (actualSliderWidth * 0.5));
+    int xRight = (int)(screenTranslation.x + (actualSliderWidth * 0.5));
+    int yTop = (int)(screenTranslation.y - (actualSliderHeight * 0.5));
+    int yBottom = (int)(screenTranslation.y + (actualSliderHeight * 0.5));
+    
+    if (active || (xLeft <= mouseX && xRight >= mouseX && yTop <= mouseY && yBottom >= mouseY))
     {
-      int xMouse = event.getRequiredIntParameter("mouseX");
-      int yMouse = event.getRequiredIntParameter("mouseY");
-      
-      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
-      {
-        active = true;
-      }
+      mouseOver = true;
+      mouseHand = true;
+    }
+    else
+    {
+      mouseOver = false;
     }
     
-    for(IEvent event : eventManager.getEvents(EventType.MOUSE_MOVED))
+    for (IEvent event : eventManager.getEvents(EventType.MOUSE_PRESSED))
     {
-      int xMouse = event.getRequiredIntParameter("mouseX");
-      int yMouse = event.getRequiredIntParameter("mouseY");
-
-      if (xLeft <= xMouse && xRight >= xMouse && yTop <= yMouse && yBottom >= yMouse)
+      if (mouseOver)
       {
-        cursor(HAND);
-        hover = true;
-      }
-      else if (!hover)
-      {
-        cursor(ARROW);
+        active = true;
       }
     }
 
@@ -1803,6 +1771,7 @@ public class SliderComponent extends Component
         {
           xMouse = xRight;
         }
+        
         RenderComponent renderComponent = (RenderComponent) gameObject.getComponent(ComponentType.RENDER);
         renderComponent.getImages().get(0).translation.x = (xMouse - (gameObject.getTranslation().x * widthScale)) / widthScale;
         float sliderPixelVal = xMouse - (xLeft);

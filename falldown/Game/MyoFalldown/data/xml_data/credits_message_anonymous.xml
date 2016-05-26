@@ -20,7 +20,7 @@
 		</Line>
 
 		<Text
-			string="Special Thanks.................................................................."
+			string="Special Thanks....................................................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -33,7 +33,7 @@
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Myo"
+			string="Thalmic Labs"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -47,7 +47,7 @@
 		</Text>
 
 		<Text
-			string="Assets..........................................."
+			string="Assets.............................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -60,7 +60,7 @@
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Myo (Hand gesture images)"
+			string="Thalmic Labs (Hand gesture images)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

@@ -126,7 +126,7 @@
 		</Text>
 
 		<Text
-			string="Academic Advisor........................................"
+			string="Academic Advisors......................................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -151,6 +151,36 @@
 			<FillColor r="0" g="0" b="0" a="475"/>
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
+		<Text
+			string="Dr. Erik Scheme P.Eng"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="265.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+
+    <!--
+		<Text
+			string="Wendy Hill"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="475.0"
+			y="285.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+    -->
+
 
 		<Text
 			string="Special Thanks..........."
@@ -179,7 +209,7 @@
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Myo"
+			string="Thalmic Labs"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -191,35 +221,8 @@
 			<FillColor r="0" g="0" b="0" a="475"/>
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
-<!-- 		<Text
-			string="Erik Scheme"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="right"
-			alignY="center"
-			x="475.0"
-			y="265.0"
-		>
-			<FillColor r="0" g="0" b="0" a="475"/>
-			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
-		</Text>
 		<Text
-			string="Wendy ____"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="right"
-			alignY="center"
-			x="475.0"
-			y="285.0"
-		>
-			<FillColor r="0" g="0" b="0" a="475"/>
-			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
-		</Text> -->
-
-		<Text
-			string="Assets..........................................."
+			string="Assets.............................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -232,7 +235,7 @@
 			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Myo (Hand gesture images)"
+			string="Thalmic Labs (Hand gesture images)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

@@ -33,7 +33,7 @@
 	<GameObject file="xml_data/death_ceiling.xml" tag="death_ceiling">
 		<Transform>
 			<Translation x="250.0" y="41.5"/>
-			<Scale x="470.0" y="15.0"/>
+			<Scale x="475.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 	

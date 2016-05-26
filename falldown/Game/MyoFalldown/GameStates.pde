@@ -351,6 +351,7 @@ public class GameState_GameSettings extends GameState
 
 public class GameState_IOSettings extends GameState
 {
+  public boolean isPauseScreen;
   public boolean saveDataLoaded;
   public boolean tweakedForPauseOrSettings;
 
@@ -358,6 +359,7 @@ public class GameState_IOSettings extends GameState
   {
     super();
 
+    isPauseScreen = false;
     saveDataLoaded = false;
     tweakedForPauseOrSettings = false;
   }
@@ -365,6 +367,7 @@ public class GameState_IOSettings extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/io_settings.xml");
+    isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame;
   }
 
   @Override public void update(int deltaTime)
@@ -502,8 +505,6 @@ public class GameState_IOSettings extends GameState
 
   private void tweakPauseOrSettings()
   {
-    boolean isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame;
-
     ArrayList<IGameObject> messageObjects = gameObjectManager.getGameObjectsByTag("message");
     if (messageObjects.size() > 0)
     {

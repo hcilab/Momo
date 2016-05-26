@@ -70,6 +70,7 @@ void setup()
 {
   size(500, 500);
   surface.setResizable(true);
+  surface.setTitle("The Falling of MoMo");
   
   rectMode(CENTER);
   ellipseMode(CENTER);
@@ -106,6 +107,15 @@ void draw()
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
+  
+  if (width < 250)
+  {
+    surface.setSize(250, height);
+  }
+  if (height < 250)
+  {
+    surface.setSize(width, 250);
+  }
   
   scale(width / 500.0, height / 500.0);
 

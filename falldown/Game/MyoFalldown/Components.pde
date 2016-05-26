@@ -2269,7 +2269,7 @@ public class GameOptionsControllerComponent extends Component
           if (component != null)
           {
             SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition(sliderText.translation.x);
+            sliderComponent.setTabPosition((width / 500.0) * sliderText.translation.x);
           }
         }
       }
@@ -2379,7 +2379,7 @@ public class IOOptionsControllerComponent extends Component
           if (component != null)
           {
             SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition(musicSliderText.translation.x);
+            sliderComponent.setTabPosition((width / 500.0f) * musicSliderText.translation.x);
           }
         }
         
@@ -2391,7 +2391,7 @@ public class IOOptionsControllerComponent extends Component
           if (component != null)
           {
             SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition(soundEffectsSliderText.translation.x);
+            sliderComponent.setTabPosition((width / 500.0f) * soundEffectsSliderText.translation.x);
           }
         }
         
@@ -2403,7 +2403,7 @@ public class IOOptionsControllerComponent extends Component
           if (component != null)
           {
             SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition((((leftEMGSensitivity - 0.2f) / 4.8f) * (leftSensitivitySliderRightBoundary - leftSensitivitySliderLeftBoundary)) + leftSensitivitySliderLeftBoundary);
+            sliderComponent.setTabPosition((width / 500.0f) * ((((leftEMGSensitivity - 0.2f) / 4.8f) * (leftSensitivitySliderRightBoundary - leftSensitivitySliderLeftBoundary)) + leftSensitivitySliderLeftBoundary));
           }
         }
         
@@ -2415,7 +2415,7 @@ public class IOOptionsControllerComponent extends Component
           if (component != null)
           {
             SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition((((rightEMGSensitivity - 0.2f) / 4.8f) * (rightSensitivitySliderRightBoundary - rightSensitivitySliderLeftBoundary)) + rightSensitivitySliderLeftBoundary);
+            sliderComponent.setTabPosition((width / 500.0f) * ((((rightEMGSensitivity - 0.2f) / 4.8f) * (rightSensitivitySliderRightBoundary - rightSensitivitySliderLeftBoundary)) + rightSensitivitySliderLeftBoundary));
           }
         }
       }

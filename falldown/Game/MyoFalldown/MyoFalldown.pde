@@ -57,6 +57,10 @@ IOptions options;
 // Top-level game loop variables.
 
 int lastFrameTime;
+int lastFrameWidth;
+int lastFrameHeight;
+int currentFrameWidth;
+int currentFrameHeight;
 PShape bg;
 PShape opbg;
 
@@ -97,6 +101,9 @@ void setup()
   
   lastFrameTime = millis();
 
+  currentFrameWidth = width;
+  currentFrameHeight = height;
+
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityBG.svg");
 } 
@@ -104,9 +111,15 @@ void setup()
 void draw()
 {
   hover = false;
+  
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
+  
+  lastFrameWidth = currentFrameWidth;
+  lastFrameHeight = currentFrameHeight;
+  currentFrameWidth = width;
+  currentFrameHeight = height;
   
   if (width < 250)
   {
@@ -115,6 +128,11 @@ void draw()
   if (height < 250)
   {
     surface.setSize(width, 250);
+  }
+  
+  if (currentFrameWidth != lastFrameWidth || currentFrameHeight != lastFrameHeight)
+  {
+    return;
   }
   
   scale(width / 500.0, height / 500.0);

@@ -157,7 +157,6 @@ public class RenderComponent extends Component
   private ArrayList<Text> texts;
   private ArrayList<OffsetSheetSprite> offsetSheetSprites;
   private ArrayList<OffsetPImage> offsetPImages;
-  private StopWatch sw;
 
   public RenderComponent(IGameObject _gameObject)
   {
@@ -167,7 +166,6 @@ public class RenderComponent extends Component
     texts = new ArrayList<Text>();
     offsetSheetSprites = new ArrayList<OffsetSheetSprite>();
     offsetPImages = new  ArrayList<OffsetPImage>();
-    sw = new StopWatch();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -276,7 +274,7 @@ public class RenderComponent extends Component
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
-               new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"), xmlSpriteComponent.getString("alphaImage"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
+               new Sprite(mainObject, xmlSpriteComponent.getString("src"), xmlSpriteComponent.getString("alphaImage"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
                new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))
             );
@@ -432,8 +430,7 @@ public class RenderComponent extends Component
        tileWallSprite(offsetSprite);
      } 
      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
-     float elapsedTime = (float) sw.getElapsedTime();
-     S4P.updateSprites(elapsedTime);
+     S4P.updateSprites(deltaTime / 1000.0f);
      offsetSprite.sheetSprite.draw();
     }
    for (OffsetPImage offsetImage : offsetPImages)

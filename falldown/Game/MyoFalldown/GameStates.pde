@@ -1050,8 +1050,8 @@ public class GameStateController implements IGameStateController
   
   @Override public void pushState(GameState nextState)
   {
-    nextState.onEnter();
     stateStack.addLast(nextState);
+    nextState.onEnter();
   }
   
   @Override public void popState()

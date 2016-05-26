@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SaveData>
-  <Game auto_direct="false" level_up_over_time="false" obstacles="true" platform_mods="true" starting_level="1"/>
-  <IO input_mode="difference" left_emg_sensitivity="2.72" music_volume="0.0" right_emg_sensitivity="2.72" sound_effects_volume="0.0"/>
+  <Game auto_direct="false" level_up_over_time="true" obstacles="true" platform_mods="true" starting_level="99"/>
+  <IO input_mode="difference" left_emg_sensitivity="2.72" music_volume="0.105" right_emg_sensitivity="2.72" sound_effects_volume="0.0"/>
   <Stats>
     <!-- date is in seconds since Epoch -->
     <Record avg_speed="13.0" coins_collected="32" date="0613162785" level="4" score="1234" time_played_millis="123456"/>
@@ -66,6 +66,21 @@
     <Record avg_speed="31.259863" coins_collected="1" date="1464271654628" level="1" score="623" time_played_millis="124377"/>
     <Record avg_speed="129.69157" coins_collected="0" date="1464271701168" level="1" score="12" time_played_millis="12918"/>
     <Record avg_speed="42.109726" coins_collected="14" date="1464272133256" level="1" score="7169" time_played_millis="170854"/>
+    <Record avg_speed="163.00656" coins_collected="0" date="1464273643233" level="1" score="15" time_played_millis="15756"/>
+    <Record avg_speed="95.73442" coins_collected="21" date="1464273991138" level="79" score="18159" time_played_millis="328434"/>
+    <Record avg_speed="87.704865" coins_collected="0" date="1464281464988" level="16" score="147" time_played_millis="11069"/>
+    <Record avg_speed="105.127884" coins_collected="0" date="1464281597167" level="15" score="86" time_played_millis="6582"/>
+    <Record avg_speed="94.67062" coins_collected="0" date="1464289878239" level="17" score="245" time_played_millis="17197"/>
+    <Record avg_speed="67.90271" coins_collected="0" date="1464290421407" level="18" score="368" time_played_millis="23657"/>
+    <Record avg_speed="61.666878" coins_collected="0" date="1464290479572" level="14" score="56" time_played_millis="4503"/>
+    <Record avg_speed="66.75713" coins_collected="0" date="1464290505857" level="15" score="71" time_played_millis="5996"/>
+    <Record avg_speed="57.414288" coins_collected="0" date="1464290521704" level="16" score="195" time_played_millis="13430"/>
+    <Record avg_speed="65.47619" coins_collected="0" date="1464290539579" level="99" score="792" time_played_millis="8713"/>
+    <Record avg_speed="83.01588" coins_collected="0" date="1464290560231" level="99" score="198" time_played_millis="2999"/>
+    <Record avg_speed="78.36452" coins_collected="0" date="1464290570780" level="99" score="792" time_played_millis="8689"/>
+    <Record avg_speed="133.30707" coins_collected="0" date="1464290766292" level="99" score="990" time_played_millis="10396"/>
+    <Record avg_speed="152.37022" coins_collected="0" date="1464290840460" level="99" score="396" time_played_millis="4366"/>
+    <Record avg_speed="114.40244" coins_collected="0" date="1464290875832" level="99" score="1485" time_played_millis="15989"/>
   </Stats>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>

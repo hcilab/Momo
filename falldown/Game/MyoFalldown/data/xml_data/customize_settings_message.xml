@@ -33,20 +33,25 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<SpriteSheet src="images/player/monster.png" alphaImage=""
-				x="180.0" y="125.0"  
-				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0.5f"
-				zOrder="0" height="436.0" scaleHeight="30"> 
+			<SpriteSheet src="images/player/testM.png" alphaImage=""
+				x="175.0" y="125.0"  
+				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0.3f"
+				zOrder="0" height="30.0" scaleHeight="30"> 
 			</SpriteSheet> 
 			<SpriteSheet src="images/player/dragonGrey.png" alphaImage=""
-				x="240.0" y="125.0"  
+				x="225.0" y="125.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="436.0" scaleHeight="25"> 
+				zOrder="0" height="50.0" scaleHeight="30"> 
 			</SpriteSheet> 
 			<SpriteSheet src="images/player/grumpyBirdGrey.png" alphaImage=""
-				x="310.0" y="125.0"  
+				x="275.0" y="125.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="436.0" scaleHeight="25"> 
+				zOrder="0" height="50.0" scaleHeight="30"> 
+			</SpriteSheet>
+			<SpriteSheet src="images/player/alienGrey.png" alphaImage=""
+				x="325.0" y="125.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="50.0" scaleHeight="30"> 
 			</SpriteSheet> 
 		</Sprite>
 		<!-- Platform Unlockables -->
@@ -65,14 +70,24 @@
 		</Text>
 		<Sprite>
 			<SpriteSheet src="images/block/grassMid.png" alphaImage=""
-				x="180.0" y="165.0"  
+				x="175.0" y="165.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 				zOrder="0" height="70.0" scaleHeight="30"> 
 			</SpriteSheet> 
 			<SpriteSheet src="images/block/castleMidGrey.png" alphaImage=""
-				x="220.0" y="165.0"  
+				x="225.0" y="165.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 				zOrder="0" height="70.0" scaleHeight="30"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/block/keybrickGrey.png" alphaImage=""
+				x="275.0" y="165.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="53.0" scaleHeight="30"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/block/neongreenGrey.png" alphaImage=""
+				x="325.0" y="165.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="63.0" scaleHeight="35"> 
 			</SpriteSheet> 
 		</Sprite>
 		<!-- Coin Unlockables -->
@@ -96,10 +111,20 @@
 					zOrder="0" height="42.0" scaleHeight="30"> 
 			</SpriteSheet>
 			<SpriteSheet src="images/coin/gemGrey.png" alphaImage=""
-					x="215.0" y="215.0"  
+					x="225.0" y="215.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="64.0" scaleHeight="40"> 
+			</SpriteSheet>
+			<SpriteSheet src="images/coin/crownGrey.png" alphaImage=""
+					x="275.0" y="215.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="30.0" scaleHeight="20"> 
 			</SpriteSheet>  
+			<SpriteSheet src="images/coin/candyGrey.png" alphaImage=""
+					x="325.0" y="215.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="70.0" scaleHeight="30"> 
+			</SpriteSheet>    
 		</Sprite>
 		<Text
 			string="Obstacle"
@@ -122,9 +147,19 @@
 					zOrder="0" height="146.0" scaleHeight="40"> 
 			</SpriteSheet>
 			<SpriteSheet src="images/obstacle/spike2Grey.png" alphaImage=""
-					x="215.0" y="265.0"  
+					x="225.0" y="265.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="492.0" scaleHeight="40"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/obstacle/spaceEnemyGrey.png" alphaImage=""
+					x="275.0" y="265.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="64.0" scaleHeight="40"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/obstacle/snakeSlimeGrey.png" alphaImage=""
+					x="325.0" y="265.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="147.0" scaleHeight="40"> 
 			</SpriteSheet>  
 		</Sprite>
 		<Text
@@ -151,7 +186,17 @@
 					x="225.0" y="315.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="500.0" scaleHeight="40"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/background/bgshroomGrey.png" alphaImage=""
+					x="275.0" y="315.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="500.0" scaleHeight="40"> 
 			</SpriteSheet>  
+			<SpriteSheet src="images/background/starsGrey.png" alphaImage=""
+					x="325.0" y="315.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="500.0" scaleHeight="40"> 
+			</SpriteSheet>   
 		</Sprite>
 
 		<Text
@@ -170,15 +215,64 @@
 		<!-- Background Unlockables -->
 		<Sprite>
 			<SpriteSheet src="images/button/musicNote.png" alphaImage=""
-					x="170.0" y="365.0"  
+					x="175.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
-					zOrder="0" height="1280.0" scaleHeight="40"> 
+					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="225.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="1280.0" scaleHeight="40"> 
+					zOrder="0" height="50.0" scaleHeight="40"> 
+			</SpriteSheet> 
+			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
+					x="275.0" y="365.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>  
+			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
+					x="325.0" y="365.0"  
+					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+					zOrder="0" height="50.0" scaleHeight="40"> 
+			</SpriteSheet>   
 		</Sprite>
+		<Text
+			string="Customize screen is a work in progress, in the future you"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="420.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/>
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="will be able to unlock different players, platforms etc..,"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="440.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/> 
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="with the coins you have collected during the game!"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="460.0"
+		>
+			<FillColor r="0" g="0" b="0" a="475"/> 
+			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
+		</Text>
 	</Render>
 </GameObject>

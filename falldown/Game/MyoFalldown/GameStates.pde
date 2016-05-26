@@ -483,6 +483,20 @@ public class GameState_IOSettings extends GameState
         options.getIOOptions().setRightEMGSensitivity(sensitivityValue);
       }
     }
+
+    if (isPauseScreen)
+    {
+      for(IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
+      {
+        gameStateController.popState();
+        return;
+      }
+      for(IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
+      {
+        gameStateController.popState();
+        return;
+      }
+    }
   }
 
   private void loadFromSaveData()

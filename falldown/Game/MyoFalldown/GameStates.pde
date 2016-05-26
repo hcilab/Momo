@@ -352,12 +352,14 @@ public class GameState_GameSettings extends GameState
 public class GameState_IOSettings extends GameState
 {
   public boolean saveDataLoaded;
+  public boolean tweakedForPauseOrSettings;
 
   public GameState_IOSettings()
   {
     super();
 
     saveDataLoaded = false;
+    tweakedForPauseOrSettings = false;
   }
 
   @Override public void onEnter()
@@ -374,6 +376,12 @@ public class GameState_IOSettings extends GameState
     if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
       loadFromSaveData();
+    }
+
+    if (!tweakedForPauseOrSettings)
+    {
+      tweakPauseOrSettings();
+      tweakedForPauseOrSettings = true;
     }
   }
 
@@ -424,6 +432,11 @@ public class GameState_IOSettings extends GameState
         {
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
+      }
+      else if (tag.equals("quit"))
+      {
+        gameStateController.popState();
+        eventManager.queueEvent(new Event(EventType.GAME_OVER));
       }
     }
     
@@ -485,6 +498,52 @@ public class GameState_IOSettings extends GameState
       }
     }
     saveDataLoaded = true;
+  }
+
+  private void tweakPauseOrSettings()
+  {
+    boolean isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame;
+
+    ArrayList<IGameObject> messageObjects = gameObjectManager.getGameObjectsByTag("message");
+    if (messageObjects.size() > 0)
+    {
+      IGameObject messageObject = messageObjects.get(0);
+      IComponent component = messageObject.getComponent(ComponentType.RENDER);
+      if (component != null)
+      {
+        RenderComponent renderComponent = (RenderComponent) component;
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPImage> sprites = renderComponent.getImages();
+
+        if (isPauseScreen) // change title to "Paused"
+        {
+          for (RenderComponent.Text t : texts)
+          {
+            if (t.string.equals("System Settings"))
+            {
+              t.string = "Paused";
+            }
+          }
+        }
+        else // remove "Quit Game" button
+        {
+          // text (assuming it is the third occurance of text in XML)
+          texts.get(2).string = "";
+
+          // sprite (assuming it is the first occuring sprite in XML)
+          sprites.get(0).translation.x = 5000;
+          sprites.get(0).translation.y = 5000;
+
+          // button
+          ArrayList<IGameObject> quitButtons = gameObjectManager.getGameObjectsByTag("quit");
+          if (quitButtons.size() > 0)
+          {
+            IGameObject quitButton = quitButtons.get(0);
+            gameObjectManager.removeGameObject(quitButton.getUID());
+          }
+        }
+      }
+    }
   }
 }
 

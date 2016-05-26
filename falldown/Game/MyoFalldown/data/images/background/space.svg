@@ -12,9 +12,9 @@
    id="svg3486"
    version="1.1"
    inkscape:version="0.91 r13725"
-   width="625"
-   height="625"
-   viewBox="0 0 625 625"
+   width="500"
+   height="500"
+   viewBox="0 0 500 500"
    sodipodi:docname="space.svg">
   <metadata
      id="metadata3492">
@@ -45,14 +45,14 @@
      showgrid="false"
      inkscape:zoom="1.0680141"
      inkscape:cx="292.38019"
-     inkscape:cy="387.78767"
+     inkscape:cy="462.69305"
      inkscape:window-x="1432"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg3486" />
   <g
      id="g3550"
-     transform="translate(-4.6218727e-7,-7.4905421)">
+     transform="matrix(0.79964446,0,0,0.79977921,0.10481221,0.08983904)">
     <path
        style="fill:#b1b1b1"
        d="M 0,312.5 0,0 312.5,0 625,0 625,312.5 625,625 312.5,625 0,625 0,312.5 Z"

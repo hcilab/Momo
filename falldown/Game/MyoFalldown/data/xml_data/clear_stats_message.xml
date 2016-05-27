@@ -23,7 +23,7 @@
 
     <!-- Message -->
 		<Text
-			string="Clicking 'yes' will erase all previous game statistics"
+			string="Clicking 'yes' will erase"
 			fontName="Moire Bold" 
 			size="20"
 			antialiasing="true"
@@ -31,6 +31,20 @@
 			alignY="center"
 			x="250.0"
 			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Text
+			string="all previous game statistics."
+			fontName="Moire Bold" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="170.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -44,7 +58,7 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="150.0"
+			x="250.0"
 			y="300.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
@@ -57,8 +71,8 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="350.0"
-			y="300.0"
+			x="250.0"
+			y="400.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -66,12 +80,11 @@
 
     <!-- Buttons -->
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="150.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
 		</Sprite>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="350.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
+			<Image  src="images/button/redButton.png" x="250.0" y="400.0"   width="150" height="50"  resizeHeight="50" resizeWidth="150"/>
 		</Sprite>
-
 	</Render>
 </GameObject>
 

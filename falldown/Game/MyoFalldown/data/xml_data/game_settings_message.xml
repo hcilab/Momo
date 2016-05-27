@@ -78,32 +78,6 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Text
-			string="1"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="275.0"
-			y="170.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="99"
-			fontName="Arial"
-			size="10"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="475.0"
-			y="170.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
 		
 		<Text
 			string="Increase Level Over Time"

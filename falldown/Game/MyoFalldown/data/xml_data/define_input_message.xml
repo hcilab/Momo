@@ -35,7 +35,7 @@
 		<Text
 			string="In this mode, control over your muscles is important. The"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -48,7 +48,7 @@
 		<Text
 			string="speed of the character is determined by the flexion or"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -61,7 +61,7 @@
 		<Text
 			string="extension of your muscle and the relaxation of the other."
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -74,7 +74,7 @@
 		<Text
 			string="When moving one way, the other muscle needs to be relaxed"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -87,7 +87,7 @@
 		<Text
 			string="or it will slow your movement (i.e., When trying to move"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -100,7 +100,7 @@
 		<Text
 			string="right, try to use only your right muscle, and completely"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -113,7 +113,7 @@
 		<Text
 			string="relax your left muscle)."
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -139,7 +139,7 @@
 		<Text
 			string="In this mode, the strongest of the two muscle readings is"
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
@@ -152,7 +152,7 @@
 		<Text
 			string="used to control the speed of the character."
 			fontName="Moire Bold" 
-			size="15"
+			size="14"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"

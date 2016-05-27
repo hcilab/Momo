@@ -23,7 +23,7 @@
 			<Text
 				string="xxx"
 				fontName="Arial"
-				size="10"
+				size="12"
 				antialiasing="true"
 				alignX="center"
 				alignY="baseline"
@@ -36,7 +36,7 @@
 			<Text
 				string="xxx"
 				fontName="Arial"
-				size="10"
+				size="12"
 				antialiasing="true"
 				alignX="center"
 				alignY="baseline"
@@ -165,7 +165,7 @@
 		<Text
 			string="Less"
 			fontName="Arial"
-			size="10"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -178,7 +178,7 @@
 		<Text
 			string="More"
 			fontName="Arial"
-			size="10"
+			size="12"
 			antialiasing="true"
 			alignX="right"
 			alignY="baseline"
@@ -204,7 +204,7 @@
 		<Text
 			string="Less"
 			fontName="Arial"
-			size="10"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -217,7 +217,7 @@
 		<Text
 			string="More"
 			fontName="Arial"
-			size="10"
+			size="12"
 			antialiasing="true"
 			alignX="right"
 			alignY="baseline"

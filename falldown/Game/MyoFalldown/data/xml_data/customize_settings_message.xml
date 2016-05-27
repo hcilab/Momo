@@ -35,7 +35,7 @@
 		<Sprite>
 			<SpriteSheet src="images/player/testM.png" alphaImage=""
 				x="175.0" y="125.0"  
-				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0.3f"
+				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="5f"
 				zOrder="0" height="30.0" scaleHeight="30"> 
 			</SpriteSheet> 
 			<SpriteSheet src="images/player/dragonGrey.png" alphaImage=""
@@ -107,7 +107,7 @@
 		<Sprite>
 			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
 					x="175.0" y="215.0"  
-					horzCount="6" vertCount="1" defaultCount="5" farmeFreq="0.5f"
+					horzCount="6" vertCount="1" defaultCount="5" farmeFreq="5f"
 					zOrder="0" height="42.0" scaleHeight="30"> 
 			</SpriteSheet>
 			<SpriteSheet src="images/coin/gemGrey.png" alphaImage=""

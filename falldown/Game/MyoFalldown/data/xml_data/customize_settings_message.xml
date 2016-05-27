@@ -20,14 +20,14 @@
 		</Line>
 		<!-- Player Unlockables -->
 		<Text
-			string="Player"
+			string="Momo"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="125.0"
+			y="130.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -56,9 +56,9 @@
 		</Sprite>
 		<!-- Platform Unlockables -->
 		<Text
-			string="Platform"
+			string="Platforms"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -94,7 +94,7 @@
 		<Text
 			string="Coins"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -127,9 +127,9 @@
 			</SpriteSheet>    
 		</Sprite>
 		<Text
-			string="Obstacle"
+			string="Obstacles"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -165,7 +165,7 @@
 		<Text
 			string="Background"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -202,7 +202,7 @@
 		<Text
 			string="Music"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"

@@ -1,0 +1,33 @@
+<Level>
+	<GameObject file="xml_data/post_game_message.xml"/>
+	
+	<GameObject file="xml_data/post_game_stats.xml"/>
+
+	<GameObject file="xml_data/button_back.xml" tag="back">
+		<Transform>
+			<Translation x="25.0" y="25.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/button.xml" tag="play_again">
+		<Transform>
+			<Translation x="250.0" y="345.0"/>
+			<Scale x="190.0" y="80.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/button.xml" tag="back">
+		<Transform>
+			<Translation x="250.0" y="405.0"/>
+			<Scale x="190.0" y="80.0"/>
+		</Transform>
+	</GameObject>
+	
+	<GameObject file="xml_data/button.xml" tag="gameplay_record">
+		<Transform>
+			<Translation x="250.0" y="465.0"/>
+			<Scale x="190.0" y="80.0"/>
+		</Transform>
+	</GameObject>
+</Level>

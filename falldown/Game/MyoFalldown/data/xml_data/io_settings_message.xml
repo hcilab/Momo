@@ -1,34 +1,118 @@
 <GameObject tag="io_settings_message">
+	<IOOptionsController
+		musicSliderTag="music"
+		musicSliderLeftBoundary="275.0"
+		musicSliderRightBoundary="475.0"
+		musicSliderYPosition="108.0"
+		soundEffectsSliderTag="sound_effects"
+		soundEffectsSliderLeftBoundary="275.0"
+		soundEffectsSliderRightBoundary="475.0"
+		soundEffectsSliderYPosition="153.0"
+		leftSensitivitySliderTag="left_sensitivity"
+		leftSensitivitySliderLeftBoundary="275.0"
+		leftSensitivitySliderRightBoundary="475.0"
+		rightSensitivitySliderTag="right_sensitivity"
+		rightSensitivitySliderLeftBoundary="275.0"
+		rightSensitivitySliderRightBoundary="475.0"
+	/>
 	<Render>
+		<!-- The position of these components within this file is very important,
+		they are being indexed according to their position in application code.
+		Moving these components, or inserting components above this position will
+		likely break application logic.-->
+			<Text
+				string="xxx"
+				fontName="Arial"
+				size="10"
+				antialiasing="true"
+				alignX="center"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Text
+				string="xxx"
+				fontName="Arial"
+				size="10"
+				antialiasing="true"
+				alignX="center"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Text
+				string="Quit Game"
+				fontName="Moire" 
+				size="20"
+				antialiasing="true"
+				alignX="center"
+				alignY="center"
+				x="110.0"
+				y="470.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+			<Sprite>
+				<Image	src="images/button/buttonNormal.png" x="110.0" y="470.0" width="200" height="80" resizeWidth="190" resizeHeight="50"/>
+			</Sprite>
+		<!-- =================================================================== -->
+	
 		<Text
-			string="IO SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="System Settings"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="75.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		
+		
 		<Text
 			string="Audio"
-			fontName="Arial"
+			fontName="Moire"
 			size="25"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="125.0"
+			y="100.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
 			string="Music Volume"
-			fontName="Arial"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="130.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Sound Effects Volume"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
@@ -37,72 +121,181 @@
 			y="175.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Sound Effects Volume"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="50.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="EMG Sensitivity"
-			fontName="Arial"
+			string="EMG"
+			fontName="Moire"
 			size="25"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="275.0"
+			y="225.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Sensitivity"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="50.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
 			string="Left"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="50.0"
-			y="325.0"
+			x="75.0"
+			y="275.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Less"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="290.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="More"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="290.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
 			string="Right"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="75.0"
+			y="320.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Less"
 			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="More"
+			fontName="Arial"
+			size="10"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image src="images/button/questionMark.png" x="25.0" y="350.0" width="20" height="20" resizeHeight="20" resizeWidth="20"/>
+		</Sprite>
+		<Text
+			string="Input"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="50.0"
-			y="375.0"
+			y="355.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
+			string="Difference (default)"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="75.0"
+			y="380.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="375.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Text
+			string="Max"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="75.0"
+			y="425.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="420.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Rect x="375" y="0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<Text
+			string="Calibrate"
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
+			alignY="center"
+			x="390.0"
+			y="470.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="390.0" y="470.0"   width="200" height="80" resizeWidth="190" resizeHeight="50"/>
+		</Sprite>
 	</Render>
 </GameObject>

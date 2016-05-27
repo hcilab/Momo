@@ -1,17 +1,8 @@
 <GameObject>
 	<Render>
-		<!-- <Rect x="0.0" y="0.0" halfWidth="240.0" halfHeight="1.5">
-			<FillColor r="255" g="0" b="0" a="255"/>
-			<StrokeColor r="255" g="0" b="0" a="255"/>
-		</Rect> -->
 		<Sprite>
-			<!-- <Image src="images/brickFull.png" x="0.0" y="0.0"   width="500.0" height="10"/>  -->
-			<SpriteSheet src="images/brick.png" alphaImage=""
-				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0.0f"
-				zOrder="0" height="16.0" scaleHeight="10"> 
-			</SpriteSheet> 
-		</Sprite>
+			<Image src="images/death_ceiling/SpikeFull.png" x="0.0" y="0.0"   width="1" height="1" resizeHeight="15" resizeWidth="475"/> 
+		</Sprite> 
 	</Render>
 	
 	<RigidBody
@@ -31,7 +22,7 @@
 			restitution="0.3"
 			isSensor="true"
 		>
-			<Shape type="box" x="0.0" y="0.0" halfWidth="250.0" halfHeight="1.5"/>
+			<Shape type="box" x="0.0" y="0.0" halfWidth="250.0" halfHeight="0.2"/>
 		</Fixture>
 		
 		<OnCollideEvents>

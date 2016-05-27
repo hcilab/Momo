@@ -1,0 +1,44 @@
+<GameObject>
+	<Render>
+		<!-- Left end marker -->
+		<Rect x="0.0" y="0.0" halfWidth="0.01" halfHeight="0.5">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<!-- Horizontal slider line -->
+		<Rect x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.1">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<!-- Right end marker -->
+		<Rect x="0.0" y="0.0" halfWidth="0.01" halfHeight="0.5">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<!-- Ticks on slider's horizontal slider line -->
+		<Rect x="0.0" y="0.0" halfWidth="0.005" halfHeight="0.35">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<Rect x="0.0" y="0.0" halfWidth="0.005" halfHeight="0.35">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<Rect x="0.0" y="0.0" halfWidth="0.005" halfHeight="0.35">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<Rect x="0.0" y="0.0" halfWidth="0.005" halfHeight="0.35">
+			<FillColor r="96" g="96" b="96" a="255"/>
+			<StrokeColor r="96" g="96" b="96" a="255" strokeWeight="1.0"/>
+		</Rect>
+		<!-- Image that moves back and forth on slider -->
+		<Sprite>
+			<Image  src="images/death_ceiling/spike.png" x="0.0" y="0.0"   width="0.08" height="1.4" resizeHeight="25" resizeWidth="10"/>
+		</Sprite>
+	</Render>
+	<Slider 
+		height="1" 
+		width="1"
+	/>
+</GameObject>

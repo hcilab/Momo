@@ -1,4 +1,4 @@
-//========================================================================================
+ //========================================================================================
 // Author: David Hanna
 //
 // The abstraction of a game state.
@@ -13,12 +13,36 @@ public interface IGameState
   public void onEnter();
   public void update(int deltaTime);
   public void onExit();
+  public IGameObjectManager getGameObjectManager();
+}
+
+public abstract class GameState implements IGameState
+{
+  protected IGameObjectManager gameObjectManager;
+  
+  public GameState()
+  {
+    gameObjectManager = new GameObjectManager();
+  }
+  
+  @Override abstract public void onEnter();
+  @Override abstract public void update(int deltaTime);
+  @Override abstract public void onExit();
+  
+  @Override public IGameObjectManager getGameObjectManager()
+  {
+    return gameObjectManager;
+  }
 }
 
 public interface IGameStateController
 {
   public void update(int deltaTime);
-  public void goToState(IGameState nextState);
+  public void pushState(GameState nextState);
+  public void popState();
+  public IGameState getCurrentState();
+  public IGameState getPreviousState();
+  public IGameObjectManager getGameObjectManager();
 }
 
 
@@ -26,10 +50,11 @@ public interface IGameStateController
 // IMPLEMENTATION
 //-------------------------------------------------------------------------------
 
-public class GameState_MainMenu implements IGameState
+public class GameState_MainMenu extends GameState
 {
   public GameState_MainMenu()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -39,19 +64,105 @@ public class GameState_MainMenu implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      
+      if (tag.equals("start_game"))
+      {
+        gameStateController.pushState(new GameState_InGame());
+      }
+      else if (tag.equals("options_menu")) 
+      {
+        gameStateController.pushState(new GameState_OptionsMenu());
+      }
+      else if (tag.equals("calibrate"))
+      {
+        if (emgManager.isCalibrated())
+        {
+          gameStateController.pushState(new GameState_CalibrateSuccess());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_CalibrateFailure());
+        }
+      }
+      else if (tag.equals("help"))
+      {
+        gameStateController.pushState(new GameState_Help());
+      }
+      else if (tag.equals("credits"))
+      {
+        gameStateController.pushState(new GameState_Credits());
+      }
+      else if (tag.equals("exit"))
+      {
+        gameStateController.pushState(new GameState_Confirm_Quit());
+      }
+    }
+  }
 }
 
-public class GameState_InGame implements IGameState
+public class GameState_Confirm_Quit extends GameState
+{
+  public GameState_Confirm_Quit()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/confirm_quit.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      switch(tag)
+      {
+        case "yes":
+          gameStateController.popState();
+          gameStateController.popState();
+          break;
+        case "no":
+          gameStateController.popState();
+          break;
+      }
+    }
+  }
+}
+
+public class GameState_InGame extends GameState
 {
   public GameState_InGame()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -61,20 +172,89 @@ public class GameState_InGame implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(bg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
+    handleEvents();
   }
   
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
+    {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_PostGame());
+    }
+  }
 }
 
-public class GameState_OptionsMenu implements IGameState
+public class GameState_PostGame extends GameState
+{
+  public GameState_PostGame()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/post_game.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else if (tag.equals("play_again"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_InGame());
+      }
+      else if (tag.equals("gameplay_record"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_OptionsMenu());
+        gameStateController.pushState(new GameState_StatsSettings());
+      }
+    }
+  }
+}
+
+public class GameState_OptionsMenu extends GameState
 {
   public GameState_OptionsMenu()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -84,19 +264,50 @@ public class GameState_OptionsMenu implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("GameSettings"))
+      {
+        gameStateController.pushState(new GameState_GameSettings());
+      }
+      else if (tag.equals("IOSettings"))
+      {
+        gameStateController.pushState(new GameState_IOSettings());
+      }
+      else if (tag.equals("StatsSettings"))
+      {
+        gameStateController.pushState(new GameState_StatsSettings());
+      }
+      else if (tag.equals("CustomizeSettings"))
+      {
+        gameStateController.pushState(new GameState_CustomizeSettings());
+      }
+      else if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
 }
 
-public class GameState_GameSettings implements IGameState
+public class GameState_GameSettings extends GameState
 {
   public GameState_GameSettings()
   {
+    super();
   }
 
   @Override public void onEnter()
@@ -106,6 +317,8 @@ public class GameState_GameSettings implements IGameState
 
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
+    handleEvents();
     gameObjectManager.update(deltaTime);
   }
 
@@ -113,56 +326,445 @@ public class GameState_GameSettings implements IGameState
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("starting_level"))
+      {
+        float sliderValue = event.getRequiredFloatParameter("sliderValue");
+        int startingLevel = (int)(((98.0f * (sliderValue / 100.0f)) + 1.0f));
+        options.getGameOptions().setStartingLevel(startingLevel);
+      }
+    }
+  }
 }
 
-public class GameState_IOSettings implements IGameState
+public class GameState_IOSettings extends GameState
 {
+  public boolean isPauseScreen;
+  public boolean saveDataLoaded;
+  public boolean tweakedForPauseOrSettings;
+
   public GameState_IOSettings()
   {
+    super();
+
+    isPauseScreen = false;
+    saveDataLoaded = false;
+    tweakedForPauseOrSettings = false;
   }
 
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/io_settings.xml");
+    isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame;
   }
 
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadFromSaveData();
+    }
+
+    if (!tweakedForPauseOrSettings)
+    {
+      tweakPauseOrSettings();
+      tweakedForPauseOrSettings = true;
+    }
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else if (tag.equals("difference"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.MAX)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y - 45;
+        }
+      }
+      else if (tag.equals("max"))
+      {
+        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
+        {
+          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
+          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+          renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 45;
+        }
+      }
+      else if (tag.equals("define_input"))
+      {
+        gameStateController.pushState(new GameState_DefineInput());
+      }
+      else if (tag.equals("calibrate"))
+      {
+        if (emgManager.isCalibrated())
+        {
+          gameStateController.pushState(new GameState_CalibrateSuccess());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_CalibrateFailure());
+        }
+      }
+      else if (tag.equals("quit"))
+      {
+        gameStateController.popState();
+        eventManager.queueEvent(new Event(EventType.GAME_OVER));
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      float sliderValue = event.getRequiredFloatParameter("sliderValue");
+      
+      if (tag.equals("music"))
+      {
+        options.getIOOptions().setMusicVolume(sliderValue);
+        
+        IGameState previousState = gameStateController.getPreviousState();
+        if (previousState != null)
+        {
+          ArrayList<IGameObject> musicPlayerList = previousState.getGameObjectManager().getGameObjectsByTag("music_player");
+          if (musicPlayerList.size() > 0)
+          {
+            IGameObject musicPlayer = musicPlayerList.get(0);
+            IComponent component = musicPlayer.getComponent(ComponentType.MUSIC_PLAYER);
+            if (component != null)
+            {
+              MusicPlayerComponent musicPlayerComponent = (MusicPlayerComponent)component;
+              musicPlayerComponent.setMusicVolume(options.getIOOptions().getMusicVolume());
+            }
+          }
+        }
+      }
+      else if (tag.equals("sound_effects"))
+      {
+        options.getIOOptions().setSoundEffectsVolume(sliderValue);
+      }
+      else if (tag.equals("left_sensitivity"))
+      {
+        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
+        options.getIOOptions().setLeftEMGSensitivity(sensitivityValue);
+      }
+      else if (tag.equals("right_sensitivity"))
+      {
+        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
+        options.getIOOptions().setRightEMGSensitivity(sensitivityValue);
+      }
+    }
+
+    if (isPauseScreen)
+    {
+      for(IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
+      {
+        gameStateController.popState();
+        return;
+      }
+      for(IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
+      {
+        gameStateController.popState();
+        return;
+      }
+    }
+  }
+
+  private void loadFromSaveData()
+  {
+    IOInputMode mode = options.getIOOptions().getIOInputMode();
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    if (renderComponent.getShapes().get(3).translation.y == 0)
+    {
+      if (mode == IOInputMode.DIFFERENCE)
+      {
+        renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 375;
+      }
+      else if (mode == IOInputMode.MAX)
+      {
+        renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 420;
+      }
+    }
+    saveDataLoaded = true;
+  }
+
+  private void tweakPauseOrSettings()
+  {
+    ArrayList<IGameObject> messageObjects = gameObjectManager.getGameObjectsByTag("message");
+    if (messageObjects.size() > 0)
+    {
+      IGameObject messageObject = messageObjects.get(0);
+      IComponent component = messageObject.getComponent(ComponentType.RENDER);
+      if (component != null)
+      {
+        RenderComponent renderComponent = (RenderComponent) component;
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPImage> sprites = renderComponent.getImages();
+
+        if (isPauseScreen) // change title to "Paused"
+        {
+          for (RenderComponent.Text t : texts)
+          {
+            if (t.string.equals("System Settings"))
+            {
+              t.string = "Paused";
+            }
+          }
+        }
+        else // remove "Quit Game" button
+        {
+          // text (assuming it is the third occurance of text in XML)
+          texts.get(2).string = "";
+
+          // sprite (assuming it is the first occuring sprite in XML)
+          sprites.get(0).translation.x = 5000;
+          sprites.get(0).translation.y = 5000;
+
+          // button
+          ArrayList<IGameObject> quitButtons = gameObjectManager.getGameObjectsByTag("quit");
+          if (quitButtons.size() > 0)
+          {
+            IGameObject quitButton = quitButtons.get(0);
+            gameObjectManager.removeGameObject(quitButton.getUID());
+          }
+        }
+      }
+    }
+  }
 }
 
-public class GameState_StatsSettings implements IGameState
+public class GameState_DefineInput extends GameState
 {
+
+  public GameState_DefineInput()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/define_input.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_StatsSettings extends GameState
+{
+
+  final int NUM_RECORDS_VISIBLE = 9;
+  ArrayList<IGameRecord> records;
+  int topRow;
+
   public GameState_StatsSettings()
   {
+    super();
+    records = new ArrayList<IGameRecord>();
+    topRow = 0;
   }
 
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/stats_settings.xml");
+    records = options.getStats().getGameRecords();
+    topRow = 0;
   }
 
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
+    refreshVisibleRecords();
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      IGameRecord record = options.getStats().createGameRecord();
+
+      String tag = event.getRequiredStringParameter("tag");
+      switch (tag)
+      {
+        case "back":
+          gameStateController.popState();
+          break;
+        case "clear_stats":
+          gameStateController.pushState(new GameState_ClearStats_Confirm());
+          break;
+        case "level_achieved":
+          Collections.sort(records, Collections.reverseOrder(record.createByLevelAchievedComparator()));
+          break;
+        case "score_achieved":
+          Collections.sort(records, Collections.reverseOrder(record.createByScoreAchievedComparator()));
+          break;
+        case "time_played":
+          Collections.sort(records, Collections.reverseOrder(record.createByTimePlayedComparator()));
+          break;
+        case "average_speed":
+          Collections.sort(records, Collections.reverseOrder(record.createByAverageSpeedComparator()));
+          break;
+        case "coins_collected":
+          Collections.sort(records, Collections.reverseOrder(record.createByCoinsCollectedComparator()));
+          break;
+        case "date":
+          Collections.sort(records, Collections.reverseOrder(record.createByDateComparator()));
+          break;
+      }
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.UP_BUTTON_PRESSED))
+    {
+      if (topRow > 0)
+        topRow--;
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.DOWN_BUTTON_PRESSED))
+    {
+      if (topRow+NUM_RECORDS_VISIBLE-1 < options.getStats().getGameRecords().size())
+        topRow++;
+    }
+  }
+
+  private void refreshVisibleRecords()
+  {
+    ArrayList<IGameObject> tableRows = new ArrayList<IGameObject>();
+    for (int i=0; i<NUM_RECORDS_VISIBLE; i++)
+    {
+      tableRows = gameStateController.getGameObjectManager().getGameObjectsByTag(String.format("stats_row_%d", i));
+
+      if (tableRows.size() == 1)
+      {
+        IComponent component = tableRows.get(0).getComponent(ComponentType.RENDER);
+        if (component != null)
+        {
+          RenderComponent renderComponent = (RenderComponent) component;
+          ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+
+          IGameRecordViewHelper viewHelper;
+          if (topRow+i >= 0 && topRow+i < records.size())
+            viewHelper = new GameRecordViewHelper(records.get(topRow+i));
+          else
+            viewHelper = new GameRecordViewHelper(null);
+
+          texts.get(0).string = viewHelper.getLevelAchieved();
+          texts.get(1).string = viewHelper.getScoreAchieved();
+          texts.get(2).string = viewHelper.getCoinsCollected();
+          texts.get(3).string = viewHelper.getAverageSpeed();
+          texts.get(4).string = viewHelper.getTimePlayed();
+          texts.get(5).string = viewHelper.getDate();
+        }
+      }
+    }
+  }
 }
 
-public class GameState_CustomizeSettings implements IGameState
+public class GameState_ClearStats_Confirm extends GameState
+{
+  public GameState_ClearStats_Confirm()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/clear_stats.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      switch(tag)
+      {
+        case "yes":
+          options.getStats().clear();
+          gameStateController.popState();
+          break;
+        case "no":
+          gameStateController.popState();
+          break;
+      }
+    }
+  }
+}
+
+public class GameState_CustomizeSettings extends GameState
 {
   public GameState_CustomizeSettings()
   {
+    super();
   }
 
   @Override public void onEnter()
@@ -172,19 +774,112 @@ public class GameState_CustomizeSettings implements IGameState
 
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
 }
 
-public class GameState_CalibrateMenu implements IGameState
+public class GameState_Credits extends GameState
+{
+  public GameState_Credits()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    if (options.getCredits().isAnonymous())
+    {
+      gameObjectManager.fromXML("xml_data/credits_anonymous.xml");
+    }
+    else
+    {
+      gameObjectManager.fromXML("xml_data/credits.xml");
+    }
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_Help extends GameState
+{
+  public GameState_Help()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/help.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_CalibrateMenu extends GameState
 {
   public GameState_CalibrateMenu()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -202,19 +897,36 @@ public class GameState_CalibrateMenu implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
   
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_SUCCESS))
+    {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_CalibrateSuccess());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.CALIBRATE_FAILURE))
+    {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_CalibrateFailureConfirm());
+    }
+  }
 }
 
-public class GameState_CalibrateSuccess implements IGameState
+public class GameState_CalibrateSuccess extends GameState
 {
   public GameState_CalibrateSuccess()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -224,19 +936,39 @@ public class GameState_CalibrateSuccess implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else if (tag.equals("Calibrate"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+    }
+  }
 }
 
-public class GameState_CalibrateFailure implements IGameState
+public class GameState_CalibrateFailure extends GameState
 {
   public GameState_CalibrateFailure()
   {
+    super();
   }
   
   @Override public void onEnter()
@@ -248,182 +980,122 @@ public class GameState_CalibrateFailure implements IGameState
   
   @Override public void update(int deltaTime)
   {
+    shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
+    handleEvents();
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
   }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else if (tag.equals("Calibrate"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+    }
+  }
 }
 
-public class GameStateController implements IGameStateController, IEventListener
+public class GameState_CalibrateFailureConfirm extends GameState
 {
-  private IGameState gameState_MainMenu;
-  private IGameState gameState_InGame;
-  private IGameState gameState_OptionsMenu;
-  private IGameState gameState_GameSettings;
-  private IGameState gameState_IOSettings;
-  private IGameState gameState_StatsSettings;
-  private IGameState gameState_CustomizeSettings;
-  private IGameState gameState_CalibrateMenu;
-  private IGameState gameState_CalibrateSuccess;
-  private IGameState gameState_CalibrateFailure;
+  public GameState_CalibrateFailureConfirm()
+  {
+    super();
+  }
   
-  private IGameState currentState;
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_failure_confirm.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("ok"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+    }
+  }
+}
+
+public class GameStateController implements IGameStateController
+{
+  private LinkedList<GameState> stateStack;
   
   public GameStateController()
   {
-    gameState_MainMenu = new GameState_MainMenu();
-    gameState_InGame = new GameState_InGame();
-    gameState_OptionsMenu = new GameState_OptionsMenu();
-    gameState_GameSettings = new GameState_GameSettings();
-    gameState_IOSettings = new GameState_IOSettings();
-    gameState_StatsSettings = new GameState_StatsSettings();
-    gameState_CustomizeSettings = new GameState_CustomizeSettings();
-    gameState_CalibrateMenu = new GameState_CalibrateMenu();
-    gameState_CalibrateSuccess = new GameState_CalibrateSuccess();
-    gameState_CalibrateFailure = new GameState_CalibrateFailure();
-    
-    goToState(gameState_CalibrateFailure);
-    
-    eventManager.register(EventType.UP_BUTTON_RELEASED, this);
-    eventManager.register(EventType.LEFT_BUTTON_RELEASED, this);
-    eventManager.register(EventType.RIGHT_BUTTON_RELEASED, this);
-    eventManager.register(EventType.MOUSE_CLICKED, this);
-    eventManager.register(EventType.BUTTON_CLICKED, this);
-    eventManager.register(EventType.GAME_OVER, this);
-    eventManager.register(EventType.CALIBRATE_SUCCESS, this);
-    eventManager.register(EventType.CALIBRATE_FAILURE, this);
-    eventManager.register(EventType.CALIBRATE_DONE, this);
-    eventManager.register(EventType.CALIBRATE_RETRY, this);
+    stateStack = new LinkedList<GameState>();
   }
   
   @Override public void update(int deltaTime)
   {
-    currentState.update(deltaTime);
+    if (!stateStack.isEmpty())
+    {
+      stateStack.peekLast().update(deltaTime);
+    }
   }
   
-  @Override public void goToState(IGameState nextState)
+  @Override public void pushState(GameState nextState)
   {
-    if (nextState == currentState)
-    {
-      return;
-    }
-    
-    if (currentState != null)
-    {
-      currentState.onExit();
-    }
-    
-    currentState = nextState;
-    currentState.onEnter();
+    stateStack.addLast(nextState);
+    nextState.onEnter();
   }
   
-  @Override public void handleEvent(IEvent event)
+  @Override public void popState()
   {
-    if (currentState == gameState_MainMenu)
+    IGameState poppedState = stateStack.peekLast();
+    poppedState.onExit();
+    stateStack.removeLast();
+    if (stateStack.isEmpty())
     {
-      if (event.getEventType() == EventType.LEFT_BUTTON_RELEASED)
-      {
-        goToState(gameState_InGame);
-      }
-      else if (event.getEventType() == EventType.RIGHT_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-      else if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_CalibrateMenu);
-      }
+      exit();
     }
-    else if (currentState == gameState_InGame)
+  }
+  
+  @Override public IGameState getCurrentState()
+  {
+    return stateStack.peekLast();
+  }
+  
+  @Override public IGameState getPreviousState()
+  {
+    if (stateStack.size() < 2)
     {
-      if (event.getEventType() == EventType.GAME_OVER)
-      {
-        goToState(gameState_MainMenu);
-      }
+      return null;
     }
-    else if (currentState == gameState_OptionsMenu)
-    {
-      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_MainMenu);
-      }
-      else if (event.getEventType() == EventType.BUTTON_CLICKED)
-      {
-        String tag = event.getRequiredStringParameter("tag");
-        if (tag.equals("GameSettings"))
-        {
-          goToState(gameState_GameSettings);
-        }
-        else if (tag.equals("IOSettings"))
-        {
-          goToState(gameState_IOSettings);
-        }
-        else if (tag.equals("StatsSettings"))
-        {
-          goToState(gameState_StatsSettings);
-        }
-        else if (tag.equals("CustomizeSettings"))
-        {
-          goToState(gameState_CustomizeSettings);
-        }
-      }
-    }
-    else if (currentState == gameState_GameSettings)
-    {
-      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-    }
-    else if (currentState == gameState_IOSettings)
-    {
-      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-    }
-    else if (currentState == gameState_StatsSettings)
-    {
-      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-    }
-    else if (currentState == gameState_CustomizeSettings)
-    {
-      if (event.getEventType() == EventType.UP_BUTTON_RELEASED)
-      {
-        goToState(gameState_OptionsMenu);
-      }
-    }
-    else if (currentState == gameState_CalibrateMenu)
-    {
-      if (event.getEventType() == EventType.CALIBRATE_SUCCESS)
-      {
-        goToState(gameState_CalibrateSuccess);
-      }
-      else if (event.getEventType() == EventType.CALIBRATE_FAILURE)
-      {
-        goToState(gameState_CalibrateFailure);
-      }
-    }
-    else if (currentState == gameState_CalibrateSuccess || currentState == gameState_CalibrateFailure)
-    {
-      if (event.getEventType() == EventType.BUTTON_CLICKED)
-      {
-        String tag = event.getRequiredStringParameter("tag");
-        if (tag.equals("MainMenu"))
-        {
-          goToState(gameState_MainMenu);
-        }
-        else if (tag.equals("Calibrate"))
-        {
-          goToState(gameState_CalibrateMenu);
-        }
-      }
-    }
+    return stateStack.get(stateStack.size() - 2);
+  }
+  
+  @Override public IGameObjectManager getGameObjectManager()
+  {
+    return stateStack.peekLast().getGameObjectManager();
   }
 }

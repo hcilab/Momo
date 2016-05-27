@@ -1,0 +1,63 @@
+<GameObject>
+	<Render>
+		<!-- Coins -->
+		<Text
+			string="Coins Collected: xx"
+			fontName="Moire Bold" 
+			size="16"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="0.0"
+			y="-180.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<!-- Column Separators -->
+		<Line x1="-240.0" y1="-160.0" x2="-240.0" y2="130.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-110.0" y1="-160.0" x2="-110.0" y2="130.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="240.0" y1="-160.0" x2="240.0" y2="130.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+
+		<!-- Row Separators -->
+		<Line x1="-240.0" y1="-160.0" x2="240.0" y2="-160.0" x="0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="-115.0" x2="240.0" y2="-115.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="-70.0" x2="240.0" y2="-70.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="-20.0" x2="240.0" y2="-20.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="30.0" x2="240.0" y2="30.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="85.0" x2="240.0" y2="85.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		<Line x1="-240.0" y1="130.0" x2="240.0" y2="130.0" x="0.0" y="0.0" width="1.0" height="1.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+
+	</Render>
+</GameObject>

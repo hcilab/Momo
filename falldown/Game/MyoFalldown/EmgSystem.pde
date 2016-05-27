@@ -2,6 +2,7 @@ interface IEmgManager {
   boolean registerAction(String label);
   HashMap<String, Float> poll();
   void onEmg(long nowMillis, int[] sensorData);
+  boolean isCalibrated();
 }
 
 
@@ -32,14 +33,14 @@ class MyoNotConnectedException extends Exception {}
 class EmgManager implements IEmgManager {
   Myo myo_unused;
   MyoAPI myoAPI;
-  String SETTINGS_EMG_CONTROL_POLICY;
+  IOInputMode SETTINGS_EMG_CONTROL_POLICY;
 
   EmgManager() throws MyoNotConnectedException {
     // not directly needed here, just need to make one in instantiated
     myo_unused = getMyoSingleton();
 
     myoAPI = new MyoAPI();
-    SETTINGS_EMG_CONTROL_POLICY = "DIFF";
+    SETTINGS_EMG_CONTROL_POLICY = options.getIOOptions().getIOInputMode();
   }
 
   boolean registerAction(String label) {
@@ -56,30 +57,31 @@ class EmgManager implements IEmgManager {
 
   HashMap<String, Float> poll() {
     HashMap<String, Float> readings = myoAPI.poll();
-    Float left = readings.get("LEFT");
-    Float right = readings.get("RIGHT");
-    Float jump = (readings.get("LEFT") > 0.8 && readings.get("RIGHT") > 0.8) ?  1.0 : 0.0;
+    Float left = readings.get(LEFT_DIRECTION_LABEL);
+    Float right = readings.get(RIGHT_DIRECTION_LABEL);
+    Float jump = (readings.get(LEFT_DIRECTION_LABEL) > 0.8 &&
+    readings.get(RIGHT_DIRECTION_LABEL) > 0.8) ?  1.0 : 0.0;
 
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
-    toReturn.put("JUMP", jump);
+    toReturn.put(JUMP_DIRECTION_LABEL, jump);
     switch (SETTINGS_EMG_CONTROL_POLICY) {
-      case "DIFF":
+      case DIFFERENCE:
         if (left > right) {
-          toReturn.put("LEFT", left-right);
-          toReturn.put("RIGHT", 0.0);
+          toReturn.put(LEFT_DIRECTION_LABEL, left-right);
+          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
         } else {
-          toReturn.put("RIGHT", right-left);
-          toReturn.put("LEFT", 0.0);
+          toReturn.put(RIGHT_DIRECTION_LABEL, right-left);
+          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
         }
         break;
 
-      case "MAX":
+      case MAX:
         if (left > right) {
-          toReturn.put("LEFT", left);
-          toReturn.put("RIGHT", 0.0);
+          toReturn.put(LEFT_DIRECTION_LABEL, left);
+          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
         } else {
-          toReturn.put("RIGHT", right);
-          toReturn.put("LEFT", 0.0);
+          toReturn.put(RIGHT_DIRECTION_LABEL, right);
+          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
         }
         break;
     }
@@ -88,6 +90,10 @@ class EmgManager implements IEmgManager {
 
   void onEmg(long nowMillis, int[] sensorData) {
     myoAPI.onEmg(nowMillis, sensorData);
+  }
+  
+  boolean isCalibrated() {
+    return true;
   }
 }
 
@@ -100,11 +106,15 @@ class NullEmgManager implements IEmgManager {
 
   HashMap<String, Float> poll() {
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
-    toReturn.put("LEFT", 0.0);
-    toReturn.put("RIGHT", 0.0);
-    toReturn.put("JUMP", 0.0);
+    toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+    toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+    toReturn.put(JUMP_DIRECTION_LABEL, 0.0);
     return toReturn;
   }
 
   void onEmg(long nowMillis, int[] sensorData) {} // no-op
+  
+  boolean isCalibrated() {
+    return false;
+  }
 }

@@ -1,0 +1,16 @@
+<GameObject>
+	<Render>
+		<Sprite>
+			<Image  src="images/button/Back_Arrow.png" x="0.0" y="0.0"   width="1" height="1" resizeHeight="30" resizeWidth="30"/>
+		</Sprite>
+	</Render>
+	<Button 
+		height="1" 
+		width="1"
+		buttonClickedSound="sound_effects/click.wav"
+		rate="1.0"
+		pan="0.0"
+		amp="1.0"
+		add="0.0"
+	/>
+</GameObject>

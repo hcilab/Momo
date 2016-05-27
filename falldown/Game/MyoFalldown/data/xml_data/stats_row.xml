@@ -1,0 +1,82 @@
+<GameObject>
+	<Render>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="-200.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="-120.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="-40.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="40.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="120.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="---"
+			fontName="Moire Bold" 
+			size="10"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="200.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	</Render>
+</GameObject>

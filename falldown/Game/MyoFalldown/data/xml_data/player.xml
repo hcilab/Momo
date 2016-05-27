@@ -1,10 +1,10 @@
 <GameObject>
 	<Render>
 		<Sprite>
-			<SpriteSheet src="images/stash.png" alphaImage=""
+			<SpriteSheet src="images/player/testM.png" alphaImage=""
 				x="0.0" y="0.0"  
-				horzCount="16" vertCount="16" farmeFreq="1f"
-				zOrder="0" height="128.0" scaleHeight="25"> 
+				horzCount="16" vertCount="1" defaultCount="0" farmeFreq="0"
+				zOrder="0" height="30.0" scaleHeight="1"> 
 			</SpriteSheet> 
 		</Sprite> 
 	</Render>
@@ -13,7 +13,7 @@
 		type="dynamic"
 		linearDamping="0.0"
 		angularDamping="0.01"
-		gravityScale="1.3"
+		gravityScale="0.3"
 		allowSleep="false"
 		awake="true"
 		fixedRotation="true"
@@ -21,28 +21,33 @@
 		active="true"
 	>
 		<Fixture
-			density="0.12"
-			friction="0.7"
-			restitution="0.4"
+			density="0.15"
+			friction="0.925"
+			restitution="0.1"
 			isSensor="false"
 		>
-			<Shape type="circle" x="0.0" y="0.0" radius="10.0"/>
+			<Shape type="circle" x="0.0" y="0.0" radius="0.5"/>
 		</Fixture>
 		
 		<OnCollideEvents>
 			<Event collidedWith="coin" eventType="COIN_COLLECTED" coinParameterName="coin"/>
+			<Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
 		</OnCollideEvents>
 	</RigidBody>
+	<AnimationController rightStart="0" rightEnd="7" leftStart="8" leftEnd="15">
+	</AnimationController>
 	
-	<PlayerController 
-		acceleration="0.45" 
-		maxSpeed="350.0" 
-		jumpForce="0.24"
+	<PlayerController
+		acceleration="0.8"
+		maxSpeed="350.0"
+		minInputThreshold="0.3"
+		jumpForce="-3.52"
 		jumpSoundFile="sound_effects/boing_spring.wav"
 		rate="1.0"
 		pan="0.0"
 		amp="1.0"
 		add="0.0"
-		currentRiseSpeedParameterName="currentRiseSpeed"
+		collidedPlatformParameterName="platform"
+		currentSpeedParameterName="currentSpeed"
 	/>
 </GameObject>

@@ -1,4 +1,4 @@
- //================================================================================================================
+//================================================================================================================
 // MyoFalldown
 // Author: David Hanna
 //
@@ -9,7 +9,12 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Date;
+import java.util.Comparator;
+import java.util.Collections;
 
+import java.text.SimpleDateFormat;
+ 
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.Contact;
@@ -29,9 +34,6 @@ import processing.sound.SoundFile;
 // The main class needs to be available globally for some subsystems.
 MyoFalldown mainObject;
 
-// The GameObject system.
-IGameObjectManager gameObjectManager;
-
 // The Event system.
 IEventManager eventManager;
 
@@ -49,13 +51,30 @@ IGameStateController gameStateController;
 // Handles EMG input
 IEmgManager emgManager;
 
-// Top-level game loop variables.
+// Manages the save_data.xml file.
+IOptions options;
+
+// Top-level game variables.
+final String LEFT_DIRECTION_LABEL = "LEFT";
+final String RIGHT_DIRECTION_LABEL = "RIGHT";
+final String JUMP_DIRECTION_LABEL = "JUMP";
+
 int lastFrameTime;
+int lastFrameWidth;
+int lastFrameHeight;
+int currentFrameWidth;
+int currentFrameHeight;
+
+boolean mouseHand;
+
+PShape bg;
+PShape opbg;
 
 void setup()
 {
   size(500, 500);
-  //fullScreen();
+  surface.setResizable(true);
+  surface.setTitle("The Falling of Momo");
   
   rectMode(CENTER);
   ellipseMode(CENTER);
@@ -64,22 +83,31 @@ void setup()
   
   mainObject = this;
   
-  gameObjectManager = new GameObjectManager();
-  
   eventManager = new EventManager();
   
   gravity = new Vec2(0.0, 10.0);
   physicsWorld = new World(gravity); // gravity
   contactListener = new FalldownContactListener();
   physicsWorld.setContactListener(contactListener);
-  velocityIterations = 6;  // Our simple games probably don't need as much iteration.
-  positionIterations = 2;
+  velocityIterations = 3;  // Our simple games probably don't need as much iteration.
+  positionIterations = 1;
   
   gameStateController = new GameStateController();
+  gameStateController.pushState(new GameState_MainMenu());
 
   emgManager = new NullEmgManager();
   
+  options = new Options();
+  
   lastFrameTime = millis();
+
+  currentFrameWidth = width;
+  currentFrameHeight = height;
+  
+  mouseHand = false;
+
+  bg = loadShape("images/background/rockMountain.svg");
+  opbg =  loadShape("images/background/opacityBG.svg");
 } 
 
 void draw()
@@ -88,23 +116,59 @@ void draw()
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
   
-  background(255, 255, 255);
+  lastFrameWidth = currentFrameWidth;
+  lastFrameHeight = currentFrameHeight;
+  currentFrameWidth = width;
+  currentFrameHeight = height;
   
-  // Solves debugger time distortion, or if something goes wrong and the game freezes for a moment before continuing.
-  if (deltaTime > 20)
+  if (width < 250)
+  {
+    surface.setSize(250, height);
+  }
+  if (height < 250)
+  {
+    surface.setSize(width, 250);
+  }
+  
+  if (currentFrameWidth != lastFrameWidth || currentFrameHeight != lastFrameHeight)
+  {
+    return;
+  }
+  
+  scale(width / 500.0, height / 500.0);
+
+  if (deltaTime > 100)
   {
     deltaTime = 16;
   }
   
-  eventManager.sendEvents();
+  eventManager.update();
   gameStateController.update(deltaTime);
+  
+  if (mouseHand)
+  {
+    cursor(HAND);
+  }
+  else
+  {
+    cursor(ARROW);
+  }
+  
+  mouseHand = false;
 }
 
 void keyPressed()
 {
   Event event;
   
-  if (key == CODED)
+  if (key == ESC)
+  {
+    event = new Event(EventType.ESCAPE_PRESSED);
+    eventManager.queueEvent(event);
+    key = 0; // override so that signal is not propogated on to kill window
+    return;
+  }
+  else if (key == CODED)
   {
     switch (keyCode)
     {
@@ -122,7 +186,17 @@ void keyPressed()
         event = new Event(EventType.RIGHT_BUTTON_PRESSED);
         eventManager.queueEvent(event); 
         return;
+      case DOWN:
+        event = new Event(EventType.DOWN_BUTTON_PRESSED);
+        eventManager.queueEvent(event);
+        return;
     }
+  }
+  else if (key == ' ')
+  {
+    event = new Event(EventType.SPACEBAR_PRESSED);
+    eventManager.queueEvent(event);
+    return;
   }
 }
 
@@ -130,6 +204,11 @@ void keyReleased()
 {
   Event event;
   
+  if (key == ESC)
+  {
+    key = 0; // override so that signal is not propogated on to kill window
+    return;
+  }
   if (key == CODED)
   {
     switch (keyCode)
@@ -152,9 +231,41 @@ void keyReleased()
   }
 }
 
+void mousePressed()
+{
+  Event event = new Event(EventType.MOUSE_PRESSED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+}
+
 void mouseClicked()
 {
   Event event = new Event(EventType.MOUSE_CLICKED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+}
+
+void mouseDragged()
+{
+  Event event = new Event(EventType.MOUSE_DRAGGED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+}
+
+void mouseReleased()
+{
+  Event event = new Event(EventType.MOUSE_RELEASED);
+  event.addIntParameter("mouseX", mouseX);
+  event.addIntParameter("mouseY", mouseY);
+  eventManager.queueEvent(event);
+}
+
+void mouseMoved()
+{
+  Event event = new Event(EventType.MOUSE_MOVED);
   event.addIntParameter("mouseX", mouseX);
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);

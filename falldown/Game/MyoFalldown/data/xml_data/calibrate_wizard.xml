@@ -1,31 +1,37 @@
 <GameObject>
 	<Render>
 		<Text
-			string="Left: 5"
-			fontName="Arial" 
+			string="LEFT: 5"
+			fontName="Moire" 
 			size="24"
 			antialiasing="true"
 			alignX="right"
 			alignY="baseline"
-			x="0.0"
-			y="0.0"
+			x="250.0"
+			y="250.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
 		<Text
-			string="Calibration Menu"
-			fontName="Arial" 
-			size="20"
+			string="EMG Calibration"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="0.0"
-			y="-100.0"
+			alignY="center"
+			x="250.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
 	</Render>
   <CalibrateWizard/>
   <Countdown countdownFrom="5"/>

@@ -1,82 +1,154 @@
 <GameObject tag="game_settings_message">
+	<GameOptionsController
+		sliderTag="starting_level"
+		sliderLeftBoundary="275.0"
+		sliderRightBoundary="475.0"
+		yPosition="123.0"
+		increaseDifficultyOverTimeTag="increase_difficulty_over_time"
+		autoDirectTag="auto_direct"
+		obstaclesTag="obstacles"
+		terrainModsTag="terrain_mods"
+		checkBoxXPosition="375.0"
+		falseDisplacement="5000.0"
+	/>
 	<Render>
 		<Text
-			string="GAME SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="xxx"
+			fontName="Arial"
+			size="10"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
-			x="250.0"
-			y="75.0"
+			x="0.0"
+			y="0.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
+		<Rect x="375.0" y="200.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="250.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="300.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+		
+		<Rect x="375.0" y="350.0" halfWidth="5" halfHeight="5">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Rect>
+	
+		<Text
+			string="Game Settings"
+			fontName="Moire Bold" 
+			size="40"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="25.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		
 		<Text
 			string="Starting Level"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="125.0"
+			y="150.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		
 		<Text
-			string="Increase Difficulty Over Time"
-			fontName="Arial"
+			string="Increase Level Over Time"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="175.0"
+			y="200.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect x="375" y="200.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
+		<Text
+			string="Auto Direct"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="250.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
 		<Text
 			string="Obstacles"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="225.0"
+			y="300.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect x="375.0" y="300.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
 		<Text
 			string="Terrain Mods"
-			fontName="Arial"
+			fontName="Moire"
 			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="275.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
+		<Rect x="375.0" y="350.0" halfWidth="20" halfHeight="20">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
 	</Render>
 </GameObject>

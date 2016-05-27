@@ -1,151 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject tag="stats_settings_message">
 	<Render>
 		<Text
-			string="STATS SETTINGS"
-			fontName="Andy Bold" 
-			size="30"
+			string="Gameplay Record"
+			fontName="Moire Bold" 
+			size="40"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
+			alignY="center"
 			x="250.0"
-			y="75.0"
+			y="25.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Text
-			string="Total # Games Played"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="125.0"
-		>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+		
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="50.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="130.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="210.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="290.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="370.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="450.0" y="80.0" width="78" height="40" resizeHeight="40" resizeWidth="78"/>
+		</Sprite>
+
+		<!-- Titles -->
 		<Text
-			string="0"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="125.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="Total Coins Collected"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="175.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="175.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="Total Obstaces Jumped"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="High Score"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Text
-			string="0"
-			fontName="Arial"
-			size="20"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="450.0"
-			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
-		</Text>
-		<Rect x="250.0" y="375.0" halfWidth="100.0" halfHeight="25.0">
-			<FillColor r="0" g="255" b="0" a="255"/>
-			<StrokeColor r="0" g="255" b="0" a="255"/>
-		</Rect>
-		<Text
-			string="Clear Stats"
-			fontName="Arial"
-			size="25"
+			string="Level"
+			fontName="Moire Bold" 
+			size="13"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="384.0"
+			alignY="center"
+			x="50"
+			y="77"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Up Arrow Key Returns to Main Menu"
-			fontName="Arial"
-			size="20"
+			string="Score"
+			fontName="Moire Bold" 
+			size="13"
 			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="450.0"
+			alignY="center"
+			x="130"
+			y="77.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Coins"
+			fontName="Moire Bold" 
+			size="13"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="210.0"
+			y="77.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Avg Speed"
+			fontName="Moire Bold" 
+			size="13"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="290.0"
+			y="77.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Duration"
+			fontName="Moire Bold" 
+			size="13"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="370.0"
+			y="77.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Date"
+			fontName="Moire Bold" 
+			size="13"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="450.0"
+			y="77.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="*** use the UP and DOWN arrows to see more records ***"
+			fontName="Moire Bold" 
+			size="12"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="480.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/redButton.png" x="30.0" y="485.0"   width="50" height="30"  resizeWidth="50" resizeHeight="30"/>
+		</Sprite>
+		<Text
+			string="Clear"
+			fontName="Moire"
+			size="10"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="30.0"
+			y="483.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 	</Render>
 </GameObject>

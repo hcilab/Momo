@@ -5,9 +5,9 @@
 			<StrokeColor r="255" g="255" b="0" a="255"/>
 		</Ellipse> -->
 		<Sprite>
-			<SpriteSheet src="images/coin_sheet.png" alphaImage=""
+			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
 					x="0.0" y="0.0"  
-					horzCount="6" vertCount="1" farmeFreq="3f"
+					horzCount="6" vertCount="1" defaultCount="6" farmeFreq="1f"
 					zOrder="5" height="42.0" scaleHeight="15"> 
 			</SpriteSheet> 
 		</Sprite>
@@ -30,13 +30,13 @@
 			restitution="0.4"
 			isSensor="true"
 		>
-			<Shape type="circle" x="0.0" y="0.0" radius="6.0"/>
+			<Shape type="circle" x="0.0" y="0.0" radius="8.0"/>
 		</Fixture>
 	</RigidBody>
 	
 	<CoinEventHandler>
 		<CoinCollected 
-			scoreValue="500" 
+			scoreValue="150" 
 			coinParameterName="coin" 
 			scoreValueParameterName="scoreValue"
 			coinCollectedSoundFile="sound_effects/Coin01.aif"

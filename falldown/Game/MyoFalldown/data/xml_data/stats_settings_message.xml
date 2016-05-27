@@ -43,7 +43,7 @@
 		<Text
 			string="Level"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -56,7 +56,7 @@
 		<Text
 			string="Score"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -69,7 +69,7 @@
 		<Text
 			string="Coins"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -82,7 +82,7 @@
 		<Text
 			string="Avg Speed"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -95,7 +95,7 @@
 		<Text
 			string="Duration"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -108,7 +108,7 @@
 		<Text
 			string="Date"
 			fontName="Moire Bold" 
-			size="15"
+			size="13"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"

@@ -30,7 +30,7 @@
 			restitution="0.4"
 			isSensor="true"
 		>
-			<Shape type="circle" x="0.0" y="0.0" radius="6.0"/>
+			<Shape type="circle" x="0.0" y="0.0" radius="8.0"/>
 		</Fixture>
 	</RigidBody>
 	

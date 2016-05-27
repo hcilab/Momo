@@ -8,7 +8,7 @@
 		spawnTimeRandomWindowSize="1000"
 		minHorizontalOffset="-20.0"
 		maxHorizontalOffset="20.0"
-		minVerticalOffset="-25.0"
+		minVerticalOffset="-30.0"
 		maxVerticalOffset="-20.0"
 		minHeight="525.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"

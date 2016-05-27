@@ -332,7 +332,7 @@ public class RenderComponent extends Component
         
         texts.add(new Text(
           xmlRenderable.getString("string"),
-          createFont("fonts/LetsEat.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
+          createFont("fonts/outersid.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
           alignX,
           alignY,
           new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),

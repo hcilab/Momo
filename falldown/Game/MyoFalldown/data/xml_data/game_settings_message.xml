@@ -15,7 +15,7 @@
 		<Text
 			string="xxx"
 			fontName="Arial"
-			size="10"
+			size="12"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"

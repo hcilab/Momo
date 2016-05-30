@@ -7,6 +7,7 @@
     <Record avg_speed="130.41324" coins_collected="0" date="1464808559120" level="78" score="767" time_played_millis="11094"/>
     <Record avg_speed="103.146515" coins_collected="0" date="1464808603917" level="80" score="1474" time_played_millis="20273"/>
   </Stats>
+  <Customize background="" coin="" coins_collected="0" obstacle="" platform="" sprite=""/>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>
   <Unlocked/>

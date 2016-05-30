@@ -117,6 +117,19 @@ public interface IGameRecord
 
 public interface ICustomizeOptions
 {
+  public int getCoinsCollected();
+  public String getSprite();
+  public String getPlatform();
+  public String getCoin();
+  public String getObstacle();
+  public String getBackground();
+
+  public void setCoinsCollected(int _newCoins);
+  public void setSprite(String _sprite);
+  public void setPlatform(String _platform);
+  public void setCoin(String _coin);
+  public void setObstacle(String _obstacle);
+  public void setBackground(String _background);
 }
 
 public interface IGameRecordViewHelper
@@ -730,8 +743,106 @@ public class Options implements IOptions
   //--------------------------------------------
   public class CustomizeOptions implements ICustomizeOptions
   {
+    private final String XML_CUST = "Customize";
+    private final String COINS_COLLECTED = "coins_collected";
+    private final String SPRITE = "sprite";
+    private final String PLATFORM = "platform";
+    private final String COIN = "coin";
+    private final String OBSTACLE = "obstacle";
+    private final String BACKGROUND = "background";
+
+    private XML xmlCust;
+
+    private int coinsCollected;
+    private String sprite;
+    private String platform;
+    private String coin;
+    private String obstacle;
+    private String background;
+
     private CustomizeOptions()
     {
+      xmlCust = xmlSaveData.getChild(XML_CUST);
+
+      coinsCollected = xmlCust.getInt(COINS_COLLECTED);
+      sprite = xmlCust.getString(SPRITE);
+      platform = xmlCust.getString(PLATFORM);
+      coin = xmlCust.getString(COIN);
+      obstacle = xmlCust.getString(OBSTACLE);
+      background = xmlCust.getString(BACKGROUND);
+    }
+
+    public int getCoinsCollected()
+    {
+      return coinsCollected;
+    }
+
+    public String getSprite()
+    {
+      return sprite;
+    }
+
+    public String getPlatform()
+    {
+      return platform;
+    }
+
+    public String getCoin()
+    {
+      return coin;
+    }
+
+    public String getObstacle()
+    {
+      return obstacle;
+    }
+
+    public String getBackground()
+    {
+      return background;
+    }
+
+    public void setCoinsCollected(int _newCoins)
+    {
+      coinsCollected += _newCoins;
+      xmlCust.setInt(COINS_COLLECTED, coinsCollected);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+
+    public void setSprite(String _sprite)
+    {
+      sprite = _sprite;
+      xmlCust.setString(SPRITE, sprite);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setPlatform(String _platform)
+    {
+      platform = _platform;
+      xmlCust.setString(PLATFORM, platform);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setCoin(String _coin)
+    {
+      coin = _coin;
+      xmlCust.setString(COIN, coin);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setObstacle(String _obstacle)
+    {
+      obstacle = _obstacle;
+      xmlCust.setString(OBSTACLE, obstacle);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setBackground(String _background)
+    {
+      background = _background;
+      xmlCust.setString(BACKGROUND, background);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
 

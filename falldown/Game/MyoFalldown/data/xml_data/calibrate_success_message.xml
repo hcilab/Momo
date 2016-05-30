@@ -1,5 +1,30 @@
 <GameObject>
+		<CalibrateController
+		calSliderTag="cal_slider"
+		calSliderLeftBoundary="150.0"
+		calSliderRightBoundary="250.0"
+		calSliderYPosition="287.0"
+	/>
 	<Render>
+			<!-- The position of these components within this file is very important,
+		they are being indexed according to their position in application code.
+		Moving these components, or inserting components above this position will
+		likely break application logic.-->
+			<Text
+				string="xxx"
+				fontName="Arial"
+				size="12"
+				antialiasing="true"
+				alignX="center"
+				alignY="baseline"
+				x="0.0"
+				y="0.0"
+			>
+				<FillColor r="0" g="0" b="0" a="255"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Text>
+
+		<!-- =================================================================== -->
 		<Text
 			string="EMG Calibration"
 			fontName="Moire Bold" 

@@ -29,6 +29,7 @@ public enum ComponentType
   ANIMATION_CONTROLLER,
   GAME_OPTIONS_CONTROLLER,
   IO_OPTIONS_CONTROLLER,
+  CALIBRATE_CONTROLLER,
 }
 
 public interface IComponent
@@ -406,7 +407,6 @@ public class RenderComponent extends Component
       offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
       offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
       shape(offsetShape.pshape); // draw
-     // println(gameObject.getScale().x + " " + offsetShape.scale.x + " " +gameObject.getScale().y + " " + offsetShape.scale.y);
     }
    
     
@@ -657,8 +657,7 @@ public class RigidBodyComponent extends Component
         } //<>// //<>//
       } //<>// //<>// //<>// //<>// //<>//
     } //<>// //<>// //<>// //<>//
-  } //<>// //<>// //<>// //<>// //<>// //<>//
-   //<>// //<>// //<>// //<>// //<>// //<>//
+  }  //<>// //<>//
   public PVector getLinearVelocity() //<>// //<>// //<>//
   { //<>// //<>// //<>//
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y)); //<>//
@@ -1572,7 +1571,7 @@ public class CountdownComponent extends Component
   
   @Override public void fromXML(XML xmlComponent)
   {
-    countdownFrom = xmlComponent.getInt("countdownFrom");
+    countdownFrom = options.getCalibration().getCalibrationTime();
     reset();
   }
   
@@ -1594,6 +1593,8 @@ public class CountdownComponent extends Component
   }
 
   public void reset() {
+    CalibrateWizardComponent cw = (CalibrateWizardComponent) gameObject.getComponent(ComponentType.CALIBRATE_WIZARD);
+    cw.updateRenderComponent( options.getCalibration().getCalibrationTime());
     value = countdownFrom;
     sinceLastTick = 0;
     sendEvent();
@@ -2394,6 +2395,70 @@ public class IOOptionsControllerComponent extends Component
   }
 }
 
+public class CalibrateController extends Component
+{
+  public int seconds;
+  private String calSliderTag;
+  private float calSliderLeftBoundary;
+  private float calSliderRightBoundary;
+  private float calSliderYPosition;
+    
+  public CalibrateController(IGameObject _gameObject)
+  {
+        super(_gameObject);
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+    if (component != null)
+    {
+       
+      RenderComponent renderComponent = (RenderComponent)component;
+      ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+      if (texts.size() > 1)
+      {
+        RenderComponent.Text calSliderText = texts.get(0);
+        float seconds = options.getCalibration().getCalibrationTime();
+        calSliderText.string = Integer.toString((int)(seconds));
+        calSliderText.translation.x = ((seconds-1) * 40 + calSliderLeftBoundary);
+        calSliderText.translation.y = calSliderYPosition;
+          
+         ArrayList<IGameObject> calSliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(calSliderTag);
+        if (calSliderList.size() > 0)
+        {
+          IGameObject calSlider = calSliderList.get(0);
+          component = calSlider.getComponent(ComponentType.SLIDER);
+          if (component != null)
+          {
+            SliderComponent sliderComponent = (SliderComponent)component;
+            sliderComponent.setTabPosition((width / 500.0f) * calSliderText.translation.x);
+          }
+        }
+        
+      }
+    }
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    calSliderTag = xmlComponent.getString("calSliderTag");
+    calSliderLeftBoundary = xmlComponent.getFloat("calSliderLeftBoundary");
+    calSliderRightBoundary = xmlComponent.getFloat("calSliderRightBoundary");
+    calSliderYPosition = xmlComponent.getFloat("calSliderYPosition");
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.CALIBRATE_CONTROLLER;
+  }
+  
+}
+
 public class AnimationControllerComponent extends Component
 {
  
@@ -2544,6 +2609,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("AnimationController"))
   {
     component = new AnimationControllerComponent(gameObject);
+  }
+  else if(componentName.equals("CalibrateController"))
+  {
+    component = new CalibrateController(gameObject);
   }
   
   if (component != null)

@@ -1,7 +1,7 @@
 <GameObject>
 	<Render>
 		<Text
-			string="LEFT: 5"
+			string="LEFT:"
 			fontName="Moire" 
 			size="24"
 			antialiasing="true"
@@ -34,6 +34,6 @@
 		</Line>
 	</Render>
   <CalibrateWizard/>
-  <Countdown countdownFrom="5"/>
+  <Countdown />
 </GameObject>
 

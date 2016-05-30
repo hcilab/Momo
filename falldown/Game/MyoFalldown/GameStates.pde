@@ -82,7 +82,15 @@ public class GameState_MainMenu extends GameState
       
       if (tag.equals("start_game"))
       {
-        gameStateController.pushState(new GameState_InGame());
+        
+        if (emgManager.isCalibrated())
+        {
+          gameStateController.pushState(new GameState_InGame());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_MyoNotConnected());
+        }
       }
       else if (tag.equals("options_menu")) 
       {
@@ -961,6 +969,17 @@ public class GameState_CalibrateSuccess extends GameState
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
     }
+      
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+       String tag = event.getRequiredStringParameter("tag");
+       float sliderValue = event.getRequiredFloatParameter("sliderValue");
+       if (tag.equals("cal_slider"))
+       {
+        float sensitivityValue = (sliderValue/20)+1;
+        options.getCalibration().setCalibrationTime((int)sensitivityValue);
+       }
+    }
   }
 }
 
@@ -1004,6 +1023,18 @@ public class GameState_CalibrateFailure extends GameState
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
+     
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
+    {
+       String tag = event.getRequiredStringParameter("tag");
+       float sliderValue = event.getRequiredFloatParameter("sliderValue");
+       if (tag.equals("cal_slider"))
+       {
+        float sensitivityValue = (sliderValue/20)+1;
+        options.getCalibration().setCalibrationTime((int)sensitivityValue);
+       }
     }
   }
 }
@@ -1041,6 +1072,53 @@ public class GameState_CalibrateFailureConfirm extends GameState
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+    }
+  }
+}
+
+public class GameState_MyoNotConnected extends GameState
+{
+  public GameState_MyoNotConnected()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/confirm_myonotconnected.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("Play"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_InGame());
+      }
+      else if (tag.equals("Calibrate"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+      else if (tag.equals("back"))
+      {
+        gameStateController.popState();
       }
     }
   }

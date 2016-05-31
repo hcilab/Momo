@@ -27,12 +27,14 @@ public interface IGameOptions
   public boolean getAutoDirect();
   public boolean getObstacles();
   public boolean getPlatformMods();
+  public String getAutoDirectMode();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
   public void setAutoDirect(boolean autoDirect);
   public void setObstacles(boolean obstacles);
   public void setPlatformMods(boolean platformMods);
+  public void setAutoDirectMode(String mode);
 }
 
 enum IOInputMode
@@ -182,6 +184,7 @@ public class Options implements IOptions
     private final String AUTO_DIRECT = "auto_direct";
     private final String OBSTACLES = "obstacles";
     private final String PLATFORM_MODS = "platform_mods";
+    private final String AUTO_DIRECT_MODE = "auto_direct_mode";
     
     private XML xmlGame;
     
@@ -190,6 +193,7 @@ public class Options implements IOptions
     private boolean autoDirect;
     private boolean obstacles;
     private boolean platformMods;
+    private String autoDirectMode;
     
     private GameOptions()
     {
@@ -200,6 +204,7 @@ public class Options implements IOptions
       autoDirect = xmlGame.getString(AUTO_DIRECT).equals("true") ? true : false;
       obstacles = xmlGame.getString(OBSTACLES).equals("true") ? true : false;
       platformMods = xmlGame.getString(PLATFORM_MODS).equals("true") ? true : false;
+      autoDirectMode = xmlGame.getString(AUTO_DIRECT_MODE);
     }
     
     @Override public int getStartingLevel()
@@ -225,6 +230,11 @@ public class Options implements IOptions
     @Override public boolean getPlatformMods()
     {
       return platformMods;
+    }
+    
+    @Override public String getAutoDirectMode()
+    {
+      return autoDirectMode;
     }
     
     @Override public void setStartingLevel(int _startingLevel)
@@ -259,6 +269,13 @@ public class Options implements IOptions
     {
       platformMods = _platformMods;
       xmlGame.setString(PLATFORM_MODS, platformMods ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setAutoDirectMode(String _autoDirectMode)
+    {
+      autoDirectMode = _autoDirectMode;
+      xmlGame.setString(AUTO_DIRECT_MODE, autoDirectMode);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }

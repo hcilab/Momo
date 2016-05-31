@@ -3,7 +3,7 @@
 		calSliderTag="cal_slider"
 		calSliderLeftBoundary="150.0"
 		calSliderRightBoundary="250.0"
-		calSliderYPosition="287.0"
+		calSliderYPosition="285.0"
 	/>
 	<Render>
 			<!-- The position of these components within this file is very important,
@@ -52,7 +52,20 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="250.0"
+			y="180.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Change the number seconds for calibration:"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="260.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

@@ -129,7 +129,7 @@ public interface ICustomizeOptions
   public void setPlatform(XML _platform);
   public void setCoin(XML _coin);
   public void setObstacle(XML _obstacle);
-  public void setBackground(String _background);
+  public void setBackground(XML _background);
   public void setMusic(XML _music);
 }
 
@@ -830,7 +830,6 @@ public class Options implements IOptions
 
     public void setPlayer(XML _player)
     {
-      playerData = _player;
       playerData.setString("src", _player.getString("src"));
       playerData.setString("horzCount", _player.getString("horzCount"));
       playerData.setString("vertCount", _player.getString("vertCount"));
@@ -868,9 +867,9 @@ public class Options implements IOptions
       saveXML(xmlObstacle, OBSTACLE_FILE_NAME_OUT);
     }
 
-    public void setBackground(String _background)
+    public void setBackground(XML _background)
     {
-      xmlCust.setString("background", _background);
+      xmlCust.setString("background", _background.getString("src"));
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 

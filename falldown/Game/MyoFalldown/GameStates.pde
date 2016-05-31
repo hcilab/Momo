@@ -823,6 +823,30 @@ public class GameState_CustomizeSettings extends GameState
         XML player = custXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[num];
         options.getCustomizeOptions().setPlayer(player);
       }
+      else if (event.getRequiredStringParameter("tag").contains("platform"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(8));
+        XML platform = custXML.getChildren("Render")[0].getChildren("Sprite")[1].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setPlatform(platform);
+      }
+      else if (event.getRequiredStringParameter("tag").contains("coin"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(4));
+        XML coin = custXML.getChildren("Render")[0].getChildren("Sprite")[2].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setCoin(coin);
+      }
+      else if (event.getRequiredStringParameter("tag").contains("obstacle"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(8));
+        XML obstacle = custXML.getChildren("Render")[0].getChildren("Sprite")[3].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setObstacle(obstacle);
+      }
+      else if (event.getRequiredStringParameter("tag").contains("background"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(10));
+        XML background = custXML.getChildren("Render")[0].getChildren("Sprite")[4].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setBackground(background);
+      }
     }
   }
 

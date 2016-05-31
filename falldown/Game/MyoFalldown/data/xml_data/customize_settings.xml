@@ -137,4 +137,29 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="music0">
+		<Transform>
+			<Translation x="175.0" y="365.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="music1">
+		<Transform>
+			<Translation x="225.0" y="365.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="music2">
+		<Transform>
+			<Translation x="275.0" y="365.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="music3">
+		<Transform>
+			<Translation x="325.0" y="365.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
 </Level>

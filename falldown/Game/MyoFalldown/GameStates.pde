@@ -847,6 +847,12 @@ public class GameState_CustomizeSettings extends GameState
         XML background = custXML.getChildren("Render")[0].getChildren("Sprite")[4].getChildren("SpriteSheet")[num];
         options.getCustomizeOptions().setBackground(background);
       }
+      else if (event.getRequiredStringParameter("tag").contains("music"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(5));
+        XML music = custXML.getChildren("Render")[0].getChildren("Sprite")[5].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setMusic(music);
+      }
     }
   }
 

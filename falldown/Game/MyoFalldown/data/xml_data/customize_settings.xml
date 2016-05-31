@@ -1,5 +1,5 @@
 <Level>
-	<GameObject file="xml_data/customize_settings_message.xml"/>
+	<GameObject file="xml_data/customize_settings_message.xml" tag="message"/>
 	<GameObject file="xml_data/customize_table.xml" tag="cust_table">
 		<Transform>
 			<Translation x="250.0" y="260.0"/>
@@ -8,6 +8,132 @@
 	<GameObject file="xml_data/button_back.xml" tag="back">
 		<Transform>
 			<Translation x="25.0" y="25.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+
+	<GameObject file="xml_data/button.xml" tag="player0">
+		<Transform>
+			<Translation x="175.0" y="125.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="player1">
+		<Transform>
+			<Translation x="225.0" y="125.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="player2">
+		<Transform>
+			<Translation x="275.0" y="125.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="player3">
+		<Transform>
+			<Translation x="325.0" y="125.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="platform0">
+		<Transform>
+			<Translation x="175.0" y="165.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="platform1">
+		<Transform>
+			<Translation x="225.0" y="165.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="platform2">
+		<Transform>
+			<Translation x="275.0" y="165.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="platform3">
+		<Transform>
+			<Translation x="325.0" y="165.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="coin0">
+		<Transform>
+			<Translation x="175.0" y="215.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="coin1">
+		<Transform>
+			<Translation x="225.0" y="215.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="coin2">
+		<Transform>
+			<Translation x="275.0" y="215.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="coin3">
+		<Transform>
+			<Translation x="325.0" y="215.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="obstacle0">
+		<Transform>
+			<Translation x="175.0" y="265.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="obstacle1">
+		<Transform>
+			<Translation x="225.0" y="265.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="obstacle2">
+		<Transform>
+			<Translation x="275.0" y="265.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="obstacle3">
+		<Transform>
+			<Translation x="325.0" y="265.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="background0">
+		<Transform>
+			<Translation x="175.0" y="315.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="background1">
+		<Transform>
+			<Translation x="225.0" y="315.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="background2">
+		<Transform>
+			<Translation x="275.0" y="315.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="background3">
+		<Transform>
+			<Translation x="325.0" y="315.0"/>
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>

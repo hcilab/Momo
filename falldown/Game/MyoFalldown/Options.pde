@@ -118,18 +118,19 @@ public interface IGameRecord
 public interface ICustomizeOptions
 {
   public int getCoinsCollected();
-  public String getSprite();
-  public String getPlatform();
-  public String getCoin();
-  public String getObstacle();
+  public XML getPlayer();
+  public XML getPlatform();
+  public XML getCoin();
+  public XML getObstacle();
   public String getBackground();
 
   public void setCoinsCollected(int _newCoins);
-  public void setSprite(String _sprite);
-  public void setPlatform(String _platform);
-  public void setCoin(String _coin);
-  public void setObstacle(String _obstacle);
+  public void setPlayer(XML _player);
+  public void setPlatform(XML _platform);
+  public void setCoin(XML _coin);
+  public void setObstacle(XML _obstacle);
   public void setBackground(String _background);
+  public void setMusic(XML _music);
 }
 
 public interface IGameRecordViewHelper
@@ -743,33 +744,51 @@ public class Options implements IOptions
   //--------------------------------------------
   public class CustomizeOptions implements ICustomizeOptions
   {
+    private final String PLAYER_FILE_NAME_IN = "xml_data/player.xml";
+    private final String PLAYER_FILE_NAME_OUT = "data/xml_data/player.xml";
+    private final String PLATFORM_FILE_NAME_IN = "xml_data/platform.xml";
+    private final String PLATFORM_FILE_NAME_OUT = "data/xml_data/platform.xml";
+    private final String COIN_FILE_NAME_IN = "xml_data/coin.xml";
+    private final String COIN_FILE_NAME_OUT = "data/xml_data/coin.xml";
+    private final String OBSTACLE_FILE_NAME_IN = "xml_data/obstacle.xml";
+    private final String OBSTACLE_FILE_NAME_OUT = "data/xml_data/obstacle.xml";
+    private final String MUSIC_FILE_NAME_IN = "xml_data/music_player.xml";
+    private final String MUSIC_FILE_NAME_OUT = "data/xml_data/music_player.xml";
     private final String XML_CUST = "Customize";
     private final String COINS_COLLECTED = "coins_collected";
-    private final String SPRITE = "sprite";
-    private final String PLATFORM = "platform";
-    private final String COIN = "coin";
-    private final String OBSTACLE = "obstacle";
     private final String BACKGROUND = "background";
 
     private XML xmlCust;
+    private XML xmlPlayer;
+    private XML xmlPlatform;
+    private XML xmlCoin;
+    private XML xmlObstacle;
+    private XML xmlMusic;
 
+    private XML playerData;
+    private XML platformData;
+    private XML coinData;
+    private XML obstacleData;
+    private XML musicData;
     private int coinsCollected;
-    private String sprite;
-    private String platform;
-    private String coin;
-    private String obstacle;
     private String background;
 
     private CustomizeOptions()
     {
       xmlCust = xmlSaveData.getChild(XML_CUST);
+      xmlPlayer = loadXML(PLAYER_FILE_NAME_IN);
+      xmlPlatform = loadXML(PLATFORM_FILE_NAME_IN);
+      xmlCoin = loadXML(COIN_FILE_NAME_IN);
+      xmlObstacle = loadXML(OBSTACLE_FILE_NAME_IN);
+      xmlMusic = loadXML(MUSIC_FILE_NAME_IN);
 
+      playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
+      coinData = xmlCoin.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      obstacleData = xmlObstacle.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      musicData = xmlMusic.getChildren("MusicPlayer")[0];
       coinsCollected = xmlCust.getInt(COINS_COLLECTED);
-      sprite = xmlCust.getString(SPRITE);
-      platform = xmlCust.getString(PLATFORM);
-      coin = xmlCust.getString(COIN);
-      obstacle = xmlCust.getString(OBSTACLE);
-      background = xmlCust.getString(BACKGROUND);
+      background = xmlCust.getString(BACKGROUND); 
     }
 
     public int getCoinsCollected()
@@ -777,24 +796,24 @@ public class Options implements IOptions
       return coinsCollected;
     }
 
-    public String getSprite()
+    public XML getPlayer()
     {
-      return sprite;
+      return playerData;
     }
 
-    public String getPlatform()
+    public XML getPlatform()
     {
-      return platform;
+      return platformData;
     }
 
-    public String getCoin()
+    public XML getCoin()
     {
-      return coin;
+      return coinData;
     }
 
-    public String getObstacle()
+    public XML getObstacle()
     {
-      return obstacle;
+      return obstacleData;
     }
 
     public String getBackground()
@@ -809,40 +828,56 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-
-    public void setSprite(String _sprite)
+    public void setPlayer(XML _player)
     {
-      sprite = _sprite;
-      xmlCust.setString(SPRITE, sprite);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      playerData = _player;
+      playerData.setString("src", _player.getString("src"));
+      playerData.setString("horzCount", _player.getString("horzCount"));
+      playerData.setString("vertCount", _player.getString("vertCount"));
+      playerData.setString("defaultCount", _player.getString("defaultCount"));
+      playerData.setString("farmeFreq", _player.getString("farmeFreq"));
+      playerData.setString("height", _player.getString("height"));
+      saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
     }
 
-    public void setPlatform(String _platform)
+    public void setPlatform(XML _platform)
     {
-      platform = _platform;
-      xmlCust.setString(PLATFORM, platform);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      platformData.setString("src", _platform.getString("src"));
+      saveXML(xmlPlatform, PLATFORM_FILE_NAME_OUT);
     }
 
-    public void setCoin(String _coin)
+    public void setCoin(XML _coin)
     {
-      coin = _coin;
-      xmlCust.setString(COIN, coin);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      coinData.setString("src", _coin.getString("src"));
+      coinData.setString("horzCount", _coin.getString("horzCount"));
+      coinData.setString("vertCount", _coin.getString("vertCount"));
+      coinData.setString("defaultCount", _coin.getString("defaultCount"));
+      coinData.setString("farmeFreq", _coin.getString("farmeFreq"));
+      coinData.setString("height", _coin.getString("height"));
+      saveXML(xmlCoin, COIN_FILE_NAME_OUT);
     }
 
-    public void setObstacle(String _obstacle)
+    public void setObstacle(XML _obstacle)
     {
-      obstacle = _obstacle;
-      xmlCust.setString(OBSTACLE, obstacle);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      obstacleData.setString("src", _obstacle.getString("src"));
+      obstacleData.setString("horzCount", _obstacle.getString("horzCount"));
+      obstacleData.setString("vertCount", _obstacle.getString("vertCount"));
+      obstacleData.setString("defaultCount", _obstacle.getString("defaultCount"));
+      obstacleData.setString("farmeFreq", _obstacle.getString("farmeFreq"));
+      obstacleData.setString("height", _obstacle.getString("height"));
+      saveXML(xmlObstacle, OBSTACLE_FILE_NAME_OUT);
     }
 
     public void setBackground(String _background)
     {
-      background = _background;
-      xmlCust.setString(BACKGROUND, background);
+      xmlCust.setString("background", _background);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setMusic(XML _music)
+    {
+      musicData.setString("src", _music.getString("src"));
+      saveXML(xmlMusic, MUSIC_FILE_NAME_OUT);
     }
   }
 

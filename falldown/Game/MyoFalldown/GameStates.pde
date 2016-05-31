@@ -774,14 +774,22 @@ public class GameState_ClearStats_Confirm extends GameState
 
 public class GameState_CustomizeSettings extends GameState
 {
+  private boolean saveDataLoaded = false;
+  private String prefixCoinsCollected = "Coins Collected: ";
+  private int coinsCollected;
+  private XML custXML;
+
   public GameState_CustomizeSettings()
   {
     super();
+    coinsCollected = 0;
+    custXML = loadXML("xml_data/customize_settings_message.xml");
   }
 
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/customize_settings.xml");
+    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
   }
 
   @Override public void update(int deltaTime)
@@ -789,6 +797,11 @@ public class GameState_CustomizeSettings extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("cust_table").size() > 0)
+    {
+      loadFromSaveData();
+    }
   }
 
   @Override public void onExit()
@@ -804,7 +817,20 @@ public class GameState_CustomizeSettings extends GameState
       {
         gameStateController.popState();
       }
+      if (event.getRequiredStringParameter("tag").contains("player"))
+      {
+        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(6));
+        XML player = custXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[num];
+        options.getCustomizeOptions().setPlayer(player);
+      }
     }
+  }
+
+  private void loadFromSaveData()
+  {
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("cust_table").get(0).getComponent(ComponentType.RENDER);
+    renderComponent.getTexts().get(0).string = prefixCoinsCollected + Integer.toString(coinsCollected);
+    saveDataLoaded = true;
   }
 }
 

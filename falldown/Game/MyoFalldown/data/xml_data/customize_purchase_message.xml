@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameObject tag="customize_purchase_message">
+  <Render>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire Bold" size="40" string="Purchase" x="250.0" y="25.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Line height="5.0" width="1.0" x="0.0" x1="0.0" x2="500.0" y="0.0" y1="10.0" y2="10.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Line>
+    <!-- "Total coins: xxx" -->
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="" x="25.0" y="130.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <!-- This new item costs: xxx -->
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="" x="25.0" y="150.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Sprite>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.0" height="30.0" horzCount="1" scaleHeight="30" src="images/obstacle/snakeSlimeGrey.png" vertCount="1" x="250.0" y="250.0" zOrder="0"/>
+    </Sprite>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="20" string="Cancel" x="125.0" y="350.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Sprite>
+      <Image height="80" resizeHeight="80" resizeWidth="100" src="images/button/buttonNormal.png" width="100" x="125.0" y="350.0"/>
+    </Sprite>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="20" string="Buy!" x="375.0" y="350.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Sprite>
+      <Image height="80" resizeHeight="80" resizeWidth="100" src="images/button/buttonNormal.png" width="100" x="375.0" y="350.0"/>
+    </Sprite>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="20" string="You cannot afford this!!" x="250.0" y="425.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+  </Render>
+</GameObject>

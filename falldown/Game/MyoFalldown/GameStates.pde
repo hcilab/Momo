@@ -817,41 +817,56 @@ public class GameState_CustomizeSettings extends GameState
       {
         gameStateController.popState();
       }
-      if (event.getRequiredStringParameter("tag").contains("player"))
+      else if ((event.getRequiredStringParameter("tag").contains("player")
+      || event.getRequiredStringParameter("tag").contains("platform")
+      || event.getRequiredStringParameter("tag").contains("coin")
+      || event.getRequiredStringParameter("tag").contains("obstacle")
+      || event.getRequiredStringParameter("tag").contains("background")
+      || event.getRequiredStringParameter("tag").contains("music")))
       {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(6));
-        XML player = custXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setPlayer(player);
-      }
-      else if (event.getRequiredStringParameter("tag").contains("platform"))
-      {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(8));
-        XML platform = custXML.getChildren("Render")[0].getChildren("Sprite")[1].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setPlatform(platform);
-      }
-      else if (event.getRequiredStringParameter("tag").contains("coin"))
-      {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(4));
-        XML coin = custXML.getChildren("Render")[0].getChildren("Sprite")[2].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setCoin(coin);
-      }
-      else if (event.getRequiredStringParameter("tag").contains("obstacle"))
-      {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(8));
-        XML obstacle = custXML.getChildren("Render")[0].getChildren("Sprite")[3].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setObstacle(obstacle);
-      }
-      else if (event.getRequiredStringParameter("tag").contains("background"))
-      {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(10));
-        XML background = custXML.getChildren("Render")[0].getChildren("Sprite")[4].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setBackground(background);
-      }
-      else if (event.getRequiredStringParameter("tag").contains("music"))
-      {
-        int num = Integer.parseInt(event.getRequiredStringParameter("tag").substring(5));
-        XML music = custXML.getChildren("Render")[0].getChildren("Sprite")[5].getChildren("SpriteSheet")[num];
-        options.getCustomizeOptions().setMusic(music);
+        String tag = event.getRequiredStringParameter("tag");
+        int index = -1;
+        if (tag.contains("player"))
+          index = 0;
+        else if (tag.contains("platform"))
+          index = 1;
+        else if (tag.contains("coin"))
+          index = 2;
+        else if (tag.contains("obstacle"))
+          index = 3;
+        else if (tag.contains("background"))
+          index = 4;
+        else if (tag.contains("music"))
+          index = 5;
+
+        int custSpriteIndex = index * 4 + Integer.parseInt(tag.substring(tag.length()-1));
+
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        int cost = renderComponent.getCustomSprites().get(custSpriteIndex).cost;
+        String actualSrc = renderComponent.getCustomSprites().get(custSpriteIndex).actualSrc;
+        Sprite sprite = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.sheetSprite;
+        int horzCount = renderComponent.getCustomSprites().get(custSpriteIndex).horzCount;
+        int vertCount = renderComponent.getCustomSprites().get(custSpriteIndex).vertCount;
+        int defaultCount = renderComponent.getCustomSprites().get(custSpriteIndex).defaultCount;
+        float frameFreq = renderComponent.getCustomSprites().get(custSpriteIndex).frameFreq;
+        boolean unlocked = renderComponent.getCustomSprites().get(custSpriteIndex).unlocked;
+
+        XML purchaseXML = loadXML("xml_data/customize_purchase_message.xml");
+        XML spriteData = purchaseXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+        spriteData.setString("src", actualSrc);
+        spriteData.setString("horzCount", horzCount+"");
+        spriteData.setString("vertCount", vertCount+"");
+        spriteData.setString("defaultCount", defaultCount+"");
+        spriteData.setString("farmeFreq", frameFreq+"");
+        saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
+
+        if (unlocked) {
+          println("update player, platform, etc to be the one clicked");
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_CustomizePurchase(sprite, actualSrc, cost, horzCount, vertCount, defaultCount, frameFreq));
+        }
       }
     }
   }
@@ -860,6 +875,74 @@ public class GameState_CustomizeSettings extends GameState
   {
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("cust_table").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(0).string = prefixCoinsCollected + Integer.toString(coinsCollected);
+    saveDataLoaded = true;
+  }
+}
+
+public class GameState_CustomizePurchase extends GameState
+{
+  private boolean saveDataLoaded;
+  private String src;
+  private int cost;
+  private Sprite sprite;
+  private int totalCoins;
+  private int horzCount;
+  private int vertCount;
+  private int defaultCount;
+  private float frameFreq;
+
+  public GameState_CustomizePurchase(Sprite _sprite, String _actualSrc, int _cost, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq)
+  {
+    super();
+    saveDataLoaded = false;
+    src = _actualSrc;
+    cost = _cost;
+    sprite = _sprite;
+    horzCount = _horzCount;
+    vertCount = _vertCount;
+    defaultCount = _defaultCount;
+    frameFreq = _frameFreq;
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/customize_purchase.xml");
+    totalCoins = options.getCustomizeOptions().getCoinsCollected();
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadFromSaveData();
+    }
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+
+  private void loadFromSaveData()
+  {
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    renderComponent.getTexts().get(1).string = "Total Coins: " + Integer.toString(totalCoins);
+    renderComponent.getTexts().get(2).string = "This new items costs: " + cost;
     saveDataLoaded = true;
   }
 }

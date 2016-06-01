@@ -160,9 +160,9 @@ public class RenderComponent extends Component
     public int vertCount;
     public int defaultCount;
     public float frameFreq;
-    public boolean bought;
+    public boolean unlocked;
 
-    public CustomSprite(OffsetSheetSprite _sprite, int _cost, String _actualSrc, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, String _bought)
+    public CustomSprite(OffsetSheetSprite _sprite, int _cost, String _actualSrc, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, String _unlocked)
     {
       sprite = _sprite;
       cost = _cost;
@@ -171,13 +171,12 @@ public class RenderComponent extends Component
       vertCount = _vertCount;
       defaultCount = _defaultCount;
       frameFreq = _frameFreq;
-      println(actualSrc);
-      if (_bought.equals("true"))
+      if (_unlocked.equals("true"))
       {
-        bought = true;
+        unlocked = true;
       }
       else {
-        bought = false;
+        unlocked = false;
       }
     }
   }
@@ -405,7 +404,7 @@ public class RenderComponent extends Component
                  xmlSpriteComponent.getInt("vertCount"),
                  xmlSpriteComponent.getInt("defaultCount"),
                  xmlSpriteComponent.getFloat("farmeFreq"),
-                 xmlRenderable.getString("bought")
+                 xmlRenderable.getString("unlocked")
             );
             customSprite.sprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));
             customSprite.sprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);

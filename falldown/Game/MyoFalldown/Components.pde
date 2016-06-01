@@ -2124,6 +2124,7 @@ public class StatsCollectorComponent extends Component
   @Override public void destroy()
   {
     IStats stats = options.getStats();
+    ICustomizeOptions custom = options.getCustomizeOptions();
     
     IGameRecord record = stats.createGameRecord();
     record.setLevelAchieved(levelAchieved); 
@@ -2131,6 +2132,7 @@ public class StatsCollectorComponent extends Component
     record.setTimePlayed(timePlayed);
     record.setAverageSpeed(averageSpeed);
     record.setCoinsCollected(coinsCollected);
+    custom.setCoinsCollected(coinsCollected);
     record.setDate(new Date().getTime());
     
     stats.addGameRecord(record);

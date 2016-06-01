@@ -774,7 +774,8 @@ public class GameState_ClearStats_Confirm extends GameState
 
 public class GameState_CustomizeSettings extends GameState
 {
-  private boolean saveDataLoaded = false;
+  private boolean saveDataLoaded;
+  private boolean loadAfterPurchase;
   private String prefixCoinsCollected = "Coins Collected: ";
   private int coinsCollected;
   private XML custXML;
@@ -782,14 +783,15 @@ public class GameState_CustomizeSettings extends GameState
   public GameState_CustomizeSettings()
   {
     super();
-    coinsCollected = 0;
+    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
+    saveDataLoaded = false;
+    loadAfterPurchase = false;
     custXML = loadXML("xml_data/customize_settings_message.xml");
   }
 
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/customize_settings.xml");
-    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
   }
 
   @Override public void update(int deltaTime)
@@ -798,7 +800,7 @@ public class GameState_CustomizeSettings extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
-    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("cust_table").size() > 0)
+    if ((!saveDataLoaded || loadAfterPurchase) && gameObjectManager.getGameObjectsByTag("cust_table").size() > 0)
     {
       loadFromSaveData();
     }
@@ -873,9 +875,16 @@ public class GameState_CustomizeSettings extends GameState
 
   private void loadFromSaveData()
   {
+    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("cust_table").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(0).string = prefixCoinsCollected + Integer.toString(coinsCollected);
     saveDataLoaded = true;
+    loadAfterPurchase = false;
+  }
+
+  public void setLoadAfterPurchase(boolean _val)
+  {
+    loadAfterPurchase = _val;
   }
 }
 
@@ -935,6 +944,14 @@ public class GameState_CustomizePurchase extends GameState
       {
         gameStateController.popState();
       }
+      else if (event.getRequiredStringParameter("tag").equals("buy") && totalCoins >= cost)
+      {
+        options.getCustomizeOptions().setCoinsAfterPurchase(cost);
+        totalCoins = options.getCustomizeOptions().getCoinsCollected();
+        GameState_CustomizeSettings cs = (GameState_CustomizeSettings) gameStateController.getPreviousState();
+        cs.setLoadAfterPurchase(true);
+        gameStateController.popState();
+      }
     }
   }
 
@@ -943,6 +960,13 @@ public class GameState_CustomizePurchase extends GameState
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(1).string = "Total Coins: " + Integer.toString(totalCoins);
     renderComponent.getTexts().get(2).string = "This new items costs: " + cost;
+    if (totalCoins < cost) {
+      renderComponent.getTexts().get(5).string = "You cannot afford this!";
+    }
+    else
+    {
+      renderComponent.getTexts().get(5).string = "";
+    }
     saveDataLoaded = true;
   }
 }

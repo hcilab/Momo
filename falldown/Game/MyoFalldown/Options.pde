@@ -125,6 +125,7 @@ public interface ICustomizeOptions
   public String getBackground();
 
   public void setCoinsCollected(int _newCoins);
+  public void setCoinsAfterPurchase(int _price);
   public void setPlayer(XML _player);
   public void setPlatform(XML _platform);
   public void setCoin(XML _coin);
@@ -824,6 +825,13 @@ public class Options implements IOptions
     public void setCoinsCollected(int _newCoins)
     {
       coinsCollected += _newCoins;
+      xmlCust.setInt(COINS_COLLECTED, coinsCollected);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setCoinsAfterPurchase(int _price)
+    {
+      coinsCollected -= _price;
       xmlCust.setInt(COINS_COLLECTED, coinsCollected);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }

@@ -783,14 +783,13 @@ public class PlayerControllerComponent extends Component //<>//
     handleEvents();
 
     HashMap<String, Float> rawInput = gatherRawInput();
-    HashMap<String, Float> processedInput = applyEmgSamplingPolicy(rawInput);
-
     PVector moveVector = new PVector();
+
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
     if (policy == ControlPolicy.NORMAL)
-      moveVector = applyNormalControls(processedInput);
+      moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
-      moveVector = applyDirectionAssistControls(processedInput);
+      moveVector = applyDirectionAssistControls(rawInput);
     else
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
 
@@ -848,49 +847,6 @@ public class PlayerControllerComponent extends Component //<>//
     rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
     rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude);
     return rawInput;
-  }
-
-  private HashMap<String, Float> applyEmgSamplingPolicy(HashMap<String, Float> rawInput)
-  {
-    HashMap<String, Float> processedInput = new HashMap<String, Float>();
-    float left = rawInput.get(LEFT_DIRECTION_LABEL);
-    float right = rawInput.get(RIGHT_DIRECTION_LABEL);
-    float jump = rawInput.get(JUMP_DIRECTION_LABEL);
-
-    EmgSamplingPolicy policy = options.getIOOptions().getEmgSamplingPolicy();
-    if (policy == EmgSamplingPolicy.MAX)
-    {
-      if (left > right)
-      {
-        processedInput.put(LEFT_DIRECTION_LABEL, left);
-        processedInput.put(RIGHT_DIRECTION_LABEL, 0.0);
-      }
-      else
-      {
-        processedInput.put(LEFT_DIRECTION_LABEL, 0.0);
-        processedInput.put(RIGHT_DIRECTION_LABEL, right);
-      }
-    }
-    else if (policy == EmgSamplingPolicy.DIFFERENCE)
-    {
-      if (left > right)
-      {
-        processedInput.put(LEFT_DIRECTION_LABEL, left-right);
-        processedInput.put(RIGHT_DIRECTION_LABEL, 0.0);
-      }
-      else
-      {
-        processedInput.put(LEFT_DIRECTION_LABEL, 0.0);
-        processedInput.put(RIGHT_DIRECTION_LABEL, right-left);
-      }
-    }
-    else
-    {
-      println("[ERROR] Invalid sampling policy found in PlayerControllerComponent::applyEmgSamplingPolicy()");
-    }
-
-    processedInput.put(JUMP_DIRECTION_LABEL, jump);
-    return processedInput;
   }
 
   private PVector applyNormalControls(HashMap<String, Float> input)

@@ -150,10 +150,43 @@ public class RenderComponent extends Component
     }
   }
   
+  // Used only for the sprites on the Customize page
+  public class CustomSprite
+  {
+    public OffsetSheetSprite sprite;
+    public int cost;
+    public String actualSrc;
+    public int horzCount;
+    public int vertCount;
+    public int defaultCount;
+    public float frameFreq;
+    public boolean bought;
+
+    public CustomSprite(OffsetSheetSprite _sprite, int _cost, String _actualSrc, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, String _bought)
+    {
+      sprite = _sprite;
+      cost = _cost;
+      actualSrc = _actualSrc;
+      horzCount = _horzCount;
+      vertCount = _vertCount;
+      defaultCount = _defaultCount;
+      frameFreq = _frameFreq;
+      println(actualSrc);
+      if (_bought.equals("true"))
+      {
+        bought = true;
+      }
+      else {
+        bought = false;
+      }
+    }
+  }
+
   private ArrayList<OffsetPShape> offsetShapes;
   private ArrayList<Text> texts;
   private ArrayList<OffsetSheetSprite> offsetSheetSprites;
   private ArrayList<OffsetPImage> offsetPImages;
+  private ArrayList<CustomSprite> customSprites;
 
   public RenderComponent(IGameObject _gameObject)
   {
@@ -163,6 +196,7 @@ public class RenderComponent extends Component
     texts = new ArrayList<Text>();
     offsetSheetSprites = new ArrayList<OffsetSheetSprite>();
     offsetPImages = new  ArrayList<OffsetPImage>();
+    customSprites = new ArrayList<CustomSprite>();
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -356,6 +390,31 @@ public class RenderComponent extends Component
           ));
         }
       }
+      else if (xmlRenderable.getName().equals("CustomSprite"))
+      {
+        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
+         if(xmlSpriteComponent.getName().equals("SpriteSheet")){
+           CustomSprite customSprite = new CustomSprite(
+                 new OffsetSheetSprite(
+                 new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
+                 new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
+                 new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))),
+                 xmlRenderable.getInt("cost"),
+                 xmlRenderable.getString("actualSrc"),
+                 xmlSpriteComponent.getInt("horzCount"),
+                 xmlSpriteComponent.getInt("vertCount"),
+                 xmlSpriteComponent.getInt("defaultCount"),
+                 xmlSpriteComponent.getFloat("farmeFreq"),
+                 xmlRenderable.getString("bought")
+            );
+            customSprite.sprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));
+            customSprite.sprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
+            customSprite.sprite.sheetSprite.setScale(xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"));
+            offsetSheetSprites.add(customSprite.sprite);
+            customSprites.add(customSprite);
+          }
+        }
+      }
     }
   }
   
@@ -477,12 +536,17 @@ public class RenderComponent extends Component
   public ArrayList<Text> getTexts()
   {
     return texts;
+  } //<>// //<>// //<>// //<>// //<>//
+
+  public ArrayList<CustomSprite> getCustomSprites()
+  {
+    return customSprites;
   }
-} //<>//
- //<>//
-public class RigidBodyComponent extends Component //<>//
-{ //<>//
-  private class OnCollideEvent //<>//
+}
+
+public class RigidBodyComponent extends Component
+{
+  private class OnCollideEvent
   {
     public String collidedWith; //<>//
     public EventType eventType; //<>//

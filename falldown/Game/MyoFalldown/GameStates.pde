@@ -413,18 +413,18 @@ public class GameState_IOSettings extends GameState
       }
       else if (tag.equals("difference"))
       {
-        if (options.getIOOptions().getIOInputMode() == IOInputMode.MAX)
+        if (options.getIOOptions().getEmgSamplingPolicy() == EmgSamplingPolicy.MAX)
         {
-          options.getIOOptions().setIOInputMode(IOInputMode.DIFFERENCE);
+          options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.DIFFERENCE);
           RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
           renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y - 45;
         }
       }
       else if (tag.equals("max"))
       {
-        if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)
+        if (options.getIOOptions().getEmgSamplingPolicy() == EmgSamplingPolicy.DIFFERENCE)
         {
-          options.getIOOptions().setIOInputMode(IOInputMode.MAX);
+          options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.MAX);
           RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
           renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 45;
         }
@@ -509,15 +509,15 @@ public class GameState_IOSettings extends GameState
 
   private void loadFromSaveData()
   {
-    IOInputMode mode = options.getIOOptions().getIOInputMode();
+    EmgSamplingPolicy policy = options.getIOOptions().getEmgSamplingPolicy();
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
     if (renderComponent.getShapes().get(3).translation.y == 0)
     {
-      if (mode == IOInputMode.DIFFERENCE)
+      if (policy == EmgSamplingPolicy.DIFFERENCE)
       {
         renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 375;
       }
-      else if (mode == IOInputMode.MAX)
+      else if (policy == EmgSamplingPolicy.MAX)
       {
         renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 420;
       }

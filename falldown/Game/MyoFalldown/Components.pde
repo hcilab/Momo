@@ -790,6 +790,8 @@ public class PlayerControllerComponent extends Component //<>//
       moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
       moveVector = applyDirectionAssistControls(rawInput);
+    else if (policy == ControlPolicy.SINGLE_MUSCLE)
+      moveVector = applySingleMuscleControls(rawInput);
     else
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
 
@@ -875,6 +877,21 @@ public class PlayerControllerComponent extends Component //<>//
       moveVector.x = -magnitude;
     else
       moveVector.x = magnitude;
+
+    return moveVector;
+  }
+
+  private PVector applySingleMuscleControls(HashMap<String, Float> input)
+  {
+    PVector moveVector = new PVector();
+
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
+    if (mode == SingleMuscleMode.AUTO_LEFT)
+      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == SingleMuscleMode.AUTO_RIGHT)
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
+    else
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
     return moveVector;
   }
@@ -2160,6 +2177,9 @@ public class GameOptionsControllerComponent extends Component
   private String leftTag;
   private String rightTag;
   private String bothTag;
+  private String singleMuscleTag;
+  private String autoLeftTag;
+  private String autoRightTag;
   private String obstaclesTag;
   private String terrainModsTag;
   private float checkBoxXPosition;
@@ -2186,6 +2206,9 @@ public class GameOptionsControllerComponent extends Component
     leftTag = xmlComponent.getString("left");
     rightTag = xmlComponent.getString("right");
     bothTag = xmlComponent.getString("both");
+    singleMuscleTag = xmlComponent.getString("singleMuscleTag");
+    autoLeftTag = xmlComponent.getString("autoLeftTag");
+    autoRightTag = xmlComponent.getString("autoRightTag");
     obstaclesTag = xmlComponent.getString("obstaclesTag");
     terrainModsTag = xmlComponent.getString("terrainModsTag");
     checkBoxXPosition = xmlComponent.getFloat("checkBoxXPosition");
@@ -2222,6 +2245,18 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setObstacles(false);
         }
       }
+      else if (tag.equals(singleMuscleTag))
+      {
+        if (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE) {
+          gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+        }
+        else
+        {
+          gameOptions.setControlPolicy(ControlPolicy.SINGLE_MUSCLE);
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
+          gameOptions.setObstacles(false);
+        }
+      }
       else if (tag.equals(obstaclesTag))
       {
         gameOptions.setObstacles(!gameOptions.getObstacles());
@@ -2249,6 +2284,14 @@ public class GameOptionsControllerComponent extends Component
         {
           gameOptions.setDirectionAssistMode(DirectionAssistMode.BOTH);
         } 
+      }
+
+      if(gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE)
+      {
+        if (tag.equals(autoLeftTag))
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
+        else if (tag.equals(autoRightTag))
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_RIGHT);
       }
     }
     
@@ -2291,6 +2334,10 @@ public class GameOptionsControllerComponent extends Component
         RenderComponent.OffsetPShape leftCheckbox = shapes.get(4);
         RenderComponent.OffsetPShape rightCheckbox = shapes.get(5);
         RenderComponent.OffsetPShape bothCheckbox = shapes.get(6);
+
+        RenderComponent.OffsetPShape singleMuscleCheckBox = shapes.get(7);
+        RenderComponent.OffsetPShape autoLeftCheckBox = shapes.get(8);
+        RenderComponent.OffsetPShape autoRightCheckBox = shapes.get(9);
         
         levelUpOverTimeCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLevelUpOverTime() ? 0.0f : falseDisplacement);
         autoDirectCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST ? 0.0f : falseDisplacement);
@@ -2299,6 +2346,9 @@ public class GameOptionsControllerComponent extends Component
         leftCheckbox.translation.x = 75 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.LEFT_ONLY ? 0.0f : falseDisplacement);
         rightCheckbox.translation.x = 150 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.RIGHT_ONLY ? 0.0f : falseDisplacement);
         bothCheckbox.translation.x = 230 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.BOTH ? 0.0f : falseDisplacement);
+        singleMuscleCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE ? 0.0f : falseDisplacement);
+        autoLeftCheckBox.translation.x = 75 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_LEFT ? 0.0f : falseDisplacement);
+        autoRightCheckBox.translation.x = 200 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_RIGHT ? 0.0f : falseDisplacement);
       }
     }
   }

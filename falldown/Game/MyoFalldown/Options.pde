@@ -24,6 +24,7 @@ enum ControlPolicy
 {
   NORMAL,
   DIRECTION_ASSIST,
+  SINGLE_MUSCLE,
 }
 
 enum DirectionAssistMode
@@ -33,12 +34,19 @@ enum DirectionAssistMode
   BOTH,
 }
 
+enum SingleMuscleMode
+{
+  AUTO_LEFT,
+  AUTO_RIGHT,
+}
+
 public interface IGameOptions
 {
   public int getStartingLevel();
   public boolean getLevelUpOverTime();
   public ControlPolicy getControlPolicy();
   public DirectionAssistMode getDirectionAssistMode();
+  public SingleMuscleMode getSingleMuscleMode();
   public boolean getObstacles();
   public boolean getPlatformMods();
   
@@ -46,6 +54,7 @@ public interface IGameOptions
   public void setLevelUpOverTime(boolean levelUpOverTime);
   public void setControlPolicy(ControlPolicy policy);
   public void setDirectionAssistMode(DirectionAssistMode mode);
+  public void setSingleMuscleMode(SingleMuscleMode mode);
   public void setObstacles(boolean obstacles);
   public void setPlatformMods(boolean platformMods);
 }
@@ -197,6 +206,7 @@ public class Options implements IOptions
     private final String LEVEL_UP_OVER_TIME = "level_up_over_time";
     private final String CONTROL_POLICY = "control_policy";
     private final String DIRECTION_ASSIST_MODE = "direction_assist_mode";
+    private final String SINGLE_MUSCLE_MODE = "single_muscle_mode";
     private final String OBSTACLES = "obstacles";
     private final String PLATFORM_MODS = "platform_mods";
     
@@ -206,6 +216,7 @@ public class Options implements IOptions
     private boolean levelUpOverTime;
     private ControlPolicy controlPolicy;
     private DirectionAssistMode directionAssistMode;
+    private SingleMuscleMode singleMuscleMode;
     private boolean obstacles;
     private boolean platformMods;
     
@@ -224,6 +235,8 @@ public class Options implements IOptions
           controlPolicy = ControlPolicy.NORMAL; break;
         case ("direction_assist"):
           controlPolicy = ControlPolicy.DIRECTION_ASSIST; break;
+        case ("single_muscle"):
+          controlPolicy = ControlPolicy.SINGLE_MUSCLE; break;
         default:
           println("[ERROR] Invalid control policy specified while parsing game options.");
           break;
@@ -239,6 +252,17 @@ public class Options implements IOptions
           directionAssistMode = DirectionAssistMode.BOTH; break;
         default:
           println("[ERROR] Invalid direction assist mode specified while parsing game options.");
+          break;
+      }
+
+      switch (xmlGame.getString(SINGLE_MUSCLE_MODE)) 
+      {
+        case ("auto_left"):
+          singleMuscleMode = SingleMuscleMode.AUTO_LEFT; break;
+        case ("auto_right"):
+          singleMuscleMode = SingleMuscleMode.AUTO_RIGHT; break;
+        default:
+          println("[ERROR] Invalid single muscle mode specified while parsing game options.");
           break;
       }
     }
@@ -261,6 +285,11 @@ public class Options implements IOptions
     public DirectionAssistMode getDirectionAssistMode()
     {
       return directionAssistMode;
+    }
+
+    public SingleMuscleMode getSingleMuscleMode()
+    {
+      return singleMuscleMode;
     }
 
     @Override public boolean getObstacles()
@@ -295,6 +324,8 @@ public class Options implements IOptions
         xmlGame.setString(CONTROL_POLICY, "normal");
       else if (controlPolicy == ControlPolicy.DIRECTION_ASSIST)
         xmlGame.setString(CONTROL_POLICY, "direction_assist");
+      else if (controlPolicy == ControlPolicy.SINGLE_MUSCLE)
+        xmlGame.setString(CONTROL_POLICY, "single_muscle");
       else
         println("[ERROR] Unrecognized control policy specified in GameOptions::setControlPolicy()");
 
@@ -313,6 +344,20 @@ public class Options implements IOptions
         xmlGame.setString(DIRECTION_ASSIST_MODE, "both");
       else
         println("[ERROR] Unrecognized direction assist mode specified in GameOptions::setDirectionAssistMode()");
+
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setSingleMuscleMode(SingleMuscleMode mode)
+    {
+      singleMuscleMode = mode;
+
+      if (singleMuscleMode == SingleMuscleMode.AUTO_LEFT)
+        xmlGame.setString(SINGLE_MUSCLE_MODE, "auto_left");
+      else if (singleMuscleMode == SingleMuscleMode.AUTO_RIGHT)
+        xmlGame.setString(SINGLE_MUSCLE_MODE, "auto_right");
+      else
+        println("[ERROR] Unrecognized single muscle mode specified in GameOptions::setSingleMuscleMode()");
 
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }

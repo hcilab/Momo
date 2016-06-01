@@ -4,7 +4,7 @@
 		<Text
 			string="Gameplay Record"
 			fontName="Moire Bold" 
-			size="40"
+			size="30"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -42,7 +42,7 @@
 		<!-- Titles -->
 		<Text
 			string="Level"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -55,7 +55,7 @@
 		</Text>
 		<Text
 			string="Score"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -68,7 +68,7 @@
 		</Text>
 		<Text
 			string="Coins"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -81,7 +81,7 @@
 		</Text>
 		<Text
 			string="Avg Speed"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -94,7 +94,7 @@
 		</Text>
 		<Text
 			string="Duration"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -107,7 +107,7 @@
 		</Text>
 		<Text
 			string="Date"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="13"
 			antialiasing="true"
 			alignX="center"
@@ -121,7 +121,7 @@
 
 		<Text
 			string="*** use the UP and DOWN arrows to see more records ***"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="12"
 			antialiasing="true"
 			alignX="center"

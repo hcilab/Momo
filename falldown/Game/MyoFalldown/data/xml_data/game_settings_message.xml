@@ -66,8 +66,8 @@
 		</Ellipse>
 	
 		<Text
+			fontName="Arial"
 			string="Game Settings"
-			fontName="Moire Bold" 
 			size="40"
 			antialiasing="true"
 			alignX="center"
@@ -117,7 +117,7 @@
 		</Rect>
 		
 		<Text
-			string="Auto Direct"
+			string="Auto Direct  (Beginner's Mode)"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"
@@ -175,6 +175,26 @@
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
+		<Text
+			string="*Use one-muscle technique with either left or right side of arm,"
+			fontName="Moire"
+			size="12"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="20.0"
+			y="310.0"
+		></Text>
+		<Text
+			string=" or both muscles can be used to help guide Momo"
+			fontName="Moire"
+			size="12"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="20.0"
+			y="325.0"
+		></Text>
 		<Text
 			string="Obstacles"
 			fontName="Moire"

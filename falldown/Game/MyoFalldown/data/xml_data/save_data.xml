@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SaveData>
-  <Game auto_direct="false" auto_direct_mode="" level_up_over_time="true" obstacles="true" platform_mods="true" starting_level="22"/>
-  <IO input_mode="difference" left_emg_sensitivity="3.0560002" music_volume="0.0" right_emg_sensitivity="3.0080001" sound_effects_volume="0.725"/>
-  <Calibrate seconds="2"/>
+  <Game auto_direct="true" auto_direct_mode="left" level_up_over_time="true" obstacles="false" platform_mods="true" starting_level="80"/>
+  <IO input_mode="difference" left_emg_sensitivity="2.2640002" music_volume="0.0" right_emg_sensitivity="1.616" sound_effects_volume="0.0"/>
+  <Calibrate seconds="1"/>
   <Stats>
+    <Record avg_speed="102.251465" coins_collected="0" date="1464716365168" level="88" score="3524" time_played_millis="43449"/>
+    <Record avg_speed="136.04274" coins_collected="0" date="1464718387130" level="82" score="889" time_played_millis="12062"/>
+    <Record avg_speed="150.9009" coins_collected="0" date="1464719927663" level="82" score="971" time_played_millis="12946"/>
+    <Record avg_speed="133.5729" coins_collected="1" date="1464719969951" level="85" score="2460" time_played_millis="28670"/>
+    <Record avg_speed="81.81735" coins_collected="0" date="1464784435536" level="82" score="807" time_played_millis="10673"/>
+    <Record avg_speed="96.25611" coins_collected="0" date="1464784457625" level="83" score="1550" time_played_millis="19891"/>
+    <Record avg_speed="65.61168" coins_collected="0" date="1464784520467" level="82" score="807" time_played_millis="10570"/>
+    <Record avg_speed="93.31472" coins_collected="0" date="1464784841731" level="82" score="1135" time_played_millis="14352"/>
+    <Record avg_speed="64.60002" coins_collected="0" date="1464784931216" level="82" score="807" time_played_millis="10605"/>
+    <Record avg_speed="97.43858" coins_collected="3" date="1464785432614" level="95" score="7180" time_played_millis="78812"/>
   </Stats>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>

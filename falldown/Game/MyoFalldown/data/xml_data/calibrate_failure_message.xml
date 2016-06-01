@@ -29,7 +29,7 @@
 		<Text
 			string="EMG Calibration"
 			fontName="Moire Bold" 
-			size="40"
+			size="33"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"

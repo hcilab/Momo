@@ -34,7 +34,7 @@
 		</Rect>
 		<!-- Image that moves back and forth on slider -->
 		<Sprite>
-			<Image  src="images/death_ceiling/spike.png" x="0.0" y="0.0"   width="0.08" height="1.4" resizeHeight="25" resizeWidth="10"/>
+			<Image  src="images/death_ceiling/spikeSmall.png" x="0.0" y="0.0"   width="0.1" height="1" resizeHeight="50" resizeWidth="30"/>
 		</Sprite>
 	</Render>
 	<Slider 

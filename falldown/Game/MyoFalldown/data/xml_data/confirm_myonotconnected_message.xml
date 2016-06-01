@@ -24,7 +24,7 @@
     <!-- Message -->
 		<Text
 			string="Myo Armband is not currently conected"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -37,7 +37,7 @@
 		</Text>
 		<Text
 			string="and/or calibrated!"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -52,7 +52,7 @@
     <!-- Button Text -->
 		<Text
 			string="Play Now"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -65,7 +65,7 @@
 		</Text>
 		<Text
 			string="Calirate Myo!"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"

@@ -67,7 +67,7 @@
 		<Text
 			string="System Settings"
 			fontName="Moire Bold" 
-			size="40"
+			size="33"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"

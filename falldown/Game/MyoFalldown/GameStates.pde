@@ -779,6 +779,7 @@ public class GameState_CustomizeSettings extends GameState
   private String prefixCoinsCollected = "Coins Collected: ";
   private int coinsCollected;
   private XML custXML;
+  private int custSpriteIndex;
 
   public GameState_CustomizeSettings()
   {
@@ -786,6 +787,17 @@ public class GameState_CustomizeSettings extends GameState
     coinsCollected = options.getCustomizeOptions().getCoinsCollected();
     saveDataLoaded = false;
     loadAfterPurchase = false;
+    custSpriteIndex = -1;
+    custXML = loadXML("xml_data/customize_settings_message.xml");
+  }
+
+  public GameState_CustomizeSettings(boolean _loadAfterPurchase, int _custSpriteIndex)
+  {
+    super();
+    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
+    saveDataLoaded = false;
+    loadAfterPurchase = _loadAfterPurchase;
+    custSpriteIndex = _custSpriteIndex;
     custXML = loadXML("xml_data/customize_settings_message.xml");
   }
 
@@ -863,11 +875,42 @@ public class GameState_CustomizeSettings extends GameState
         saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
 
         if (unlocked) {
-          println("update player, platform, etc to be the one clicked");
+          // println("update player, platform, etc to be the one clicked");
+          // set to be active in xml too, and not active on old active one
+          int num = Integer.parseInt(tag.substring(tag.length()-1));
+          XML player = custXML.getChildren("Render")[0].getChildren("CustomSprite")[custSpriteIndex].getChildren("SpriteSheet")[0];
+
+          if (index == 0)
+          {
+            options.getCustomizeOptions().setPlayer(player, custSpriteIndex);
+          }
+          else if (index == 1)
+          {
+            // options.getCustomizeOptions().setPlatform(player, custSpriteIndex);
+          }
+          else if (index == 2)
+          {
+            options.getCustomizeOptions().setCoin(player, custSpriteIndex);
+          }
+          else if (index == 3)
+          {
+            options.getCustomizeOptions().setObstacle(player, custSpriteIndex);
+          }
+          else if (index == 4)
+          {
+            // options.getCustomizeOptions().setBackground(player, custSpriteIndex);
+          }
+          else if (index == 5)
+          {
+            // options.getCustomizeOptions().setMusic(player, custSpriteIndex);
+          }
+
+          renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.translation.x;
         }
         else
         {
-          gameStateController.pushState(new GameState_CustomizePurchase(sprite, actualSrc, cost, horzCount, vertCount, defaultCount, frameFreq));
+          gameStateController.popState();
+          gameStateController.pushState(new GameState_CustomizePurchase(sprite, actualSrc, cost, horzCount, vertCount, defaultCount, frameFreq, custSpriteIndex));
         }
       }
     }
@@ -879,12 +922,36 @@ public class GameState_CustomizeSettings extends GameState
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("cust_table").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(0).string = prefixCoinsCollected + Integer.toString(coinsCollected);
     saveDataLoaded = true;
+
     loadAfterPurchase = false;
+
+    // to set the yellow highlight behind the active items -- find a better way to do this
+    XML[] activeItems = new XML[6];
+    XML[] customSprites = custXML.getChildren("Render")[0].getChildren("CustomSprite");
+    for(int i = 0, j = 0; i < customSprites.length; i++)
+    {
+      if (customSprites[i].getString("active").equals("true"))
+      {
+        activeItems[j] = customSprites[i];
+        j++;
+      }
+    }
+    RenderComponent renderComponent2 = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    renderComponent2.getShapes();
+    for(int i = 0; i < activeItems.length; i++)
+    {
+      renderComponent2.getShapes().get(i+1).translation.x = activeItems[i].getChildren("SpriteSheet")[0].getFloat("x");
+    }
   }
 
   public void setLoadAfterPurchase(boolean _val)
   {
     loadAfterPurchase = _val;
+  }
+
+  public void setCustSpriteIndex(int _index)
+  {
+    custSpriteIndex = _index;
   }
 }
 
@@ -899,8 +966,9 @@ public class GameState_CustomizePurchase extends GameState
   private int vertCount;
   private int defaultCount;
   private float frameFreq;
+  private int custSpriteIndex;
 
-  public GameState_CustomizePurchase(Sprite _sprite, String _actualSrc, int _cost, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq)
+  public GameState_CustomizePurchase(Sprite _sprite, String _actualSrc, int _cost, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, int _custSpriteIndex)
   {
     super();
     saveDataLoaded = false;
@@ -911,6 +979,7 @@ public class GameState_CustomizePurchase extends GameState
     vertCount = _vertCount;
     defaultCount = _defaultCount;
     frameFreq = _frameFreq;
+    custSpriteIndex = _custSpriteIndex;
   }
 
   @Override public void onEnter()
@@ -943,14 +1012,15 @@ public class GameState_CustomizePurchase extends GameState
       if (event.getRequiredStringParameter("tag").equals("back"))
       {
         gameStateController.popState();
+        gameStateController.pushState(new GameState_CustomizeSettings());
       }
       else if (event.getRequiredStringParameter("tag").equals("buy") && totalCoins >= cost)
       {
         options.getCustomizeOptions().setCoinsAfterPurchase(cost);
+        options.getCustomizeOptions().purchase(custSpriteIndex);
         totalCoins = options.getCustomizeOptions().getCoinsCollected();
-        GameState_CustomizeSettings cs = (GameState_CustomizeSettings) gameStateController.getPreviousState();
-        cs.setLoadAfterPurchase(true);
         gameStateController.popState();
+        gameStateController.pushState(new GameState_CustomizeSettings(true, custSpriteIndex));
       }
     }
   }

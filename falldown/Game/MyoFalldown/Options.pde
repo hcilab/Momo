@@ -126,12 +126,14 @@ public interface ICustomizeOptions
 
   public void setCoinsCollected(int _newCoins);
   public void setCoinsAfterPurchase(int _price);
-  public void setPlayer(XML _player);
-  public void setPlatform(XML _platform);
-  public void setCoin(XML _coin);
-  public void setObstacle(XML _obstacle);
-  public void setBackground(XML _background);
-  public void setMusic(XML _music);
+  public void setPlayer(XML _player, int _newActivePlayerIndex);
+  public void setPlatform(XML _platform, int _newActivePlatformIndex);
+  public void setCoin(XML _coin, int _newActiveCoinIndex);
+  public void setObstacle(XML _obstacle, int _newActiveObstacleIndex);
+  public void setBackground(XML _background, int _newActiveBackgroundIndex);
+  public void setMusic(XML _music, int _newActiveMusicIndex);
+
+  public void purchase(int _custSpriteIndex);
 }
 
 public interface IGameRecordViewHelper
@@ -758,6 +760,12 @@ public class Options implements IOptions
     private final String XML_CUST = "Customize";
     private final String COINS_COLLECTED = "coins_collected";
     private final String BACKGROUND = "background";
+    private final String ACTIVE_PLAYER_INDEX = "active_player_index";
+    private final String ACTIVE_PLATFORM_INDEX = "active_platform_index";
+    private final String ACTIVE_COIN_INDEX = "active_coin_index";
+    private final String ACTIVE_OBSTACLE_INDEX = "active_obstacle_index";
+    private final String ACTIVE_BACKGROUND_INDEX = "active_background_index";
+    private final String ACTIVE_MUSIC_INDEX = "active_music_index";
 
     private XML xmlCust;
     private XML xmlPlayer;
@@ -774,6 +782,13 @@ public class Options implements IOptions
     private int coinsCollected;
     private String background;
 
+    private int activePlayerIndex;
+    private int activePlatformIndex;
+    private int activeCoinIndex;
+    private int activeObstacleIndex;
+    private int activeBackgroundIndex;
+    private int activeMusicIndex;
+
     private CustomizeOptions()
     {
       xmlCust = xmlSaveData.getChild(XML_CUST);
@@ -789,7 +804,14 @@ public class Options implements IOptions
       obstacleData = xmlObstacle.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       musicData = xmlMusic.getChildren("MusicPlayer")[0];
       coinsCollected = xmlCust.getInt(COINS_COLLECTED);
-      background = xmlCust.getString(BACKGROUND); 
+      background = xmlCust.getString(BACKGROUND);
+
+      activePlayerIndex = xmlCust.getInt(ACTIVE_PLAYER_INDEX);
+      activePlatformIndex = xmlCust.getInt(ACTIVE_PLATFORM_INDEX);
+      activeCoinIndex = xmlCust.getInt(ACTIVE_COIN_INDEX);
+      activeObstacleIndex = xmlCust.getInt(ACTIVE_OBSTACLE_INDEX);
+      activeBackgroundIndex = xmlCust.getInt(ACTIVE_BACKGROUND_INDEX);
+      activeMusicIndex = xmlCust.getInt(ACTIVE_MUSIC_INDEX);
     }
 
     public int getCoinsCollected()
@@ -836,8 +858,14 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setPlayer(XML _player)
+    public void setPlayer(XML _player, int _newActivePlayerIndex)
     {
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlayerIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlayerIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activePlayerIndex = _newActivePlayerIndex;
+
       playerData.setString("src", _player.getString("src"));
       playerData.setString("horzCount", _player.getString("horzCount"));
       playerData.setString("vertCount", _player.getString("vertCount"));
@@ -845,16 +873,34 @@ public class Options implements IOptions
       playerData.setString("farmeFreq", _player.getString("farmeFreq"));
       playerData.setString("height", _player.getString("height"));
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
+
+      xmlCust.setInt("active_player_index", _newActivePlayerIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setPlatform(XML _platform)
+    public void setPlatform(XML _platform, int _newActivePlatformIndex)
     {
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlatformIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlatformIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activePlatformIndex = _newActivePlatformIndex;
+
       platformData.setString("src", _platform.getString("src"));
       saveXML(xmlPlatform, PLATFORM_FILE_NAME_OUT);
+
+      xmlCust.setInt("active_platform_index", _newActivePlatformIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setCoin(XML _coin)
+    public void setCoin(XML _coin, int _newActiveCoinIndex)
     {
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeCoinIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveCoinIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activeCoinIndex = _newActiveCoinIndex;
+
       coinData.setString("src", _coin.getString("src"));
       coinData.setString("horzCount", _coin.getString("horzCount"));
       coinData.setString("vertCount", _coin.getString("vertCount"));
@@ -862,10 +908,20 @@ public class Options implements IOptions
       coinData.setString("farmeFreq", _coin.getString("farmeFreq"));
       coinData.setString("height", _coin.getString("height"));
       saveXML(xmlCoin, COIN_FILE_NAME_OUT);
+
+      xmlCust.setInt("active_coin_index", _newActiveCoinIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setObstacle(XML _obstacle)
+    public void setObstacle(XML _obstacle, int _newActiveObstacleIndex)
     {
+      println("yes hello");
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeObstacleIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveObstacleIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activeObstacleIndex = _newActiveObstacleIndex;
+
       obstacleData.setString("src", _obstacle.getString("src"));
       obstacleData.setString("horzCount", _obstacle.getString("horzCount"));
       obstacleData.setString("vertCount", _obstacle.getString("vertCount"));
@@ -873,18 +929,30 @@ public class Options implements IOptions
       obstacleData.setString("farmeFreq", _obstacle.getString("farmeFreq"));
       obstacleData.setString("height", _obstacle.getString("height"));
       saveXML(xmlObstacle, OBSTACLE_FILE_NAME_OUT);
+
+      xmlCust.setInt("active_obstacle_index", _newActiveObstacleIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setBackground(XML _background)
+    public void setBackground(XML _background, int _newActiveBackgroundIndex)
     {
       xmlCust.setString("background", _background.getString("src"));
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setMusic(XML _music)
+    public void setMusic(XML _music, int _newActiveMusicIndex)
     {
       musicData.setString("src", _music.getString("src"));
       saveXML(xmlMusic, MUSIC_FILE_NAME_OUT);
+    }
+
+    public void purchase(int _custSpriteIndex)
+    {
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].setString("unlocked", "true");
+      String actualSrc = custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getString("actualSrc");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getChildren("SpriteSheet")[0].setString("src", actualSrc);
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
     }
   }
 

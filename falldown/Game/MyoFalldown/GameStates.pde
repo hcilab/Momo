@@ -903,7 +903,7 @@ public class GameState_CustomizeSettings extends GameState
           }
           else if (index == 5)
           {
-            options.getCustomizeOptions().setMusic(player, custSpriteIndex);
+            options.getCustomizeOptions().setMusic(player, custSpriteIndex, id);
           }
 
           renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.translation.x;

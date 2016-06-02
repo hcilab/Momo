@@ -131,7 +131,7 @@ public interface ICustomizeOptions
   public void setCoin(XML _coin, int _newActiveCoinIndex);
   public void setObstacle(XML _obstacle, int _newActiveObstacleIndex);
   public void setBackground(XML _background, int _newActiveBackgroundIndex);
-  public void setMusic(XML _music, int _newActiveMusicIndex);
+  public void setMusic(XML _music, int _newActiveMusicIndex, int _id);
 
   public void purchase(int _custSpriteIndex);
 }
@@ -781,7 +781,7 @@ public class Options implements IOptions
     private XML xmlPlatformSticky;
     private XML xmlCoin;
     private XML xmlObstacle;
-    private XML xmlMusic;
+    private XML xmlMusicPlayer;
 
     private XML playerData;
     private XML platformData;
@@ -790,7 +790,7 @@ public class Options implements IOptions
     private XML wallData;
     private XML coinData;
     private XML obstacleData;
-    private XML musicData;
+    private XML musicPlayerData;
     private int coinsCollected;
     private String background;
 
@@ -811,7 +811,7 @@ public class Options implements IOptions
       xmlWall = loadXML(WALL_FILE_NAME_IN);
       xmlCoin = loadXML(COIN_FILE_NAME_IN);
       xmlObstacle = loadXML(OBSTACLE_FILE_NAME_IN);
-      xmlMusic = loadXML(MUSIC_FILE_NAME_IN);
+      xmlMusicPlayer = loadXML(MUSIC_FILE_NAME_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
@@ -820,7 +820,7 @@ public class Options implements IOptions
       wallData = xmlWall.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       coinData = xmlCoin.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       obstacleData = xmlObstacle.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
-      musicData = xmlMusic.getChildren("MusicPlayer")[0];
+      musicPlayerData = xmlMusicPlayer.getChildren("MusicPlayer")[0];
       coinsCollected = xmlCust.getInt(COINS_COLLECTED);
       background = xmlCust.getString(BACKGROUND);
 
@@ -904,7 +904,6 @@ public class Options implements IOptions
       saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
       activePlatformIndex = _newActivePlatformIndex;
 
-      println("index: " + _newActivePlatformIndex);
       XML allPlatforms = loadXML("xml_data/platform_data.xml");
       String platformSrc = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4].getChildren("Image")[0].getString("src");
       String platformSlippery = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 1].getChildren("Image")[0].getString("src");
@@ -973,10 +972,23 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setMusic(XML _music, int _newActiveMusicIndex)
+    public void setMusic(XML _music, int _newActiveMusicIndex, int _id)
     {
-      musicData.setString("src", _music.getString("src"));
-      saveXML(xmlMusic, MUSIC_FILE_NAME_OUT);
+      println("old index: " + activeMusicIndex);
+      println("new index: " + _newActiveMusicIndex);
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeMusicIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveMusicIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activeMusicIndex = _newActiveMusicIndex;
+
+      XML xmlMusicData = loadXML("xml_data/music_data.xml");
+      String musicFile = xmlMusicData.getChildren("Render")[0].getChildren("MusicPlayer")[_id].getString("musicFile");
+      musicPlayerData.setString("musicFile", musicFile);
+      saveXML(xmlMusicPlayer, MUSIC_FILE_NAME_OUT);
+
+      xmlCust.setInt("active_music_index", _newActiveMusicIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     public void purchase(int _custSpriteIndex)

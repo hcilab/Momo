@@ -63,6 +63,7 @@ enum EmgSamplingPolicy
 {
   DIFFERENCE,
   MAX,
+  FIRST_OVER,
 }
 
 public interface IIOOptions
@@ -412,6 +413,8 @@ public class Options implements IOptions
           emgSamplingPolicy = EmgSamplingPolicy.MAX; break;
         case ("difference"):
           emgSamplingPolicy = EmgSamplingPolicy.DIFFERENCE; break;
+        case ("first_over"):
+          emgSamplingPolicy = EmgSamplingPolicy.FIRST_OVER; break;
         default:
           println("[ERROR] Unrecognized emg sampling policy while parsing IOOptions");
           break;
@@ -479,6 +482,8 @@ public class Options implements IOptions
         xmlIO.setString(EMG_SAMPLING_POLICY, "max");
       else if (emgSamplingPolicy == EmgSamplingPolicy.DIFFERENCE)
         xmlIO.setString(EMG_SAMPLING_POLICY, "difference");
+      else if (emgSamplingPolicy == EmgSamplingPolicy.FIRST_OVER)
+        xmlIO.setString(EMG_SAMPLING_POLICY, "first_over");
       else
         println("[ERROR] Unrecognized emg sampling policy in IOOptions::setEmgSamplingPolicy()");
 

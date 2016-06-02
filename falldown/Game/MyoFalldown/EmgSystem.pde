@@ -34,11 +34,19 @@ class EmgManager implements IEmgManager {
   Myo myo_unused;
   MyoAPI myoAPI;
 
+  float firstOver_threshold;
+  boolean firstOver_leftOver;
+  boolean firstOver_rightOver;
+
   EmgManager() throws MyoNotConnectedException {
     // not directly needed here, just need to make sure one is instantiated
     myo_unused = getMyoSingleton();
 
     myoAPI = new MyoAPI();
+
+    firstOver_threshold = 0.6;
+    firstOver_leftOver = false;
+    firstOver_rightOver = false;
   }
 
   boolean registerAction(String label) {
@@ -82,6 +90,42 @@ class EmgManager implements IEmgManager {
       } else {
         toReturn.put(RIGHT_DIRECTION_LABEL, right);
         toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+      }
+    }
+    else if (samplingPolicy == EmgSamplingPolicy.FIRST_OVER)
+    {
+      if (firstOver_leftOver && left > firstOver_threshold)
+      {
+        toReturn.put(LEFT_DIRECTION_LABEL, left);
+        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+      }
+      else if (firstOver_rightOver && right > firstOver_threshold)
+      {
+        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+        toReturn.put(RIGHT_DIRECTION_LABEL, right);
+      }
+      else
+      {
+        firstOver_leftOver = false;
+        firstOver_rightOver = false;
+
+        if (left > right && left > firstOver_threshold)
+        {
+          firstOver_leftOver = true;
+          toReturn.put(LEFT_DIRECTION_LABEL, left);
+          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+        }
+        else if (right > left && right > firstOver_threshold)
+        {
+          firstOver_rightOver = true;
+          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+          toReturn.put(RIGHT_DIRECTION_LABEL, right);
+        }
+        else
+        {
+          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+        }
       }
     }
     else

@@ -853,7 +853,8 @@ public class GameState_CustomizeSettings extends GameState
         else if (tag.contains("music"))
           index = 5;
 
-        int custSpriteIndex = index * 4 + Integer.parseInt(tag.substring(tag.length()-1));
+        int id = Integer.parseInt(tag.substring(tag.length()-1));
+        int custSpriteIndex = index * 4 + id;
 
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         int cost = renderComponent.getCustomSprites().get(custSpriteIndex).cost;
@@ -886,7 +887,7 @@ public class GameState_CustomizeSettings extends GameState
           }
           else if (index == 1)
           {
-            // options.getCustomizeOptions().setPlatform(player, custSpriteIndex);
+            options.getCustomizeOptions().setPlatform(player, custSpriteIndex, id);
           }
           else if (index == 2)
           {
@@ -898,11 +899,11 @@ public class GameState_CustomizeSettings extends GameState
           }
           else if (index == 4)
           {
-            // options.getCustomizeOptions().setBackground(player, custSpriteIndex);
+            options.getCustomizeOptions().setBackground(player, custSpriteIndex);
           }
           else if (index == 5)
           {
-            // options.getCustomizeOptions().setMusic(player, custSpriteIndex);
+            options.getCustomizeOptions().setMusic(player, custSpriteIndex);
           }
 
           renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.translation.x;

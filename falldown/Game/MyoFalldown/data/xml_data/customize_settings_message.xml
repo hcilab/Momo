@@ -35,11 +35,11 @@
 		<Ellipse x="175.0" y="125.0" halfWidth="20" halfHeight="20">
 			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
-		<CustomSprite cost="100" actualSrc="images/player/testM.png" unlocked="true" active="true">
-			<SpriteSheet src="images/player/testM.png" alphaImage=""
+		<CustomSprite cost="100" actualSrc="images/player/monsterSingle.png" unlocked="true" active="true">
+			<SpriteSheet src="images/player/monsterSingle.png" alphaImage=""
 				x="175.0" y="125.0"  
-				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="5f"
-				zOrder="0" height="30.0" scaleHeight="30"> 
+				horzCount="1" vertCount="1" defaultCount="15" farmeFreq="5f"
+				zOrder="0" height="50.0" scaleHeight="30"> 
 			</SpriteSheet> 
 		</CustomSprite>
 		<CustomSprite cost="100" actualSrc="images/player/dragon.png" unlocked="false" active="false">
@@ -56,7 +56,7 @@
 				zOrder="0" height="50.0" scaleHeight="30"> 
 			</SpriteSheet>
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/player/shipGreen_manned.png" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/player/alien.png" unlocked="false" active="false">
 			<SpriteSheet src="images/player/alienGrey.png" alphaImage=""
 				x="325.0" y="125.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
@@ -261,72 +261,33 @@
 			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 		<!-- Music Unlockables -->
-		<CustomSprite cost="100" actualSrc="music/EDMDetectionMode.wav" unlocked="true" active="true">
+		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="true" active="true">
 			<SpriteSheet src="images/button/musicNote.png" alphaImage=""
 					x="175.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="music/Motherload.wav" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="225.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet> 
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="music/Overworld.wav" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="275.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>  
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="music/TheLift.wav" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="325.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>
 		</CustomSprite>
-		<Text
-			string="Customize screen is a work in progress, in the future you"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="420.0"
-		>
-			<FillColor r="0" g="0" b="0" a="475"/>
-			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="will be able to unlock different players, platforms etc..,"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="440.0"
-		>
-			<FillColor r="0" g="0" b="0" a="475"/> 
-			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="with the coins you have collected during the game!"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="460.0"
-		>
-			<FillColor r="0" g="0" b="0" a="475"/> 
-			<StrokeColor r="0" g="0" b="0" a="475" strokeWeight="1.0"/>
-		</Text>
 	</Render>
 </GameObject>

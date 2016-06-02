@@ -127,7 +127,7 @@ public interface ICustomizeOptions
   public void setCoinsCollected(int _newCoins);
   public void setCoinsAfterPurchase(int _price);
   public void setPlayer(XML _player, int _newActivePlayerIndex);
-  public void setPlatform(XML _platform, int _newActivePlatformIndex);
+  public void setPlatform(XML _platform, int _newActivePlatformIndex, int _id);
   public void setCoin(XML _coin, int _newActiveCoinIndex);
   public void setObstacle(XML _obstacle, int _newActiveObstacleIndex);
   public void setBackground(XML _background, int _newActiveBackgroundIndex);
@@ -751,6 +751,12 @@ public class Options implements IOptions
     private final String PLAYER_FILE_NAME_OUT = "data/xml_data/player.xml";
     private final String PLATFORM_FILE_NAME_IN = "xml_data/platform.xml";
     private final String PLATFORM_FILE_NAME_OUT = "data/xml_data/platform.xml";
+    private final String PLATFORM_SLIPPERY_NAME_IN = "xml_data/platform_slippery.xml";
+    private final String PLATFORM_SLIPPERY_NAME_OUT = "data/xml_data/platform_slippery.xml";
+    private final String PLATFORM_STICKY_NAME_IN = "xml_data/platform_sticky.xml";
+    private final String PLATFORM_STICKY_NAME_OUT = "data/xml_data/platform_sticky.xml";
+    private final String WALL_FILE_NAME_IN = "xml_data/wall.xml";
+    private final String WALL_FILE_NAME_OUT = "data/xml_data/wall.xml";
     private final String COIN_FILE_NAME_IN = "xml_data/coin.xml";
     private final String COIN_FILE_NAME_OUT = "data/xml_data/coin.xml";
     private final String OBSTACLE_FILE_NAME_IN = "xml_data/obstacle.xml";
@@ -769,13 +775,19 @@ public class Options implements IOptions
 
     private XML xmlCust;
     private XML xmlPlayer;
+    private XML xmlWall;
     private XML xmlPlatform;
+    private XML xmlPlatformSlippery;
+    private XML xmlPlatformSticky;
     private XML xmlCoin;
     private XML xmlObstacle;
     private XML xmlMusic;
 
     private XML playerData;
     private XML platformData;
+    private XML platformSlipperyData;
+    private XML platformStickyData;
+    private XML wallData;
     private XML coinData;
     private XML obstacleData;
     private XML musicData;
@@ -794,12 +806,18 @@ public class Options implements IOptions
       xmlCust = xmlSaveData.getChild(XML_CUST);
       xmlPlayer = loadXML(PLAYER_FILE_NAME_IN);
       xmlPlatform = loadXML(PLATFORM_FILE_NAME_IN);
+      xmlPlatformSlippery = loadXML(PLATFORM_SLIPPERY_NAME_IN);
+      xmlPlatformSticky = loadXML(PLATFORM_STICKY_NAME_IN);
+      xmlWall = loadXML(WALL_FILE_NAME_IN);
       xmlCoin = loadXML(COIN_FILE_NAME_IN);
       xmlObstacle = loadXML(OBSTACLE_FILE_NAME_IN);
       xmlMusic = loadXML(MUSIC_FILE_NAME_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
+      platformSlipperyData = xmlPlatformSlippery.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
+      platformStickyData = xmlPlatformSticky.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
+      wallData = xmlWall.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       coinData = xmlCoin.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       obstacleData = xmlObstacle.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       musicData = xmlMusic.getChildren("MusicPlayer")[0];
@@ -878,7 +896,7 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setPlatform(XML _platform, int _newActivePlatformIndex)
+    public void setPlatform(XML _platform, int _newActivePlatformIndex, int _id)
     {
       XML custSettings = loadXML("xml_data/customize_settings_message.xml");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlatformIndex].setString("active", "false");
@@ -886,8 +904,24 @@ public class Options implements IOptions
       saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
       activePlatformIndex = _newActivePlatformIndex;
 
-      platformData.setString("src", _platform.getString("src"));
+      println("index: " + _newActivePlatformIndex);
+      XML allPlatforms = loadXML("xml_data/platform_data.xml");
+      String platformSrc = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4].getChildren("Image")[0].getString("src");
+      String platformSlippery = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 1].getChildren("Image")[0].getString("src");
+      String platformSticky = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 2].getChildren("Image")[0].getString("src");
+      String wallSrc = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 3].getChildren("Image")[0].getString("src");
+
+      platformData.setString("src", platformSrc);
       saveXML(xmlPlatform, PLATFORM_FILE_NAME_OUT);
+
+      platformSlipperyData.setString("src", platformSlippery);
+      saveXML(xmlPlatformSlippery, PLATFORM_SLIPPERY_NAME_OUT);
+
+      platformStickyData.setString("src", platformSticky);
+      saveXML(xmlPlatformSticky, PLATFORM_STICKY_NAME_OUT);
+
+      wallData.setString("src", wallSrc);
+      saveXML(xmlWall, WALL_FILE_NAME_OUT);
 
       xmlCust.setInt("active_platform_index", _newActivePlatformIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
@@ -915,7 +949,6 @@ public class Options implements IOptions
 
     public void setObstacle(XML _obstacle, int _newActiveObstacleIndex)
     {
-      println("yes hello");
       XML custSettings = loadXML("xml_data/customize_settings_message.xml");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeObstacleIndex].setString("active", "false");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveObstacleIndex].setString("active", "true");

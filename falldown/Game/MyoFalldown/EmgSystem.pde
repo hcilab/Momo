@@ -36,7 +36,7 @@ class EmgManager implements IEmgManager {
   EmgSamplingPolicy SETTINGS_EMG_CONTROL_POLICY;
 
   EmgManager() throws MyoNotConnectedException {
-    // not directly needed here, just need to make one in instantiated
+    // not directly needed here, just need to make sure one is instantiated
     myo_unused = getMyoSingleton();
 
     myoAPI = new MyoAPI();

@@ -39,7 +39,7 @@
 			<SpriteSheet src="images/player/monsterSingle.png" alphaImage=""
 				x="175.0" y="125.0"  
 				horzCount="1" vertCount="1" defaultCount="15" farmeFreq="5f"
-				zOrder="0" height="50.0" scaleHeight="30"> 
+				zOrder="0" height="50.0" scaleHeight="30">
 			</SpriteSheet> 
 		</CustomSprite>
 		<CustomSprite cost="100" actualSrc="images/player/dragon.png" unlocked="false" active="false">
@@ -261,28 +261,28 @@
 			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 		<!-- Music Unlockables -->
-		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="true" active="true">
+		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="true" active="true">
 			<SpriteSheet src="images/button/musicNote.png" alphaImage=""
 					x="175.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="225.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet> 
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="275.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
 					zOrder="0" height="50.0" scaleHeight="40"> 
 			</SpriteSheet>  
 		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNoteGrey.png" unlocked="false" active="false">
+		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
 			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
 					x="325.0" y="365.0"  
 					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"

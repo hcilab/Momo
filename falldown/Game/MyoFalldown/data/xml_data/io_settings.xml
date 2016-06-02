@@ -9,42 +9,48 @@
 
 	<GameObject file="xml_data/slider.xml" tag="music">
 		<Transform>
-			<Translation x="375" y="125"/>
+			<Translation x="375" y="100"/>
 			<Scale x="200" y="20"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="sound_effects">
 		<Transform>
-			<Translation x="375" y="170"/>
+			<Translation x="375" y="145"/>
 			<Scale x="200" y="20"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="left_sensitivity">
 		<Transform>
-			<Translation x="375" y="265"/>
+			<Translation x="375" y="225"/>
 			<Scale x="200" y="20"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="right_sensitivity">
 		<Transform>
-			<Translation x="375" y="310"/>
+			<Translation x="375" y="270"/>
 			<Scale x="200" y="20"/>
 		</Transform>
 	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="define_input">
 		<Transform>
-			<Translation x="25.0" y="355.0"/>
+			<Translation x="25.0" y="305.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/button.xml" tag="difference">
 		<Transform>
-			<Translation x="375.0" y="375.0"/>
+			<Translation x="375.0" y="325.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/button.xml" tag="max">
+		<Transform>
+			<Translation x="375.0" y="370.0"/>
+			<Scale x="20.0" y="20.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="first_over">
 		<Transform>
 			<Translation x="375.0" y="420.0"/>
 			<Scale x="20.0" y="20.0"/>

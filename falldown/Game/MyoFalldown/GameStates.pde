@@ -413,21 +413,21 @@ public class GameState_IOSettings extends GameState
       }
       else if (tag.equals("difference"))
       {
-        if (options.getIOOptions().getEmgSamplingPolicy() == EmgSamplingPolicy.MAX)
-        {
-          options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.DIFFERENCE);
-          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y - 45;
-        }
+        options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.DIFFERENCE);
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(1).translation.y;
       }
       else if (tag.equals("max"))
       {
-        if (options.getIOOptions().getEmgSamplingPolicy() == EmgSamplingPolicy.DIFFERENCE)
-        {
-          options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.MAX);
-          RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-          renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 45;
-        }
+        options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.MAX);
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(2).translation.y;
+      }
+      else if (tag.equals("first_over"))
+      {
+        options.getIOOptions().setEmgSamplingPolicy(EmgSamplingPolicy.FIRST_OVER);
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(3).translation.y;
       }
       else if (tag.equals("define_input"))
       {
@@ -511,15 +511,19 @@ public class GameState_IOSettings extends GameState
   {
     EmgSamplingPolicy policy = options.getIOOptions().getEmgSamplingPolicy();
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-    if (renderComponent.getShapes().get(3).translation.y == 0)
+    if (renderComponent.getShapes().get(4).translation.y == 0)
     {
       if (policy == EmgSamplingPolicy.DIFFERENCE)
       {
-        renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 375;
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(1).translation.y;
       }
       else if (policy == EmgSamplingPolicy.MAX)
       {
-        renderComponent.getShapes().get(3).translation.y = renderComponent.getShapes().get(3).translation.y + 420;
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(2).translation.y;
+      }
+      else if (policy == EmgSamplingPolicy.FIRST_OVER)
+      {
+        renderComponent.getShapes().get(4).translation.y = renderComponent.getShapes().get(3).translation.y;
       }
     }
     saveDataLoaded = true;

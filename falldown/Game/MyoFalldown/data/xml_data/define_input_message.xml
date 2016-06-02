@@ -162,5 +162,70 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Text
+			string="First-Over:"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="25.0"
+			y="325.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="In this mode, the first of the two muscle readings to"
+			fontName="Moire" 
+			size="14"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="350"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="exceed a specified threshold is treated as input. The"
+			fontName="Moire" 
+			size="14"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="365"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="other reading is ignored until the first reading drops"
+			fontName="Moire" 
+			size="14"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="380"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="below the threshold again."
+			fontName="Moire" 
+			size="14"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="395"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 	</Render>
 </GameObject>

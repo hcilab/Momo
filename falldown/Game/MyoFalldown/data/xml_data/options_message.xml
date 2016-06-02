@@ -3,7 +3,7 @@
 		<Text
 			string="Options"
 			fontName="Moire Bold" 
-			size="40"
+			size="33"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -63,7 +63,7 @@
 		<Text
 			string="Gameplay Record"
 			fontName="Moire"
-			size="20"
+			size="19"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"

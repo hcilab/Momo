@@ -69,6 +69,7 @@ boolean mouseHand;
 
 PShape bg;
 PShape opbg;
+PShape wbg;
 
 void setup()
 {
@@ -108,6 +109,7 @@ void setup()
 
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityBG.svg");
+  wbg = loadShape("images/background/whiteBG.svg");
 } 
 
 void draw()

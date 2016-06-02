@@ -905,7 +905,7 @@ public class GameState_CalibrateMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(wbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }

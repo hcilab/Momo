@@ -330,17 +330,31 @@ public class RenderComponent extends Component
         
         float[] strokeWeight = new float[1];
         color[] fillAndStrokeColor = parseColorComponents(xmlRenderable, strokeWeight);
-        
-        texts.add(new Text(
-          xmlRenderable.getString("string"),
-          createFont("fonts/outersid.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
-          alignX,
-          alignY,
-          new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
-          fillAndStrokeColor[0],
-          fillAndStrokeColor[1],
-          strokeWeight[0]
-        ));
+        if(xmlRenderable.getString("fontName").equals("Moire"))
+        {
+          texts.add(new Text(
+            xmlRenderable.getString("string"),
+            createFont("fonts/Raleway-Heavy.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
+            alignX,
+            alignY,
+            new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
+            fillAndStrokeColor[0],
+            fillAndStrokeColor[1],
+            strokeWeight[0]
+          ));
+        }
+        else{
+          texts.add(new Text(
+            xmlRenderable.getString("string"),
+            createFont("fonts/testfont.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
+            alignX,
+            alignY,
+            new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
+            fillAndStrokeColor[0],
+            fillAndStrokeColor[1],
+            strokeWeight[0]
+          ));
+        }
       }
     }
   }
@@ -464,108 +478,108 @@ public class RenderComponent extends Component
   {
     return texts;
   }
-}
-
-public class RigidBodyComponent extends Component
-{
-  private class OnCollideEvent
+} //<>//
+ //<>//
+public class RigidBodyComponent extends Component //<>//
+{ //<>//
+  private class OnCollideEvent //<>//
   {
-    public String collidedWith;
-    public EventType eventType;
-    public HashMap<String, String> eventParameters;
-  }
-  
-  private Body body;
-  public PVector latestForce;
-  private ArrayList<OnCollideEvent> onCollideEvents;
-
-  public RigidBodyComponent(IGameObject _gameObject)
-  {
-    super(_gameObject);
-
-    latestForce = new PVector();
-    onCollideEvents = new ArrayList<OnCollideEvent>();
-  }
-
-  @Override public void destroy()
-  {
-    physicsWorld.destroyBody(body);
-  }
-
-  @Override public void fromXML(XML xmlComponent)
-  {
-    BodyDef bodyDefinition = new BodyDef();
-
-    String bodyType = xmlComponent.getString("type");
-    if (bodyType.equals("static"))
+    public String collidedWith; //<>//
+    public EventType eventType; //<>//
+    public HashMap<String, String> eventParameters; //<>//
+  } //<>//
+   //<>//
+  private Body body; //<>//
+  public PVector latestForce; //<>//
+  private ArrayList<OnCollideEvent> onCollideEvents; //<>//
+ //<>//
+  public RigidBodyComponent(IGameObject _gameObject) //<>//
+  { //<>//
+    super(_gameObject); //<>//
+ //<>//
+    latestForce = new PVector(); //<>//
+    onCollideEvents = new ArrayList<OnCollideEvent>(); //<>//
+  } //<>//
+ //<>//
+  @Override public void destroy() //<>//
+  { //<>//
+    physicsWorld.destroyBody(body); //<>//
+  } //<>//
+ //<>//
+  @Override public void fromXML(XML xmlComponent) //<>//
+  { //<>//
+    BodyDef bodyDefinition = new BodyDef(); //<>//
+ //<>//
+    String bodyType = xmlComponent.getString("type"); //<>//
+    if (bodyType.equals("static")) //<>//
     {
-      bodyDefinition.type = BodyType.STATIC;
+      bodyDefinition.type = BodyType.STATIC; //<>//
+    } //<>//
+    else if (bodyType.equals("kinematic")) //<>//
+    { //<>//
+      bodyDefinition.type = BodyType.KINEMATIC; //<>//
+    } //<>//
+    else if (bodyType.equals("dynamic")) //<>//
+    { //<>//
+      bodyDefinition.type = BodyType.DYNAMIC; //<>//
     }
-    else if (bodyType.equals("kinematic"))
-    {
-      bodyDefinition.type = BodyType.KINEMATIC;
-    }
-    else if (bodyType.equals("dynamic"))
-    {
-      bodyDefinition.type = BodyType.DYNAMIC;
-    }
-    else
-    {
-      print("Unknown rigid body type: " + bodyType);
-      assert(false);
-    }
+    else //<>//
+    { //<>//
+      print("Unknown rigid body type: " + bodyType); //<>//
+      assert(false); //<>//
+    } //<>//
+ //<>//
+    bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y)); //<>//
+    bodyDefinition.angle = 0.0f; //<>//
+    bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping"); //<>//
+    bodyDefinition.angularDamping = xmlComponent.getFloat("angularDamping"); //<>//
+    bodyDefinition.gravityScale = xmlComponent.getFloat("gravityScale"); //<>//
+    bodyDefinition.allowSleep = xmlComponent.getString("allowSleep").equals("true") ? true : false; //<>//
+    bodyDefinition.awake = xmlComponent.getString("awake").equals("true") ? true : false; //<>//
+    bodyDefinition.fixedRotation = xmlComponent.getString("fixedRotation").equals("true") ? true : false; //<>//
+    bodyDefinition.bullet = xmlComponent.getString("bullet").equals("true") ? true : false; //<>//
+    bodyDefinition.active = xmlComponent.getString("active").equals("true") ? true : false; //<>//
+    bodyDefinition.userData = gameObject; //<>//
 
-    bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y));
-    bodyDefinition.angle = 0.0f;
-    bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping");
-    bodyDefinition.angularDamping = xmlComponent.getFloat("angularDamping");
-    bodyDefinition.gravityScale = xmlComponent.getFloat("gravityScale");
-    bodyDefinition.allowSleep = xmlComponent.getString("allowSleep").equals("true") ? true : false;
-    bodyDefinition.awake = xmlComponent.getString("awake").equals("true") ? true : false;
-    bodyDefinition.fixedRotation = xmlComponent.getString("fixedRotation").equals("true") ? true : false;
-    bodyDefinition.bullet = xmlComponent.getString("bullet").equals("true") ? true : false;
-    bodyDefinition.active = xmlComponent.getString("active").equals("true") ? true : false;
-    bodyDefinition.userData = gameObject;
-
-    body = physicsWorld.createBody(bodyDefinition);
+    body = physicsWorld.createBody(bodyDefinition); //<>//
 
     for (XML rigidBodyComponent : xmlComponent.getChildren())
     {
-      if (rigidBodyComponent.getName().equals("Fixture"))
+      if (rigidBodyComponent.getName().equals("Fixture")) //<>//
       {
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.density = rigidBodyComponent.getFloat("density");
+        fixtureDef.density = rigidBodyComponent.getFloat("density"); //<>//
         fixtureDef.friction = rigidBodyComponent.getFloat("friction");
         fixtureDef.restitution = rigidBodyComponent.getFloat("restitution");
         fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false;
         fixtureDef.userData = gameObject;
 
         for (XML xmlShape : rigidBodyComponent.getChildren())
-        {
-          if (xmlShape.getName().equals("Shape"))
-          {
-            String shapeType = xmlShape.getString("type");
-
-            if (shapeType.equals("circle"))
+        { //<>//
+          if (xmlShape.getName().equals("Shape")) //<>//
+          { //<>//
+            String shapeType = xmlShape.getString("type"); //<>//
+ //<>//
+            if (shapeType.equals("circle")) //<>//
             {
-              CircleShape circleShape = new CircleShape();
+              CircleShape circleShape = new CircleShape(); //<>//
               circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y")));
               circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;
-              
-              fixtureDef.shape = circleShape;
+               //<>//
+              fixtureDef.shape = circleShape; //<>//
             }
-            else if (shapeType.equals("box"))
-            {
-              PolygonShape boxShape = new PolygonShape();
-              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));
+            else if (shapeType.equals("box")) //<>//
+            { //<>//
+              PolygonShape boxShape = new PolygonShape(); //<>//
+              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y")))); //<>//
               boxShape.setAsBox(
                 pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x,
                 pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y
               );
-
+ //<>//
               fixtureDef.shape = boxShape;
             }
-            else
+            else //<>//
             {
               print("Unknown fixture shape type: " + shapeType);
               assert(false);
@@ -573,22 +587,22 @@ public class RigidBodyComponent extends Component
           }
         }
         
-        body.createFixture(fixtureDef);
+        body.createFixture(fixtureDef); //<>//
       }
-      else if (rigidBodyComponent.getName().equals("OnCollideEvents"))
+      else if (rigidBodyComponent.getName().equals("OnCollideEvents")) //<>//
       {
-        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
+        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren()) //<>//
         {
-          if (xmlOnCollideEvent.getName().equals("Event"))
+          if (xmlOnCollideEvent.getName().equals("Event")) //<>//
           {
             OnCollideEvent onCollideEvent = new OnCollideEvent();
             onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");
-            
+             //<>//
             String stringEventType = xmlOnCollideEvent.getString("eventType");
-            if (stringEventType.equals("COIN_COLLECTED"))
-            {
+            if (stringEventType.equals("COIN_COLLECTED")) //<>//
+            { //<>//
               onCollideEvent.eventType = EventType.COIN_COLLECTED;
-              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
               onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
             }
             else if (stringEventType.equals("GAME_OVER"))
@@ -609,114 +623,114 @@ public class RigidBodyComponent extends Component
             }
             
             onCollideEvents.add(onCollideEvent);
-          }
-        }
-      }
-    }
-  }
-  
-  @Override public ComponentType getComponentType()
+          } //<>//
+        } //<>//
+      } //<>//
+    } //<>//
+  } //<>//
+   //<>//
+  @Override public ComponentType getComponentType() //<>//
   {
     return ComponentType.RIGID_BODY;
   }
-  
-  @Override public void update(int deltaTime)
-  {
-    // Reverse sync the physically simulated position to the Game Object position.
-    gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
-  }
-
+   //<>//
+  @Override public void update(int deltaTime) //<>//
+  { //<>//
+    // Reverse sync the physically simulated position to the Game Object position. //<>//
+    gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y))); //<>//
+  } //<>//
+ //<>//
   public void onCollisionEnter(IGameObject collider)
   {
     for (OnCollideEvent onCollideEvent : onCollideEvents)
     {
-      if (onCollideEvent.collidedWith.equals(collider.getTag()))
-      {
-        if (onCollideEvent.eventType == EventType.COIN_COLLECTED)
-        {
-          Event event = new Event(EventType.COIN_COLLECTED);
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
-          eventManager.queueEvent(event);
-        }
-        else if (onCollideEvent.eventType == EventType.GAME_OVER)
-        {
-          eventManager.queueEvent(new Event(EventType.GAME_OVER));
-        }
-        else if (onCollideEvent.eventType == EventType.DESTROY_COIN)
-        {
-          Event event = new Event(EventType.DESTROY_COIN);
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
-          eventManager.queueEvent(event);
-
-        }
+      if (onCollideEvent.collidedWith.equals(collider.getTag())) //<>//
+      { //<>//
+        if (onCollideEvent.eventType == EventType.COIN_COLLECTED) //<>//
+        { //<>//
+          Event event = new Event(EventType.COIN_COLLECTED); //<>//
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider); //<>//
+          eventManager.queueEvent(event); //<>//
+        } //<>//
+        else if (onCollideEvent.eventType == EventType.GAME_OVER) //<>//
+        { //<>//
+          eventManager.queueEvent(new Event(EventType.GAME_OVER)); //<>//
+        } //<>//
+        else if (onCollideEvent.eventType == EventType.DESTROY_COIN) //<>//
+        {  //<>//
+          Event event = new Event(EventType.DESTROY_COIN); //<>//
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider); //<>//
+          eventManager.queueEvent(event); //<>//
+ //<>//
+        } //<>//
         else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION)
-        {
-          Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
-          eventManager.queueEvent(event);
-        }
-      }
-    }
+        { //<>//
+          Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION); //<>//
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider); //<>//
+          eventManager.queueEvent(event); //<>//
+        } //<>//
+      } //<>//
+    } //<>//
   }
-  public PVector getLinearVelocity()
+  public PVector getLinearVelocity() //<>//
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
-  }
+  } //<>//
 
   public float getSpeed()
   {
     PVector linearVelocity = getLinearVelocity();
-    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));
+    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y)); //<>//
   }
-  public PVector getAcceleration()
+  public PVector getAcceleration() //<>//
   {
-    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y));
-  } 
-  public void setLinearVelocity(PVector linearVelocity)
-  {
-    body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y)));
-  }
-  
-  public void applyForce(PVector force, PVector position)
-  {
-    latestForce = force;
-    body.applyForce(new Vec2(pixelsToMeters(force.x), pixelsToMeters(force.y)), new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)));
-  }
-
-  public void applyLinearImpulse(PVector impulse, PVector position, boolean wakeUp)
-  {
-    body.applyLinearImpulse(
+    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y)); //<>//
+  }  //<>//
+  public void setLinearVelocity(PVector linearVelocity) //<>//
+  { //<>//
+    body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y))); //<>//
+  } //<>//
+   //<>//
+  public void applyForce(PVector force, PVector position) //<>//
+  { //<>//
+    latestForce = force; //<>//
+    body.applyForce(new Vec2(pixelsToMeters(force.x), pixelsToMeters(force.y)), new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y))); //<>//
+  } //<>//
+ //<>//
+  public void applyLinearImpulse(PVector impulse, PVector position, boolean wakeUp) //<>//
+  { //<>//
+    body.applyLinearImpulse( //<>//
       new Vec2(pixelsToMeters(impulse.x), pixelsToMeters(impulse.y)),
       new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)),
-      wakeUp
+      wakeUp //<>//
     );
   }
-
+ //<>//
   private float pixelsToMeters(float pixels)
-  {
-    return pixels / 50.0f;
-  }
+  { //<>//
+    return pixels / 50.0f; //<>//
+  } //<>//
 
   private float metersToPixels(float meters)
   {
-    return meters * 50.0f;
-  }
-}
-
-public class PlayerControllerComponent extends Component
-{
+    return meters * 50.0f; //<>//
+  } //<>//
+} //<>//
+ //<>//
+public class PlayerControllerComponent extends Component //<>//
+{ //<>//
   public PVector moveVectorX;
-  private float acceleration;
+  private float acceleration; //<>//
   private float maxSpeed;
   private float minInputThreshold;
-  private float jumpForce;
+  private float jumpForce; //<>//
   
-  private String currentSpeedParameterName;
-
+  private String currentSpeedParameterName; //<>//
+ //<>//
   private String collidedPlatformParameterName;
-  private String gapDirection;
+  private String gapDirection; //<>//
 
-  private boolean upButtonDown;
+  private boolean upButtonDown; //<>//
   private boolean leftButtonDown;
   private boolean rightButtonDown;
   
@@ -727,24 +741,24 @@ public class PlayerControllerComponent extends Component
   private float amplitude;
 
   public PlayerControllerComponent(IGameObject _gameObject)
+  { //<>//
+    super(_gameObject); //<>//
+     //<>//
+    upButtonDown = false; //<>//
+    leftButtonDown = false; //<>//
+    rightButtonDown = false; //<>//
+    moveVectorX = new PVector(); //<>//
+  } //<>//
+   //<>//
+  @Override public void destroy() //<>//
   {
-    super(_gameObject);
-    
-    upButtonDown = false;
-    leftButtonDown = false;
-    rightButtonDown = false;
-    moveVectorX = new PVector();
-  }
-  
-  @Override public void destroy()
-  {
- 
-  }
-
-  @Override public void fromXML(XML xmlComponent)
-  {
+  //<>//
+  } //<>//
+ //<>//
+  @Override public void fromXML(XML xmlComponent) //<>//
+  { //<>//
     acceleration = xmlComponent.getFloat("acceleration");
-    maxSpeed = xmlComponent.getFloat("maxSpeed");
+    maxSpeed = xmlComponent.getFloat("maxSpeed"); //<>//
     minInputThreshold = xmlComponent.getFloat("minInputThreshold");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
@@ -762,37 +776,37 @@ public class PlayerControllerComponent extends Component
   @Override public ComponentType getComponentType()
   {
     return ComponentType.PLAYER_CONTROLLER;
-  }
-  
-  @Override public void update(int deltaTime)
-  {
+  } //<>//
+   //<>//
+  @Override public void update(int deltaTime) //<>//
+  { //<>//
     handleEvents();
-    
-    PVector moveVector = new PVector();
-    if(options.getGameOptions().getAutoDirect()){
-      moveVector.add(getAutoConfigKeyboardInput());
-      moveVector.add(getAutoConfigEMGInput());
-    }
-    else{
-      moveVector.add(getKeyboardInput());
-      moveVector.add(getEmgInput());
-    }
+     //<>//
+    PVector moveVector = new PVector(); //<>//
+    if(options.getGameOptions().getAutoDirect()){ //<>//
+      moveVector.add(getAutoConfigKeyboardInput()); //<>//
+      moveVector.add(getAutoConfigEMGInput()); //<>//
+    } //<>//
+    else{ //<>//
+      moveVector.add(getKeyboardInput()); //<>//
+      moveVector.add(getEmgInput()); //<>//
+    } //<>//
+ //<>//
+    if (options.getGameOptions().getAutoDirect()) //<>//
+    { //<>//
+      correctControls(moveVector); //<>//
+    } //<>//
+    smoothControls(moveVector, deltaTime); //<>//
 
-    if (options.getGameOptions().getAutoDirect())
-    {
-      correctControls(moveVector);
-    }
-    smoothControls(moveVector, deltaTime);
-
-    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
-
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-    //println(moveVector.x);
-    moveVectorX = moveVector;
+    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED); //<>//
+ //<>//
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY); //<>//
+    //println(moveVector.x); //<>//
+    moveVectorX = moveVector; //<>//
     if (component != null)
     {
-      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      PVector linearVelocity = rigidBodyComponent.getLinearVelocity();
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component; //<>//
+      PVector linearVelocity = rigidBodyComponent.getLinearVelocity(); //<>//
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
       {
@@ -802,20 +816,20 @@ public class PlayerControllerComponent extends Component
       ArrayList<IGameObject> platformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("platform_manager");
       if (!platformManagerList.isEmpty())
       {
-        IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
+        IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER); //<>//
         if (tcomponent != null)
-        {
+        { //<>//
           if (moveVector.y < -0.5f)
-          {
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
+          { //<>//
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); //<>//
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
-            jumpSound.play();
-          }
-        }
-      }
-      
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed());
-    }
+            jumpSound.play(); //<>//
+          } //<>//
+        } //<>//
+      } //<>//
+       //<>//
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); //<>//
+    } //<>//
     else
     {
       gameObject.translate(moveVector);
@@ -823,15 +837,15 @@ public class PlayerControllerComponent extends Component
     }
 
     eventManager.queueEvent(currentSpeedEvent);
-  }
+  } //<>//
 
-  public PVector getLatestMoveVector(){
+  public PVector getLatestMoveVector(){ //<>//
     return moveVectorX;
   }
-
-  private PVector getKeyboardInput()
-  {
-    PVector p = new PVector(); 
+ //<>//
+  private PVector getKeyboardInput() //<>//
+  { //<>//
+    PVector p = new PVector();  //<>//
     if (upButtonDown) 
     {
       p.y -= 10.0f;
@@ -856,14 +870,14 @@ public class PlayerControllerComponent extends Component
       p.x += 10.0f;
     }
     if(mode.equals("right") || mode.equals("both")){
-     if (rightButtonDown)
-       p.x += 10.0f;
-    }
-    if(mode.equals("both")){
-     if (upButtonDown) 
+     if (rightButtonDown) //<>//
+       p.x += 10.0f; //<>//
+    } //<>//
+    if(mode.equals("both")){ //<>//
+     if (upButtonDown)  //<>//
       p.y += 10.0f;
-    }
- 
+    } //<>//
+  //<>//
     return p;
   }
   private void handleEvents()
@@ -876,24 +890,24 @@ public class PlayerControllerComponent extends Component
 
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
       rightButtonDown = true;
-
-    if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0)
+ //<>//
+    if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) //<>//
       upButtonDown = false;
       
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_RELEASED).size() > 0)
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_RELEASED).size() > 0) //<>//
       leftButtonDown = false;
       
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0)
-      rightButtonDown = false;
-
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
-    {
-      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);
-      gapDirection = determineGapDirection(platform);
-    }
-  }
-
-  private String determineGapDirection(IGameObject platform)
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0) //<>//
+      rightButtonDown = false; //<>//
+ //<>//
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION)) //<>//
+    { //<>//
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); //<>//
+      gapDirection = determineGapDirection(platform); //<>//
+    } //<>//
+  } //<>//
+ //<>//
+  private String determineGapDirection(IGameObject platform) //<>//
   {
     IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0);
     assert (leftWall != null);
@@ -909,26 +923,26 @@ public class PlayerControllerComponent extends Component
     {
       // platform extends all the way to left wall (i.e., no gap to the left)
       direction = RIGHT_DIRECTION_LABEL;
-    }
-    else
-    {
+    } //<>//
+    else //<>//
+    { //<>//
       direction = LEFT_DIRECTION_LABEL;
     }
     return direction;
   }
-
-
-  private PVector getEmgInput() 
-  {
-    HashMap<String, Float> readings = emgManager.poll(); 
-    if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE) 
-    { 
-      return new PVector(
-        readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL),
+ //<>//
+ //<>//
+  private PVector getEmgInput()  //<>//
+  { //<>//
+    HashMap<String, Float> readings = emgManager.poll();  //<>//
+    if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)  //<>//
+    {  //<>//
+      return new PVector( //<>//
+        readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL), //<>//
         -readings.get(JUMP_DIRECTION_LABEL)
-      ); 
-    } 
-    else 
+      );  //<>//
+    }  //<>//
+    else  //<>//
     { 
       float rightValue = readings.get(RIGHT_DIRECTION_LABEL);
       float leftValue = readings.get(LEFT_DIRECTION_LABEL);
@@ -936,29 +950,29 @@ public class PlayerControllerComponent extends Component
       if (abs(leftValue) > abs(rightValue))
       {
         return new PVector(-leftValue, -readings.get(JUMP_DIRECTION_LABEL));
-      }
+      } //<>//
       else
       {
         return new PVector(rightValue, -readings.get(JUMP_DIRECTION_LABEL));
       }
     }
   }
-  
-  private PVector getAutoConfigEMGInput() 
-  {
-    HashMap<String, Float> readings = emgManager.poll(); 
-    String mode = options.getGameOptions().getAutoDirectMode();
-    if(mode.equals("left")){
-      return new PVector( readings.get(LEFT_DIRECTION_LABEL),0); 
-    }
-    else if(mode.equals("right")){
-       return new PVector( readings.get(RIGHT_DIRECTION_LABEL),0); 
+   //<>//
+  private PVector getAutoConfigEMGInput()  //<>//
+  { //<>//
+    HashMap<String, Float> readings = emgManager.poll();  //<>//
+    String mode = options.getGameOptions().getAutoDirectMode(); //<>//
+    if(mode.equals("left")){ //<>//
+      return new PVector( readings.get(LEFT_DIRECTION_LABEL),0);  //<>//
+    } //<>//
+    else if(mode.equals("right")){ //<>//
+       return new PVector( readings.get(RIGHT_DIRECTION_LABEL),0);  //<>//
     }
     else
-       return new PVector( readings.get(RIGHT_DIRECTION_LABEL) + readings.get(LEFT_DIRECTION_LABEL),0); 
-   
-  }
-
+       return new PVector( readings.get(RIGHT_DIRECTION_LABEL) + readings.get(LEFT_DIRECTION_LABEL),0);  //<>//
+    //<>//
+  } //<>//
+ //<>//
   private void correctControls(PVector moveVector)
   {
     Float magnitude = moveVector.mag();
@@ -967,9 +981,9 @@ public class PlayerControllerComponent extends Component
       moveVector.x = -magnitude;
     }
     else
-    {
-      moveVector.x = magnitude;
-    }
+    { //<>//
+      moveVector.x = magnitude; //<>//
+    } //<>//
     moveVector.y = 0;
   }
 
@@ -979,14 +993,14 @@ public class PlayerControllerComponent extends Component
     {
       moveVector.x = 0.0f;
     }
-    else if (moveVector.x < 0.0f)
-    {
-      moveVector.x += minInputThreshold;
-      moveVector.x *= options.getIOOptions().getLeftEMGSensitivity() * (1.0f - minInputThreshold);
-
-      if (moveVector.x < -1.0f)
-      {
-        moveVector.x = -1.0f;
+    else if (moveVector.x < 0.0f) //<>//
+    { //<>//
+      moveVector.x += minInputThreshold; //<>//
+      moveVector.x *= options.getIOOptions().getLeftEMGSensitivity() * (1.0f - minInputThreshold); //<>//
+ //<>//
+      if (moveVector.x < -1.0f) //<>//
+      { //<>//
+        moveVector.x = -1.0f; //<>//
       }
     }
     else
@@ -999,10 +1013,10 @@ public class PlayerControllerComponent extends Component
       {
         moveVector.x = 1.0f;
       }
-    }
-
-    jumpTime += deltaTime;
-    if (moveVector.y < -0.5  && jumpTime > jumpDelay)
+    } //<>//
+ //<>//
+    jumpTime += deltaTime; //<>//
+    if (moveVector.y < -0.5  && jumpTime > jumpDelay) //<>//
     {
       jumpTime = 0;
     }
@@ -1016,8 +1030,8 @@ public class PlayerControllerComponent extends Component
 public class PlatformManagerControllerComponent extends Component
 {
   private LinkedList<IGameObject> platforms;
-  private String platformFile;
-  private String slipperyPlatformFile;
+  private String platformFile; //<>//
+  private String slipperyPlatformFile; //<>//
   private float slipperyPlatformChance;
   private String stickyPlatformFile;
   private float stickyPlatformChance;
@@ -1583,9 +1597,17 @@ public class CalibrateWizardComponent extends Component
     {
       RenderComponent renderComponent = (RenderComponent)component;
       RenderComponent.Text text = renderComponent.getTexts().get(0);
+      RenderComponent.Text handtext = renderComponent.getTexts().get(1);
+      RenderComponent.OffsetPImage img1 = renderComponent.getImages().get(0);
+      RenderComponent.OffsetPImage img2 = renderComponent.getImages().get(1);
       if (text != null)
       {
         text.string = currentAction + ": " + Integer.toString(currentCount);
+        if(currentAction.equals("RIGHT")){
+            handtext.string = "Signal Right";
+            img1.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
+            img2.pimage = loadImage("images/myo_gesture_icons/LHwave-right.png");
+        }
       }
     }
   }

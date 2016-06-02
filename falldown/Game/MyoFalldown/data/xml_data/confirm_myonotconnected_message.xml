@@ -5,7 +5,7 @@
 		<Text
 			string="Really Start?"
 			fontName="Moire Bold" 
-			size="40"
+			size="33"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
@@ -79,10 +79,10 @@
 
     <!-- Buttons -->
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="150.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
+			<Image  src="images/button/buttonNormal.png" x="150.0" y="300.0" width="150" height="80" resizeHeight="80" resizeWidth="150"/>
 		</Sprite>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="350.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
+			<Image  src="images/button/buttonNormal.png" x="350.0" y="300.0" width="150" height="80" resizeHeight="80" resizeWidth="150"/>
 		</Sprite>
 
 	</Render>

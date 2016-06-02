@@ -24,7 +24,7 @@
     <!-- Message -->
 		<Text
 			string="Problem occured while detecting"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -37,7 +37,7 @@
 		</Text>
 		<Text
 			string="Myo Armband or EMG activity."
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"
@@ -52,7 +52,7 @@
     <!-- Button Text -->
 		<Text
 			string="Ok"
-			fontName="Moire Bold" 
+			fontName="Moire" 
 			size="20"
 			antialiasing="true"
 			alignX="center"

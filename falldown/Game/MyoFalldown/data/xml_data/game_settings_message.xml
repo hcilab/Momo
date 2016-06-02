@@ -68,7 +68,7 @@
 		<Text
 			fontName="Arial"
 			string="Game Settings"
-			size="40"
+			size="33"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"

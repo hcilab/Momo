@@ -3,15 +3,15 @@
 
   <GameObject file="xml_data/button.xml" tag="no">
 		<Transform>
-			<Translation x="250.0" y="300.0"/>
-			<Scale x="150.0" y="50.0"/>
+			<Translation x="175.0" y="300.0"/>
+			<Scale x="100.0" y="50.0"/>
 		</Transform>
   </GameObject>
 
   <GameObject file="xml_data/button.xml" tag="yes">
 		<Transform>
-			<Translation x="250.0" y="400.0"/>
-			<Scale x="150.0" y="50.0"/>
+			<Translation x="325.0" y="300.0"/>
+			<Scale x="100.0" y="50.0"/>
 		</Transform>
   </GameObject>
 </Level>

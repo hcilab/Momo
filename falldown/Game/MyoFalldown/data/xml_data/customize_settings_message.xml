@@ -45,8 +45,8 @@
 		<CustomSprite cost="100" actualSrc="images/player/dragon.png" unlocked="false" active="false">
 			<SpriteSheet src="images/player/dragonGrey.png" alphaImage=""
 				x="225.0" y="125.0"  
-				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="50.0" scaleHeight="30" playerHeight="1">
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="50.0" scaleHeight="30">
 			</SpriteSheet> 
 		</CustomSprite>
 		<CustomSprite cost="100" actualSrc="images/player/grumpyBird.png" unlocked="false" active="false">

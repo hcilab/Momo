@@ -781,28 +781,27 @@ public class PlayerControllerComponent extends Component //<>//
   @Override public void update(int deltaTime) //<>//
   { //<>//
     handleEvents();
-     //<>//
-    PVector moveVector = new PVector(); //<>//
-    if(options.getGameOptions().getAutoDirect()){ //<>//
-      moveVector.add(getAutoConfigKeyboardInput()); //<>//
-      moveVector.add(getAutoConfigEMGInput()); //<>//
-    } //<>//
-    else{ //<>//
-      moveVector.add(getKeyboardInput()); //<>//
-      moveVector.add(getEmgInput()); //<>//
-    } //<>//
- //<>//
-    if (options.getGameOptions().getAutoDirect()) //<>//
-    { //<>//
-      correctControls(moveVector); //<>//
-    } //<>//
-    smoothControls(moveVector, deltaTime); //<>//
 
-    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED); //<>//
- //<>//
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY); //<>//
-    //println(moveVector.x); //<>//
-    moveVectorX = moveVector; //<>//
+    HashMap<String, Float> rawInput = gatherRawInput();
+    PVector moveVector = new PVector();
+
+    ControlPolicy policy = options.getGameOptions().getControlPolicy();
+    if (policy == ControlPolicy.NORMAL)
+      moveVector = applyNormalControls(rawInput);
+    else if (policy == ControlPolicy.DIRECTION_ASSIST)
+      moveVector = applyDirectionAssistControls(rawInput);
+    else if (policy == ControlPolicy.SINGLE_MUSCLE)
+      moveVector = applySingleMuscleControls(rawInput);
+    else
+      println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+
+    smoothControls(moveVector, deltaTime);
+
+    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
+
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    //println(moveVector.x);
+    moveVectorX = moveVector;
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component; //<>//
@@ -839,47 +838,68 @@ public class PlayerControllerComponent extends Component //<>//
     eventManager.queueEvent(currentSpeedEvent);
   } //<>//
 
-  public PVector getLatestMoveVector(){ //<>//
+  private HashMap<String, Float> gatherRawInput()
+  {
+    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
+    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+
+    HashMap<String, Float> rawInput = emgManager.poll();
+    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude);
+    rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
+    rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude);
+    return rawInput;
+  }
+
+  private PVector applyNormalControls(HashMap<String, Float> input)
+  {
+    PVector moveVector = new PVector();
+    moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
+    moveVector.y = -input.get(JUMP_DIRECTION_LABEL);
+    return moveVector;
+  }
+
+  private PVector applyDirectionAssistControls(HashMap<String, Float> input)
+  {
+    Float magnitude = 0.0;
+    DirectionAssistMode mode = options.getGameOptions().getDirectionAssistMode();
+    if (mode == DirectionAssistMode.LEFT_ONLY)
+      magnitude = input.get(LEFT_DIRECTION_LABEL);
+    else if (mode == DirectionAssistMode.RIGHT_ONLY)
+      magnitude = input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == DirectionAssistMode.BOTH)
+      magnitude = input.get(LEFT_DIRECTION_LABEL) + input.get(RIGHT_DIRECTION_LABEL);
+    else
+      println("[ERROR] Unrecognized control mode in PlayerControllerComponent::applyDirectionAssistControls");
+   
+    PVector moveVector = new PVector();
+    if (gapDirection == LEFT_DIRECTION_LABEL)
+      moveVector.x = -magnitude;
+    else
+      moveVector.x = magnitude;
+
+    return moveVector;
+  }
+
+  private PVector applySingleMuscleControls(HashMap<String, Float> input)
+  {
+    PVector moveVector = new PVector();
+
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
+    if (mode == SingleMuscleMode.AUTO_LEFT)
+      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == SingleMuscleMode.AUTO_RIGHT)
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
+    else
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
+
+    return moveVector;
+  }
+
+  public PVector getLatestMoveVector(){
     return moveVectorX;
   }
- //<>//
-  private PVector getKeyboardInput() //<>//
-  { //<>//
-    PVector p = new PVector();  //<>//
-    if (upButtonDown) 
-    {
-      p.y -= 10.0f;
-    }
-    if (leftButtonDown)
-    {
-      p.x -= 10.0f;
-    }
-    if (rightButtonDown)
-    {
-      p.x += 10.0f;
-    }
-    return p;
-  }
-  
-  private PVector getAutoConfigKeyboardInput() 
-  {
-    PVector p = new PVector(); 
-    String mode = options.getGameOptions().getAutoDirectMode();
-    if(mode.equals("left") || mode.equals("both")){
-     if (leftButtonDown)
-      p.x += 10.0f;
-    }
-    if(mode.equals("right") || mode.equals("both")){
-     if (rightButtonDown) //<>//
-       p.x += 10.0f; //<>//
-    } //<>//
-    if(mode.equals("both")){ //<>//
-     if (upButtonDown)  //<>//
-      p.y += 10.0f;
-    } //<>//
-  //<>//
-    return p;
-  }
+
   private void handleEvents()
   {
     if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
@@ -929,62 +949,6 @@ public class PlayerControllerComponent extends Component //<>//
       direction = LEFT_DIRECTION_LABEL;
     }
     return direction;
-  }
- //<>//
- //<>//
-  private PVector getEmgInput()  //<>//
-  { //<>//
-    HashMap<String, Float> readings = emgManager.poll();  //<>//
-    if (options.getIOOptions().getIOInputMode() == IOInputMode.DIFFERENCE)  //<>//
-    {  //<>//
-      return new PVector( //<>//
-        readings.get(RIGHT_DIRECTION_LABEL)-readings.get(LEFT_DIRECTION_LABEL), //<>//
-        -readings.get(JUMP_DIRECTION_LABEL)
-      );  //<>//
-    }  //<>//
-    else  //<>//
-    { 
-      float rightValue = readings.get(RIGHT_DIRECTION_LABEL);
-      float leftValue = readings.get(LEFT_DIRECTION_LABEL);
-
-      if (abs(leftValue) > abs(rightValue))
-      {
-        return new PVector(-leftValue, -readings.get(JUMP_DIRECTION_LABEL));
-      } //<>//
-      else
-      {
-        return new PVector(rightValue, -readings.get(JUMP_DIRECTION_LABEL));
-      }
-    }
-  }
-   //<>//
-  private PVector getAutoConfigEMGInput()  //<>//
-  { //<>//
-    HashMap<String, Float> readings = emgManager.poll();  //<>//
-    String mode = options.getGameOptions().getAutoDirectMode(); //<>//
-    if(mode.equals("left")){ //<>//
-      return new PVector( readings.get(LEFT_DIRECTION_LABEL),0);  //<>//
-    } //<>//
-    else if(mode.equals("right")){ //<>//
-       return new PVector( readings.get(RIGHT_DIRECTION_LABEL),0);  //<>//
-    }
-    else
-       return new PVector( readings.get(RIGHT_DIRECTION_LABEL) + readings.get(LEFT_DIRECTION_LABEL),0);  //<>//
-    //<>//
-  } //<>//
- //<>//
-  private void correctControls(PVector moveVector)
-  {
-    Float magnitude = moveVector.mag();
-    if (gapDirection == LEFT_DIRECTION_LABEL)
-    {
-      moveVector.x = -magnitude;
-    }
-    else
-    { //<>//
-      moveVector.x = magnitude; //<>//
-    } //<>//
-    moveVector.y = 0;
   }
 
   private void smoothControls(PVector moveVector, int deltaTime)
@@ -1198,7 +1162,7 @@ public class PlatformManagerControllerComponent extends Component
       setPlatformRiseSpeed(platform);
       platforms.add(platform);
       
-      if (!options.getGameOptions().getAutoDirect() && options.getGameOptions().getObstacles())
+      if (options.getGameOptions().getObstacles())
       {
         float generateObstacle = random(0.0, 1.0);
         if (generateObstacle < obstacleChance)
@@ -1403,7 +1367,7 @@ public class CoinSpawnerControllerComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if (!options.getGameOptions().getAutoDirect())
+    if (options.getGameOptions().getControlPolicy() == ControlPolicy.NORMAL)
     {
       handleEvents();
     
@@ -2213,6 +2177,9 @@ public class GameOptionsControllerComponent extends Component
   private String leftTag;
   private String rightTag;
   private String bothTag;
+  private String singleMuscleTag;
+  private String autoLeftTag;
+  private String autoRightTag;
   private String obstaclesTag;
   private String terrainModsTag;
   private float checkBoxXPosition;
@@ -2239,6 +2206,9 @@ public class GameOptionsControllerComponent extends Component
     leftTag = xmlComponent.getString("left");
     rightTag = xmlComponent.getString("right");
     bothTag = xmlComponent.getString("both");
+    singleMuscleTag = xmlComponent.getString("singleMuscleTag");
+    autoLeftTag = xmlComponent.getString("autoLeftTag");
+    autoRightTag = xmlComponent.getString("autoRightTag");
     obstaclesTag = xmlComponent.getString("obstaclesTag");
     terrainModsTag = xmlComponent.getString("terrainModsTag");
     checkBoxXPosition = xmlComponent.getFloat("checkBoxXPosition");
@@ -2264,10 +2234,26 @@ public class GameOptionsControllerComponent extends Component
       }
       else if (tag.equals(autoDirectTag))
       {
-        gameOptions.setAutoDirect(!gameOptions.getAutoDirect());
-        if (gameOptions.getAutoDirect())
+        if (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST)
         {
-          gameOptions.setAutoDirectMode(leftTag);
+          gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+        }
+        else
+        {
+          gameOptions.setControlPolicy(ControlPolicy.DIRECTION_ASSIST);
+          gameOptions.setDirectionAssistMode(DirectionAssistMode.LEFT_ONLY);
+          gameOptions.setObstacles(false);
+        }
+      }
+      else if (tag.equals(singleMuscleTag))
+      {
+        if (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE) {
+          gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+        }
+        else
+        {
+          gameOptions.setControlPolicy(ControlPolicy.SINGLE_MUSCLE);
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
           gameOptions.setObstacles(false);
         }
       }
@@ -2276,7 +2262,7 @@ public class GameOptionsControllerComponent extends Component
         gameOptions.setObstacles(!gameOptions.getObstacles());
         if (gameOptions.getObstacles())
         {
-          gameOptions.setAutoDirect(false);
+          gameOptions.setControlPolicy(ControlPolicy.NORMAL);
         }
       }
       else if (tag.equals(terrainModsTag))
@@ -2284,23 +2270,29 @@ public class GameOptionsControllerComponent extends Component
         gameOptions.setPlatformMods(!gameOptions.getPlatformMods());
       }
        
-      if(gameOptions.getAutoDirect())
+      if(gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST)
       {
-         if (tag.equals(leftTag))
-          {
-            gameOptions.setAutoDirectMode(leftTag);
-          }
-          else if (tag.equals(rightTag))
-          {
-            gameOptions.setAutoDirectMode(rightTag);
-          }
-           else if (tag.equals(bothTag))
-          {
-            gameOptions.setAutoDirectMode(bothTag);
-          } 
-       }
-       else
-         gameOptions.setAutoDirectMode("");
+        if (tag.equals(leftTag))
+        {
+          gameOptions.setDirectionAssistMode(DirectionAssistMode.LEFT_ONLY);
+        }
+        else if (tag.equals(rightTag))
+        {
+          gameOptions.setDirectionAssistMode(DirectionAssistMode.RIGHT_ONLY);
+        }
+          else if (tag.equals(bothTag))
+        {
+          gameOptions.setDirectionAssistMode(DirectionAssistMode.BOTH);
+        } 
+      }
+
+      if(gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE)
+      {
+        if (tag.equals(autoLeftTag))
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
+        else if (tag.equals(autoRightTag))
+          gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_RIGHT);
+      }
     }
     
     IComponent component = gameObject.getComponent(ComponentType.RENDER);
@@ -2342,14 +2334,21 @@ public class GameOptionsControllerComponent extends Component
         RenderComponent.OffsetPShape leftCheckbox = shapes.get(4);
         RenderComponent.OffsetPShape rightCheckbox = shapes.get(5);
         RenderComponent.OffsetPShape bothCheckbox = shapes.get(6);
+
+        RenderComponent.OffsetPShape singleMuscleCheckBox = shapes.get(7);
+        RenderComponent.OffsetPShape autoLeftCheckBox = shapes.get(8);
+        RenderComponent.OffsetPShape autoRightCheckBox = shapes.get(9);
         
         levelUpOverTimeCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLevelUpOverTime() ? 0.0f : falseDisplacement);
-        autoDirectCheckBox.translation.x = checkBoxXPosition + (gameOptions.getAutoDirect() ? 0.0f : falseDisplacement);
+        autoDirectCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST ? 0.0f : falseDisplacement);
         obstaclesCheckBox.translation.x = checkBoxXPosition + (gameOptions.getObstacles() ? 0.0f : falseDisplacement);
         terrainModsCheckBox.translation.x = checkBoxXPosition + (gameOptions.getPlatformMods() ? 0.0f : falseDisplacement);
-        leftCheckbox.translation.x = 75 + (gameOptions.getAutoDirectMode().equals(leftTag) ? 0.0f : falseDisplacement);
-        rightCheckbox.translation.x = 150 + (gameOptions.getAutoDirectMode().equals(rightTag)? 0.0f : falseDisplacement);
-        bothCheckbox.translation.x = 230 + (gameOptions.getAutoDirectMode().equals(bothTag)? 0.0f : falseDisplacement);
+        leftCheckbox.translation.x = 75 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.LEFT_ONLY ? 0.0f : falseDisplacement);
+        rightCheckbox.translation.x = 150 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.RIGHT_ONLY ? 0.0f : falseDisplacement);
+        bothCheckbox.translation.x = 230 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.BOTH ? 0.0f : falseDisplacement);
+        singleMuscleCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE ? 0.0f : falseDisplacement);
+        autoLeftCheckBox.translation.x = 75 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_LEFT ? 0.0f : falseDisplacement);
+        autoRightCheckBox.translation.x = 200 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_RIGHT ? 0.0f : falseDisplacement);
       }
     }
   }

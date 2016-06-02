@@ -20,24 +20,46 @@ public interface IOptions
   public ICalibrate getCalibration();
 }
 
+enum ControlPolicy
+{
+  NORMAL,
+  DIRECTION_ASSIST,
+  SINGLE_MUSCLE,
+}
+
+enum DirectionAssistMode
+{
+  LEFT_ONLY,
+  RIGHT_ONLY,
+  BOTH,
+}
+
+enum SingleMuscleMode
+{
+  AUTO_LEFT,
+  AUTO_RIGHT,
+}
+
 public interface IGameOptions
 {
   public int getStartingLevel();
   public boolean getLevelUpOverTime();
-  public boolean getAutoDirect();
+  public ControlPolicy getControlPolicy();
+  public DirectionAssistMode getDirectionAssistMode();
+  public SingleMuscleMode getSingleMuscleMode();
   public boolean getObstacles();
   public boolean getPlatformMods();
-  public String getAutoDirectMode();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
-  public void setAutoDirect(boolean autoDirect);
+  public void setControlPolicy(ControlPolicy policy);
+  public void setDirectionAssistMode(DirectionAssistMode mode);
+  public void setSingleMuscleMode(SingleMuscleMode mode);
   public void setObstacles(boolean obstacles);
   public void setPlatformMods(boolean platformMods);
-  public void setAutoDirectMode(String mode);
 }
 
-enum IOInputMode
+enum EmgSamplingPolicy
 {
   DIFFERENCE,
   MAX,
@@ -49,13 +71,14 @@ public interface IIOOptions
   public float getSoundEffectsVolume();
   public float getLeftEMGSensitivity();
   public float getRightEMGSensitivity();
-  public IOInputMode getIOInputMode();
+  public EmgSamplingPolicy getEmgSamplingPolicy();
+
   
   public void setMusicVolume(float volume);
   public void setSoundEffectsVolume(float volume);
   public void setLeftEMGSensitivity(float sensitivity);
   public void setRightEMGSensitivity(float sensitivity);
-  public void setIOInputMode(IOInputMode mode);
+  public void setEmgSamplingPolicy(EmgSamplingPolicy policy);
 }
 
 public interface IStats
@@ -181,19 +204,21 @@ public class Options implements IOptions
     private final String XML_GAME = "Game";
     private final String STARTING_LEVEL = "starting_level";
     private final String LEVEL_UP_OVER_TIME = "level_up_over_time";
-    private final String AUTO_DIRECT = "auto_direct";
+    private final String CONTROL_POLICY = "control_policy";
+    private final String DIRECTION_ASSIST_MODE = "direction_assist_mode";
+    private final String SINGLE_MUSCLE_MODE = "single_muscle_mode";
     private final String OBSTACLES = "obstacles";
     private final String PLATFORM_MODS = "platform_mods";
-    private final String AUTO_DIRECT_MODE = "auto_direct_mode";
     
     private XML xmlGame;
     
     private int startingLevel;
     private boolean levelUpOverTime;
-    private boolean autoDirect;
+    private ControlPolicy controlPolicy;
+    private DirectionAssistMode directionAssistMode;
+    private SingleMuscleMode singleMuscleMode;
     private boolean obstacles;
     private boolean platformMods;
-    private String autoDirectMode;
     
     private GameOptions()
     {
@@ -201,10 +226,45 @@ public class Options implements IOptions
       
       startingLevel = xmlGame.getInt(STARTING_LEVEL);
       levelUpOverTime = xmlGame.getString(LEVEL_UP_OVER_TIME).equals("true") ? true : false;
-      autoDirect = xmlGame.getString(AUTO_DIRECT).equals("true") ? true : false;
       obstacles = xmlGame.getString(OBSTACLES).equals("true") ? true : false;
       platformMods = xmlGame.getString(PLATFORM_MODS).equals("true") ? true : false;
-      autoDirectMode = xmlGame.getString(AUTO_DIRECT_MODE);
+
+      switch (xmlGame.getString(CONTROL_POLICY))
+      {
+        case ("normal"):
+          controlPolicy = ControlPolicy.NORMAL; break;
+        case ("direction_assist"):
+          controlPolicy = ControlPolicy.DIRECTION_ASSIST; break;
+        case ("single_muscle"):
+          controlPolicy = ControlPolicy.SINGLE_MUSCLE; break;
+        default:
+          println("[ERROR] Invalid control policy specified while parsing game options.");
+          break;
+      }
+
+      switch (xmlGame.getString(DIRECTION_ASSIST_MODE)) 
+      {
+        case ("left_only"):
+          directionAssistMode = DirectionAssistMode.LEFT_ONLY; break;
+        case ("right_only"):
+          directionAssistMode = DirectionAssistMode.RIGHT_ONLY; break;
+        case ("both"):
+          directionAssistMode = DirectionAssistMode.BOTH; break;
+        default:
+          println("[ERROR] Invalid direction assist mode specified while parsing game options.");
+          break;
+      }
+
+      switch (xmlGame.getString(SINGLE_MUSCLE_MODE)) 
+      {
+        case ("auto_left"):
+          singleMuscleMode = SingleMuscleMode.AUTO_LEFT; break;
+        case ("auto_right"):
+          singleMuscleMode = SingleMuscleMode.AUTO_RIGHT; break;
+        default:
+          println("[ERROR] Invalid single muscle mode specified while parsing game options.");
+          break;
+      }
     }
     
     @Override public int getStartingLevel()
@@ -217,11 +277,21 @@ public class Options implements IOptions
       return levelUpOverTime;
     }
     
-    @Override public boolean getAutoDirect()
+    public ControlPolicy getControlPolicy()
     {
-      return autoDirect;
+      return controlPolicy;
     }
-    
+
+    public DirectionAssistMode getDirectionAssistMode()
+    {
+      return directionAssistMode;
+    }
+
+    public SingleMuscleMode getSingleMuscleMode()
+    {
+      return singleMuscleMode;
+    }
+
     @Override public boolean getObstacles()
     {
       return obstacles;
@@ -230,11 +300,6 @@ public class Options implements IOptions
     @Override public boolean getPlatformMods()
     {
       return platformMods;
-    }
-    
-    @Override public String getAutoDirectMode()
-    {
-      return autoDirectMode;
     }
     
     @Override public void setStartingLevel(int _startingLevel)
@@ -251,10 +316,49 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
-    @Override public void setAutoDirect(boolean _autoDirect)
+    public void setControlPolicy(ControlPolicy policy)
     {
-      autoDirect = _autoDirect;
-      xmlGame.setString(AUTO_DIRECT, autoDirect ? "true" : "false");
+      controlPolicy = policy;
+
+      if (controlPolicy == ControlPolicy.NORMAL)
+        xmlGame.setString(CONTROL_POLICY, "normal");
+      else if (controlPolicy == ControlPolicy.DIRECTION_ASSIST)
+        xmlGame.setString(CONTROL_POLICY, "direction_assist");
+      else if (controlPolicy == ControlPolicy.SINGLE_MUSCLE)
+        xmlGame.setString(CONTROL_POLICY, "single_muscle");
+      else
+        println("[ERROR] Unrecognized control policy specified in GameOptions::setControlPolicy()");
+
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setDirectionAssistMode(DirectionAssistMode mode)
+    {
+      directionAssistMode = mode;
+
+      if (directionAssistMode == DirectionAssistMode.LEFT_ONLY)
+        xmlGame.setString(DIRECTION_ASSIST_MODE, "left_only");
+      else if (directionAssistMode == DirectionAssistMode.RIGHT_ONLY)
+        xmlGame.setString(DIRECTION_ASSIST_MODE, "right_only");
+      else if (directionAssistMode == DirectionAssistMode.BOTH)
+        xmlGame.setString(DIRECTION_ASSIST_MODE, "both");
+      else
+        println("[ERROR] Unrecognized direction assist mode specified in GameOptions::setDirectionAssistMode()");
+
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setSingleMuscleMode(SingleMuscleMode mode)
+    {
+      singleMuscleMode = mode;
+
+      if (singleMuscleMode == SingleMuscleMode.AUTO_LEFT)
+        xmlGame.setString(SINGLE_MUSCLE_MODE, "auto_left");
+      else if (singleMuscleMode == SingleMuscleMode.AUTO_RIGHT)
+        xmlGame.setString(SINGLE_MUSCLE_MODE, "auto_right");
+      else
+        println("[ERROR] Unrecognized single muscle mode specified in GameOptions::setSingleMuscleMode()");
+
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
@@ -271,13 +375,6 @@ public class Options implements IOptions
       xmlGame.setString(PLATFORM_MODS, platformMods ? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
-    
-    @Override public void setAutoDirectMode(String _autoDirectMode)
-    {
-      autoDirectMode = _autoDirectMode;
-      xmlGame.setString(AUTO_DIRECT_MODE, autoDirectMode);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
-    }
   }
 
   //--------------------------------------------
@@ -290,9 +387,7 @@ public class Options implements IOptions
     private final String SOUND_EFFECTS_VOLUME = "sound_effects_volume";
     private final String LEFT_EMG_SENSITIVITY = "left_emg_sensitivity";
     private final String RIGHT_EMG_SENSITIVITY = "right_emg_sensitivity";
-    private final String IO_INPUT_MODE = "input_mode";
-    private final String IO_INPUT_MODE_MAX = "max";
-    private final String IO_INPUT_MODE_DIFFERENCE = "difference";
+    private final String EMG_SAMPLING_POLICY = "emg_sampling_policy";
     
     private XML xmlIO;
     
@@ -300,7 +395,7 @@ public class Options implements IOptions
     private float soundEffectsVolume;
     private float leftEMGSensitivity;
     private float rightEMGSensitivity;
-    private IOInputMode inputMode;
+    private EmgSamplingPolicy emgSamplingPolicy;
 
     private IOOptions()
     {
@@ -310,14 +405,16 @@ public class Options implements IOptions
       soundEffectsVolume = xmlIO.getFloat(SOUND_EFFECTS_VOLUME);
       leftEMGSensitivity = xmlIO.getFloat(LEFT_EMG_SENSITIVITY);
       rightEMGSensitivity = xmlIO.getFloat(RIGHT_EMG_SENSITIVITY);
-      String inputModeString = xmlIO.getString(IO_INPUT_MODE);
-      if (inputModeString.equals("max"))
+
+      switch (xmlIO.getString(EMG_SAMPLING_POLICY))
       {
-        inputMode = IOInputMode.MAX;
-      }
-      else
-      {
-        inputMode = IOInputMode.DIFFERENCE;
+        case ("max"):
+          emgSamplingPolicy = EmgSamplingPolicy.MAX; break;
+        case ("difference"):
+          emgSamplingPolicy = EmgSamplingPolicy.DIFFERENCE; break;
+        default:
+          println("[ERROR] Unrecognized emg sampling policy while parsing IOOptions");
+          break;
       }
     }
 
@@ -341,9 +438,9 @@ public class Options implements IOptions
       return rightEMGSensitivity;
     }
     
-    @Override public IOInputMode getIOInputMode()
+    public EmgSamplingPolicy getEmgSamplingPolicy()
     {
-      return inputMode;
+      return emgSamplingPolicy;
     }
 
     @Override public void setMusicVolume(float volume)
@@ -374,17 +471,17 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
-    @Override public void setIOInputMode(IOInputMode mode)
+    public void setEmgSamplingPolicy(EmgSamplingPolicy policy)
     {
-      inputMode = mode;
-      if (inputMode == IOInputMode.MAX)
-      {
-        xmlIO.setString(IO_INPUT_MODE, IO_INPUT_MODE_MAX);
-      }
-      else if (inputMode == IOInputMode.DIFFERENCE)
-      {
-        xmlIO.setString(IO_INPUT_MODE, IO_INPUT_MODE_DIFFERENCE);
-      }
+      emgSamplingPolicy = policy;
+
+      if (emgSamplingPolicy == EmgSamplingPolicy.MAX)
+        xmlIO.setString(EMG_SAMPLING_POLICY, "max");
+      else if (emgSamplingPolicy == EmgSamplingPolicy.DIFFERENCE)
+        xmlIO.setString(EMG_SAMPLING_POLICY, "difference");
+      else
+        println("[ERROR] Unrecognized emg sampling policy in IOOptions::setEmgSamplingPolicy()");
+
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }

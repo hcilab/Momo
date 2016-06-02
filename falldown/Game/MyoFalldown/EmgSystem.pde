@@ -33,14 +33,14 @@ class MyoNotConnectedException extends Exception {}
 class EmgManager implements IEmgManager {
   Myo myo_unused;
   MyoAPI myoAPI;
-  IOInputMode SETTINGS_EMG_CONTROL_POLICY;
+  EmgSamplingPolicy SETTINGS_EMG_CONTROL_POLICY;
 
   EmgManager() throws MyoNotConnectedException {
     // not directly needed here, just need to make one in instantiated
     myo_unused = getMyoSingleton();
 
     myoAPI = new MyoAPI();
-    SETTINGS_EMG_CONTROL_POLICY = options.getIOOptions().getIOInputMode();
+    SETTINGS_EMG_CONTROL_POLICY = options.getIOOptions().getEmgSamplingPolicy();
   }
 
   boolean registerAction(String label) {
@@ -64,26 +64,29 @@ class EmgManager implements IEmgManager {
 
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
     toReturn.put(JUMP_DIRECTION_LABEL, jump);
-    switch (SETTINGS_EMG_CONTROL_POLICY) {
-      case DIFFERENCE:
-        if (left > right) {
-          toReturn.put(LEFT_DIRECTION_LABEL, left-right);
-          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-        } else {
-          toReturn.put(RIGHT_DIRECTION_LABEL, right-left);
-          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-        }
-        break;
-
-      case MAX:
-        if (left > right) {
-          toReturn.put(LEFT_DIRECTION_LABEL, left);
-          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-        } else {
-          toReturn.put(RIGHT_DIRECTION_LABEL, right);
-          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-        }
-        break;
+    if (SETTINGS_EMG_CONTROL_POLICY == EmgSamplingPolicy.DIFFERENCE)
+    {
+      if (left > right) {
+        toReturn.put(LEFT_DIRECTION_LABEL, left-right);
+        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+      } else {
+        toReturn.put(RIGHT_DIRECTION_LABEL, right-left);
+        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+      }
+    }
+    else if (SETTINGS_EMG_CONTROL_POLICY == EmgSamplingPolicy.MAX)
+    {
+      if (left > right) {
+        toReturn.put(LEFT_DIRECTION_LABEL, left);
+        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
+      } else {
+        toReturn.put(RIGHT_DIRECTION_LABEL, right);
+        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+      }
+    }
+    else
+    {
+      println("[ERROR] Unrecognized emg sampling policy in EmgManager::poll()");
     }
     return toReturn;
   }

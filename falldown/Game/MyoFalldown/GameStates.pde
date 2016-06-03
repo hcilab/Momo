@@ -876,8 +876,6 @@ public class GameState_CustomizeSettings extends GameState
         saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
 
         if (unlocked) {
-          // println("update player, platform, etc to be the one clicked");
-          // set to be active in xml too, and not active on old active one
           int num = Integer.parseInt(tag.substring(tag.length()-1));
           XML player = custXML.getChildren("Render")[0].getChildren("CustomSprite")[custSpriteIndex].getChildren("SpriteSheet")[0];
 

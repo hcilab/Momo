@@ -775,29 +775,15 @@ public class GameState_ClearStats_Confirm extends GameState
 public class GameState_CustomizeSettings extends GameState
 {
   private boolean saveDataLoaded;
-  private boolean loadAfterPurchase;
   private String prefixCoinsCollected = "Coins Collected: ";
   private int coinsCollected;
   private XML custXML;
-  private int custSpriteIndex;
 
   public GameState_CustomizeSettings()
   {
     super();
     coinsCollected = options.getCustomizeOptions().getCoinsCollected();
     saveDataLoaded = false;
-    loadAfterPurchase = false;
-    custSpriteIndex = -1;
-    custXML = loadXML("xml_data/customize_settings_message.xml");
-  }
-
-  public GameState_CustomizeSettings(boolean _loadAfterPurchase, int _custSpriteIndex)
-  {
-    super();
-    coinsCollected = options.getCustomizeOptions().getCoinsCollected();
-    saveDataLoaded = false;
-    loadAfterPurchase = _loadAfterPurchase;
-    custSpriteIndex = _custSpriteIndex;
     custXML = loadXML("xml_data/customize_settings_message.xml");
   }
 
@@ -812,7 +798,7 @@ public class GameState_CustomizeSettings extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
-    if ((!saveDataLoaded || loadAfterPurchase) && gameObjectManager.getGameObjectsByTag("cust_table").size() > 0)
+    if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("cust_table").size() > 0)
     {
       loadFromSaveData();
     }
@@ -922,8 +908,6 @@ public class GameState_CustomizeSettings extends GameState
     renderComponent.getTexts().get(0).string = prefixCoinsCollected + Integer.toString(coinsCollected);
     saveDataLoaded = true;
 
-    loadAfterPurchase = false;
-
     // to set the yellow highlight behind the active items -- find a better way to do this
     XML[] activeItems = new XML[6];
     XML[] customSprites = custXML.getChildren("Render")[0].getChildren("CustomSprite");
@@ -941,16 +925,6 @@ public class GameState_CustomizeSettings extends GameState
     {
       renderComponent2.getShapes().get(i+1).translation.x = activeItems[i].getChildren("SpriteSheet")[0].getFloat("x");
     }
-  }
-
-  public void setLoadAfterPurchase(boolean _val)
-  {
-    loadAfterPurchase = _val;
-  }
-
-  public void setCustSpriteIndex(int _index)
-  {
-    custSpriteIndex = _index;
   }
 }
 
@@ -1019,7 +993,7 @@ public class GameState_CustomizePurchase extends GameState
         options.getCustomizeOptions().purchase(custSpriteIndex);
         totalCoins = options.getCustomizeOptions().getCoinsCollected();
         gameStateController.popState();
-        gameStateController.pushState(new GameState_CustomizeSettings(true, custSpriteIndex));
+        gameStateController.pushState(new GameState_CustomizeSettings());
       }
     }
   }

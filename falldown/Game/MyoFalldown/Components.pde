@@ -1597,38 +1597,30 @@ public class CalibrateWizardComponent extends Component
   
   private void handleEvents()
   {
-    for (IEvent event : eventManager.getEvents(EventType.COUNTDOWN_UPDATE))
+    for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
     {
-      int countValue = event.getRequiredIntParameter("value");
-      updateRenderComponent(countValue);
-  
-      if (countValue == 0)
-      {
-        // register action
-        boolean success = emgManager.registerAction(currentAction);
-        if (!success) {
-          Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
-          eventManager.queueEvent(failureEvent);
-        }
-  
-        // increment action
-        if (actionsToRegister.size() == 0)
-        {
-          Event successEvent = new Event(EventType.CALIBRATE_SUCCESS);
-          eventManager.queueEvent(successEvent);
-        }
-        else {
-          currentAction = actionsToRegister.remove(0);
-        }
-  
-        // reset counter
-        CountdownComponent c = (CountdownComponent) gameObject.getComponent(ComponentType.COUNTDOWN);
-        c.reset();
+      // register action
+      boolean success = emgManager.registerAction(currentAction);
+      if (!success) {
+        Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
+        eventManager.queueEvent(failureEvent);
       }
+
+      // increment action
+      if (actionsToRegister.size() == 0)
+      {
+        Event successEvent = new Event(EventType.CALIBRATE_SUCCESS);
+        eventManager.queueEvent(successEvent);
+      }
+      else {
+        currentAction = actionsToRegister.remove(0);
+      }
+
+      updateRenderComponent();
     }
   }
 
-  private void updateRenderComponent(int currentCount)
+  private void updateRenderComponent()
   {
     IComponent component = gameObject.getComponent(ComponentType.RENDER);
     if (component != null)
@@ -1640,7 +1632,7 @@ public class CalibrateWizardComponent extends Component
       RenderComponent.OffsetPImage img2 = renderComponent.getImages().get(1);
       if (text != null)
       {
-        text.string = currentAction + ": " + Integer.toString(currentCount);
+        text.string = currentAction;
         if(currentAction.equals("RIGHT")){
             handtext.string = "Signal Right";
             img1.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
@@ -1691,8 +1683,6 @@ public class CountdownComponent extends Component
   }
 
   public void reset() {
-    CalibrateWizardComponent cw = (CalibrateWizardComponent) gameObject.getComponent(ComponentType.CALIBRATE_WIZARD);
-    cw.updateRenderComponent( options.getCalibration().getCalibrationTime());
     value = countdownFrom;
     sinceLastTick = 0;
     sendEvent();

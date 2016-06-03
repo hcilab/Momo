@@ -135,6 +135,7 @@ public interface ICustomizeOptions
   public void setMusic(XML _music, int _newActiveMusicIndex, int _id);
 
   public void purchase(int _custSpriteIndex);
+  public void preparePurchaseScreen(int _custSpriteIndex, RenderComponent renderComponent);
 }
 
 public interface IGameRecordViewHelper
@@ -1031,6 +1032,24 @@ public class Options implements IOptions
       String actualSrc = custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getString("actualSrc");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getChildren("SpriteSheet")[0].setString("src", actualSrc);
       saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+    }
+
+    public void preparePurchaseScreen(int custSpriteIndex, RenderComponent renderComponent)
+    {
+      String actualSrc = renderComponent.getCustomSprites().get(custSpriteIndex).actualSrc;
+      int horzCount = renderComponent.getCustomSprites().get(custSpriteIndex).horzCount;
+      int vertCount = renderComponent.getCustomSprites().get(custSpriteIndex).vertCount;
+      int defaultCount = renderComponent.getCustomSprites().get(custSpriteIndex).defaultCount;
+      float frameFreq = renderComponent.getCustomSprites().get(custSpriteIndex).frameFreq;
+
+      XML purchaseXML = loadXML("xml_data/customize_purchase_message.xml");
+      XML spriteData = purchaseXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      spriteData.setString("src", actualSrc);
+      spriteData.setString("horzCount", horzCount+"");
+      spriteData.setString("vertCount", vertCount+"");
+      spriteData.setString("defaultCount", defaultCount+"");
+      spriteData.setString("farmeFreq", frameFreq+"");
+      saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
     }
   }
 

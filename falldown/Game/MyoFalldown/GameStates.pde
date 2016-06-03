@@ -844,22 +844,9 @@ public class GameState_CustomizeSettings extends GameState
 
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         int cost = renderComponent.getCustomSprites().get(custSpriteIndex).cost;
-        String actualSrc = renderComponent.getCustomSprites().get(custSpriteIndex).actualSrc;
-        Sprite sprite = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.sheetSprite;
-        int horzCount = renderComponent.getCustomSprites().get(custSpriteIndex).horzCount;
-        int vertCount = renderComponent.getCustomSprites().get(custSpriteIndex).vertCount;
-        int defaultCount = renderComponent.getCustomSprites().get(custSpriteIndex).defaultCount;
-        float frameFreq = renderComponent.getCustomSprites().get(custSpriteIndex).frameFreq;
         boolean unlocked = renderComponent.getCustomSprites().get(custSpriteIndex).unlocked;
 
-        XML purchaseXML = loadXML("xml_data/customize_purchase_message.xml");
-        XML spriteData = purchaseXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
-        spriteData.setString("src", actualSrc);
-        spriteData.setString("horzCount", horzCount+"");
-        spriteData.setString("vertCount", vertCount+"");
-        spriteData.setString("defaultCount", defaultCount+"");
-        spriteData.setString("farmeFreq", frameFreq+"");
-        saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
+        options.getCustomizeOptions().preparePurchaseScreen(custSpriteIndex, renderComponent);
 
         if (unlocked) {
           int num = Integer.parseInt(tag.substring(tag.length()-1));
@@ -895,7 +882,7 @@ public class GameState_CustomizeSettings extends GameState
         else
         {
           gameStateController.popState();
-          gameStateController.pushState(new GameState_CustomizePurchase(sprite, actualSrc, cost, horzCount, vertCount, defaultCount, frameFreq, custSpriteIndex));
+          gameStateController.pushState(new GameState_CustomizePurchase(cost, custSpriteIndex));
         }
       }
     }
@@ -931,27 +918,15 @@ public class GameState_CustomizeSettings extends GameState
 public class GameState_CustomizePurchase extends GameState
 {
   private boolean saveDataLoaded;
-  private String src;
   private int cost;
-  private Sprite sprite;
   private int totalCoins;
-  private int horzCount;
-  private int vertCount;
-  private int defaultCount;
-  private float frameFreq;
   private int custSpriteIndex;
 
-  public GameState_CustomizePurchase(Sprite _sprite, String _actualSrc, int _cost, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, int _custSpriteIndex)
+  public GameState_CustomizePurchase(int _cost, int _custSpriteIndex)
   {
     super();
     saveDataLoaded = false;
-    src = _actualSrc;
     cost = _cost;
-    sprite = _sprite;
-    horzCount = _horzCount;
-    vertCount = _vertCount;
-    defaultCount = _defaultCount;
-    frameFreq = _frameFreq;
     custSpriteIndex = _custSpriteIndex;
   }
 

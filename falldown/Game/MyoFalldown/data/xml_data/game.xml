@@ -50,8 +50,6 @@
 			<Translation x="15.0" y="24.0"/>
 		</Transform>
 	</GameObject>
-
-	<!-- <GameObject file="xml_data/background.xml" tag="background"></GameObject> -->
 	
 	<GameObject file="xml_data/coin_spawner.xml"/>
 	

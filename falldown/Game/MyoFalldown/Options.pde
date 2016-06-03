@@ -18,6 +18,7 @@ public interface IOptions
   public ICustomizeOptions getCustomizeOptions();
   public ICredits getCredits();
   public ICalibrate getCalibration();
+  public IUserInformation getUserInformation();
 }
 
 enum ControlPolicy
@@ -154,15 +155,24 @@ public interface ICalibrate
   public int getCalibrationTime();
   public void setCalibrationTime(int seconds);
 }
+
+public interface IUserInformation
+{
+  public void getDefaultSetting();
+  public void setSaveDataFile(String loginID);
+  public String getUserID();
+}
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
 //------------------------------------------------------------------------------------------------
 
 public class Options implements IOptions
 {
-  private final String SAVE_DATA_FILE_NAME_IN = "xml_data/save_data.xml";
-  private final String SAVE_DATA_FILE_NAME_OUT = "data/xml_data/save_data.xml"; 
+  private  String SAVE_DATA_FILE_NAME_IN = "xml_data/save_data.xml";
+  private  String SAVE_DATA_FILE_NAME_OUT = "data/xml_data/save_data.xml";
+  private final String SAVE_DATA_DEFAULT_FILE = "xml_data/default_save_data.xml";
   private XML xmlSaveData;
+  private XML xmldefaultData;
   
   private IGameOptions gameOptions;
   private IStats stats;
@@ -170,11 +180,26 @@ public class Options implements IOptions
   private ICustomizeOptions customizeOptions;
   private ICredits credits;
   private ICalibrate calibrateOptions;
+  private IUserInformation userInfo;
   
   public Options()
   {
-    xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     
+    xmldefaultData = loadXML(SAVE_DATA_DEFAULT_FILE);
+    userInfo = new UserInformation();
+    
+    xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
+    gameOptions = new GameOptions();
+    stats = new Stats();
+    IOOptions = new IOOptions();
+    customizeOptions = new CustomizeOptions();
+    credits = new Credits();
+    calibrateOptions = new CalibrateOptions();
+  }
+  
+  public void reloadOptions(){
+    userInfo = new UserInformation();
+    xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
     IOOptions = new IOOptions();
@@ -208,9 +233,13 @@ public class Options implements IOptions
     return credits;
   }
   
-   @Override public ICalibrate getCalibration()
+  @Override public ICalibrate getCalibration()
   {
     return calibrateOptions;
+  }
+  @Override public IUserInformation getUserInformation()
+  {
+    return userInfo;
   }
   //--------------------------------------------
   // GAME OPTIONS
@@ -1055,7 +1084,7 @@ public class Options implements IOptions
     }
   }
   //--------------------------------------------
-  // CUSTOMIZE OPTIONS
+  // CALIBRATE OPTIONS
   //--------------------------------------------
   public class CalibrateOptions implements ICalibrate
   {
@@ -1082,6 +1111,44 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
+  //--------------------------------------------
+  // UserInformation OPTIONS
+  //--------------------------------------------
+  
+  public class UserInformation implements IUserInformation
+  {
+    private String userID;
+    
+    private UserInformation()
+    {
+      //println("User Created");
+    }
+    
+    @Override public String getUserID()
+    {
+      return userID;
+    }
+    @Override public void setSaveDataFile(String loginID)
+    {
+      userID = loginID;
+      String newUserSavedDataIN = "xml_data/user_save_data/save_data" + loginID + ".xml";
+      String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data" + loginID + ".xml";
+      File f = new File(dataPath(newUserSavedDataIN));
+      if (!f.exists()) {
+        println("File does not exist");
+        saveXML(xmldefaultData, newUserSavedDataOUT);
+      }
+      xmlSaveData = loadXML(newUserSavedDataIN);
+      SAVE_DATA_FILE_NAME_IN = newUserSavedDataIN;
+      SAVE_DATA_FILE_NAME_OUT = newUserSavedDataOUT;
+      reloadOptions();
+    }
+     @Override public void getDefaultSetting()
+    {
+      
+    }
+  }
+  
 }
 
 public class GameRecordViewHelper implements IGameRecordViewHelper

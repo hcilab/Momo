@@ -166,6 +166,53 @@ public class GameState_Confirm_Quit extends GameState
   }
 }
 
+public class GameState_UserLogin extends GameState
+{
+  public GameState_UserLogin()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/user_login.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+       
+      if (tag.equals("login"))
+      {
+        CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
+       String userID = counterIDComponent.getUserIDNumber();
+       //println(userID);
+        options.getUserInformation().setSaveDataFile(userID);
+        gameStateController.pushState(new GameState_MainMenu());
+      }
+      else if(tag.equals("play_as_guest")){
+        //gameStateController.popState();
+        gameStateController.pushState(new GameState_MainMenu());
+      }
+     
+    }
+  }
+}
+
 public class GameState_InGame extends GameState
 {
   public GameState_InGame()

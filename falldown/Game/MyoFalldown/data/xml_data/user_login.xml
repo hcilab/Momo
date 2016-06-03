@@ -1,0 +1,62 @@
+<Level>
+	<GameObject file="xml_data/user_login_message.xml"/>
+	<GameObject file="xml_data/counter_id.xml" tag="counter-1">
+		<Transform>
+			<Translation x="250.0" y="250.0"/>
+			<Scale x="15.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="count_up1">
+		<Transform>
+			<Translation x="225.0" y="225.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="count_down1">
+		<Transform>
+			<Translation x="225.0" y="275.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="count_up2">
+		<Transform>
+			<Translation x="250.0" y="225.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="count_down2">
+		<Transform>
+			<Translation x="250.0" y="275.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="count_up3">
+		<Transform>
+			<Translation x="275.0" y="225.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="count_down3">
+		<Transform>
+			<Translation x="275.0" y="275.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="login">
+		<Transform>
+			<Translation x="250.0" y="350.0"/>
+			<Scale x="190.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="play_as_guest">
+		<Transform>
+			<Translation x="250.0" y="425.0"/>
+			<Scale x="190.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+
+</Level>

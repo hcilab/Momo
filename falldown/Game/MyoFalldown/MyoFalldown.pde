@@ -94,7 +94,7 @@ void setup()
   positionIterations = 1;
   
   gameStateController = new GameStateController();
-  gameStateController.pushState(new GameState_MainMenu());
+  gameStateController.pushState(new GameState_UserLogin());
 
   emgManager = new NullEmgManager();
   

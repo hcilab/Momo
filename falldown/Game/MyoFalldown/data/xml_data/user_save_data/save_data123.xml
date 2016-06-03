@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SaveData>
+  <Game control_policy="normal" direction_assist_mode="left_only" level_up_over_time="true" obstacles="true" platform_mods="true" single_muscle_mode="auto_left" starting_level="42"/>
+  <IO emg_sampling_policy="difference" left_emg_sensitivity="3.1" music_volume="0.75" right_emg_sensitivity="3.1" sound_effects_volume="0.75"/>
+  <Calibrate seconds="5"/>
+  <Stats/>
+  <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
+  <Credits anonymous="true"/>
+  <Unlocked/>
+</SaveData>

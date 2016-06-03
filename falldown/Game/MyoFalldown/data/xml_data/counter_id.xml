@@ -1,0 +1,75 @@
+<GameObject>
+	<CounterID tag="counterID" height="1" width="1" countup="count_up" countdown="count_down"/>
+	<Render>	
+		<Sprite>
+			<Image src="images/shapes/triangleUP.png" x="-25" y="-25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Rect x="-25" y="0.0" halfWidth="0.2" halfHeight="0.125">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="250" g="250" b="250" a="255" strokeWeight="5.0"/>
+		</Rect>
+		<Sprite>
+			<Image src="images/shapes/triangleDOWN.png" x="-25.0" y="25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Text
+			string="0"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="-25.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image src="images/shapes/triangleUP.png" x="0" y="-25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Rect x="0" y="0.0" halfWidth="0.2" halfHeight="0.125">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="250" g="250" b="250" a="255" strokeWeight="5.0"/>
+		</Rect>
+		<Sprite>
+			<Image src="images/shapes/triangleDOWN.png" x="0.0" y="25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Text
+			string="0"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="0.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image src="images/shapes/triangleUP.png" x="25" y="-25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Rect x="25" y="0.0" halfWidth="0.2" halfHeight="0.125">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="250" g="250" b="250" a="255" strokeWeight="5.0"/>
+		</Rect>
+		<Sprite>
+			<Image src="images/shapes/triangleDOWN.png" x="25.0" y="25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>
+		</Sprite>
+		<Text
+			string="0"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="25.0"
+			y="0.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	</Render>
+</GameObject>
+

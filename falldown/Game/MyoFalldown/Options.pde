@@ -118,10 +118,6 @@ public interface IGameRecord
 public interface ICustomizeOptions
 {
   public int getCoinsCollected();
-  public XML getPlayer();
-  public XML getPlatform();
-  public XML getCoin();
-  public XML getObstacle();
   public String getBackground();
   public String getOpacityBackground();
 
@@ -779,6 +775,8 @@ public class Options implements IOptions
     private final String CUSTOM_SETTINGS_FILE_OUT = "data/xml_data/customize_settings_message.xml";
     private final String CUSTOM_PURCHASE_FILE_IN = "xml_data/customize_purchase_message.xml";
     private final String CUSTOM_PURCHASE_FILE_OUT = "data/xml_data/customize_purchase_message.xml";
+    private final String ALL_PLAYERS_FILE_IN = "xml_data/player_data.xml";
+    private final String ALL_PLATFORMS_FILE_IN = "xml_data/platform_data.xml";
 
     private XML xmlCust;
     private XML xmlPlayer;
@@ -852,26 +850,6 @@ public class Options implements IOptions
       return coinsCollected;
     }
 
-    public XML getPlayer()
-    {
-      return playerData;
-    }
-
-    public XML getPlatform()
-    {
-      return platformData;
-    }
-
-    public XML getCoin()
-    {
-      return coinData;
-    }
-
-    public XML getObstacle()
-    {
-      return obstacleData;
-    }
-
     public String getBackground()
     {
       return background;
@@ -900,10 +878,10 @@ public class Options implements IOptions
     {
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlayerIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlayerIndex].setString("active", "true");
-      saveXML(xmlCustomSettings, "data/xml_data/customize_settings_message.xml");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activePlayerIndex = _newActivePlayerIndex;
 
-      XML allPlayers = loadXML("xml_data/player_data.xml");
+      XML allPlayers = loadXML(ALL_PLAYERS_FILE_IN);
       XML sprite = allPlayers.getChildren("Render")[0].getChildren("SpriteSheet")[_newActivePlayerIndex];
       XML animation = allPlayers.getChildren("Render")[0].getChildren("AnimationController")[_newActivePlayerIndex];
 
@@ -931,7 +909,7 @@ public class Options implements IOptions
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activePlatformIndex = _newActivePlatformIndex;
 
-      XML allPlatforms = loadXML("xml_data/platform_data.xml");
+      XML allPlatforms = loadXML(ALL_PLATFORMS_FILE_IN);
       String platformSrc = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4].getChildren("Image")[0].getString("src");
       String platformSlippery = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 1].getChildren("Image")[0].getString("src");
       String platformSticky = allPlatforms.getChildren("Render")[0].getChildren("Sprite")[_id * 4 + 2].getChildren("Image")[0].getString("src");

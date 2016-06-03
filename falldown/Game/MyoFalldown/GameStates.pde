@@ -849,7 +849,6 @@ public class GameState_CustomizeSettings extends GameState
         options.getCustomizeOptions().preparePurchaseScreen(custSpriteIndex, renderComponent);
 
         if (unlocked) {
-          int num = Integer.parseInt(tag.substring(tag.length()-1));
           XML player = custXML.getChildren("Render")[0].getChildren("CustomSprite")[custSpriteIndex].getChildren("SpriteSheet")[0];
 
           if (index == 0)

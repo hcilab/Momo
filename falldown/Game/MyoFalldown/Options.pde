@@ -786,6 +786,7 @@ public class Options implements IOptions
     private XML xmlMusicPlayer;
 
     private XML playerData;
+    private XML animationData;
     private XML platformData;
     private XML platformSlipperyData;
     private XML platformStickyData;
@@ -817,6 +818,7 @@ public class Options implements IOptions
       xmlMusicPlayer = loadXML(MUSIC_FILE_NAME_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      animationData = xmlPlayer.getChildren("AnimationController")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       platformSlipperyData = xmlPlatformSlippery.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       platformStickyData = xmlPlatformSticky.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
@@ -893,12 +895,21 @@ public class Options implements IOptions
       saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
       activePlayerIndex = _newActivePlayerIndex;
 
-      playerData.setString("src", _player.getString("src"));
-      playerData.setString("horzCount", _player.getString("horzCount"));
-      playerData.setString("vertCount", _player.getString("vertCount"));
-      playerData.setString("defaultCount", _player.getString("defaultCount"));
-      playerData.setString("farmeFreq", _player.getString("farmeFreq"));
-      playerData.setString("height", _player.getString("height"));
+      XML allPlayers = loadXML("xml_data/player_data.xml");
+      XML sprite = allPlayers.getChildren("Render")[0].getChildren("SpriteSheet")[_newActivePlayerIndex];
+      XML animation = allPlayers.getChildren("Render")[0].getChildren("AnimationController")[_newActivePlayerIndex];
+
+      playerData.setString("src", sprite.getString("src"));
+      playerData.setString("horzCount", sprite.getString("horzCount"));
+      playerData.setString("vertCount", sprite.getString("vertCount"));
+      playerData.setString("defaultCount", sprite.getString("defaultCount"));
+      playerData.setString("farmeFreq", sprite.getString("farmeFreq"));
+      playerData.setString("height", sprite.getString("height"));
+      playerData.setString("scaleHeight", sprite.getString("scaleHeight"));
+      animationData.setString("rightStart", animation.getString("rightStart"));
+      animationData.setString("rightEnd", animation.getString("rightEnd"));
+      animationData.setString("leftStart", animation.getString("leftStart"));
+      animationData.setString("leftEnd", animation.getString("leftEnd"));
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
 
       xmlCust.setInt("active_player_index", _newActivePlayerIndex);

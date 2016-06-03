@@ -10,7 +10,7 @@
   <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="4" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="0" music="music/EDMDetectionMode.wav" opacity_bg="images/background/opacityBG.svg">
     <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityBG.svg"/>
     <Background bg="images/background/sky.svg" opacity_bg="images/background/opacityBG.svg"/>
-    <Background bg="images/background/bg_shroom.svg.svg" opacity_bg="images/background/opacityBG.svg"/>
+    <Background bg="images/background/bg_shroom.svg" opacity_bg="images/background/opacityBG.svg"/>
     <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityBG.svg"/>
     <Music file="music/EDMDetectionMode.wav"/>
     <Music file="music/Motherlode.wav"/>

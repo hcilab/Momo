@@ -989,6 +989,7 @@ public class Options implements IOptions
       background = bgSvgSrc;
       opacityBackground = opacitySvgSrc;
 
+      xmlCust.setInt(ACTIVE_BACKGROUND_INDEX, _newActiveBackgroundIndex);
       xmlCust.setString(BACKGROUND, bgSvgSrc);
       xmlCust.setString(OPACITY_BACKGROUND, opacitySvgSrc);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
@@ -996,20 +997,19 @@ public class Options implements IOptions
 
     public void setMusic(XML _music, int _newActiveMusicIndex, int _id)
     {
-      println("old index: " + activeMusicIndex);
-      println("new index: " + _newActiveMusicIndex);
       XML custSettings = loadXML("xml_data/customize_settings_message.xml");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeMusicIndex].setString("active", "false");
       custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveMusicIndex].setString("active", "true");
       saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
       activeMusicIndex = _newActiveMusicIndex;
 
-      XML xmlMusicData = loadXML("xml_data/music_data.xml");
-      String musicFile = xmlMusicData.getChildren("Render")[0].getChildren("MusicPlayer")[_id].getString("musicFile");
+      String musicFile = xmlCust.getChildren("Music")[_id].getString("file");
+
       musicPlayerData.setString("musicFile", musicFile);
       saveXML(xmlMusicPlayer, MUSIC_FILE_NAME_OUT);
 
       xmlCust.setInt("active_music_index", _newActiveMusicIndex);
+      xmlCust.setString("music", musicFile);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 

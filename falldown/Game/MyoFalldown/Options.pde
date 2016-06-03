@@ -775,6 +775,10 @@ public class Options implements IOptions
     private final String ACTIVE_OBSTACLE_INDEX = "active_obstacle_index";
     private final String ACTIVE_BACKGROUND_INDEX = "active_background_index";
     private final String ACTIVE_MUSIC_INDEX = "active_music_index";
+    private final String CUSTOM_SETTINGS_FILE_IN = "xml_data/customize_settings_message.xml";
+    private final String CUSTOM_SETTINGS_FILE_OUT = "data/xml_data/customize_settings_message.xml";
+    private final String CUSTOM_PURCHASE_FILE_IN = "xml_data/customize_purchase_message.xml";
+    private final String CUSTOM_PURCHASE_FILE_OUT = "data/xml_data/customize_purchase_message.xml";
 
     private XML xmlCust;
     private XML xmlPlayer;
@@ -785,6 +789,8 @@ public class Options implements IOptions
     private XML xmlCoin;
     private XML xmlObstacle;
     private XML xmlMusicPlayer;
+    private XML xmlCustomSettings;
+    private XML xmlCustomPurchase;
 
     private XML playerData;
     private XML animationData;
@@ -817,6 +823,8 @@ public class Options implements IOptions
       xmlCoin = loadXML(COIN_FILE_NAME_IN);
       xmlObstacle = loadXML(OBSTACLE_FILE_NAME_IN);
       xmlMusicPlayer = loadXML(MUSIC_FILE_NAME_IN);
+      xmlCustomSettings = loadXML(CUSTOM_SETTINGS_FILE_IN);
+      xmlCustomPurchase = loadXML(CUSTOM_PURCHASE_FILE_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       animationData = xmlPlayer.getChildren("AnimationController")[0];
@@ -890,10 +898,9 @@ public class Options implements IOptions
 
     public void setPlayer(XML _player, int _newActivePlayerIndex)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlayerIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlayerIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlayerIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlayerIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, "data/xml_data/customize_settings_message.xml");
       activePlayerIndex = _newActivePlayerIndex;
 
       XML allPlayers = loadXML("xml_data/player_data.xml");
@@ -919,10 +926,9 @@ public class Options implements IOptions
 
     public void setPlatform(XML _platform, int _newActivePlatformIndex, int _id)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlatformIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlatformIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlatformIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlatformIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activePlatformIndex = _newActivePlatformIndex;
 
       XML allPlatforms = loadXML("xml_data/platform_data.xml");
@@ -949,10 +955,9 @@ public class Options implements IOptions
 
     public void setCoin(XML _coin, int _newActiveCoinIndex)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeCoinIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveCoinIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeCoinIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveCoinIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activeCoinIndex = _newActiveCoinIndex;
 
       coinData.setString("src", _coin.getString("src"));
@@ -969,10 +974,9 @@ public class Options implements IOptions
 
     public void setObstacle(XML _obstacle, int _newActiveObstacleIndex)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeObstacleIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveObstacleIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeObstacleIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveObstacleIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activeObstacleIndex = _newActiveObstacleIndex;
 
       obstacleData.setString("src", _obstacle.getString("src"));
@@ -989,10 +993,9 @@ public class Options implements IOptions
 
     public void setBackground(XML _background, int _newActiveBackgroundIndex, int _id)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeBackgroundIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveBackgroundIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeBackgroundIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveBackgroundIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activeBackgroundIndex = _newActiveBackgroundIndex;
 
       String bgSvgSrc = xmlCust.getChildren("Background")[_id].getString("bg");
@@ -1009,10 +1012,9 @@ public class Options implements IOptions
 
     public void setMusic(XML _music, int _newActiveMusicIndex, int _id)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeMusicIndex].setString("active", "false");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveMusicIndex].setString("active", "true");
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeMusicIndex].setString("active", "false");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveMusicIndex].setString("active", "true");
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
       activeMusicIndex = _newActiveMusicIndex;
 
       String musicFile = xmlCust.getChildren("Music")[_id].getString("file");
@@ -1027,11 +1029,10 @@ public class Options implements IOptions
 
     public void purchase(int _custSpriteIndex)
     {
-      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].setString("unlocked", "true");
-      String actualSrc = custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getString("actualSrc");
-      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getChildren("SpriteSheet")[0].setString("src", actualSrc);
-      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].setString("unlocked", "true");
+      String actualSrc = xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getString("actualSrc");
+      xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getChildren("SpriteSheet")[0].setString("src", actualSrc);
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
     }
 
     public void preparePurchaseScreen(int custSpriteIndex, RenderComponent renderComponent)
@@ -1042,14 +1043,13 @@ public class Options implements IOptions
       int defaultCount = renderComponent.getCustomSprites().get(custSpriteIndex).defaultCount;
       float frameFreq = renderComponent.getCustomSprites().get(custSpriteIndex).frameFreq;
 
-      XML purchaseXML = loadXML("xml_data/customize_purchase_message.xml");
-      XML spriteData = purchaseXML.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      XML spriteData = xmlCustomPurchase.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       spriteData.setString("src", actualSrc);
       spriteData.setString("horzCount", horzCount+"");
       spriteData.setString("vertCount", vertCount+"");
       spriteData.setString("defaultCount", defaultCount+"");
       spriteData.setString("farmeFreq", frameFreq+"");
-      saveXML(purchaseXML, "data/xml_data/customize_purchase_message.xml");
+      saveXML(xmlCustomPurchase, CUSTOM_PURCHASE_FILE_OUT);
     }
   }
 

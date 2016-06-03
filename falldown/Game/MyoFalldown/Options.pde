@@ -123,6 +123,7 @@ public interface ICustomizeOptions
   public XML getCoin();
   public XML getObstacle();
   public String getBackground();
+  public String getOpacityBackground();
 
   public void setCoinsCollected(int _newCoins);
   public void setCoinsAfterPurchase(int _price);
@@ -130,7 +131,7 @@ public interface ICustomizeOptions
   public void setPlatform(XML _platform, int _newActivePlatformIndex, int _id);
   public void setCoin(XML _coin, int _newActiveCoinIndex);
   public void setObstacle(XML _obstacle, int _newActiveObstacleIndex);
-  public void setBackground(XML _background, int _newActiveBackgroundIndex);
+  public void setBackground(XML _background, int _newActiveBackgroundIndex, int _id);
   public void setMusic(XML _music, int _newActiveMusicIndex, int _id);
 
   public void purchase(int _custSpriteIndex);
@@ -766,6 +767,7 @@ public class Options implements IOptions
     private final String XML_CUST = "Customize";
     private final String COINS_COLLECTED = "coins_collected";
     private final String BACKGROUND = "background";
+    private final String OPACITY_BACKGROUND = "opacity_bg";
     private final String ACTIVE_PLAYER_INDEX = "active_player_index";
     private final String ACTIVE_PLATFORM_INDEX = "active_platform_index";
     private final String ACTIVE_COIN_INDEX = "active_coin_index";
@@ -793,6 +795,7 @@ public class Options implements IOptions
     private XML musicPlayerData;
     private int coinsCollected;
     private String background;
+    private String opacityBackground;
 
     private int activePlayerIndex;
     private int activePlatformIndex;
@@ -823,6 +826,7 @@ public class Options implements IOptions
       musicPlayerData = xmlMusicPlayer.getChildren("MusicPlayer")[0];
       coinsCollected = xmlCust.getInt(COINS_COLLECTED);
       background = xmlCust.getString(BACKGROUND);
+      opacityBackground = xmlCust.getString(OPACITY_BACKGROUND);
 
       activePlayerIndex = xmlCust.getInt(ACTIVE_PLAYER_INDEX);
       activePlatformIndex = xmlCust.getInt(ACTIVE_PLATFORM_INDEX);
@@ -860,6 +864,11 @@ public class Options implements IOptions
     public String getBackground()
     {
       return background;
+    }
+
+    public String getOpacityBackground()
+    {
+      return opacityBackground;
     }
 
     public void setCoinsCollected(int _newCoins)
@@ -966,9 +975,22 @@ public class Options implements IOptions
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
-    public void setBackground(XML _background, int _newActiveBackgroundIndex)
+    public void setBackground(XML _background, int _newActiveBackgroundIndex, int _id)
     {
-      xmlCust.setString("background", _background.getString("src"));
+      XML custSettings = loadXML("xml_data/customize_settings_message.xml");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeBackgroundIndex].setString("active", "false");
+      custSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveBackgroundIndex].setString("active", "true");
+      saveXML(custSettings, "data/xml_data/customize_settings_message.xml");
+      activeBackgroundIndex = _newActiveBackgroundIndex;
+
+      String bgSvgSrc = xmlCust.getChildren("Background")[_id].getString("bg");
+      String opacitySvgSrc = xmlCust.getChildren("Background")[_id].getString("opacity_bg");
+
+      background = bgSvgSrc;
+      opacityBackground = opacitySvgSrc;
+
+      xmlCust.setString(BACKGROUND, bgSvgSrc);
+      xmlCust.setString(OPACITY_BACKGROUND, opacitySvgSrc);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 

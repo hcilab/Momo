@@ -7,7 +7,12 @@
     <Record avg_speed="130.41324" coins_collected="0" date="1464808559120" level="78" score="767" time_played_millis="11094"/>
     <Record avg_speed="103.146515" coins_collected="0" date="1464808603917" level="80" score="1474" time_played_millis="20273"/>
   </Stats>
-  <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="4" active_player_index="0" background="" coins_collected="0"/>
+  <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="4" active_player_index="0" background="images/background/sky.svg" coins_collected="1900" opacity_background="images/background/opacityBG.svg" opacity_bg="images/background/opacityBG.svg">
+    <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityBG.svg"/>
+    <Background bg="images/background/sky.svg" opacity_bg="images/background/opacityBG.svg"/>
+    <Background bg="images/background/bg_shroom.svg.svg" opacity_bg="images/background/opacityBG.svg"/>
+    <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityBG.svg"/>
+  </Customize>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>
   <Unlocked/>

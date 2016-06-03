@@ -899,7 +899,7 @@ public class GameState_CustomizeSettings extends GameState
           }
           else if (index == 4)
           {
-            options.getCustomizeOptions().setBackground(player, custSpriteIndex);
+            options.getCustomizeOptions().setBackground(player, custSpriteIndex, id);
           }
           else if (index == 5)
           {

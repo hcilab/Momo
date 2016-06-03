@@ -114,6 +114,8 @@ void setup()
 
 void draw()
 {
+  bg = loadShape(options.getCustomizeOptions().getBackground());
+  opbg =  loadShape(options.getCustomizeOptions().getOpacityBackground());
   int currentFrameTime = millis();
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;

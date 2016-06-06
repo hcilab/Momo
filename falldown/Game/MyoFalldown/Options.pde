@@ -132,6 +132,7 @@ public interface ICustomizeOptions
 
   public void purchase(int _custSpriteIndex);
   public void preparePurchaseScreen(int _custSpriteIndex, RenderComponent renderComponent);
+  public void reset();
 }
 
 public interface IGameRecordViewHelper
@@ -1051,6 +1052,35 @@ public class Options implements IOptions
       spriteData.setString("defaultCount", defaultCount+"");
       spriteData.setString("farmeFreq", frameFreq+"");
       saveXML(xmlCustomPurchase, CUSTOM_PURCHASE_FILE_OUT);
+    }
+
+    public void reset()
+    {
+      setPlayer(0);
+      setPlatform(4, 0);
+      setCoin(8, 0);
+      setObstacle(12, 0);
+      setBackground(16, 0);
+      setMusic(20, 0);
+
+      for(XML cust : xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite"))
+      {
+        String greySrc = cust.getString("greySrc");
+        if (!(greySrc.equals("")))
+        {
+          XML spriteSheet = cust.getChildren("SpriteSheet")[0];
+          spriteSheet.setString("src", greySrc);
+          spriteSheet.setString("unlocked", "false");
+          spriteSheet.setString("active", "false");
+        }
+        else
+        {
+          XML spriteSheet = cust.getChildren("SpriteSheet")[0];
+          spriteSheet.setString("unlocked", "true");
+          spriteSheet.setString("active", "true");
+        }
+      }
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
     }
   }
 

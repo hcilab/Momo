@@ -900,27 +900,27 @@ public class GameState_CustomizeSettings extends GameState
 
           if (index == 0)
           {
-            options.getCustomizeOptions().setPlayer(player, custSpriteIndex);
+            options.getCustomizeOptions().setPlayer(custSpriteIndex);
           }
           else if (index == 1)
           {
-            options.getCustomizeOptions().setPlatform(player, custSpriteIndex, id);
+            options.getCustomizeOptions().setPlatform(custSpriteIndex, id);
           }
           else if (index == 2)
           {
-            options.getCustomizeOptions().setCoin(player, custSpriteIndex);
+            options.getCustomizeOptions().setCoin(custSpriteIndex, id);
           }
           else if (index == 3)
           {
-            options.getCustomizeOptions().setObstacle(player, custSpriteIndex);
+            options.getCustomizeOptions().setObstacle(custSpriteIndex, id);
           }
           else if (index == 4)
           {
-            options.getCustomizeOptions().setBackground(player, custSpriteIndex, id);
+            options.getCustomizeOptions().setBackground(custSpriteIndex, id);
           }
           else if (index == 5)
           {
-            options.getCustomizeOptions().setMusic(player, custSpriteIndex, id);
+            options.getCustomizeOptions().setMusic(custSpriteIndex, id);
           }
 
           renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.translation.x;

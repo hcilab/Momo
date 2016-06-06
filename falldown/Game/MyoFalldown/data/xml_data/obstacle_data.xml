@@ -1,0 +1,24 @@
+<GameObject>
+	<Render>
+		<SpriteSheet src="images/obstacle/pokerMad.png" alphaImage=""
+				x="175.0" y="265.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
+				zOrder="0" height="146.0" scaleHeight="40"> 
+		</SpriteSheet>
+		<SpriteSheet src="images/obstacle/spike2.png" alphaImage=""
+				x="225.0" y="265.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="492.0" scaleHeight="40"> 
+		</SpriteSheet> 
+		<SpriteSheet src="images/obstacle/spaceEnemy.png" alphaImage=""
+				x="275.0" y="265.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="64.0" scaleHeight="40"> 
+		</SpriteSheet>
+		<SpriteSheet src="images/obstacle/snakeSlime.png" alphaImage=""
+				x="325.0" y="265.0"  
+				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="147.0" scaleHeight="40"> 
+		</SpriteSheet>
+	</Render>
+</GameObject>

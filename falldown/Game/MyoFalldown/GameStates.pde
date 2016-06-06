@@ -1200,17 +1200,6 @@ public class GameState_CalibrateSuccess extends GameState
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
     }
-      
-    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
-    {
-       String tag = event.getRequiredStringParameter("tag");
-       float sliderValue = event.getRequiredFloatParameter("sliderValue");
-       if (tag.equals("cal_slider"))
-       {
-        float sensitivityValue = (sliderValue/20)+1;
-        options.getCalibration().setCalibrationTime((int)sensitivityValue);
-       }
-    }
   }
 }
 
@@ -1255,17 +1244,6 @@ public class GameState_CalibrateFailure extends GameState
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
      
-    }
-    
-    for (IEvent event : eventManager.getEvents(EventType.SLIDER_DRAGGED))
-    {
-       String tag = event.getRequiredStringParameter("tag");
-       float sliderValue = event.getRequiredFloatParameter("sliderValue");
-       if (tag.equals("cal_slider"))
-       {
-        float sensitivityValue = (sliderValue/20)+1;
-        options.getCalibration().setCalibrationTime((int)sensitivityValue);
-       }
     }
   }
 }

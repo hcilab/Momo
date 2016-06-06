@@ -1,10 +1,4 @@
-<GameObject tag="options_message">
-	<CalibrateController
-		calSliderTag="cal_slider"
-		calSliderLeftBoundary="150.0"
-		calSliderRightBoundary="250.0"
-		calSliderYPosition="285.0"
-	/>
+<GameObject>
 	<Render>
 		<!-- The position of these components within this file is very important,
 		they are being indexed according to their position in application code.
@@ -68,32 +62,6 @@
 			alignY="baseline"
 			x="250.0"
 			y="150.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Choose the number of seconds."
-			fontName="Moire" 
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="220.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="you want to calibrate for."
-			fontName="Moire" 
-			size="20"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="250.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

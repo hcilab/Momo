@@ -1,11 +1,5 @@
 <Level>
 	<GameObject file="xml_data/calibrate_success_message.xml"/>
-	<GameObject file="xml_data/slider.xml" tag="cal_slider">
-		<Transform>
-			<Translation x="250" y="300"/>
-			<Scale x="200" y="20"/>
-		</Transform>
-	</GameObject>
 	<GameObject file="xml_data/button.xml" tag="Calibrate">
 		<Transform>
 			<Translation x="250.0" y="350.0"/>

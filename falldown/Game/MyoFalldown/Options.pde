@@ -17,7 +17,6 @@ public interface IOptions
   public IStats getStats();
   public ICustomizeOptions getCustomizeOptions();
   public ICredits getCredits();
-  public ICalibrate getCalibration();
   public IUserInformation getUserInformation();
 }
 
@@ -150,12 +149,6 @@ public interface ICredits
   public boolean isAnonymous();
 }
 
-public interface ICalibrate
-{
-  public int getCalibrationTime();
-  public void setCalibrationTime(int seconds);
-}
-
 public interface IUserInformation
 {
   public void getDefaultSetting();
@@ -179,7 +172,6 @@ public class Options implements IOptions
   private IIOOptions IOOptions;
   private ICustomizeOptions customizeOptions;
   private ICredits credits;
-  private ICalibrate calibrateOptions;
   private IUserInformation userInfo;
   
   public Options()
@@ -194,7 +186,6 @@ public class Options implements IOptions
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
-    calibrateOptions = new CalibrateOptions();
   }
   
   public void reloadOptions(){
@@ -205,7 +196,6 @@ public class Options implements IOptions
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
-    calibrateOptions = new CalibrateOptions();
   }
   
   @Override public IGameOptions getGameOptions()
@@ -233,10 +223,6 @@ public class Options implements IOptions
     return credits;
   }
   
-  @Override public ICalibrate getCalibration()
-  {
-    return calibrateOptions;
-  }
   @Override public IUserInformation getUserInformation()
   {
     return userInfo;
@@ -1084,34 +1070,6 @@ public class Options implements IOptions
     }
   }
   //--------------------------------------------
-  // CALIBRATE OPTIONS
-  //--------------------------------------------
-  public class CalibrateOptions implements ICalibrate
-  {
-    private final String XML_CAL = "Calibrate";
-    private final String XML_SEC = "seconds";
-    
-    private XML xmlCal;
-    private int seconds;
-    
-    private CalibrateOptions()
-    {
-       xmlCal = xmlSaveData.getChild(XML_CAL);
-       seconds = xmlCal.getInt(XML_SEC);
-    }
-    
-    @Override public int getCalibrationTime()
-    {
-      return seconds;
-    }
-    @Override public void setCalibrationTime(int setSecs)
-    {
-      seconds = setSecs;
-      xmlCal.setInt(XML_SEC, setSecs);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
-    }
-  }
-  //--------------------------------------------
   // UserInformation OPTIONS
   //--------------------------------------------
   
@@ -1148,7 +1106,6 @@ public class Options implements IOptions
       
     }
   }
-  
 }
 
 public class GameRecordViewHelper implements IGameRecordViewHelper

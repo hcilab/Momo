@@ -1568,6 +1568,7 @@ public class CalibrateWizardComponent extends Component
     actionsToRegister.add(RIGHT_DIRECTION_LABEL);
 
     currentAction = actionsToRegister.remove(0);
+    updateRenderComponent();
   }
   
   @Override public void destroy()
@@ -1621,16 +1622,38 @@ public class CalibrateWizardComponent extends Component
     {
       RenderComponent renderComponent = (RenderComponent)component;
       RenderComponent.Text text = renderComponent.getTexts().get(0);
-      RenderComponent.Text handtext = renderComponent.getTexts().get(1);
-      RenderComponent.OffsetPImage img1 = renderComponent.getImages().get(0);
-      RenderComponent.OffsetPImage img2 = renderComponent.getImages().get(1);
+      RenderComponent.OffsetPImage img = renderComponent.getImages().get(0);
       if (text != null)
       {
         text.string = currentAction;
-        if(currentAction.equals("RIGHT")){
-            handtext.string = "Signal Right";
-            img1.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
-            img2.pimage = loadImage("images/myo_gesture_icons/LHwave-right.png");
+        if(currentAction.equals("LEFT"))
+        {
+          if (armbandWornOn == Forearm.RIGHT)
+          {
+            img.pimage = loadImage("images/myo_gesture_icons/wave-left.png");
+          }
+          else if (armbandWornOn == Forearm.LEFT)
+          {
+            img.pimage = loadImage("images/myo_gesture_icons/LHwave-left.png");
+          }
+          else
+          {
+            println("[ERROR] unrecognized Forearm specified in CalibrateWizard::updateRenderComponent");
+          }
+        }
+        else if(currentAction.equals("RIGHT")){
+          if (armbandWornOn == Forearm.RIGHT)
+          {
+            img.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
+          }
+          else if (armbandWornOn == Forearm.LEFT)
+          {
+            img.pimage = loadImage("images/myo_gesture_icons/LHwave-right.png");
+          }
+          else
+          {
+            println("[ERROR] unrecognized Forearm specified in CalibrateWizard::updateRenderComponent");
+          }
         }
       }
     }

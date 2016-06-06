@@ -1035,6 +1035,10 @@ public class Options implements IOptions
       String actualSrc = xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getString("actualSrc");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_custSpriteIndex].getChildren("SpriteSheet")[0].setString("src", actualSrc);
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+
+      String concat = xmlCust.getString("unlocked_ids");
+      xmlCust.setString("unlocked_ids", concat+"-"+_custSpriteIndex);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     public void preparePurchaseScreen(int custSpriteIndex, RenderComponent renderComponent)
@@ -1081,6 +1085,29 @@ public class Options implements IOptions
         }
       }
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+    }
+
+    public void loadSavedSettings()
+    {
+      XML xml = xmlCustomSettings.getChildren("Render")[0];
+
+      String ids = xmlCust.getString("unlocked_ids");
+      String[] idArr = ids.split("-");
+      for(String idStr : idArr)
+      {
+        int id = Integer.parseInt(idStr);
+        XML custSprite = xml.getChildren("CustomSprite")[id];
+        custSprite.setString("unlocked","true");
+        custSprite.getChildren("SpriteSheet")[0].setString("src", custSprite.getString("actualSrc"));
+      }
+      saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+
+      setPlayer(xmlCust.getInt("active_player_index"));
+      setPlatform(xmlCust.getInt("active_platform_index"), xmlCust.getInt("active_platform_index")%4);
+      setCoin(xmlCust.getInt("active_coin_index"), xmlCust.getInt("active_coin_index")%4);
+      setObstacle(xmlCust.getInt("active_obstacle_index"), xmlCust.getInt("active_obstacle_index")%4);
+      setBackground(xmlCust.getInt("active_background_index"), xmlCust.getInt("active_background_index")%4);
+      setMusic(xmlCust.getInt("active_music_index"), xmlCust.getInt("active_music_index")%4);
     }
   }
 

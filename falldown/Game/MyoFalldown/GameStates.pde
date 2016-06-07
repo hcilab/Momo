@@ -199,13 +199,15 @@ public class GameState_UserLogin extends GameState
       if (tag.equals("login"))
       {
         CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
-       String userID = counterIDComponent.getUserIDNumber();
-       //println(userID);
+        String userID = counterIDComponent.getUserIDNumber();
         options.getUserInformation().setSaveDataFile(userID);
+        options.getCustomizeOptions().reset();
+        options.getCustomizeOptions().loadSavedSettings();
         gameStateController.pushState(new GameState_MainMenu());
       }
       else if(tag.equals("play_as_guest")){
         //gameStateController.popState();
+        options.getCustomizeOptions().reset();
         gameStateController.pushState(new GameState_MainMenu());
       }
      

@@ -18,6 +18,7 @@ public interface IOptions
   public ICustomizeOptions getCustomizeOptions();
   public ICredits getCredits();
   public IUserInformation getUserInformation();
+  public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut);
 }
 
 enum ControlPolicy
@@ -133,6 +134,7 @@ public interface ICustomizeOptions
   public void purchase(int _custSpriteIndex);
   public void preparePurchaseScreen(int _custSpriteIndex, RenderComponent renderComponent);
   public void reset();
+  public void loadSavedSettings();
 }
 
 public interface IGameRecordViewHelper
@@ -162,8 +164,8 @@ public interface IUserInformation
 
 public class Options implements IOptions
 {
-  private  String SAVE_DATA_FILE_NAME_IN = "xml_data/save_data.xml";
-  private  String SAVE_DATA_FILE_NAME_OUT = "data/xml_data/save_data.xml";
+  private String SAVE_DATA_FILE_NAME_IN = "xml_data/save_data.xml";
+  private String SAVE_DATA_FILE_NAME_OUT = "data/xml_data/save_data.xml";
   private final String SAVE_DATA_DEFAULT_FILE = "xml_data/default_save_data.xml";
   private XML xmlSaveData;
   private XML xmldefaultData;
@@ -227,6 +229,12 @@ public class Options implements IOptions
   @Override public IUserInformation getUserInformation()
   {
     return userInfo;
+  }
+
+  public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut)
+  {
+    SAVE_DATA_FILE_NAME_IN = _saveDataFileIn;
+    SAVE_DATA_FILE_NAME_OUT = _saveDataFileOut;
   }
   //--------------------------------------------
   // GAME OPTIONS
@@ -828,6 +836,13 @@ public class Options implements IOptions
     private int activeBackgroundIndex;
     private int activeMusicIndex;
 
+    private int oldActivePlayerIndex;
+    private int oldActivePlatformIndex;
+    private int oldActiveCoinIndex;
+    private int oldActiveObstacleIndex;
+    private int oldActiveBackgroundIndex;
+    private int oldActiveMusicIndex;
+
     private CustomizeOptions()
     {
       xmlCust = xmlSaveData.getChild(XML_CUST);
@@ -861,6 +876,12 @@ public class Options implements IOptions
       activeObstacleIndex = xmlCust.getInt(ACTIVE_OBSTACLE_INDEX);
       activeBackgroundIndex = xmlCust.getInt(ACTIVE_BACKGROUND_INDEX);
       activeMusicIndex = xmlCust.getInt(ACTIVE_MUSIC_INDEX);
+      oldActivePlayerIndex = xmlCust.getInt("old_active_player");
+      oldActivePlatformIndex = xmlCust.getInt("old_active_platform");
+      oldActiveCoinIndex = xmlCust.getInt("old_active_coin");
+      oldActiveObstacleIndex = xmlCust.getInt("old_active_obstacle");
+      oldActiveBackgroundIndex = xmlCust.getInt("old_active_background");
+      oldActiveMusicIndex = xmlCust.getInt("old_active_music");
     }
 
     public int getCoinsCollected()
@@ -897,6 +918,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlayerIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlayerIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActivePlayerIndex = activePlayerIndex;
       activePlayerIndex = _newActivePlayerIndex;
 
       XML allPlayers = loadXML(ALL_PLAYERS_FILE_IN);
@@ -917,6 +939,7 @@ public class Options implements IOptions
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
 
       xmlCust.setInt("active_player_index", _newActivePlayerIndex);
+      xmlCust.setInt("old_active_player_index", oldActivePlayerIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -925,6 +948,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activePlatformIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActivePlatformIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActivePlatformIndex = activePlatformIndex;
       activePlatformIndex = _newActivePlatformIndex;
 
       XML allPlatforms = loadXML(ALL_PLATFORMS_FILE_IN);
@@ -946,6 +970,7 @@ public class Options implements IOptions
       saveXML(xmlWall, WALL_FILE_NAME_OUT);
 
       xmlCust.setInt("active_platform_index", _newActivePlatformIndex);
+      xmlCust.setInt("old_active_platform_index", oldActivePlatformIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -954,6 +979,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeCoinIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveCoinIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActiveCoinIndex = activeCoinIndex;
       activeCoinIndex = _newActiveCoinIndex;
 
       XML allCoins = loadXML(ALL_COINS_FILE_IN);
@@ -968,6 +994,7 @@ public class Options implements IOptions
       saveXML(xmlCoin, COIN_FILE_NAME_OUT);
 
       xmlCust.setInt("active_coin_index", _newActiveCoinIndex);
+      xmlCust.setInt("old_active_coin_index", oldActiveCoinIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -976,6 +1003,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeObstacleIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveObstacleIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActiveObstacleIndex = activeObstacleIndex;
       activeObstacleIndex = _newActiveObstacleIndex;
 
       XML allObstacles = loadXML(ALL_OBSTACLES_FILE_IN);
@@ -990,6 +1018,7 @@ public class Options implements IOptions
       saveXML(xmlObstacle, OBSTACLE_FILE_NAME_OUT);
 
       xmlCust.setInt("active_obstacle_index", _newActiveObstacleIndex);
+      xmlCust.setInt("old_active_obstacle_index", oldActiveObstacleIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -998,6 +1027,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeBackgroundIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveBackgroundIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActiveBackgroundIndex = activeBackgroundIndex;
       activeBackgroundIndex = _newActiveBackgroundIndex;
 
       String bgSvgSrc = xmlCust.getChildren("Background")[_id].getString("bg");
@@ -1007,6 +1037,7 @@ public class Options implements IOptions
       opacityBackground = opacitySvgSrc;
 
       xmlCust.setInt(ACTIVE_BACKGROUND_INDEX, _newActiveBackgroundIndex);
+      xmlCust.setInt("old_active_background_index", oldActiveBackgroundIndex);
       xmlCust.setString(BACKGROUND, bgSvgSrc);
       xmlCust.setString(OPACITY_BACKGROUND, opacitySvgSrc);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
@@ -1017,6 +1048,7 @@ public class Options implements IOptions
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[activeMusicIndex].setString("active", "false");
       xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite")[_newActiveMusicIndex].setString("active", "true");
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+      oldActiveMusicIndex = activeMusicIndex;
       activeMusicIndex = _newActiveMusicIndex;
 
       String musicFile = xmlCust.getChildren("Music")[_id].getString("file");
@@ -1025,6 +1057,7 @@ public class Options implements IOptions
       saveXML(xmlMusicPlayer, MUSIC_FILE_NAME_OUT);
 
       xmlCust.setInt("active_music_index", _newActiveMusicIndex);
+      xmlCust.setInt("old_active_music_index", oldActiveMusicIndex);
       xmlCust.setString("music", musicFile);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
@@ -1066,7 +1099,6 @@ public class Options implements IOptions
       setObstacle(12, 0);
       setBackground(16, 0);
       setMusic(20, 0);
-
       for(XML cust : xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite"))
       {
         String greySrc = cust.getString("greySrc");
@@ -1074,14 +1106,13 @@ public class Options implements IOptions
         {
           XML spriteSheet = cust.getChildren("SpriteSheet")[0];
           spriteSheet.setString("src", greySrc);
-          spriteSheet.setString("unlocked", "false");
-          spriteSheet.setString("active", "false");
+          cust.setString("unlocked", "false");
+          cust.setString("active", "false");
         }
         else
         {
-          XML spriteSheet = cust.getChildren("SpriteSheet")[0];
-          spriteSheet.setString("unlocked", "true");
-          spriteSheet.setString("active", "true");
+          cust.setString("unlocked", "true");
+          cust.setString("active", "true");
         }
       }
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
@@ -1089,25 +1120,27 @@ public class Options implements IOptions
 
     public void loadSavedSettings()
     {
+      setPlayer(xmlCust.getInt("old_active_player_index"));
+      setPlatform(xmlCust.getInt("old_active_platform_index"), xmlCust.getInt("old_active_platform_index")%4);
+      setCoin(xmlCust.getInt("old_active_coin_index"), xmlCust.getInt("old_active_coin_index")%4);
+      setObstacle(xmlCust.getInt("old_active_obstacle_index"), xmlCust.getInt("old_active_obstacle_index")%4);
+      setBackground(xmlCust.getInt("old_active_background_index"), xmlCust.getInt("old_active_background_index")%4);
+      setMusic(xmlCust.getInt("old_active_music_index"), xmlCust.getInt("old_active_music_index")%4);
       XML xml = xmlCustomSettings.getChildren("Render")[0];
 
       String ids = xmlCust.getString("unlocked_ids");
       String[] idArr = ids.split("-");
       for(String idStr : idArr)
       {
-        int id = Integer.parseInt(idStr);
-        XML custSprite = xml.getChildren("CustomSprite")[id];
-        custSprite.setString("unlocked","true");
-        custSprite.getChildren("SpriteSheet")[0].setString("src", custSprite.getString("actualSrc"));
+        if (!(idStr.equals("")))
+        {
+          int id = Integer.parseInt(idStr);
+          XML custSprite = xml.getChildren("CustomSprite")[id];
+          custSprite.setString("unlocked","true");
+          custSprite.getChildren("SpriteSheet")[0].setString("src", custSprite.getString("actualSrc"));
+        }
       }
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
-
-      setPlayer(xmlCust.getInt("active_player_index"));
-      setPlatform(xmlCust.getInt("active_platform_index"), xmlCust.getInt("active_platform_index")%4);
-      setCoin(xmlCust.getInt("active_coin_index"), xmlCust.getInt("active_coin_index")%4);
-      setObstacle(xmlCust.getInt("active_obstacle_index"), xmlCust.getInt("active_obstacle_index")%4);
-      setBackground(xmlCust.getInt("active_background_index"), xmlCust.getInt("active_background_index")%4);
-      setMusic(xmlCust.getInt("active_music_index"), xmlCust.getInt("active_music_index")%4);
     }
   }
 
@@ -1144,7 +1177,7 @@ public class Options implements IOptions
     
     private UserInformation()
     {
-      //println("User Created");
+
     }
     
     @Override public String getUserID()
@@ -1154,16 +1187,15 @@ public class Options implements IOptions
     @Override public void setSaveDataFile(String loginID)
     {
       userID = loginID;
-      String newUserSavedDataIN = "xml_data/user_save_data/save_data" + loginID + ".xml";
-      String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data" + loginID + ".xml";
+      String newUserSavedDataIN = "xml_data/user_save_data/save_data_" + loginID + ".xml";
+      String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data_" + loginID + ".xml";
       File f = new File(dataPath(newUserSavedDataIN));
       if (!f.exists()) {
-        println("File does not exist");
+        println("[INFO] User ID does not already exist, creating new file.");
         saveXML(xmldefaultData, newUserSavedDataOUT);
       }
-      xmlSaveData = loadXML(newUserSavedDataIN);
-      SAVE_DATA_FILE_NAME_IN = newUserSavedDataIN;
-      SAVE_DATA_FILE_NAME_OUT = newUserSavedDataOUT;
+      //xmlSaveData = loadXML(newUserSavedDataIN);
+      setSaveDataFiles(newUserSavedDataIN, newUserSavedDataOUT);
       reloadOptions();
     }
      @Override public void getDefaultSetting()

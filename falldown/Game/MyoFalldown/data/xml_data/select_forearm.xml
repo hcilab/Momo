@@ -1,0 +1,22 @@
+<Level>
+  <GameObject file="xml_data/select_forearm_message.xml"/>
+<GameObject file="xml_data/button_back.xml" tag="back">
+		<Transform>
+			<Translation x="25.0" y="25.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+  <GameObject file="xml_data/button.xml" tag="left">
+		<Transform>
+			<Translation x="150.0" y="300.0"/>
+			<Scale x="150.0" y="50.0"/>
+		</Transform>
+  </GameObject>
+
+  <GameObject file="xml_data/button.xml" tag="right">
+		<Transform>
+			<Translation x="350.0" y="300.0"/>
+			<Scale x="150.0" y="50.0"/>
+		</Transform>
+  </GameObject>
+</Level>

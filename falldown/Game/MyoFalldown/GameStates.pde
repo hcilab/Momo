@@ -1446,7 +1446,7 @@ public class GameState_CalibrateSuccess extends GameState
       else if (tag.equals("Calibrate"))
       {
         gameStateController.popState();
-        gameStateController.pushState(new GameState_CalibrateMenu());
+        gameStateController.pushState(new GameState_SelectForearm());
       }
     }
   }
@@ -1501,7 +1501,7 @@ public class GameState_CalibrateFailure extends GameState
       else if (tag.equals("Calibrate"))
       {
         gameStateController.popState();
-        gameStateController.pushState(new GameState_CalibrateMenu());
+        gameStateController.pushState(new GameState_SelectForearm());
       }
      
     }
@@ -1541,6 +1541,59 @@ public class GameState_CalibrateFailureConfirm extends GameState
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+    }
+  }
+}
+
+public class GameState_SelectForearm extends GameState
+{
+  public GameState_SelectForearm()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/select_forearm.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("left"))
+      {
+        armbandWornOn = Forearm.LEFT;
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+      else if (tag.equals("right"))
+      {
+        armbandWornOn = Forearm.RIGHT;
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateMenu());
+      }
+      else if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else
+      {
+        println("[ERROR] Unrecognized button clicked in GameStates_SelectForearm");
       }
     }
   }

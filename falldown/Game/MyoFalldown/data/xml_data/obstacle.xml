@@ -1,32 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject>
-	<Render>
-
-		<Sprite>
-			<SpriteSheet src="images/obstacle/pokerMad.png" alphaImage=""
-				x="0.0" y="0.0"  
-				horzCount="1" vertCount="1" farmeFreq="0f"
-				zOrder="0" height="146.0" scaleHeight="1"> 
-			</SpriteSheet> 
-		</Sprite>
-	</Render>
-	<RigidBody
-		type="kinematic"
-		linearDamping="0.0"
-		angularDamping="0.0"
-		gravityScale="0.0"
-		allowSleep="true"
-		awake="false"
-		fixedRotation="true"
-		bullet="false"
-		active="true"
-	>
-		<Fixture
-			density="1.0"
-			friction="0.4"
-			restitution="0.3"
-			isSensor="false"
-		>
-			<Shape type="box" x="0.0" y="0.0" halfWidth="0.5" halfHeight="0.5"/>
-		</Fixture>
-	</RigidBody>
+  <Render>
+    <Sprite>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="70.0" horzCount="1" scaleHeight="1" src="images/obstacle/treeTrunk.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
+    </Sprite>
+  </Render>
+  <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="kinematic">
+    <Fixture density="1.0" friction="0.4" isSensor="false" restitution="0.3">
+      <Shape halfHeight="0.5" halfWidth="0.5" type="box" x="0.0" y="0.0"/>
+    </Fixture>
+  </RigidBody>
 </GameObject>

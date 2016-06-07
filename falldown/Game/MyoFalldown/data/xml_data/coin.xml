@@ -1,51 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject>
-	<Render>
-		<!-- <Ellipse x="0.0" y="0.0" halfWidth="4.0" halfHeight="6.0">
+  <Render>
+    <!-- <Ellipse x="0.0" y="0.0" halfWidth="4.0" halfHeight="6.0">
 			<FillColor r="255" g="255" b="0" a="255"/>
 			<StrokeColor r="255" g="255" b="0" a="255"/>
 		</Ellipse> -->
-		<Sprite>
-			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
-					x="0.0" y="0.0"  
-					horzCount="6" vertCount="1" defaultCount="6" farmeFreq="1f"
-					zOrder="5" height="42.0" scaleHeight="15"> 
-			</SpriteSheet> 
-		</Sprite>
-	</Render>
-	
-	<RigidBody
-		type="dynamic"
-		linearDamping="0.0"
-		angularDamping="0.0"
-		gravityScale="0.0"
-		allowSleep="true"
-		awake="false"
-		fixedRotation="true"
-		bullet="false"
-		active="true"
-	>
-		<Fixture
-			density="0.12"
-			friction="0.6"
-			restitution="0.4"
-			isSensor="true"
-		>
-			<Shape type="circle" x="0.0" y="0.0" radius="8.0"/>
-		</Fixture>
-	</RigidBody>
-	
-	<CoinEventHandler>
-		<CoinCollected 
-			scoreValue="150" 
-			coinParameterName="coin" 
-			scoreValueParameterName="scoreValue"
-			coinCollectedSoundFile="sound_effects/Coin01.aif"
-			rate="1.0"
-			pan="0.0"
-			amp="1.0"
-			add="0.0"
-		/>
-		<DestroyCoin coinParameterName="coin"/>
-		<LevelUp currentRiseSpeedParameterName="currentRiseSpeed"/>
-	</CoinEventHandler>
+    <Sprite>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/40.png" vertCount="1" x="0.0" y="0.0" zOrder="5"/>
+    </Sprite>
+  </Render>
+  <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="dynamic">
+    <Fixture density="0.12" friction="0.6" isSensor="true" restitution="0.4">
+      <Shape radius="8.0" type="circle" x="0.0" y="0.0"/>
+    </Fixture>
+  </RigidBody>
+  <CoinEventHandler>
+    <CoinCollected add="0.0" amp="1.0" coinCollectedSoundFile="sound_effects/Coin01.aif" coinParameterName="coin" pan="0.0" rate="1.0" scoreValue="150" scoreValueParameterName="scoreValue"/>
+    <DestroyCoin coinParameterName="coin"/>
+    <LevelUp currentRiseSpeedParameterName="currentRiseSpeed"/>
+  </CoinEventHandler>
 </GameObject>

@@ -1,9 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject>
-	<MusicPlayer
-		musicFile="music/EDMDetectionMode.wav"
-		rate="1.0"
-		pan="0.0"
-		amp="1.0"
-		add="0.0"
-	/>
+  <MusicPlayer add="0.0" amp="1.0" musicFile="music/TheLift.wav" pan="0.0" rate="1.0"/>
 </GameObject>

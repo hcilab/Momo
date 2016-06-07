@@ -25,10 +25,10 @@
 			<Image src="images/block/castleBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite>
 		<Sprite>
-			<Image src="images/block/grassIcyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+			<Image src="images/block/castleIcyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
-			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+			<Image src="images/block/castleStickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
 			<Image src="images/block/castleWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
@@ -51,7 +51,7 @@
 
 		<!-- Neon Blocks Things (Not Done yet Not sure what the theme should be on this one) -->
 		<Sprite>
-			<Image src="images/block/grassBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
+			<Image src="images/block/forestBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite>
 		<Sprite>
 			<Image src="images/block/grassIcyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
@@ -60,7 +60,7 @@
 			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
-			<Image src="images/block/sandWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
+			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
 		</Sprite>
 	</Render>
 </GameObject>

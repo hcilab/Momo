@@ -1,293 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <GameObject tag="customize_settings_message">
-	<Render>
-		<Text
-			string="Customize!"
-			fontName="Moire Bold" 
-			size="40"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="25.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		
-		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Line>
-		<!-- Player Unlockables -->
-		<Text
-			string="Momo"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="130.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Ellipse x="175.0" y="125.0" halfWidth="20" halfHeight="20">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-		<CustomSprite cost="100" actualSrc="images/player/monsterSingle.png" unlocked="true" active="true">
-			<SpriteSheet src="images/player/monsterSingle.png" alphaImage=""
-				x="175.0" y="125.0"  
-				horzCount="1" vertCount="1" defaultCount="15" farmeFreq="5f"
-				zOrder="0" height="50.0" scaleHeight="30">
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/player/dragon.png" unlocked="false" active="false">
-			<SpriteSheet src="images/player/dragonGrey.png" alphaImage=""
-				x="225.0" y="125.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="50.0" scaleHeight="30">
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/player/grumpyBird.png" unlocked="false" active="false">
-			<SpriteSheet src="images/player/grumpyBirdGrey.png" alphaImage=""
-				x="275.0" y="125.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="50.0" scaleHeight="30"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/player/alien.png" unlocked="false" active="false">
-			<SpriteSheet src="images/player/alienGrey.png" alphaImage=""
-				x="325.0" y="125.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="50.0" scaleHeight="30"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<!-- Platform Unlockables -->
-		<Text
-			string="Platforms"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="175.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="175.0" y="165.0" halfWidth="20" halfHeight="20">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
-		<CustomSprite cost="100" actualSrc="images/block/grassMid.png" unlocked="true" active="true">
-			<SpriteSheet src="images/block/grassMid.png" alphaImage=""
-				x="175.0" y="165.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="70.0" scaleHeight="30"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/block/castleMid.png" unlocked="false" active="false">
-			<SpriteSheet src="images/block/castleMidGrey.png" alphaImage=""
-				x="225.0" y="165.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="70.0" scaleHeight="30"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/block/keybrick.png" unlocked="false" active="false">
-			<SpriteSheet src="images/block/keybrickGrey.png" alphaImage=""
-				x="275.0" y="165.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="53.0" scaleHeight="30"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/block/neon1_big.png" unlocked="false" active="false">
-			<SpriteSheet src="images/block/neongreenGrey.png" alphaImage=""
-				x="325.0" y="165.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="63.0" scaleHeight="35"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<!-- Coin Unlockables -->
-		<Text
-			string="Coins"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Ellipse x="175.0" y="215.0" halfWidth="20" halfHeight="20">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-		<CustomSprite cost="100" actualSrc="images/coin/coin_sheet.png" unlocked="true" active="true">
-			<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
-					x="175.0" y="215.0"  
-					horzCount="6" vertCount="1" defaultCount="5" farmeFreq="5f"
-					zOrder="0" height="42.0" scaleHeight="30"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/coin/gem.png" unlocked="false" active="false">
-			<SpriteSheet src="images/coin/gemGrey.png" alphaImage=""
-					x="225.0" y="215.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="64.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/coin/crown.png" unlocked="false" active="false">
-			<SpriteSheet src="images/coin/crownGrey.png" alphaImage=""
-					x="275.0" y="215.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="30.0" scaleHeight="20"> 
-			</SpriteSheet>  
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/coin/candyGreen.png" unlocked="false" active="false">
-			<SpriteSheet src="images/coin/candyGrey.png" alphaImage=""
-					x="325.0" y="215.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="70.0" scaleHeight="30"> 
-			</SpriteSheet>    
-		</CustomSprite>
-		<Text
-			string="Obstacles"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="275.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Ellipse x="175.0" y="265.0" halfWidth="20" halfHeight="20">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-		<!-- Obstacles Unlockables -->
-		<CustomSprite cost="100" actualSrc="images/obstacle/pokerMad.png" unlocked="true" active="true">
-			<SpriteSheet src="images/obstacle/pokerMad.png" alphaImage=""
-					x="175.0" y="265.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
-					zOrder="0" height="146.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/obstacle/spike2.png" unlocked="false" active="false">
-			<SpriteSheet src="images/obstacle/spike2Grey.png" alphaImage=""
-					x="225.0" y="265.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="492.0" scaleHeight="40"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/obstacle/spaceEnemy.png" unlocked="false" active="false">
-			<SpriteSheet src="images/obstacle/spaceEnemyGrey.png" alphaImage=""
-					x="275.0" y="265.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="64.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/obstacle/snakeSlime.png" unlocked="false" active="false">
-			<SpriteSheet src="images/obstacle/snakeSlimeGrey.png" alphaImage=""
-					x="325.0" y="265.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="147.0" scaleHeight="40"> 
-			</SpriteSheet>  
-		</CustomSprite>
-		<Text
-			string="Background"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="325.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="175.0" y="315.0" halfWidth="24" halfHeight="24">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
-		<!-- Background Unlockables -->
-		<CustomSprite cost="100" actualSrc="images/background/rockMountain.png" unlocked="true" active="true">
-			<SpriteSheet src="images/background/rockMountain.png" alphaImage=""
-					x="175.0" y="315.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
-					zOrder="0" height="500.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/background/sky.png" unlocked="false" active="false">
-			<SpriteSheet src="images/background/skyGrey.png" alphaImage=""
-					x="225.0" y="315.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="500.0" scaleHeight="40"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/background/bg_shroom.png" unlocked="false" active="false">
-			<SpriteSheet src="images/background/bgshroomGrey.png" alphaImage=""
-					x="275.0" y="315.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="500.0" scaleHeight="40"> 
-			</SpriteSheet>  
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/background/stars.png" unlocked="false" active="false">
-			<SpriteSheet src="images/background/starsGrey.png" alphaImage=""
-					x="325.0" y="315.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="500.0" scaleHeight="40"> 
-			</SpriteSheet>   
-		</CustomSprite>
-
-		<Text
-			string="Music"
-			fontName="Moire"
-			size="18"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="375.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Ellipse x="175.0" y="365.0" halfWidth="20" halfHeight="20">
-			<StrokeColor r="255" g="255" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-		<!-- Music Unlockables -->
-		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="true" active="true">
-			<SpriteSheet src="images/button/musicNote.png" alphaImage=""
-					x="175.0" y="365.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0.5f"
-					zOrder="0" height="50.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
-			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
-					x="225.0" y="365.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="50.0" scaleHeight="40"> 
-			</SpriteSheet> 
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
-			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
-					x="275.0" y="365.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="50.0" scaleHeight="40"> 
-			</SpriteSheet>  
-		</CustomSprite>
-		<CustomSprite cost="100" actualSrc="images/button/musicNote.png" unlocked="false" active="false">
-			<SpriteSheet src="images/button/musicNoteGrey.png" alphaImage=""
-					x="325.0" y="365.0"  
-					horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-					zOrder="0" height="50.0" scaleHeight="40"> 
-			</SpriteSheet>
-		</CustomSprite>
-	</Render>
+  <Render>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire Bold" size="40" string="Customize!" x="250.0" y="25.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Line height="5.0" width="1.0" x="0.0" x1="0.0" x2="500.0" y="0.0" y1="10.0" y2="10.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Line>
+    <!-- Player Unlockables -->
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Momo" x="25.0" y="130.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="125.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Ellipse>
+    <CustomSprite active="false" actualSrc="images/player/monsterSingle.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="15" farmeFreq="5f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/monsterSingle.png" vertCount="1" x="175.0" y="125.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/player/dragon.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/dragon.png" vertCount="1" x="225.0" y="125.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/player/alien.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/alien.png" vertCount="1" x="275.0" y="125.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/player/grumpyBird.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/grumpyBird.png" vertCount="1" x="325.0" y="125.0" zOrder="0"/>
+    </CustomSprite>
+    <!-- Platform Unlockables -->
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Platforms" x="25.0" y="175.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Rect halfHeight="20" halfWidth="20" x="175.0" y="165.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Rect>
+    <CustomSprite active="false" actualSrc="images/block/grassMid.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="70.0" horzCount="1" scaleHeight="30" src="images/block/grassMid.png" vertCount="1" x="175.0" y="165.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/block/castleMid.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="70.0" horzCount="1" scaleHeight="30" src="images/block/castleMid.png" vertCount="1" x="225.0" y="165.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/block/keybrick.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="53.0" horzCount="1" scaleHeight="30" src="images/block/keybrick.png" vertCount="1" x="275.0" y="165.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/block/forest.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="63.0" horzCount="1" scaleHeight="35" src="images/block/forest.png" vertCount="1" x="325.0" y="165.0" zOrder="0"/>
+    </CustomSprite>
+    <!-- Coin Unlockables -->
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Coins" x="25.0" y="225.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="215.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Ellipse>
+    <CustomSprite active="false" actualSrc="images/coin/coin_sheet.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="5" farmeFreq="5f" height="42.0" horzCount="6" scaleHeight="30" src="images/coin/coin_sheet.png" vertCount="1" x="175.0" y="215.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/coin/crown.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="25.0" horzCount="1" scaleHeight="20" src="images/coin/crown.png" vertCount="1" x="225.0" y="215.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/coin/gem.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="25.0" horzCount="1" scaleHeight="20" src="images/coin/gem.png" vertCount="1" x="275.0" y="215.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/coin/40.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/40.png" vertCount="1" x="325.0" y="215.0" zOrder="0"/>
+    </CustomSprite>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Obstacles" x="25.0" y="275.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="265.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Ellipse>
+    <!-- Obstacles Unlockables -->
+    <CustomSprite active="false" actualSrc="images/obstacle/pokerMad.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="146.0" horzCount="1" scaleHeight="40" src="images/obstacle/pokerMad.png" vertCount="1" x="175.0" y="265.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/obstacle/spike2.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="128.0" horzCount="1" scaleHeight="40" src="images/obstacle/spike2.png" vertCount="1" x="225.0" y="265.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/obstacle/spaceEnemy.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="64.0" horzCount="1" scaleHeight="40" src="images/obstacle/spaceEnemy.png" vertCount="1" x="275.0" y="265.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/obstacle/treeTrunk.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="70.0" horzCount="1" scaleHeight="40" src="images/obstacle/treeTrunk.png" vertCount="1" x="325.0" y="265.0" zOrder="0"/>
+    </CustomSprite>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Background" x="25.0" y="325.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Rect halfHeight="24" halfWidth="24" x="175.0" y="315.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Rect>
+    <!-- Background Unlockables -->
+    <CustomSprite active="false" actualSrc="images/background/rockMountain.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/rockMountain.png" vertCount="1" x="175.0" y="315.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/background/mountain.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/mountain.png" vertCount="1" x="225.0" y="315.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/background/sky.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/sky.png" vertCount="1" x="275.0" y="315.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/background/bg_shroom.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/bg_shroom.png" vertCount="1" x="325.0" y="315.0" zOrder="0"/>
+    </CustomSprite>
+    <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Music" x="25.0" y="375.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="365.0">
+      <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
+    </Ellipse>
+    <!-- Music Unlockables -->
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNote.png" vertCount="1" x="175.0" y="365.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNote.png" vertCount="1" x="225.0" y="365.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNote.png" vertCount="1" x="275.0" y="365.0" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="true" actualSrc="images/button/musicNote.png" cost="100" unlocked="true">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNote.png" vertCount="1" x="325.0" y="365.0" zOrder="0"/>
+    </CustomSprite>
+  </Render>
 </GameObject>

@@ -561,18 +561,27 @@ public class RigidBodyComponent extends Component
     public String collidedWith;  //<>//
     public EventType eventType;  //<>//
     public HashMap<String, String> eventParameters;  //<>//
+  }
+
+  private class OnExitEvent
+  {
+    public String exitFrom;
+    public EventType eventType;
+    public HashMap<String, String> eventParameters;
   } 
     //<>//
   private Body body; 
   public PVector latestForce; 
-  private ArrayList<OnCollideEvent> onCollideEvents;  //<>//
+  private ArrayList<OnCollideEvent> onCollideEvents; //<>//
+  private ArrayList<OnExitEvent> onExitEvents;
   //<>//
   public RigidBodyComponent(IGameObject _gameObject) 
   {  //<>//
     super(_gameObject);  //<>//
   //<>//
     latestForce = new PVector();  //<>//
-    onCollideEvents = new ArrayList<OnCollideEvent>(); 
+    onCollideEvents = new ArrayList<OnCollideEvent>();
+    onExitEvents = new ArrayList<OnExitEvent>();
   } 
  
   @Override public void destroy() 
@@ -699,7 +708,28 @@ public class RigidBodyComponent extends Component
             onCollideEvents.add(onCollideEvent);  //<>//
           }   //<>//
         }   //<>//
-      }   //<>//
+      } //<>//
+      else if (rigidBodyComponent.getName().equals("OnExitEvents"))
+      {
+        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
+        {
+          if (xmlOnCollideEvent.getName().equals("Event"))
+          {
+            OnExitEvent onExitEvent = new OnExitEvent();
+            onExitEvent.exitFrom = xmlOnCollideEvent.getString("exitFrom");
+
+            String stringEventType = xmlOnCollideEvent.getString("eventType");
+            if (stringEventType.equals("PLAYER_PLATFORM_EXIT"))
+            {
+              onExitEvent.eventType = EventType.PLAYER_PLATFORM_EXIT;
+              onExitEvent.eventParameters = new HashMap<String, String>();
+              onExitEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
+            }
+
+            onExitEvents.add(onExitEvent);
+          }
+        }
+      }
     }  
   }  
      //<>//
@@ -738,14 +768,31 @@ public class RigidBodyComponent extends Component
   
         } 
         else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION) 
-        {  
+        {
           Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);  
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);  
           eventManager.queueEvent(event);   //<>//
-        }   //<>//
+        } //<>//
       }   //<>//
     }  //<>//
-  }  //<>//
+  } //<>//
+
+  public void onExitEvent(IGameObject collider)
+  {
+    for (OnExitEvent onCollideEvent : onExitEvents)
+    {
+      if (onCollideEvent.exitFrom.equals(collider.getTag()))
+      {
+        if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_EXIT)
+        {
+          Event event = new Event(EventType.PLAYER_PLATFORM_EXIT);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+      }
+    }
+  }
+
   public PVector getLinearVelocity()  //<>//
   { //<>//
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));  //<>//
@@ -814,13 +861,16 @@ public class PlayerControllerComponent extends Component   //<>//
   private SoundFile jumpSound;
   private float amplitude;
 
+  private boolean onPlatform;
+
   public PlayerControllerComponent(IGameObject _gameObject) 
   {  
     super(_gameObject);   //<>//
       
     upButtonDown = false;   //<>//
     leftButtonDown = false;  
-    rightButtonDown = false;   //<>//
+    rightButtonDown = false; //<>//
+    onPlatform = false;
     moveVectorX = new PVector();   //<>//
   }  
      //<>//
@@ -914,10 +964,23 @@ public class PlayerControllerComponent extends Component   //<>//
 
   private HashMap<String, Float> gatherRawInput() 
   {
-    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
-    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0; 
-    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0; 
- 
+    Float keyboardLeftMagnitude;
+    Float keyboardRightMagnitude;
+    Float keyboardJumpMagnitude;
+
+    if (onPlatform)
+    {
+      keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
+      keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+      keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+    }
+    else
+    {
+      keyboardLeftMagnitude = 0.0;
+      keyboardRightMagnitude = 0.0;
+      keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+    }
+
     HashMap<String, Float> rawInput = emgManager.poll(); 
     rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude);
     rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
@@ -996,9 +1059,14 @@ public class PlayerControllerComponent extends Component   //<>//
   //<>//
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))  //<>//
     {  //<>//
+      onPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);   //<>//
       gapDirection = determineGapDirection(platform);   //<>//
-    }   //<>//
+    } //<>//
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
+    {
+      onPlatform = false;
+    }
   }  //<>//
   //<>//
   private String determineGapDirection(IGameObject platform) 

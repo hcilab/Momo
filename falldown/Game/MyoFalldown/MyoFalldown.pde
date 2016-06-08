@@ -296,6 +296,14 @@ class FalldownContactListener implements ContactListener
   
   @Override public void endContact(Contact contact)
   {
+    IGameObject objectA = (IGameObject)contact.getFixtureA().getUserData();
+    IGameObject objectB = (IGameObject)contact.getFixtureB().getUserData();
+
+    RigidBodyComponent rigidBodyA = (RigidBodyComponent)objectA.getComponent(ComponentType.RIGID_BODY);
+    RigidBodyComponent rigidBodyB = (RigidBodyComponent)objectB.getComponent(ComponentType.RIGID_BODY);
+
+    rigidBodyA.onExitEvent(objectB);
+    rigidBodyB.onExitEvent(objectA);
   }
   
   @Override public void preSolve(Contact contact, Manifold oldManifold)

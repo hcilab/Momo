@@ -795,6 +795,12 @@ public class Options implements IOptions
     private final String ACTIVE_OBSTACLE_INDEX = "active_obstacle_index";
     private final String ACTIVE_BACKGROUND_INDEX = "active_background_index";
     private final String ACTIVE_MUSIC_INDEX = "active_music_index";
+    private final String OLD_ACTIVE_PLAYER_INDEX = "old_active_player_index";
+    private final String OLD_ACTIVE_PLATFORM_INDEX = "old_active_platform_index";
+    private final String OLD_ACTIVE_COIN_INDEX = "old_active_coin_index";
+    private final String OLD_ACTIVE_OBSTACLE_INDEX = "old_active_obstacle_index";
+    private final String OLD_ACTIVE_BACKGROUND_INDEX = "old_active_background_index";
+    private final String OLD_ACTIVE_MUSIC_INDEX = "old_active_music_index";
     private final String CUSTOM_SETTINGS_FILE_IN = "xml_data/customize_settings_message.xml";
     private final String CUSTOM_SETTINGS_FILE_OUT = "data/xml_data/customize_settings_message.xml";
     private final String CUSTOM_PURCHASE_FILE_IN = "xml_data/customize_purchase_message.xml";
@@ -876,12 +882,12 @@ public class Options implements IOptions
       activeObstacleIndex = xmlCust.getInt(ACTIVE_OBSTACLE_INDEX);
       activeBackgroundIndex = xmlCust.getInt(ACTIVE_BACKGROUND_INDEX);
       activeMusicIndex = xmlCust.getInt(ACTIVE_MUSIC_INDEX);
-      oldActivePlayerIndex = xmlCust.getInt("old_active_player");
-      oldActivePlatformIndex = xmlCust.getInt("old_active_platform");
-      oldActiveCoinIndex = xmlCust.getInt("old_active_coin");
-      oldActiveObstacleIndex = xmlCust.getInt("old_active_obstacle");
-      oldActiveBackgroundIndex = xmlCust.getInt("old_active_background");
-      oldActiveMusicIndex = xmlCust.getInt("old_active_music");
+      oldActivePlayerIndex = xmlCust.getInt(OLD_ACTIVE_PLAYER_INDEX);
+      oldActivePlatformIndex = xmlCust.getInt(OLD_ACTIVE_PLATFORM_INDEX);
+      oldActiveCoinIndex = xmlCust.getInt(OLD_ACTIVE_COIN_INDEX);
+      oldActiveObstacleIndex = xmlCust.getInt(OLD_ACTIVE_OBSTACLE_INDEX);
+      oldActiveBackgroundIndex = xmlCust.getInt(OLD_ACTIVE_BACKGROUND_INDEX);
+      oldActiveMusicIndex = xmlCust.getInt(OLD_ACTIVE_MUSIC_INDEX);
     }
 
     public int getCoinsCollected()
@@ -938,8 +944,8 @@ public class Options implements IOptions
       animationData.setString("leftEnd", animation.getString("leftEnd"));
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
 
-      xmlCust.setInt("active_player_index", _newActivePlayerIndex);
-      xmlCust.setInt("old_active_player_index", oldActivePlayerIndex);
+      xmlCust.setInt(ACTIVE_PLAYER_INDEX, _newActivePlayerIndex);
+      xmlCust.setInt(OLD_ACTIVE_PLAYER_INDEX, oldActivePlayerIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -969,8 +975,8 @@ public class Options implements IOptions
       wallData.setString("src", wallSrc);
       saveXML(xmlWall, WALL_FILE_NAME_OUT);
 
-      xmlCust.setInt("active_platform_index", _newActivePlatformIndex);
-      xmlCust.setInt("old_active_platform_index", oldActivePlatformIndex);
+      xmlCust.setInt(ACTIVE_PLATFORM_INDEX, _newActivePlatformIndex);
+      xmlCust.setInt(OLD_ACTIVE_PLATFORM_INDEX, oldActivePlatformIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -993,8 +999,8 @@ public class Options implements IOptions
       coinData.setString("height", sprite.getString("height"));
       saveXML(xmlCoin, COIN_FILE_NAME_OUT);
 
-      xmlCust.setInt("active_coin_index", _newActiveCoinIndex);
-      xmlCust.setInt("old_active_coin_index", oldActiveCoinIndex);
+      xmlCust.setInt(ACTIVE_COIN_INDEX, _newActiveCoinIndex);
+      xmlCust.setInt(OLD_ACTIVE_COIN_INDEX, oldActiveCoinIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -1017,8 +1023,8 @@ public class Options implements IOptions
       obstacleData.setString("height", sprite.getString("height"));
       saveXML(xmlObstacle, OBSTACLE_FILE_NAME_OUT);
 
-      xmlCust.setInt("active_obstacle_index", _newActiveObstacleIndex);
-      xmlCust.setInt("old_active_obstacle_index", oldActiveObstacleIndex);
+      xmlCust.setInt(ACTIVE_OBSTACLE_INDEX, _newActiveObstacleIndex);
+      xmlCust.setInt(OLD_ACTIVE_OBSTACLE_INDEX, oldActiveObstacleIndex);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -1037,7 +1043,7 @@ public class Options implements IOptions
       opacityBackground = opacitySvgSrc;
 
       xmlCust.setInt(ACTIVE_BACKGROUND_INDEX, _newActiveBackgroundIndex);
-      xmlCust.setInt("old_active_background_index", oldActiveBackgroundIndex);
+      xmlCust.setInt(OLD_ACTIVE_BACKGROUND_INDEX, oldActiveBackgroundIndex);
       xmlCust.setString(BACKGROUND, bgSvgSrc);
       xmlCust.setString(OPACITY_BACKGROUND, opacitySvgSrc);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
@@ -1056,8 +1062,8 @@ public class Options implements IOptions
       musicPlayerData.setString("musicFile", musicFile);
       saveXML(xmlMusicPlayer, MUSIC_FILE_NAME_OUT);
 
-      xmlCust.setInt("active_music_index", _newActiveMusicIndex);
-      xmlCust.setInt("old_active_music_index", oldActiveMusicIndex);
+      xmlCust.setInt(ACTIVE_MUSIC_INDEX, _newActiveMusicIndex);
+      xmlCust.setInt(OLD_ACTIVE_MUSIC_INDEX, oldActiveMusicIndex);
       xmlCust.setString("music", musicFile);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
@@ -1120,12 +1126,12 @@ public class Options implements IOptions
 
     public void loadSavedSettings()
     {
-      setPlayer(xmlCust.getInt("old_active_player_index"));
-      setPlatform(xmlCust.getInt("old_active_platform_index"), xmlCust.getInt("old_active_platform_index")%4);
-      setCoin(xmlCust.getInt("old_active_coin_index"), xmlCust.getInt("old_active_coin_index")%4);
-      setObstacle(xmlCust.getInt("old_active_obstacle_index"), xmlCust.getInt("old_active_obstacle_index")%4);
-      setBackground(xmlCust.getInt("old_active_background_index"), xmlCust.getInt("old_active_background_index")%4);
-      setMusic(xmlCust.getInt("old_active_music_index"), xmlCust.getInt("old_active_music_index")%4);
+      setPlayer(xmlCust.getInt(OLD_ACTIVE_PLAYER_INDEX));
+      setPlatform(xmlCust.getInt(OLD_ACTIVE_PLATFORM_INDEX), xmlCust.getInt(OLD_ACTIVE_PLATFORM_INDEX)%4);
+      setCoin(xmlCust.getInt(OLD_ACTIVE_COIN_INDEX), xmlCust.getInt(OLD_ACTIVE_COIN_INDEX)%4);
+      setObstacle(xmlCust.getInt(OLD_ACTIVE_OBSTACLE_INDEX), xmlCust.getInt(OLD_ACTIVE_OBSTACLE_INDEX)%4);
+      setBackground(xmlCust.getInt(OLD_ACTIVE_BACKGROUND_INDEX), xmlCust.getInt(OLD_ACTIVE_BACKGROUND_INDEX)%4);
+      setMusic(xmlCust.getInt(OLD_ACTIVE_MUSIC_INDEX), xmlCust.getInt(OLD_ACTIVE_MUSIC_INDEX)%4);
       XML xml = xmlCustomSettings.getChildren("Render")[0];
 
       String ids = xmlCust.getString("unlocked_ids");

@@ -5,20 +5,20 @@
 				horzCount="6" vertCount="1" defaultCount="5" farmeFreq="5f"
 				zOrder="0" height="42.0" scaleHeight="30"> 
 		</SpriteSheet>
-		<SpriteSheet src="images/coin/gem.png" alphaImage=""
+		<SpriteSheet src="images/coin/crown.png" alphaImage=""
 				x="225.0" y="215.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="64.0" scaleHeight="40"> 
+				zOrder="0" height="30.0" scaleHeight="20">
 		</SpriteSheet>
-		<SpriteSheet src="images/coin/crown.png" alphaImage=""
+		<SpriteSheet src="images/coin/gem.png" alphaImage=""
 				x="275.0" y="215.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="30.0" scaleHeight="20"> 
-		</SpriteSheet>  
-		<SpriteSheet src="images/coin/candyGreen.png" alphaImage=""
+				zOrder="0" height="25.0" scaleHeight="20">
+		</SpriteSheet>
+		<SpriteSheet src="images/coin/apple.png" alphaImage=""
 				x="325.0" y="215.0"  
 				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="70.0" scaleHeight="30"> 
+				zOrder="0" height="30.0" scaleHeight="15">
 		</SpriteSheet>
 	</Render>
 </GameObject>

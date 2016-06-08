@@ -5,7 +5,7 @@
   <Stats>
     <Record avg_speed="132.08186" coins_collected="1" date="1465232304433" level="40" score="1160" time_played_millis="27915"/>
   </Stats>
-  <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="4" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="2000" music="music/EDMDetectionMode.wav" opacity_bg="images/background/opacityBG.svg" unlocked_ids="">
+  <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="4" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="0" music="music/EDMDetectionMode.wav" opacity_bg="images/background/opacityLandscape.svg" unlocked_ids="">
     <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityLandscape.svg"/>
     <Background bg="images/background/mountain.svg" opacity_bg="images/background/opacityMountain.svg"/>
     <Background bg="images/background/space.svg" opacity_bg="images/background/opacitySpace.svg"/>

@@ -928,7 +928,14 @@ public class PlayerControllerComponent extends Component   //<>//
     moveVectorX = moveVector; 
     if (component != null) //<>//
     { //<>//
-      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;  
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      if (rigidBodyComponent.gameObject.getTag().equals("player"))
+      {
+        if (onPlatform && !leftButtonDown && !rightButtonDown)
+        {
+          rigidBodyComponent.setLinearVelocity(new PVector(0,0));
+        }
+      }
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))

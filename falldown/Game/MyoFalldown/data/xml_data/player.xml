@@ -2,7 +2,7 @@
 <GameObject>
   <Render>
     <Sprite>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="50.0" horzCount="8" scaleHeight="1" src="images/player/grumpyBirdSprite.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="50.0" horzCount="16" scaleHeight="1" src="images/player/MomoP1.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="false" angularDamping="0.01" awake="true" bullet="false" fixedRotation="true" gravityScale="0.3" linearDamping="0.0" type="dynamic">
@@ -14,6 +14,6 @@
       <Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
     </OnCollideEvents>
   </RigidBody>
-  <AnimationController leftEnd="8" leftStart="4" rightEnd="3" rightStart="0"/>
+  <AnimationController leftEnd="1" leftStart="1" rightEnd="0" rightStart="0"/>
   <PlayerController acceleration="0.8" add="0.0" amp="1.0" collidedPlatformParameterName="platform" currentSpeedParameterName="currentSpeed" jumpForce="-3.52" jumpSoundFile="sound_effects/boing_spring.wav" maxSpeed="350.0" minInputThreshold="0.3" pan="0.0" rate="1.0"/>
 </GameObject>

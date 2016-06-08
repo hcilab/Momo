@@ -108,7 +108,7 @@ void setup()
   mouseHand = false;
 
   bg = loadShape("images/background/rockMountain.svg");
-  opbg =  loadShape("images/background/opacityBG.svg");
+  opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
 } 
 

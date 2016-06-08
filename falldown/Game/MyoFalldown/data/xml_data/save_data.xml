@@ -1,26 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SaveData>
   <Game control_policy="normal" direction_assist_mode="left_only" level_up_over_time="true" obstacles="true" platform_mods="true" single_muscle_mode="auto_left" starting_level="35"/>
-  <IO emg_sampling_policy="difference" left_emg_sensitivity="3.0560002" music_volume="0.745" right_emg_sensitivity="3.0080001" sound_effects_volume="0.725"/>
+  <IO emg_sampling_policy="difference" left_emg_sensitivity="1.7120001" music_volume="0.0" right_emg_sensitivity="1.7120001" sound_effects_volume="0.0"/>
   <Stats>
     <Record avg_speed="132.08186" coins_collected="1" date="1465232304433" level="40" score="1160" time_played_millis="27915"/>
-    <Record avg_speed="117.72931" coins_collected="0" date="1465239038451" level="37" score="394" time_played_millis="11905"/>
-    <Record avg_speed="88.62708" coins_collected="0" date="1465239210148" level="40" score="1050" time_played_millis="30130"/>
-    <Record avg_speed="92.786705" coins_collected="0" date="1465239316288" level="40" score="1050" time_played_millis="28499"/>
-    <Record avg_speed="77.07257" coins_collected="1" date="1465239444008" level="41" score="1363" time_played_millis="33438"/>
-    <Record avg_speed="124.64695" coins_collected="6" date="1465239593615" level="57" score="6047" time_played_millis="113893"/>
-    <Record avg_speed="103.56824" coins_collected="0" date="1465241057703" level="39" score="773" time_played_millis="21921"/>
-    <Record avg_speed="106.01536" coins_collected="1" date="1465301190797" level="44" score="1958" time_played_millis="47311"/>
-    <Record avg_speed="131.22623" coins_collected="3" date="1465301289200" level="46" score="2615" time_played_millis="55786"/>
-    <Record avg_speed="134.61342" coins_collected="5" date="1465301395733" level="51" score="4166" time_played_millis="81496"/>
-    <Record avg_speed="124.62786" coins_collected="3" date="1465301484008" level="47" score="2986" time_played_millis="63744"/>
-    <Record avg_speed="123.86978" coins_collected="3" date="1465301787599" level="46" score="2799" time_played_millis="58678"/>
   </Stats>
-  <Customize active_background_index="19" active_coin_index="11" active_music_index="23" active_obstacle_index="15" active_platform_index="7" active_player_index="3" background="images/background/bg_shroom.svg" coins_collected="177" music="music/TheLift.wav" opacity_bg="images/background/opacityBG.svg">
-    <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityBG.svg"/>
-    <Background bg="images/background/mountain.svg" opacity_bg="images/background/opacityBG.svg"/>
-    <Background bg="images/background/sky.svg" opacity_bg="images/background/opacityBG.svg"/>
-    <Background bg="images/background/bg_shroom.svg" opacity_bg="images/background/opacityBG.svg"/>
+  <Customize active_background_index="16" active_coin_index="8" active_music_index="20" active_obstacle_index="12" active_platform_index="7" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="3255" music="music/EDMDetectionMode.wav" opacity_bg="images/background/opacityLandscape.svg">
+    <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityLandscape.svg"/>
+    <Background bg="images/background/mountain.svg" opacity_bg="images/background/opacityMountain.svg"/>
+    <Background bg="images/background/space.svg" opacity_bg="images/background/opacitySpace.svg"/>
+    <Background bg="images/background/bg_shroom.svg" opacity_bg="images/background/opacitybg_shroom.svg"/>
     <Music file="music/EDMDetectionMode.wav"/>
     <Music file="music/Motherlode.wav"/>
     <Music file="music/Overworld.wav"/>

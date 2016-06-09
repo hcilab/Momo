@@ -72,7 +72,6 @@ PShape opbg;
 PShape wbg;
 Table table;
 ArrayList<ArrayList<Integer>> platformLevels;
-boolean fittsLaw = false;
 
 // Set to true for limitations to compute Fitt's Law
 boolean fittsLaw = false;

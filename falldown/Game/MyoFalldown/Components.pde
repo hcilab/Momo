@@ -1,4 +1,4 @@
-//====================================================================================================== //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+//====================================================================================================== //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 // Author: David Hanna
 //
 // Components are attached to Game Objects to provide their data and behaviour.
@@ -556,21 +556,12 @@ public class RenderComponent extends Component
 }
 
 public class RigidBodyComponent extends Component
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-{ //<>//
-  private class OnCollideEvent //<>//
-  { //<>//
-    public String collidedWith;  //<>//
-    public EventType eventType;  //<>//
-    public HashMap<String, String> eventParameters;  //<>//
-=======
 {
   private class OnCollideEvent
   {
     public String collidedWith;
     public EventType eventType;
     public HashMap<String, String> eventParameters;
->>>>>>> Added Logging/component for Fitts Law
   }
 
   private class OnExitEvent
@@ -578,23 +569,6 @@ public class RigidBodyComponent extends Component
     public String exitFrom;
     public EventType eventType;
     public HashMap<String, String> eventParameters;
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-  } 
-    //<>//
-  private Body body; 
-  public PVector latestForce; 
-  private ArrayList<OnCollideEvent> onCollideEvents; //<>//
-  private ArrayList<OnExitEvent> onExitEvents;
-  //<>//
-  public RigidBodyComponent(IGameObject _gameObject) 
-  {  //<>//
-    super(_gameObject);  //<>//
-  //<>//
-    latestForce = new PVector();  //<>//
-    onCollideEvents = new ArrayList<OnCollideEvent>();
-    onExitEvents = new ArrayList<OnExitEvent>();
-  } 
-=======
   }
 
   private Body body;
@@ -610,7 +584,6 @@ public class RigidBodyComponent extends Component
     onCollideEvents = new ArrayList<OnCollideEvent>();
     onExitEvents = new ArrayList<OnExitEvent>();
   }
->>>>>>> Added Logging/component for Fitts Law
  
   @Override public void destroy() 
   {
@@ -721,24 +694,6 @@ public class RigidBodyComponent extends Component
               onCollideEvent.eventType = EventType.GAME_OVER;
             }
             else if (stringEventType.equals("DESTROY_COIN"))
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-            { //<>//
-              onCollideEvent.eventType = EventType.DESTROY_COIN; //<>//
-              onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
-              onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName")); //<>//
-            } //<>//
-            else if (stringEventType.equals("PLAYER_PLATFORM_COLLISION")) //<>//
-            { //<>//
-              onCollideEvent.eventType = EventType.PLAYER_PLATFORM_COLLISION; //<>//
-              onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
-              onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName")); //<>//
-            } //<>//
-             //<>//
-            onCollideEvents.add(onCollideEvent);  //<>//
-          }   //<>//
-        }   //<>//
-      } //<>//
-=======
             {
               onCollideEvent.eventType = EventType.DESTROY_COIN;
               onCollideEvent.eventParameters = new HashMap<String, String>();
@@ -755,7 +710,6 @@ public class RigidBodyComponent extends Component
           }
         }
       }
->>>>>>> Added Logging/component for Fitts Law
       else if (rigidBodyComponent.getName().equals("OnExitEvents"))
       {
         for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
@@ -777,17 +731,10 @@ public class RigidBodyComponent extends Component
           }
         }
       }
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-    }  
-  }  
-     //<>//
-  @Override public ComponentType getComponentType() 
-=======
     }
   }
 
   @Override public ComponentType getComponentType()
->>>>>>> Added Logging/component for Fitts Law
   {
     return ComponentType.RIGID_BODY;
   }
@@ -846,65 +793,32 @@ public class RigidBodyComponent extends Component
     }
   }
   
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-        } 
-        else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION) 
-        {
-          Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);  
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);  
-          eventManager.queueEvent(event);   //<>//
-        } //<>//
-      }   //<>//
-    }  //<>//
-  } //<>//
-
-  public void onExitEvent(IGameObject collider)
-  {
-    for (OnExitEvent onCollideEvent : onExitEvents)
-    {
-      if (onCollideEvent.exitFrom.equals(collider.getTag()))
-      {
-        if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_EXIT)
-        {
-          Event event = new Event(EventType.PLAYER_PLATFORM_EXIT);
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
-          eventManager.queueEvent(event);
-        }
-      }
-    }
-  }
-
-  public PVector getLinearVelocity()  //<>//
-  { //<>//
-    return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));  //<>//
-  }  //<>//
- //<>//
-=======
   public PVector getPosition()
   { 
     return new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)); 
   } 
-
+  
   public PVector getLinearVelocity()
   {
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
   }
-
->>>>>>> Added Logging/component for Fitts Law
+  
   public float getSpeed()
   {
     PVector linearVelocity = getLinearVelocity();
     return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));
   }
+  
   public PVector getAcceleration()
   { 
     return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y)); 
   }   
+  
   public void setLinearVelocity(PVector linearVelocity)  
   {  
     body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y)));  
   }  
-    
+
   public void applyForce(PVector force, PVector position)  
   {  
     latestForce = force;  
@@ -945,13 +859,9 @@ public class PlayerControllerComponent extends Component
   private String gapDirection;
  
   private boolean upButtonDown; 
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-  private boolean leftButtonDown; //<>//
-  private boolean rightButtonDown; //<>//
-=======
   private boolean leftButtonDown;
   private boolean rightButtonDown;
->>>>>>> Added Logging/component for Fitts Law
+  
   private boolean leftMyoForce;
   private boolean rightMyoForce;
   
@@ -972,25 +882,19 @@ public class PlayerControllerComponent extends Component
 
   public PlayerControllerComponent(IGameObject _gameObject) 
   {  
-    super(_gameObject); 
+    super(_gameObject);
       
-    upButtonDown = false; 
-    leftButtonDown = false;  
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-    rightButtonDown = false; //<>//
-    onPlatform = false;
-    moveVectorX = new PVector();   //<>//
-=======
+    upButtonDown = false;
+    leftButtonDown = false;
     rightButtonDown = false;
     onPlatform = false;
-    moveVectorX = new PVector(); 
->>>>>>> Added Logging/component for Fitts Law
-  }  
+    moveVectorX = new PVector();
+  }
    
   @Override public void destroy()
   {
-  
-  } 
+
+  }
  
   @Override public void fromXML(XML xmlComponent) 
   { 
@@ -1039,14 +943,10 @@ public class PlayerControllerComponent extends Component
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     //println(moveVector.x);
     moveVectorX = moveVector; 
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-    if (component != null) //<>//
-    { //<>//
-=======
+
     calculateDirectionChanges(moveVector);
     if (component != null)
     {
->>>>>>> Added Logging/component for Fitts Law
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
@@ -1254,34 +1154,20 @@ public class PlayerControllerComponent extends Component
       
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0) 
       rightButtonDown = false; 
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-  //<>//
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))  //<>//
-    {  //<>//
-      onPlatform = true;
-      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);   //<>//
-      gapDirection = determineGapDirection(platform);   //<>//
-    } //<>//
-=======
-
+      
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
       onPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       gapDirection = determineGapDirection(platform); 
     }
->>>>>>> Added Logging/component for Fitts Law
+
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
     {
       onPlatform = false;
     }
-<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
-  }  //<>//
-  //<>//
-=======
   }
 
->>>>>>> Added Logging/component for Fitts Law
   private String determineGapDirection(IGameObject platform) 
   {
     IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0); 

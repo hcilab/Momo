@@ -70,6 +70,9 @@ boolean mouseHand;
 PShape bg;
 PShape opbg;
 PShape wbg;
+Table table;
+ArrayList<ArrayList<Integer>> platformLevels;
+boolean fittsLaw = false;
 
 // Set to true for limitations to compute Fitt's Law
 boolean fittsLaw = false;
@@ -113,6 +116,7 @@ void setup()
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
+  
 } 
 
 void draw()

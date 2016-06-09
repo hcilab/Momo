@@ -225,6 +225,7 @@ public class GameState_InGame extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/game.xml");
+    createNewTable();
   }
   
   @Override public void update(int deltaTime)
@@ -252,9 +253,33 @@ public class GameState_InGame extends GameState
     }
     for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
+      String userID = options.getUserInformation().getUserID();
+      if(userID == null)
+        userID = "guest";
+      Date d = new Date();
+      saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + userID + "_"+ d.getTime() + ".csv");
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }
+  }
+  
+  private void createNewTable(){
+    table = new Table();
+    table.addColumn("id");
+    table.addColumn("level");
+    table.addColumn("condition");
+    table.addColumn("breakthrough time");
+    table.addColumn("start point x");
+    table.addColumn("start point y");
+    table.addColumn("end point x");
+    table.addColumn("end point y");
+    table.addColumn("start time");
+    table.addColumn("end time");
+    table.addColumn("errors");
+    table.addColumn("undershoots");
+    table.addColumn("overshoots");
+    table.addColumn("direction changes");
+    table.addColumn("total time");
   }
 }
 

@@ -1,4 +1,4 @@
-//======================================================================================================
+//====================================================================================================== //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 // Author: David Hanna
 //
 // Components are attached to Game Objects to provide their data and behaviour.
@@ -31,6 +31,7 @@ public enum ComponentType
   IO_OPTIONS_CONTROLLER,
   CALIBRATE_CONTROLLER,
   ID_COUNTER,
+  FITTS_STATS
 }
 
 public interface IComponent
@@ -478,89 +479,98 @@ public class RenderComponent extends Component
   
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.RENDER; //<>//
-  } //<>//
-   //<>//
-  @Override public void update(int deltaTime) //<>//
-  {   //<>//
+    return ComponentType.RENDER;
+  }
+ 
+  @Override public void update(int deltaTime)
+  { 
     
-    for (OffsetPShape offsetShape : offsetShapes) //<>//
-    { //<>//
-      offsetShape.pshape.resetMatrix(); //<>//
-      offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y); //<>//
-      offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y); //<>//
-      shape(offsetShape.pshape); // draw //<>//
-    } //<>//
-    //<>//
-     //<>//
-    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){ //<>//
-     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y); //<>//
-    //<>//
-     if(gameObject.getTag().equals("player")){ //<>//
-        IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER); //<>//
-        AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent; //<>//
-        float[] direction = animationComponent.getDirection(); //<>//
-        offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);  //<>//
-     }  //<>//
-     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y); //<>//
-     S4P.updateSprites(deltaTime / 1000.0f); //<>//
-     offsetSprite.sheetSprite.draw(); //<>//
-    } //<>//
-   for (OffsetPImage offsetImage : offsetPImages) //<>//
-    { //<>//
-       if(gameObject.getTag().equals("platform")){ //<>//
-         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y); //<>//
-         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y); //<>//
-       } //<>//
+    for (OffsetPShape offsetShape : offsetShapes)
+    {
+      offsetShape.pshape.resetMatrix();
+      offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
+      offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
+      shape(offsetShape.pshape); // draw
+    }
+  
+   
+    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
+     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
+  
+     if(gameObject.getTag().equals("player")){
+        IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER);
+        AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
+        float[] direction = animationComponent.getDirection();
+        offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
+     }
+     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+     S4P.updateSprites(deltaTime / 1000.0f);
+     offsetSprite.sheetSprite.draw();
+    }
+   for (OffsetPImage offsetImage : offsetPImages)
+    {
+       if(gameObject.getTag().equals("platform")){
+         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
+       }
        else {
-         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );  //<>//
-       } //<>//
-    } //<>//
-     //<>//
-    for (Text text : texts) //<>//
-    {  //<>//
-      textFont(text.font); //<>//
-      textAlign(text.alignX, text.alignY); //<>//
-      fill(text.fillColor); //<>//
+         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
+       }
+    }
+   
+    for (Text text : texts)
+    {
+      textFont(text.font);
+      textAlign(text.alignX, text.alignY);
+      fill(text.fillColor);
       stroke(text.strokeColor);
-      strokeWeight(text.strokeWeight); //<>//
-      text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y); //<>//
-    } //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetPShape> getShapes() //<>//
-  { //<>//
-    return offsetShapes; //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetPImage> getImages() //<>//
-  { //<>//
-    return offsetPImages; //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetSheetSprite> getSheetSprite() //<>//
-  { //<>//
+      strokeWeight(text.strokeWeight);
+      text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y);
+    }
+  }
+ 
+  public ArrayList<OffsetPShape> getShapes()
+  {
+    return offsetShapes;
+  }
+ 
+  public ArrayList<OffsetPImage> getImages()
+  {
+    return offsetPImages;
+  }
+ 
+  public ArrayList<OffsetSheetSprite> getSheetSprite()
+  {
     return offsetSheetSprites;
-  } //<>//
+  }
   
   public ArrayList<Text> getTexts()
   {
-    return texts; //<>//
+    return texts;
   } 
 
-  public ArrayList<CustomSprite> getCustomSprites() //<>//
+  public ArrayList<CustomSprite> getCustomSprites()
   {
     return customSprites;
   }
 }
 
 public class RigidBodyComponent extends Component
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
 { //<>//
   private class OnCollideEvent //<>//
   { //<>//
     public String collidedWith;  //<>//
     public EventType eventType;  //<>//
     public HashMap<String, String> eventParameters;  //<>//
+=======
+{
+  private class OnCollideEvent
+  {
+    public String collidedWith;
+    public EventType eventType;
+    public HashMap<String, String> eventParameters;
+>>>>>>> Added Logging/component for Fitts Law
   }
 
   private class OnExitEvent
@@ -568,6 +578,7 @@ public class RigidBodyComponent extends Component
     public String exitFrom;
     public EventType eventType;
     public HashMap<String, String> eventParameters;
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
   } 
     //<>//
   private Body body; 
@@ -583,12 +594,29 @@ public class RigidBodyComponent extends Component
     onCollideEvents = new ArrayList<OnCollideEvent>();
     onExitEvents = new ArrayList<OnExitEvent>();
   } 
+=======
+  }
+
+  private Body body;
+  public PVector latestForce;
+  private ArrayList<OnCollideEvent> onCollideEvents;
+  private ArrayList<OnExitEvent> onExitEvents;
+
+  public RigidBodyComponent(IGameObject _gameObject) 
+  {
+    super(_gameObject);
+
+    latestForce = new PVector();
+    onCollideEvents = new ArrayList<OnCollideEvent>();
+    onExitEvents = new ArrayList<OnExitEvent>();
+  }
+>>>>>>> Added Logging/component for Fitts Law
  
   @Override public void destroy() 
-  {  //<>//
+  {
     physicsWorld.destroyBody(body); 
   }  
-   //<>//
+ 
   @Override public void fromXML(XML xmlComponent)  
   {  
     BodyDef bodyDefinition = new BodyDef();  
@@ -596,22 +624,22 @@ public class RigidBodyComponent extends Component
     String bodyType = xmlComponent.getString("type");  
     if (bodyType.equals("static")) 
     { 
-      bodyDefinition.type = BodyType.STATIC;   //<>//
+      bodyDefinition.type = BodyType.STATIC; 
     }  
-    else if (bodyType.equals("kinematic"))   //<>//
+    else if (bodyType.equals("kinematic")) 
     {  
-      bodyDefinition.type = BodyType.KINEMATIC;   //<>//
+      bodyDefinition.type = BodyType.KINEMATIC; 
     }  
-    else if (bodyType.equals("dynamic"))   //<>//
+    else if (bodyType.equals("dynamic")) 
     {  
       bodyDefinition.type = BodyType.DYNAMIC; 
     } 
-    else   //<>//
+    else 
     {  
-      print("Unknown rigid body type: " + bodyType);   //<>//
-      assert(false);   //<>//
+      print("Unknown rigid body type: " + bodyType); 
+      assert(false); 
     }  
-   //<>//
+ 
     bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y));  
     bodyDefinition.angle = 0.0f;  
     bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping");  
@@ -632,67 +660,68 @@ public class RigidBodyComponent extends Component
       {
         FixtureDef fixtureDef = new FixtureDef(); 
         fixtureDef.density = rigidBodyComponent.getFloat("density"); 
-        fixtureDef.friction = rigidBodyComponent.getFloat("friction"); //<>//
-        fixtureDef.restitution = rigidBodyComponent.getFloat("restitution"); //<>//
-        fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false; //<>//
-        fixtureDef.userData = gameObject; //<>//
- //<>//
-        for (XML xmlShape : rigidBodyComponent.getChildren())  //<>//
-        {   //<>//
+        fixtureDef.friction = rigidBodyComponent.getFloat("friction");
+        fixtureDef.restitution = rigidBodyComponent.getFloat("restitution");
+        fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false;
+        fixtureDef.userData = gameObject;
+
+        for (XML xmlShape : rigidBodyComponent.getChildren())
+        { 
           if (xmlShape.getName().equals("Shape"))  
           {  
             String shapeType = xmlShape.getString("type");  
-   //<>//
-            if (shapeType.equals("circle"))  //<>//
-            {  //<>//
-              CircleShape circleShape = new CircleShape();  //<>//
-              circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))); //<>//
-              circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;  //<>//
-                 //<>//
+ 
+            if (shapeType.equals("circle"))
+            {
+              CircleShape circleShape = new CircleShape();
+              circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y")));
+              circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;
+               
               fixtureDef.shape = circleShape; 
             } 
             else if (shapeType.equals("box"))  
             {  
-              PolygonShape boxShape = new PolygonShape();   //<>//
-              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));  //<>//
-              boxShape.setAsBox( //<>//
-                pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x, //<>//
-                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y //<>//
-              );  //<>//
-  //<>//
-              fixtureDef.shape = boxShape; //<>//
-            }  //<>//
-            else  //<>//
-            { //<>//
-              print("Unknown fixture shape type: " + shapeType); //<>//
-              assert(false); //<>//
-            } //<>//
-          } //<>//
-        } //<>//
-          //<>//
-        body.createFixture(fixtureDef);  //<>//
-      }  //<>//
+              PolygonShape boxShape = new PolygonShape(); 
+              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));
+              boxShape.setAsBox(
+                pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x,
+                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y
+              );
+
+              fixtureDef.shape = boxShape;
+            }
+            else
+            {
+              print("Unknown fixture shape type: " + shapeType);
+              assert(false);
+            }
+          }
+        }
+        
+        body.createFixture(fixtureDef);
+      }
       else if (rigidBodyComponent.getName().equals("OnCollideEvents")) 
-      {  //<>//
-        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())  //<>//
-        {  //<>//
-          if (xmlOnCollideEvent.getName().equals("Event"))  //<>//
-          { //<>//
-            OnCollideEvent onCollideEvent = new OnCollideEvent(); //<>//
-            onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");  //<>//
+      {
+        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
+        {
+          if (xmlOnCollideEvent.getName().equals("Event"))
+          {
+            OnCollideEvent onCollideEvent = new OnCollideEvent();
+            onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");
              
-            String stringEventType = xmlOnCollideEvent.getString("eventType");  //<>//
+            String stringEventType = xmlOnCollideEvent.getString("eventType");
             if (stringEventType.equals("COIN_COLLECTED"))  
             { 
-              onCollideEvent.eventType = EventType.COIN_COLLECTED;  //<>//
+              onCollideEvent.eventType = EventType.COIN_COLLECTED;
               onCollideEvent.eventParameters = new HashMap<String, String>(); 
               onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
             }
             else if (stringEventType.equals("GAME_OVER"))
-            { //<>//
+            {
               onCollideEvent.eventType = EventType.GAME_OVER;
-            } //<>//
+            }
             else if (stringEventType.equals("DESTROY_COIN"))
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
             { //<>//
               onCollideEvent.eventType = EventType.DESTROY_COIN; //<>//
               onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
@@ -709,6 +738,24 @@ public class RigidBodyComponent extends Component
           }   //<>//
         }   //<>//
       } //<>//
+=======
+            {
+              onCollideEvent.eventType = EventType.DESTROY_COIN;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
+            }
+            else if (stringEventType.equals("PLAYER_PLATFORM_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_PLATFORM_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
+            }
+
+            onCollideEvents.add(onCollideEvent);
+          }
+        }
+      }
+>>>>>>> Added Logging/component for Fitts Law
       else if (rigidBodyComponent.getName().equals("OnExitEvents"))
       {
         for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
@@ -730,42 +777,76 @@ public class RigidBodyComponent extends Component
           }
         }
       }
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
     }  
   }  
      //<>//
   @Override public ComponentType getComponentType() 
+=======
+    }
+  }
+
+  @Override public ComponentType getComponentType()
+>>>>>>> Added Logging/component for Fitts Law
   {
-    return ComponentType.RIGID_BODY; //<>//
-  } 
-     //<>//
-  @Override public void update(int deltaTime)   //<>//
-  {   //<>//
-    // Reverse sync the physically simulated position to the Game Object position.  
-    gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));  
-  }  
-  //<>//
-  public void onCollisionEnter(IGameObject collider) //<>//
-  { //<>//
-    for (OnCollideEvent onCollideEvent : onCollideEvents) //<>//
-    {  //<>//
-      if (onCollideEvent.collidedWith.equals(collider.getTag()))   //<>//
-      {  
-        if (onCollideEvent.eventType == EventType.COIN_COLLECTED)   //<>//
-        {  
-          Event event = new Event(EventType.COIN_COLLECTED);  
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);   //<>//
-          eventManager.queueEvent(event);  
-        }   //<>//
-        else if (onCollideEvent.eventType == EventType.GAME_OVER)   //<>//
-        {  
-          eventManager.queueEvent(new Event(EventType.GAME_OVER));   //<>//
-        }  
-        else if (onCollideEvent.eventType == EventType.DESTROY_COIN)   //<>//
-        {   
-          Event event = new Event(EventType.DESTROY_COIN);  
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);  
-          eventManager.queueEvent(event);  
+    return ComponentType.RIGID_BODY;
+  }
+   
+  @Override public void update(int deltaTime)
+  {
+    // Reverse sync the physically simulated position to the Game Object position.
+    gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));
+  }
+
+  public void onCollisionEnter(IGameObject collider)
+  {
+    for (OnCollideEvent onCollideEvent : onCollideEvents)
+    {
+      if (onCollideEvent.collidedWith.equals(collider.getTag()))
+      {
+        if (onCollideEvent.eventType == EventType.COIN_COLLECTED)
+        {
+          Event event = new Event(EventType.COIN_COLLECTED);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.GAME_OVER)
+        {
+          eventManager.queueEvent(new Event(EventType.GAME_OVER));
+        }
+        else if (onCollideEvent.eventType == EventType.DESTROY_COIN) 
+        {
+          Event event = new Event(EventType.DESTROY_COIN);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION)
+        {
+          Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+      }
+    }
+  }
+
+  public void onExitEvent(IGameObject collider)
+  {
+    for (OnExitEvent onCollideEvent : onExitEvents)
+    {
+      if (onCollideEvent.exitFrom.equals(collider.getTag()))
+      {
+        if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_EXIT)
+        {
+          Event event = new Event(EventType.PLAYER_PLATFORM_EXIT);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+      }
+    }
+  }
   
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
         } 
         else if (onCollideEvent.eventType == EventType.PLAYER_PLATFORM_COLLISION) 
         {
@@ -798,14 +879,26 @@ public class RigidBodyComponent extends Component
     return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));  //<>//
   }  //<>//
  //<>//
-  public float getSpeed()
-  { //<>//
-    PVector linearVelocity = getLinearVelocity();  //<>//
-    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));  //<>//
-  }  //<>//
-  public PVector getAcceleration()  //<>//
+=======
+  public PVector getPosition()
   { 
-    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y));   //<>//
+    return new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)); 
+  } 
+
+  public PVector getLinearVelocity()
+  {
+    return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
+  }
+
+>>>>>>> Added Logging/component for Fitts Law
+  public float getSpeed()
+  {
+    PVector linearVelocity = getLinearVelocity();
+    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));
+  }
+  public PVector getAcceleration()
+  { 
+    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y)); 
   }   
   public void setLinearVelocity(PVector linearVelocity)  
   {  
@@ -823,42 +916,54 @@ public class RigidBodyComponent extends Component
     body.applyLinearImpulse( 
       new Vec2(pixelsToMeters(impulse.x), pixelsToMeters(impulse.y)),
       new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)), 
-      wakeUp  //<>//
-    ); //<>//
-  }  //<>//
-  //<>//
+      wakeUp
+    );
+  }
+
   private float pixelsToMeters(float pixels) 
-  {   //<>//
-    return pixels / 50.0f;   //<>//
-  }  //<>//
- //<>//
-  private float metersToPixels(float meters) //<>//
-  {  //<>//
-    return meters * 50.0f;   //<>//
-  }   //<>//
-}   //<>//
-   //<>//
-public class PlayerControllerComponent extends Component   //<>//
-{  //<>//
-  public PVector moveVectorX;  //<>//
-  private float acceleration;  //<>//
-  private float maxSpeed; //<>//
-  private float minInputThreshold;  //<>//
+  { 
+    return pixels / 50.0f; 
+  }
+
+  private float metersToPixels(float meters)
+  {
+    return meters * 50.0f; 
+  } 
+} 
+ 
+public class PlayerControllerComponent extends Component 
+{
+  public PVector moveVectorX;
+  private float acceleration;
+  private float maxSpeed;
+  private float minInputThreshold;
   private float jumpForce; 
-    //<>//
-  private String currentSpeedParameterName;   //<>//
-  //<>//
-  private String collidedPlatformParameterName;  //<>//
-  private String gapDirection;  //<>//
+  
+  private String currentSpeedParameterName; 
+
+  private String collidedPlatformParameterName;
+  private String gapDirection;
  
   private boolean upButtonDown; 
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
   private boolean leftButtonDown; //<>//
   private boolean rightButtonDown; //<>//
+=======
+  private boolean leftButtonDown;
+  private boolean rightButtonDown;
+>>>>>>> Added Logging/component for Fitts Law
   private boolean leftMyoForce;
   private boolean rightMyoForce;
   
   private int jumpDelay;
   private int jumpTime;
+  private int directionChanges;
+  private boolean goingRight;
+  private boolean goingLeft;
+  private boolean notMoving;
+  private int undershootCount;
+  private int overshootCount;
+  private ArrayList<PVector> directionChangeList;
   
   private SoundFile jumpSound;
   private float amplitude;
@@ -867,21 +972,27 @@ public class PlayerControllerComponent extends Component   //<>//
 
   public PlayerControllerComponent(IGameObject _gameObject) 
   {  
-    super(_gameObject);   //<>//
+    super(_gameObject); 
       
-    upButtonDown = false;   //<>//
+    upButtonDown = false; 
     leftButtonDown = false;  
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
     rightButtonDown = false; //<>//
     onPlatform = false;
     moveVectorX = new PVector();   //<>//
+=======
+    rightButtonDown = false;
+    onPlatform = false;
+    moveVectorX = new PVector(); 
+>>>>>>> Added Logging/component for Fitts Law
   }  
-     //<>//
-  @Override public void destroy()  //<>//
-  {  //<>//
-    //<>//
-  }   //<>//
-   //<>//
-  @Override public void fromXML(XML xmlComponent)   //<>//
+   
+  @Override public void destroy()
+  {
+  
+  } 
+ 
+  @Override public void fromXML(XML xmlComponent) 
   { 
     acceleration = xmlComponent.getFloat("acceleration"); 
     maxSpeed = xmlComponent.getFloat("maxSpeed"); 
@@ -889,15 +1000,15 @@ public class PlayerControllerComponent extends Component   //<>//
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
 
-    collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName"); //<>//
+    collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
-    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile")); //<>//
+    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    amplitude = xmlComponent.getFloat("amp"); //<>//
-    jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>//
-  } //<>//
+    amplitude = xmlComponent.getFloat("amp");
+    jumpSound.add(xmlComponent.getFloat("add"));
+    jumpDelay = 500;
+  }
 
   @Override public ComponentType getComponentType()
   {
@@ -922,14 +1033,20 @@ public class PlayerControllerComponent extends Component   //<>//
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()"); 
  
     smoothControls(moveVector, deltaTime); 
- //<>//
-    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);  //<>//
-  //<>//
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);  //<>//
-    //println(moveVector.x);  //<>//
+
+    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
+
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    //println(moveVector.x);
     moveVectorX = moveVector; 
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
     if (component != null) //<>//
     { //<>//
+=======
+    calculateDirectionChanges(moveVector);
+    if (component != null)
+    {
+>>>>>>> Added Logging/component for Fitts Law
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
@@ -949,24 +1066,24 @@ public class PlayerControllerComponent extends Component   //<>//
       if (!platformManagerList.isEmpty())
       {
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);  
-        if (tcomponent != null) //<>//
-        {   //<>//
+        if (tcomponent != null)
+        { 
           if (moveVector.y < -0.5f)
           {  
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);   //<>//
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();  
-          }   //<>//
-        }   //<>//
-      }   //<>//
-         //<>//
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed());   //<>//
-    }   //<>//
-    else //<>//
-    { //<>//
-      gameObject.translate(moveVector); //<>//
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y))); //<>//
-    } //<>//
+          } 
+        } 
+      } 
+       
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
+    } 
+    else
+    {
+      gameObject.translate(moveVector);
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
+    }
 
     eventManager.queueEvent(currentSpeedEvent);
   }  
@@ -1027,26 +1144,26 @@ public class PlayerControllerComponent extends Component   //<>//
     rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);
     rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude);
     return rawInput;
-  } //<>//
- //<>//
-  private PVector applyNormalControls(HashMap<String, Float> input) //<>//
+  }
+
+  private PVector applyNormalControls(HashMap<String, Float> input)
   {
     PVector moveVector = new PVector();
     moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
     moveVector.y = -input.get(JUMP_DIRECTION_LABEL);
-    return moveVector; //<>//
-  } //<>//
- //<>//
-  private PVector applyDirectionAssistControls(HashMap<String, Float> input) //<>//
-  { //<>//
-    Float magnitude = 0.0; //<>//
-    DirectionAssistMode mode = options.getGameOptions().getDirectionAssistMode(); //<>//
-    if (mode == DirectionAssistMode.LEFT_ONLY) //<>//
-      magnitude = input.get(LEFT_DIRECTION_LABEL); //<>//
+    return moveVector;
+  }
+
+  private PVector applyDirectionAssistControls(HashMap<String, Float> input)
+  {
+    Float magnitude = 0.0;
+    DirectionAssistMode mode = options.getGameOptions().getDirectionAssistMode();
+    if (mode == DirectionAssistMode.LEFT_ONLY)
+      magnitude = input.get(LEFT_DIRECTION_LABEL);
     else if (mode == DirectionAssistMode.RIGHT_ONLY)
-      magnitude = input.get(RIGHT_DIRECTION_LABEL); //<>//
-    else if (mode == DirectionAssistMode.BOTH) //<>//
-      magnitude = input.get(LEFT_DIRECTION_LABEL) + input.get(RIGHT_DIRECTION_LABEL); //<>//
+      magnitude = input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == DirectionAssistMode.BOTH)
+      magnitude = input.get(LEFT_DIRECTION_LABEL) + input.get(RIGHT_DIRECTION_LABEL);
     else 
       println("[ERROR] Unrecognized control mode in PlayerControllerComponent::applyDirectionAssistControls"); 
     
@@ -1054,29 +1171,69 @@ public class PlayerControllerComponent extends Component   //<>//
     if (gapDirection == LEFT_DIRECTION_LABEL) 
       moveVector.x = -magnitude;
     else 
-      moveVector.x = magnitude;  //<>//
+      moveVector.x = magnitude;
 
     return moveVector;
   }
 
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
   {
-    PVector moveVector = new PVector(); //<>//
- //<>//
-    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>//
-    if (mode == SingleMuscleMode.AUTO_LEFT) //<>//
-      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
-    else if (mode == SingleMuscleMode.AUTO_RIGHT) //<>//
-      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);  //<>//
-    else  //<>//
-      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
- //<>//
+    PVector moveVector = new PVector();
+
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
+    if (mode == SingleMuscleMode.AUTO_LEFT)
+      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == SingleMuscleMode.AUTO_RIGHT)
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
+    else
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
+
     return moveVector; 
   }
- //<>//
-  public PVector getLatestMoveVector(){  //<>//
-    return moveVectorX;  //<>//
-  }  //<>//
+
+  public PVector getLatestMoveVector(){
+    return moveVectorX;
+  }
+  
+  public void calculateDirectionChanges(PVector mVector){ 
+    if(mVector.x < 0){
+      if(!goingLeft){
+        goingLeft = true;
+        goingRight = false;
+        directionChanges++;
+      }
+      else if(goingLeft && notMoving){
+        undershootCount++;
+      }
+    notMoving = false;
+  }
+  else if(mVector.x > 0){
+    if(!goingRight){
+      goingRight =true;
+      goingLeft=false;
+      directionChanges++;
+    }
+    else if(goingRight && notMoving){
+      undershootCount++;
+    }
+      notMoving = false;
+    }
+    else
+      notMoving = true;
+  }
+  
+  public int getDirerctionChanges(){
+    return directionChanges;
+  }
+  
+  public int getUnderShoots(){
+    return undershootCount;
+  }
+  
+  public void setDirerctionChangesZero(){
+    directionChanges = 0;
+    undershootCount = 0;
+  }
  
   private void handleEvents() 
   { 
@@ -1085,9 +1242,9 @@ public class PlayerControllerComponent extends Component   //<>//
  
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
       leftButtonDown = true; 
- //<>//
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
-      rightButtonDown = true; //<>//
+
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
+      rightButtonDown = true;
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
       upButtonDown = false;
@@ -1097,6 +1254,7 @@ public class PlayerControllerComponent extends Component   //<>//
       
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0) 
       rightButtonDown = false; 
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
   //<>//
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))  //<>//
     {  //<>//
@@ -1104,12 +1262,26 @@ public class PlayerControllerComponent extends Component   //<>//
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);   //<>//
       gapDirection = determineGapDirection(platform);   //<>//
     } //<>//
+=======
+
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+    {
+      onPlatform = true;
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
+      gapDirection = determineGapDirection(platform); 
+    }
+>>>>>>> Added Logging/component for Fitts Law
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
     {
       onPlatform = false;
     }
+<<<<<<< 93ff2cf6fa92e5c15df646d1b23815c84418e111
   }  //<>//
   //<>//
+=======
+  }
+
+>>>>>>> Added Logging/component for Fitts Law
   private String determineGapDirection(IGameObject platform) 
   {
     IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0); 
@@ -1122,10 +1294,10 @@ public class PlayerControllerComponent extends Component   //<>//
  
     String direction = ""; 
 
-    if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)  //<>//
-    {  //<>//
-      // platform extends all the way to left wall (i.e., no gap to the left)  //<>//
-      direction = RIGHT_DIRECTION_LABEL; //<>//
+    if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
+    {
+      // platform extends all the way to left wall (i.e., no gap to the left)
+      direction = RIGHT_DIRECTION_LABEL;
     } 
     else 
     { 
@@ -1139,8 +1311,8 @@ public class PlayerControllerComponent extends Component   //<>//
     if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
     {
       moveVector.x = 0.0f;
-    }  //<>//
-    else if (moveVector.x < 0.0f)   //<>//
+    }
+    else if (moveVector.x < 0.0f) 
     {  
       moveVector.x += minInputThreshold;  
       moveVector.x *= options.getIOOptions().getLeftEMGSensitivity() * (1.0f - minInputThreshold);  
@@ -1223,6 +1395,7 @@ public class PlatformManagerControllerComponent extends Component
     super (_gameObject);
     
     platforms = new LinkedList<IGameObject>();
+    platformLevels = new ArrayList<ArrayList<Integer>>();
   }
   
   @Override public void destroy()
@@ -1313,7 +1486,7 @@ public class PlatformManagerControllerComponent extends Component
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
     }
-    
+    ArrayList<Integer> platLevels = new ArrayList<Integer>();
     for (PVector platformRange : platformRanges)
     {
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
@@ -1344,6 +1517,7 @@ public class PlatformManagerControllerComponent extends Component
       platform.setTag(tag);
       setPlatformRiseSpeed(platform);
       platforms.add(platform);
+      platLevels.add(platform.getUID());
       
       if (options.getGameOptions().getObstacles())
       {
@@ -1365,6 +1539,7 @@ public class PlatformManagerControllerComponent extends Component
         }
       }
     }
+    platformLevels.add(platLevels);
   }
   
   private void handleEvents()
@@ -2812,7 +2987,117 @@ public class AnimationControllerComponent extends Component
           return left;
         } 
       }
-
+  }
+}
+public class FittsStatsComponent extends Component
+{ 
+  private int levelCount;
+  private int id;
+  private String condition;
+  private float breakthroughTime;
+  private float startPoint;
+  private float endPoint;
+  private float startTime;
+  private float endTime;
+  private int errors;
+  private int undershoots;
+  private int overshoots;
+  private int directionChanges;
+  private float totalTime;
+  public FittsStatsComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    id = 0;
+    levelCount =0;
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.FITTS_STATS;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+    totalTime += deltaTime;
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter("platform");
+      if(platformLevels.get(0).contains(platform.getUID())){
+        if(table.getRowCount() > 0)
+         endLogLevel(table.getRow(table.getRowCount() - 1));
+        levelCount++;
+        TableRow newRow = table.addRow(); 
+        startLogLevel(newRow);
+        platformLevels.remove(0);
+      }
+       else if(platformLevels.size() > 1){
+         if(platformLevels.get(1).contains(platform.getUID())){
+           if(table.getRowCount() > 0)
+             endLogLevel(table.getRow(table.getRowCount() - 1));
+           levelCount++;
+           levelCount++;
+           TableRow newRow = table.addRow(); 
+           startLogLevel(newRow);
+           platformLevels.remove(0);
+           platformLevels.remove(0);
+        }
+      }
+    }
+  }
+  
+  private void startLogLevel(TableRow newRow){
+   IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+   PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+   playComp.setDirerctionChangesZero();
+   IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+   PVector pos = new PVector();
+   if(component != null){
+    RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+    pos = rigidBodyComponent.getPosition();
+   }
+   startTime = totalTime;
+   newRow.setInt("id", table.getRowCount() - 1);
+   newRow.setInt("level", levelCount);
+   newRow.setString("condition", "Normal Momo Mode");
+   newRow.setFloat("start point x", pos.x);
+   newRow.setFloat("start point y", pos.y);
+   newRow.setFloat("start time", startTime);
+  }
+  
+  private void endLogLevel(TableRow newRow){
+   IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+   PVector pos = new PVector();
+   if(component != null){
+    RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+    pos = rigidBodyComponent.getPosition();
+   }
+   IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+   PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+   directionChanges = playComp.getDirerctionChanges();
+   undershoots = playComp.getUnderShoots();
+   endTime = totalTime;
+   newRow.setFloat("breakthrough time", breakthroughTime);
+   newRow.setFloat("end point x", pos.x);
+   newRow.setFloat("end point y", pos.y);
+   newRow.setFloat("end time", endTime);
+   newRow.setInt("errors", errors);
+   newRow.setInt("undershoots", undershoots);
+   newRow.setInt("overshoots", overshoots);
+   newRow.setInt("direction changes", directionChanges);
+   newRow.setFloat("total time",endTime - startTime);
   }
 }
 
@@ -2901,6 +3186,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if(componentName.equals("CounterID"))
   {
     component = new CounterIDComponent(gameObject);
+  }
+  else if(componentName.equals("FittsStatsComponent"))
+  {
+   component = new FittsStatsComponent(gameObject); 
   }
   
   if (component != null)

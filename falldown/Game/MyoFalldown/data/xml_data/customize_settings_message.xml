@@ -17,16 +17,16 @@
     <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="125.0">
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Ellipse>
-    <CustomSprite active="true" actualSrc="images/player/MomoP1.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/player/MomoP1.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="5f" height="50.0" horzCount="2" scaleHeight="30" src="images/player/MomoP1.png" vertCount="1" x="175.0" y="125.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/player/dragon.png" greySrc="images/player/dragonGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/player/dragon.png" cost="100" greySrc="images/player/dragonGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/dragonGrey.png" vertCount="1" x="225.0" y="125.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/player/monsterSingle.png" greySrc="images/player/monsterSingleGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/player/monsterSingle.png" cost="100" greySrc="images/player/monsterSingleGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="54.0" horzCount="1" scaleHeight="30" src="images/player/monsterSingleGrey.png" vertCount="1" x="275.0" y="125.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/player/grumpyBird.png" greySrc="images/player/grumpyBirdGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/player/grumpyBird.png" cost="100" greySrc="images/player/grumpyBirdGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/player/grumpyBirdGrey.png" vertCount="1" x="325.0" y="125.0" zOrder="0"/>
     </CustomSprite>
     <!-- Platform Unlockables -->
@@ -37,16 +37,16 @@
     <Rect halfHeight="20" halfWidth="20" x="175.0" y="165.0">
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Rect>
-    <CustomSprite active="false" actualSrc="images/block/grassMid.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/block/grassMid.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/block/grassMid.png" vertCount="1" x="175.0" y="165.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/block/castleMid.png" greySrc="images/block/castleMidGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/block/castleMid.png" cost="100" greySrc="images/block/castleMidGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="30" src="images/block/castleMidGrey.png" vertCount="1" x="225.0" y="165.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/block/keybrick.png" greySrc="images/block/keybrickGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/block/keybrick.png" cost="100" greySrc="images/block/keybrickGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="53.0" horzCount="1" scaleHeight="30" src="images/block/keybrickGrey.png" vertCount="1" x="275.0" y="165.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="true" actualSrc="images/block/forest.png" greySrc="images/block/forestGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/block/forest.png" cost="100" greySrc="images/block/forestGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="63.0" horzCount="1" scaleHeight="35" src="images/block/forestGrey.png" vertCount="1" x="325.0" y="165.0" zOrder="0"/>
     </CustomSprite>
     <!-- Coin Unlockables -->
@@ -57,16 +57,16 @@
     <Ellipse halfHeight="20" halfWidth="20" x="175.0" y="215.0">
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Ellipse>
-    <CustomSprite active="true" actualSrc="images/coin/coin_sheet.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/coin/coin_sheet.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="5" farmeFreq="5f" height="42.0" horzCount="6" scaleHeight="30" src="images/coin/coin_sheet.png" vertCount="1" x="175.0" y="215.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/coin/crown.png" greySrc="images/coin/crownGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/coin/crown.png" cost="100" greySrc="images/coin/crownGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="20" src="images/coin/crownGrey.png" vertCount="1" x="225.0" y="215.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/coin/gem.png" greySrc="images/coin/gemGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/coin/gem.png" cost="100" greySrc="images/coin/gemGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="25.0" horzCount="1" scaleHeight="20" src="images/coin/gemGrey.png" vertCount="1" x="275.0" y="215.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/coin/apple.png" greySrc="images/coin/appleGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/coin/apple.png" cost="100" greySrc="images/coin/appleGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/appleGrey.png" vertCount="1" x="325.0" y="215.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Obstacles" x="25.0" y="275.0">
@@ -77,16 +77,16 @@
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Ellipse>
     <!-- Obstacles Unlockables -->
-    <CustomSprite active="true" actualSrc="images/obstacle/pokerMad.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/obstacle/pokerMad.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="146.0" horzCount="1" scaleHeight="40" src="images/obstacle/pokerMad.png" vertCount="1" x="175.0" y="265.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/obstacle/sword.png" greySrc="images/obstacle/swordGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/obstacle/sword.png" cost="100" greySrc="images/obstacle/swordGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="118.0" horzCount="1" scaleHeight="40" src="images/obstacle/swordGrey.png" vertCount="1" x="225.0" y="265.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/obstacle/spaceEnemy.png" greySrc="images/obstacle/spaceEnemyGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/obstacle/spaceEnemy.png" cost="100" greySrc="images/obstacle/spaceEnemyGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="64.0" horzCount="1" scaleHeight="40" src="images/obstacle/spaceEnemyGrey.png" vertCount="1" x="275.0" y="265.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/obstacle/treeTrunk.png" greySrc="images/obstacle/treeTrunkGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/obstacle/treeTrunk.png" cost="100" greySrc="images/obstacle/treeTrunkGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="70.0" horzCount="1" scaleHeight="40" src="images/obstacle/treeTrunkGrey.png" vertCount="1" x="325.0" y="265.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Background" x="25.0" y="325.0">
@@ -97,16 +97,16 @@
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Rect>
     <!-- Background Unlockables -->
-    <CustomSprite active="true" actualSrc="images/background/rockMountain.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/background/rockMountain.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/rockMountain.png" vertCount="1" x="175.0" y="315.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/background/mountain.png" greySrc="images/background/mountainGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/background/mountain.png" cost="100" greySrc="images/background/mountainGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/mountainGrey.png" vertCount="1" x="225.0" y="315.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/background/sky.png" greySrc="images/background/skyGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/background/sky.png" cost="100" greySrc="images/background/skyGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/skyGrey.png" vertCount="1" x="275.0" y="315.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/background/bg_shroom.png" greySrc="images/background/bg_shroomGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/background/bg_shroom.png" cost="100" greySrc="images/background/bg_shroomGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="500.0" horzCount="1" scaleHeight="40" src="images/background/bg_shroomGrey.png" vertCount="1" x="325.0" y="315.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Music" x="25.0" y="375.0">
@@ -117,16 +117,16 @@
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Ellipse>
     <!-- Music Unlockables -->
-    <CustomSprite active="true" actualSrc="images/button/musicNote.png" greySrc="" cost="100" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/button/musicNote.png" cost="100" greySrc="" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="175.0" y="365.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/button/musicNote.png" greySrc="images/button/musicNoteGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" greySrc="images/button/musicNoteGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="225.0" y="365.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/button/musicNote.png" greySrc="images/button/musicNoteGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" greySrc="images/button/musicNoteGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="275.0" y="365.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/button/musicNote.png" greySrc="images/button/musicNoteGrey.png" cost="100" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" greySrc="images/button/musicNoteGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="325.0" y="365.0" zOrder="0"/>
     </CustomSprite>
   </Render>

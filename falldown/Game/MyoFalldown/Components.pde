@@ -879,6 +879,8 @@ public class PlayerControllerComponent extends Component
   private float amplitude;
 
   private boolean onPlatform;
+  private boolean onBreakPlatform;
+  private long breakTimerStart;
 
   public PlayerControllerComponent(IGameObject _gameObject) 
   {  
@@ -888,15 +890,17 @@ public class PlayerControllerComponent extends Component
     leftButtonDown = false;
     rightButtonDown = false;
     onPlatform = false;
-    moveVectorX = new PVector();
-  }
-   
-  @Override public void destroy()
-  {
-
-  }
- 
-  @Override public void fromXML(XML xmlComponent) 
+    onBreakPlatform = false;
+    breakTimerStart = (long)Double.POSITIVE_INFINITY;
+    moveVectorX = new PVector();   //<>//
+  }  
+     //<>//
+  @Override public void destroy()  //<>//
+  {  //<>//
+    //<>//
+  }   //<>//
+   //<>//
+  @Override public void fromXML(XML xmlComponent)   //<>//
   { 
     acceleration = xmlComponent.getFloat("acceleration"); 
     maxSpeed = xmlComponent.getFloat("maxSpeed"); 
@@ -941,16 +945,61 @@ public class PlayerControllerComponent extends Component
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-    //println(moveVector.x);
+    //println(moveVector.x); //<>// //<>// //<>// //<>// //<>//
     moveVectorX = moveVector; 
 
     calculateDirectionChanges(moveVector);
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+
+      boolean touchingABreakPlatform = false;
+      IGameObject breakingPlatform = null;
+      for(org.jbox2d.dynamics.contacts.ContactEdge ce = rigidBodyComponent.body.getContactList(); ce != null; ce = ce.next)
+      {
+        IGameObject go = (IGameObject)ce.other.getUserData();
+        if (ce.contact.isTouching() && go.getTag().equals("break_platform"))
+        {
+          breakingPlatform = go;
+          touchingABreakPlatform = true;
+          onPlatform = true;
+          break;
+        }
+        else if (ce.contact.isTouching() && go.getTag().equals("platform"))
+        {
+          onPlatform = true;
+        }
+        else
+        {
+          onPlatform = false;
+        }
+      }
+
+      if (touchingABreakPlatform)
+      {
+        if (!onBreakPlatform)
+        {
+          onBreakPlatform = true;
+          breakTimerStart = System.currentTimeMillis();
+        }
+
+        if (System.currentTimeMillis() - breakTimerStart > 2000 && breakingPlatform != null)
+        {
+          onPlatform = false;
+          onBreakPlatform = false;
+          RigidBodyComponent rbc = (RigidBodyComponent)breakingPlatform.getComponent(ComponentType.RIGID_BODY);
+          rbc.setLinearVelocity(new PVector(0.0, 1000));
+        }
+      }
+      else
+      {
+        breakTimerStart = (long) Double.POSITIVE_INFINITY;
+        onBreakPlatform = false;
+      }
+
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
-        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce))
+        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown)
         {
           rigidBodyComponent.setLinearVelocity(new PVector(0,0));
         }
@@ -1236,6 +1285,7 @@ public class PlatformManagerControllerComponent extends Component
 { 
   private LinkedList<IGameObject> platforms; 
   private String platformFile;  
+  private String breakPlatformFile;
   private String slipperyPlatformFile;  
   private float slipperyPlatformChance; 
   private String stickyPlatformFile; 
@@ -1291,6 +1341,7 @@ public class PlatformManagerControllerComponent extends Component
   @Override public void fromXML(XML xmlComponent)
   {
     platformFile = xmlComponent.getString("platformFile");
+    breakPlatformFile = xmlComponent.getString("breakPlatformFile");
     slipperyPlatformFile = xmlComponent.getString("slipperyPlatformFile");
     slipperyPlatformChance = xmlComponent.getFloat("slipperyPlatformChance");
     stickyPlatformFile = xmlComponent.getString("stickyPlatformFile");
@@ -1379,6 +1430,11 @@ public class PlatformManagerControllerComponent extends Component
       
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
+
+      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+      breakPlatform.setTag("break_platform");
+      setPlatformRiseSpeed(breakPlatform);
+      platforms.add(breakPlatform);
     }
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
     for (PVector platformRange : platformRanges)

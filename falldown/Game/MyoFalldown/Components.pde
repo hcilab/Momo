@@ -854,6 +854,8 @@ public class PlayerControllerComponent extends Component   //<>//
   private boolean upButtonDown; 
   private boolean leftButtonDown; //<>//
   private boolean rightButtonDown; //<>//
+  private boolean leftMyoForce;
+  private boolean rightMyoForce;
   
   private int jumpDelay;
   private int jumpTime;
@@ -931,7 +933,7 @@ public class PlayerControllerComponent extends Component   //<>//
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       if (rigidBodyComponent.gameObject.getTag().equals("player"))
       {
-        if (onPlatform && !leftButtonDown && !rightButtonDown)
+        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce))
         {
           rigidBodyComponent.setLinearVelocity(new PVector(0,0));
         }
@@ -971,27 +973,46 @@ public class PlayerControllerComponent extends Component   //<>//
 
   private HashMap<String, Float> gatherRawInput() 
   {
+    HashMap<String, Float> rawInput = emgManager.poll();
+
     Float keyboardLeftMagnitude;
     Float keyboardRightMagnitude;
     Float keyboardJumpMagnitude;
+
+    Float myoLeftMagnitude;
+    Float myoRightMagnitude;
+    Float myoJumpMagnitude;
 
     if (onPlatform)
     {
       keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
       keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
       keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+
+      myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL);
+      myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL);
+      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
     }
     else
     {
+      // set left and right to zero - can't control movement when in the air
       keyboardLeftMagnitude = 0.0;
       keyboardRightMagnitude = 0.0;
       keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+
+      myoLeftMagnitude = 0.0;
+      myoRightMagnitude = 0.0;
+      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
     }
 
-    HashMap<String, Float> rawInput = emgManager.poll(); 
-    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude);
-    rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
-    rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude);
+    // 0.1 for now, can be changed to higher/lower val
+    // used as min required force to pick up movement
+    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > 0.1 ? true : false;
+    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > 0.1 ? true : false;
+
+    rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude);
+    rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);
+    rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude);
     return rawInput;
   } //<>//
  //<>//

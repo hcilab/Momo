@@ -71,6 +71,9 @@ PShape bg;
 PShape opbg;
 PShape wbg;
 
+// Set to true for limitations to compute Fitt's Law
+boolean fittsLaw = false;
+
 void setup()
 {
   size(500, 500);

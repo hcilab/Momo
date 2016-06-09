@@ -931,7 +931,7 @@ public class PlayerControllerComponent extends Component   //<>//
     if (component != null) //<>//
     { //<>//
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      if (rigidBodyComponent.gameObject.getTag().equals("player"))
+      if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce))
         {
@@ -983,7 +983,31 @@ public class PlayerControllerComponent extends Component   //<>//
     Float myoRightMagnitude;
     Float myoJumpMagnitude;
 
-    if (onPlatform)
+    if (fittsLaw)
+    {
+      if (onPlatform)
+      {
+        keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
+        keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+        keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+
+        myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL);
+        myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL);
+        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
+      }
+      else
+      {
+        // set left and right to zero - can't control movement when in the air
+        keyboardLeftMagnitude = 0.0;
+        keyboardRightMagnitude = 0.0;
+        keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+
+        myoLeftMagnitude = 0.0;
+        myoRightMagnitude = 0.0;
+        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
+      }
+    }
+    else
     {
       keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
       keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
@@ -991,17 +1015,6 @@ public class PlayerControllerComponent extends Component   //<>//
 
       myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL);
       myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL);
-      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
-    }
-    else
-    {
-      // set left and right to zero - can't control movement when in the air
-      keyboardLeftMagnitude = 0.0;
-      keyboardRightMagnitude = 0.0;
-      keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
-
-      myoLeftMagnitude = 0.0;
-      myoRightMagnitude = 0.0;
       myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
     }
 

@@ -1302,8 +1302,16 @@ public class PlatformManagerControllerComponent extends Component
     platformHeight = xmlComponent.getFloat("platformHeight");
     disappearHeight = xmlComponent.getFloat("disappearHeight");
     spawnHeight = xmlComponent.getFloat("spawnHeight");
-    minGapsPerLevel = xmlComponent.getInt("minGapsPerLevel");
-    maxGapsPerLevel = xmlComponent.getInt("maxGapsPerLevel");
+    if (fittsLaw)
+    {
+      minGapsPerLevel = 1;
+      maxGapsPerLevel = 1;
+    }
+    else
+    {
+      minGapsPerLevel = xmlComponent.getInt("minGapsPerLevel");
+      maxGapsPerLevel = xmlComponent.getInt("maxGapsPerLevel");
+    }
     minGapSize = xmlComponent.getFloat("minGapSize");
     maxGapSize = xmlComponent.getFloat("maxGapSize");
     minDistanceBetweenGaps = xmlComponent.getFloat("minDistanceBetweenGaps");

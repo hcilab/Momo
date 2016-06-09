@@ -74,7 +74,7 @@ Table table;
 ArrayList<ArrayList<Integer>> platformLevels;
 
 // Set to true for limitations to compute Fitt's Law
-boolean fittsLaw = false;
+boolean fittsLaw = true;
 
 void setup()
 {

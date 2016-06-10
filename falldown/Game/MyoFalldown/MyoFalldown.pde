@@ -81,6 +81,9 @@ boolean fittsLaw = true;
 PlatformManagerControllerComponent pc;
 //Set to true for reading in gaps placement on platforms
 boolean inputPlatformGaps = false;
+//Set to true if you want to log Fitts laws.
+boolean logFittsLaw = false;
+
 
 void setup()
 {

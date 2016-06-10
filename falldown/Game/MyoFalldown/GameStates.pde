@@ -298,7 +298,9 @@ public class GameState_InGame extends GameState
       if(ID == null)
         ID = "guest";
       Date d = new Date();
-      saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv");
+      
+      if(logFittsLaw)
+        saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv");
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }

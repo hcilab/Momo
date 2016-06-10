@@ -76,6 +76,8 @@ ArrayList<ArrayList<Integer>> platformLevels;
 // Set to true for limitations to compute Fitt's Law
 boolean fittsLaw = true;
 
+PlatformManagerControllerComponent pc;
+
 void setup()
 {
   size(500, 500);

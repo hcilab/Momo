@@ -1570,7 +1570,7 @@ public class PlatformManagerControllerComponent extends Component
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      rigidBodyComponent.setLinearVelocity(new PVector(0.0, riseSpeed*4));
+      rigidBodyComponent.setLinearVelocity(new PVector(0.0, 300));
     }
     platforms.remove(platform);
   }

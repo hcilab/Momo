@@ -1,8 +1,0 @@
-id,level,condition,breakthrough time,start point x,start point y,end point x,end point y,start time,end time,errors,undershoots,overshoots,direction changes,total time
-0,1,Normal Momo Mode,0.0,445.4276,414.12946,207.12909,298.18274,9605.0,18068.0,0,4,0,3,8463.0
-1,2,Normal Momo Mode,0.0,207.12909,298.18274,234.68874,384.58157,18068.0,20572.0,0,0,0,1,2504.0
-2,3,Normal Momo Mode,0.0,234.68874,384.58157,216.54883,435.53482,20572.0,22415.0,0,1,0,0,1843.0
-3,4,Normal Momo Mode,0.0,216.54883,435.53482,78.46286,413.3951,22415.0,27730.0,0,2,0,8,5315.0
-4,5,Normal Momo Mode,0.0,78.46286,413.3951,279.71402,309.1012,27730.0,34964.0,0,1,0,9,7234.0
-5,6,Normal Momo Mode,0.0,279.71402,309.1012,279.2297,401.24945,34964.0,36634.0,0,0,0,0,1670.0
-6,7,Normal Momo Mode,,279.2297,401.24945,,,36634.0,,,,,,

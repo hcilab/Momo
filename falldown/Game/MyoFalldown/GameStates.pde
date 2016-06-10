@@ -206,11 +206,52 @@ public class GameState_UserLogin extends GameState
         gameStateController.pushState(new GameState_MainMenu());
       }
       else if(tag.equals("play_as_guest")){
-        //gameStateController.popState();
         options.getCustomizeOptions().reset();
-        gameStateController.pushState(new GameState_MainMenu());
+        gameStateController.pushState(new GameState_MomoStory());
+      }
+      else if(tag.equals("exit")){
+        gameStateController.popState();
       }
      
+    }
+  }
+}
+
+public class GameState_MomoStory extends GameState
+{
+  public GameState_MomoStory()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/momo_story.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+       
+      if (tag.equals("skip"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_MainMenu());
+      }
     }
   }
 }
@@ -253,11 +294,11 @@ public class GameState_InGame extends GameState
     }
     for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
-      String userID = options.getUserInformation().getUserID();
-      if(userID == null)
-        userID = "guest";
+      String ID = options.getUserInformation().getUserID();
+      if(ID == null)
+        ID = "guest";
       Date d = new Date();
-      saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + userID + "_"+ d.getTime() + ".csv");
+      saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv");
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }
@@ -279,6 +320,7 @@ public class GameState_InGame extends GameState
     table.addColumn("undershoots");
     table.addColumn("overshoots");
     table.addColumn("direction changes");
+    table.addColumn("Has Coin");
     table.addColumn("total time");
   }
 }

@@ -71,12 +71,20 @@ PShape bg;
 PShape opbg;
 PShape wbg;
 Table table;
+Table tableInput;
+int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
 
 // Set to true for limitations to compute Fitt's Law
+<<<<<<< c8431f8b70e86c609db7592c4db4e7de5a30e3e8
 boolean fittsLaw = true;
 
 PlatformManagerControllerComponent pc;
+=======
+boolean fittsLaw = false;
+//Set to true for reading in gaps placement on platforms
+boolean inputPlatformGaps = false;
+>>>>>>> Added a reading platform Component and added Momo Story
 
 void setup()
 {
@@ -117,7 +125,8 @@ void setup()
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
-  
+  tableInput = loadTable("xml_data/input_platforms/testInput1.csv", "header");
+  totalRowCountInput = tableInput.getRowCount(); 
 } 
 
 void draw()

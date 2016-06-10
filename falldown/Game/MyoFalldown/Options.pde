@@ -192,7 +192,6 @@ public class Options implements IOptions
   }
   
   public void reloadOptions(){
-    userInfo = new UserInformation();
     xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
@@ -1179,20 +1178,19 @@ public class Options implements IOptions
   
   public class UserInformation implements IUserInformation
   {
-    private String userID;
+    private String userIDUserInfo;
     
     private UserInformation()
     {
-
     }
     
     @Override public String getUserID()
     {
-      return userID;
+      return userIDUserInfo;
     }
     @Override public void setSaveDataFile(String loginID)
     {
-      userID = loginID;
+      userIDUserInfo = loginID;
       String newUserSavedDataIN = "xml_data/user_save_data/save_data_" + loginID + ".xml";
       String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data_" + loginID + ".xml";
       File f = new File(dataPath(newUserSavedDataIN));

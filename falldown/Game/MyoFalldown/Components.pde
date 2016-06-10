@@ -1,4 +1,4 @@
-//====================================================================================================== //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+//======================================================================================================  //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
 // Author: David Hanna
 //
 // Components are attached to Game Objects to provide their data and behaviour.
@@ -464,19 +464,6 @@ public class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
-  private void tileWallSprite(OffsetSheetSprite sprite){  
-   //wall height is 500 with width of 10
-   //tile length will be 50 starting from top
-   int height = (int)sprite.sheetSprite.getHeight();
-   int tilelength = 500/height;
-   for(int i =0; i < tilelength+1; i++){
-      sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, (i*height));
-      sprite.sheetSprite.draw();
-   } 
-   
-  }
-  
-  
   @Override public ComponentType getComponentType()
   {
     return ComponentType.RENDER;
@@ -509,8 +496,13 @@ public class RenderComponent extends Component
     }
    for (OffsetPImage offsetImage : offsetPImages)
     {
+<<<<<<< c8431f8b70e86c609db7592c4db4e7de5a30e3e8
        if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform")){
          PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+=======
+       if(gameObject.getTag().equals("platform")){
+         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x) +1, (int)gameObject.getScale().y);
+>>>>>>> Added a reading platform Component and added Momo Story
          image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
        } //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        else {
@@ -945,7 +937,10 @@ public class PlayerControllerComponent extends Component
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+<<<<<<< c8431f8b70e86c609db7592c4db4e7de5a30e3e8
     //println(moveVector.x); //<>// //<>// //<>// //<>// //<>//
+=======
+>>>>>>> Added a reading platform Component and added Momo Story
     moveVectorX = moveVector; 
 
     calculateDirectionChanges(moveVector);
@@ -1324,6 +1319,7 @@ public class PlatformManagerControllerComponent extends Component
 
   private String currentRiseSpeedParameterName;
   private float riseSpeed;
+  private int inputPlatformCounter;
   
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
@@ -1401,7 +1397,14 @@ public class PlatformManagerControllerComponent extends Component
     {
       if (riseSpeed > 0.0f)
       {
-        spawnPlatformLevel();
+        if(!inputPlatformGaps)
+          spawnPlatformLevel();
+        else{
+          if(totalRowCountInput > inputPlatformCounter){
+            spawnPlatformLevelInput();
+            inputPlatformCounter++;
+          }
+        }
         nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
       }
     }
@@ -1487,6 +1490,42 @@ public class PlatformManagerControllerComponent extends Component
           platforms.add(obstacle);
         }
       }
+    }
+    platformLevels.add(platLevels);
+  }
+  
+  private void spawnPlatformLevelInput()
+  {
+    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+    platformRanges.add(new PVector(leftSide, rightSide));
+    
+    int gapsInLevel = 1; 
+    
+    for (int i = 0; i < gapsInLevel; ++i)
+    {
+      int rangeSelector = int(random(0, platformRanges.size() - 1));
+      PVector range = platformRanges.get(rangeSelector);
+      
+      TableRow row = tableInput.getRow(inputPlatformCounter);
+      float gapPosition = row.getFloat("placement");
+      float halfGapWidth = row.getFloat("halfWidth");
+      
+      platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+      range.y = gapPosition - halfGapWidth;
+    }
+    ArrayList<Integer> platLevels = new ArrayList<Integer>();
+    for (PVector platformRange : platformRanges)
+    {
+      float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
+      float platformWidth = platformRange.y - platformRange.x;
+      
+      IGameObject platform;
+      platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+
+      platform.setTag(tag);
+      setPlatformRiseSpeed(platform);
+      platforms.add(platform);
+      platLevels.add(platform.getUID());
     }
     platformLevels.add(platLevels);
   }
@@ -2995,24 +3034,26 @@ public class FittsStatsComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
       IGameObject platform = event.getRequiredGameObjectParameter("platform");
-      if(platformLevels.get(0).contains(platform.getUID())){
-        if(table.getRowCount() > 0)
-         endLogLevel(table.getRow(table.getRowCount() - 1));
-        levelCount++;
-        TableRow newRow = table.addRow(); 
-        startLogLevel(newRow);
-        platformLevels.remove(0);
-      }
-       else if(platformLevels.size() > 1){
-         if(platformLevels.get(1).contains(platform.getUID())){
-           if(table.getRowCount() > 0)
-             endLogLevel(table.getRow(table.getRowCount() - 1));
-           levelCount++;
-           levelCount++;
-           TableRow newRow = table.addRow(); 
-           startLogLevel(newRow);
-           platformLevels.remove(0);
-           platformLevels.remove(0);
+      if(!platformLevels.isEmpty()){
+        if(platformLevels.get(0).contains(platform.getUID())){
+          if(table.getRowCount() > 0)
+           endLogLevel(table.getRow(table.getRowCount() - 1));
+          levelCount++;
+          TableRow newRow = table.addRow(); 
+          startLogLevel(newRow);
+          platformLevels.remove(0);
+        }
+         else if(platformLevels.size() > 1){
+           if(platformLevels.get(1).contains(platform.getUID())){
+             if(table.getRowCount() > 0)
+               endLogLevel(table.getRow(table.getRowCount() - 1));
+             levelCount++;
+             levelCount++;
+             TableRow newRow = table.addRow(); 
+             startLogLevel(newRow);
+             platformLevels.remove(0);
+             platformLevels.remove(0);
+          }
         }
       }
     }
@@ -3053,9 +3094,9 @@ public class FittsStatsComponent extends Component
    newRow.setFloat("end point x", pos.x);
    newRow.setFloat("end point y", pos.y);
    newRow.setFloat("end time", endTime);
-   newRow.setInt("errors", errors);
+   newRow.setInt("errors", directionChanges + undershoots);
    newRow.setInt("undershoots", undershoots);
-   newRow.setInt("overshoots", overshoots);
+   newRow.setInt("overshoots", directionChanges);
    newRow.setInt("direction changes", directionChanges);
    newRow.setFloat("total time",endTime - startTime);
   }

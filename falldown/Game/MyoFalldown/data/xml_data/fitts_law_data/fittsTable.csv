@@ -1,4 +1,0 @@
-id,level,condition,breakthrough time,start point x,start point y,end point x,end point y,start time,end time,errors,undershoots,overshoots,direction changes,total time
-0,1,Normal Momo Mode,0.0,474.54996,473.67725,328.42853,280.09573,7523.0,18355.0,0,6,0,5,10832.0
-1,2,Normal Momo Mode,0.0,328.42853,280.09573,197.00172,197.01007,18355.0,25461.0,0,1,0,5,7106.0
-2,3,Normal Momo Mode,,197.00172,197.01007,,,25461.0,,,,,,

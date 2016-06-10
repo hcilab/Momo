@@ -692,6 +692,12 @@ public class RigidBodyComponent extends Component
               onCollideEvent.eventParameters = new HashMap<String, String>();
               onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
             }
+            else if (stringEventType.equals("PLAYER_BREAK_PLATFORM_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_BREAK_PLATFORM_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("breakPlatformParameterName", xmlOnCollideEvent.getString("breakPlatformParameterName"));
+            }
 
             onCollideEvents.add(onCollideEvent);
           }
@@ -712,6 +718,12 @@ public class RigidBodyComponent extends Component
               onExitEvent.eventType = EventType.PLAYER_PLATFORM_EXIT;
               onExitEvent.eventParameters = new HashMap<String, String>();
               onExitEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
+            }
+            else if (stringEventType.equals("PLAYER_BREAK_PLATFORM_EXIT"))
+            {
+              onExitEvent.eventType = EventType.PLAYER_BREAK_PLATFORM_EXIT;
+              onExitEvent.eventParameters = new HashMap<String, String>();
+              onExitEvent.eventParameters.put("breakPlatformParameterName", xmlOnCollideEvent.getString("breakPlatformParameterName"));
             }
 
             onExitEvents.add(onExitEvent);
@@ -760,6 +772,12 @@ public class RigidBodyComponent extends Component
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
           eventManager.queueEvent(event);
         }
+        else if (onCollideEvent.eventType == EventType.PLAYER_BREAK_PLATFORM_COLLISION)
+        {
+          Event event = new Event(EventType.PLAYER_BREAK_PLATFORM_COLLISION);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("breakPlatformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
       }
     }
   }
@@ -774,6 +792,12 @@ public class RigidBodyComponent extends Component
         {
           Event event = new Event(EventType.PLAYER_PLATFORM_EXIT);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.PLAYER_BREAK_PLATFORM_EXIT)
+        {
+          Event event = new Event(EventType.PLAYER_BREAK_PLATFORM_EXIT);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("breakPlatformParameterName"), collider);
           eventManager.queueEvent(event);
         }
       }
@@ -843,6 +867,7 @@ public class PlayerControllerComponent extends Component
   private String currentSpeedParameterName; 
 
   private String collidedPlatformParameterName;
+  private String collidedBreakPlatformParameterName;
   private String gapDirection;
  
   private boolean upButtonDown; 
@@ -866,7 +891,9 @@ public class PlayerControllerComponent extends Component
   private float amplitude;
 
   private boolean onPlatform;
+  private boolean onRegPlatform;
   private boolean onBreakPlatform;
+  private IGameObject breakPlatform;
   private long breakTimerStart;
 
   public PlayerControllerComponent(IGameObject _gameObject) 
@@ -877,6 +904,7 @@ public class PlayerControllerComponent extends Component
     leftButtonDown = false;
     rightButtonDown = false;
     onPlatform = false;
+    onRegPlatform = false;
     onBreakPlatform = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();   //<>//
@@ -896,6 +924,7 @@ public class PlayerControllerComponent extends Component
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
 
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
+    collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
@@ -933,54 +962,16 @@ public class PlayerControllerComponent extends Component
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
 
-    moveVectorX = moveVector; 
+    moveVectorX = moveVector;  //<>//
 
     calculateDirectionChanges(moveVector);
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
 
-      boolean touchingABreakPlatform = false;
-      IGameObject breakingPlatform = null;
-      for(org.jbox2d.dynamics.contacts.ContactEdge ce = rigidBodyComponent.body.getContactList(); ce != null; ce = ce.next)
+      if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
-        IGameObject go = (IGameObject)ce.other.getUserData();
-        if (ce.contact.isTouching() && go.getTag().equals("break_platform"))
-        {
-          breakingPlatform = go;
-          touchingABreakPlatform = true;
-          onPlatform = true;
-          break;
-        }
-        else if (ce.contact.isTouching() && go.getTag().equals("platform"))
-        {
-          onPlatform = true;
-        }
-        else
-        {
-          onPlatform = false;
-        }
-      }
-
-      if (touchingABreakPlatform)
-      {
-        if (!onBreakPlatform)
-        {
-          onBreakPlatform = true;
-          breakTimerStart = System.currentTimeMillis();
-        }
-
-        if (System.currentTimeMillis() - breakTimerStart > 2000 && breakingPlatform != null)
-        {
-          onPlatform = false;
-          onBreakPlatform = false;
-          pc.setPlatformDescentSpeed(breakingPlatform);
-        }
-      }
-      else
-      {
-        breakTimerStart = (long) Double.POSITIVE_INFINITY;
-        onBreakPlatform = false;
+       pc.setPlatformDescentSpeed(breakPlatform);
       }
 
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
@@ -1193,13 +1184,41 @@ public class PlayerControllerComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
       onPlatform = true;
+      onRegPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       gapDirection = determineGapDirection(platform); 
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
     {
-      onPlatform = false;
+      if (!onBreakPlatform)
+      {
+        onPlatform = false;
+      }
+      onRegPlatform = false;
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
+    {
+      onPlatform = true;
+      if (!onBreakPlatform)
+      {
+        breakTimerStart = System.currentTimeMillis();
+      }
+      onBreakPlatform = true;
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
+      breakPlatform = platform;
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_EXIT))
+    {
+      if (!onRegPlatform)
+      {
+        onPlatform = false;
+      }
+      onBreakPlatform = false;
+      breakTimerStart = (long) Double.POSITIVE_INFINITY;
+      breakPlatform = null;
     }
   }
 

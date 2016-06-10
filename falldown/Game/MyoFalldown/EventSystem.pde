@@ -54,6 +54,8 @@ enum EventType
   PLAYER_CURRENT_SPEED,
   PLAYER_PLATFORM_COLLISION,
   PLAYER_PLATFORM_EXIT,
+  PLAYER_BREAK_PLATFORM_COLLISION,
+  PLAYER_BREAK_PLATFORM_EXIT,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -260,6 +262,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.PLAYER_CURRENT_SPEED);
     addEventTypeToMaps(EventType.PLAYER_PLATFORM_COLLISION);
     addEventTypeToMaps(EventType.PLAYER_PLATFORM_EXIT);
+    addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_COLLISION);
+    addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_EXIT);
   }
   
   private void addEventTypeToMaps(EventType eventType)

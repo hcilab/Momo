@@ -509,10 +509,10 @@ public class RenderComponent extends Component
     }
    for (OffsetPImage offsetImage : offsetPImages)
     {
-       if(gameObject.getTag().equals("platform")){
+       if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform")){
          PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
          image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
-       }
+       } //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
        else {
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
        }
@@ -987,8 +987,7 @@ public class PlayerControllerComponent extends Component
         {
           onPlatform = false;
           onBreakPlatform = false;
-          RigidBodyComponent rbc = (RigidBodyComponent)breakingPlatform.getComponent(ComponentType.RIGID_BODY);
-          rbc.setLinearVelocity(new PVector(0.0, 1000));
+          pc.setPlatformDescentSpeed(breakingPlatform);
         }
       }
       else
@@ -1513,6 +1512,17 @@ public class PlatformManagerControllerComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
     }
+  }
+
+  public void setPlatformDescentSpeed(IGameObject platform)
+  {
+    IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+    if (component != null)
+    {
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      rigidBodyComponent.setLinearVelocity(new PVector(0.0, riseSpeed*2));
+    }
+    platforms.remove(platform);
   }
 }
 
@@ -3072,6 +3082,7 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("PlatformManagerController"))
   {
     component = new PlatformManagerControllerComponent(gameObject);
+    pc = (PlatformManagerControllerComponent) component;
   }
   else if (componentName.equals("CoinEventHandler"))
   {

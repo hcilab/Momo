@@ -1,9 +1,9 @@
 <GameObject>
 	<Render>
-		<SpriteSheet src="images/player/MomoP1.png" alphaImage=""
+		<SpriteSheet src="images/player/Momo.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="2" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1"> 
+				zOrder="0" height="40.0" scaleHeight="1"> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="0" leftStart="1" leftEnd="1">
 		</AnimationController>

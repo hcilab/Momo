@@ -1514,13 +1514,13 @@ public class PlatformManagerControllerComponent extends Component
     }
   }
 
-  public void setPlatformDescentSpeed(IGameObject platform)
+  private void setPlatformDescentSpeed(IGameObject platform)
   {
     IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      rigidBodyComponent.setLinearVelocity(new PVector(0.0, riseSpeed*2));
+      rigidBodyComponent.setLinearVelocity(new PVector(0.0, riseSpeed*4));
     }
     platforms.remove(platform);
   }

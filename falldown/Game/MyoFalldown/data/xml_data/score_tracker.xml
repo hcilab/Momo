@@ -2,8 +2,8 @@
 	<Render>
 		<Text
 			string="Score: 0"
-			fontName="Moire" 
-			size="24"
+			fontName="Arial"
+			size="20"
 			antialiasing="true"
 			alignX="right"
 			alignY="baseline"

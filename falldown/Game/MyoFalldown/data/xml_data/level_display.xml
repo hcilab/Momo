@@ -3,7 +3,7 @@
 		<Text
 			string="Level: 1"
 			fontName="Arial" 
-			size="24"
+			size="20"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"

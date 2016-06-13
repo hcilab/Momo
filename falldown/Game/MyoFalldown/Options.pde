@@ -155,7 +155,7 @@ public interface ICredits
 public interface IUserInformation
 {
   public void getDefaultSetting();
-  public void setSaveDataFile(String loginID);
+  public boolean setSaveDataFile(String loginID);
   public String getUserID();
 }
 //------------------------------------------------------------------------------------------------
@@ -1190,19 +1190,22 @@ public class Options implements IOptions
     {
       return userID;
     }
-    @Override public void setSaveDataFile(String loginID)
+    @Override public boolean setSaveDataFile(String loginID)
     {
+      boolean newUser = false;
       userID = loginID;
       String newUserSavedDataIN = "xml_data/user_save_data/save_data_" + loginID + ".xml";
       String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data_" + loginID + ".xml";
       File f = new File(dataPath(newUserSavedDataIN));
       if (!f.exists()) {
         println("[INFO] User ID does not already exist, creating new file.");
+        newUser = true;
         saveXML(xmldefaultData, newUserSavedDataOUT);
       }
       //xmlSaveData = loadXML(newUserSavedDataIN);
       setSaveDataFiles(newUserSavedDataIN, newUserSavedDataOUT);
       reloadOptions();
+      return newUser;
     }
      @Override public void getDefaultSetting()
     {

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameObject tag="new_user_message">
+  <Render>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="18" string="This user ID does not already exist." x="250.0" y="200.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="18" string="Creating new file for user." x="250.0" y="225.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="20" string="Ok" x="250.0" y="300.0">
+      <FillColor a="255" b="0" g="0" r="0"/>
+      <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+    </Text>
+    <Sprite>
+      <Image height="80" resizeHeight="80" resizeWidth="100" src="images/button/buttonNormal.png" width="100" x="250.0" y="300.0"/>
+    </Sprite>
+  </Render>
+</GameObject>

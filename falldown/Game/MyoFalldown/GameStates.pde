@@ -200,10 +200,17 @@ public class GameState_UserLogin extends GameState
       {
         CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
         String userID = counterIDComponent.getUserIDNumber();
-        options.getUserInformation().setSaveDataFile(userID);
+        boolean newUser = options.getUserInformation().setSaveDataFile(userID);
         options.getCustomizeOptions().reset();
         options.getCustomizeOptions().loadSavedSettings();
-        gameStateController.pushState(new GameState_MainMenu());
+        if (newUser)
+        {
+          gameStateController.pushState(new GameState_NewUser());
+        }
+        else
+        {
+          gameStateController.pushState(new GameState_MainMenu());
+        }
       }
       else if(tag.equals("play_as_guest")){
         //gameStateController.popState();
@@ -1328,6 +1335,43 @@ public class GameState_MyoNotConnected extends GameState
       else if (tag.equals("back"))
       {
         gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_NewUser extends GameState
+{
+  public GameState_NewUser()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/new_user.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("ok"))
+      {
+        gameStateController.pushState(new GameState_MainMenu());
       }
     }
   }

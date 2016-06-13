@@ -822,7 +822,12 @@ public class RigidBodyComponent extends Component
   public PVector getAcceleration()
   { 
     return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y)); 
-  }   
+  }
+  
+  public void setPosition(PVector pos)  
+  {  
+    body.setTransform(new Vec2(pixelsToMeters(pos.x), body.getPosition().y),0);  
+  }
   
   public void setLinearVelocity(PVector linearVelocity)  
   {  
@@ -901,20 +906,20 @@ public class PlayerControllerComponent extends Component
       
     upButtonDown = false;
     leftButtonDown = false;
-    rightButtonDown = false;
+    rightButtonDown = false; //<>//
     onPlatform = false;
-    onRegPlatform = false;
-    onBreakPlatform = false;
-    breakTimerStart = (long)Double.POSITIVE_INFINITY;
-    moveVectorX = new PVector();   //<>//
-  }  
-     //<>//
-  @Override public void destroy()  //<>//
-  {  //<>//
-    //<>//
+    onRegPlatform = false; //<>//
+    onBreakPlatform = false; //<>//
+    breakTimerStart = (long)Double.POSITIVE_INFINITY; //<>//
+    moveVectorX = new PVector(); //<>//
   }   //<>//
    //<>//
-  @Override public void fromXML(XML xmlComponent)   //<>//
+  @Override public void destroy() //<>//
+  {
+ 
+  }
+
+  @Override public void fromXML(XML xmlComponent)
   { 
     acceleration = xmlComponent.getFloat("acceleration"); 
     maxSpeed = xmlComponent.getFloat("maxSpeed"); 
@@ -956,12 +961,12 @@ public class PlayerControllerComponent extends Component
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()"); 
  
     smoothControls(moveVector, deltaTime); 
-
+ //<>//
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
 
-    moveVectorX = moveVector;  //<>//
+    moveVectorX = moveVector;
 
     calculateDirectionChanges(moveVector);
     if (component != null)
@@ -971,6 +976,9 @@ public class PlayerControllerComponent extends Component
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
        pc.setPlatformDescentSpeed(breakPlatform);
+       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player")){
+         rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+       }
       }
 
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))

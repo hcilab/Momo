@@ -988,11 +988,8 @@ public class PlayerControllerComponent extends Component
           fitsStats.endLogLevel();
           //rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
           
-          ArrayList<IGameObject> platformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("platform_manager");
-          IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
-          PlatformManagerControllerComponent pmcc =(PlatformManagerControllerComponent)tcomponent;
-          pmcc.incrementPlatforms();
-          pmcc.spawnPlatformLevelInputNoSpeed();
+          pc.incrementPlatforms();
+          pc.spawnPlatformLevelInputNoSpeed();
         }
       }
 

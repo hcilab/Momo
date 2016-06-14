@@ -829,6 +829,11 @@ public class RigidBodyComponent extends Component
     body.setTransform(new Vec2(pixelsToMeters(pos.x), body.getPosition().y),0);  
   }
   
+  public void setPlatformPosition(PVector pos)  
+  {  
+    body.setTransform(new Vec2(body.getPosition().x, pixelsToMeters(pos.y)),0);  
+  }
+  
   public void setLinearVelocity(PVector linearVelocity)  
   {  
     body.setLinearVelocity(new Vec2(pixelsToMeters(linearVelocity.x), pixelsToMeters(linearVelocity.y)));  
@@ -901,28 +906,28 @@ public class PlayerControllerComponent extends Component
   private long breakTimerStart;
 
   public PlayerControllerComponent(IGameObject _gameObject) 
-  {  
+  { //<>//
     super(_gameObject);
-      
-    upButtonDown = false;
-    leftButtonDown = false;
+ //<>//
+    upButtonDown = false; //<>//
+    leftButtonDown = false; //<>//
     rightButtonDown = false; //<>//
-    onPlatform = false;
+    onPlatform = false; //<>//
     onRegPlatform = false; //<>//
     onBreakPlatform = false; //<>//
     breakTimerStart = (long)Double.POSITIVE_INFINITY; //<>//
     moveVectorX = new PVector(); //<>//
-  }   //<>//
-   //<>//
-  @Override public void destroy() //<>//
+  } //<>//
+
+  @Override public void destroy() //<>// //<>//
   {
- 
+
   }
 
   @Override public void fromXML(XML xmlComponent)
-  { 
-    acceleration = xmlComponent.getFloat("acceleration"); 
-    maxSpeed = xmlComponent.getFloat("maxSpeed"); 
+  {
+    acceleration = xmlComponent.getFloat("acceleration");
+    maxSpeed = xmlComponent.getFloat("maxSpeed");
     minInputThreshold = xmlComponent.getFloat("minInputThreshold");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
@@ -940,27 +945,27 @@ public class PlayerControllerComponent extends Component
 
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.PLAYER_CONTROLLER; 
-  }  
-    
-  @Override public void update(int deltaTime)  
-  { 
-    handleEvents(); 
+    return ComponentType.PLAYER_CONTROLLER;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
  
-    HashMap<String, Float> rawInput = gatherRawInput(); 
-    PVector moveVector = new PVector(); 
+    HashMap<String, Float> rawInput = gatherRawInput();
+    PVector moveVector = new PVector();
  
-    ControlPolicy policy = options.getGameOptions().getControlPolicy(); 
-    if (policy == ControlPolicy.NORMAL) 
-      moveVector = applyNormalControls(rawInput); 
-    else if (policy == ControlPolicy.DIRECTION_ASSIST) 
-      moveVector = applyDirectionAssistControls(rawInput); 
-    else if (policy == ControlPolicy.SINGLE_MUSCLE) 
-      moveVector = applySingleMuscleControls(rawInput); 
-    else 
-      println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()"); 
- 
-    smoothControls(moveVector, deltaTime); 
+    ControlPolicy policy = options.getGameOptions().getControlPolicy();
+    if (policy == ControlPolicy.NORMAL)
+      moveVector = applyNormalControls(rawInput);
+    else if (policy == ControlPolicy.DIRECTION_ASSIST)
+      moveVector = applyDirectionAssistControls(rawInput);
+    else if (policy == ControlPolicy.SINGLE_MUSCLE)
+      moveVector = applySingleMuscleControls(rawInput); //<>//
+    else
+      println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+
+    smoothControls(moveVector, deltaTime);
  //<>//
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
@@ -975,10 +980,20 @@ public class PlayerControllerComponent extends Component
 
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
-       pc.setPlatformDescentSpeed(breakPlatform);
-       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player")){
-         rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
-       }
+        breakTimerStart = System.currentTimeMillis();
+        pc.setPlatformDescentSpeed(breakPlatform);
+        if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player")){
+          IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
+          FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
+          fitsStats.endLogLevel();
+          //rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          
+          ArrayList<IGameObject> platformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("platform_manager");
+          IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);
+          PlatformManagerControllerComponent pmcc =(PlatformManagerControllerComponent)tcomponent;
+          pmcc.incrementPlatforms();
+          pmcc.spawnPlatformLevelInputNoSpeed();
+        }
       }
 
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
@@ -1419,8 +1434,11 @@ public class PlatformManagerControllerComponent extends Component
           spawnPlatformLevel();
         else{
           if(totalRowCountInput > inputPlatformCounter){
-            spawnPlatformLevelInput();
-            inputPlatformCounter++;
+            spawnPlatformLevelInputNoSpeed();
+            incrementPlatforms();
+            spawnPlatformLevelInputNoSpeed();
+            //spawnPlatformLevelInput();
+            //inputPlatformCounter++;
           }
         }
         nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
@@ -1551,6 +1569,65 @@ public class PlatformManagerControllerComponent extends Component
       platLevels.add(platform.getUID());
     }
     platformLevels.add(platLevels);
+  }
+  
+  public void spawnPlatformLevelInputNoSpeed()
+  {
+    if(totalRowCountInput > inputPlatformCounter)
+    {
+      ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+      platformRanges.add(new PVector(leftSide, rightSide));
+  
+      int rangeSelector = int(random(0, platformRanges.size() - 1));
+      PVector range = platformRanges.get(rangeSelector);
+      
+      TableRow row = tableInput.getRow(inputPlatformCounter);
+      float gapPosition = row.getFloat("placement");
+      float halfGapWidth = row.getFloat("halfWidth");
+      
+      platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+      range.y = gapPosition - halfGapWidth;
+      
+      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+      breakPlatform.setTag("break_platform");
+  
+      platforms.add(breakPlatform);
+   
+      ArrayList<Integer> platLevels = new ArrayList<Integer>();
+      for (PVector platformRange : platformRanges)
+      {
+        float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
+        float platformWidth = platformRange.y - platformRange.x;
+        
+        IGameObject platform;
+        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
+  
+        platform.setTag(tag);
+        platforms.add(platform);
+        platLevels.add(platform.getUID());
+      }
+      platformLevels.add(platLevels);
+      inputPlatformCounter++;
+    }
+    else
+      eventManager.queueEvent(new Event(EventType.GAME_OVER));
+  }
+  
+  public void incrementPlatforms(){
+   for(int i = 0;i< platforms.size(); i++)
+   {
+     incrementPlatformsTest(platforms.get(i));
+   }
+  }
+  
+   private void incrementPlatformsTest(IGameObject platform){
+   IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+    if (component != null)
+    {
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      rigidBodyComponent.setPlatformPosition(new PVector(0.0, rigidBodyComponent.getPosition().y-125));
+    }
+    
   }
   
   private void handleEvents()
@@ -3059,8 +3136,8 @@ public class FittsStatsComponent extends Component
       IGameObject platform = event.getRequiredGameObjectParameter("platform");
       if(!platformLevels.isEmpty()){
         if(platformLevels.get(0).contains(platform.getUID())){
-          if(table.getRowCount() > 0)
-           endLogLevel(table.getRow(table.getRowCount() - 1));
+          //if(table.getRowCount() > 0)
+          // endLogLevel();
           levelCount++;
           TableRow newRow = table.addRow(); 
           startLogLevel(newRow);
@@ -3068,8 +3145,8 @@ public class FittsStatsComponent extends Component
         }
          else if(platformLevels.size() > 1){
            if(platformLevels.get(1).contains(platform.getUID())){
-             if(table.getRowCount() > 0)
-               endLogLevel(table.getRow(table.getRowCount() - 1));
+             //if(table.getRowCount() > 0)
+             //  endLogLevel();
              levelCount++;
              levelCount++;
              TableRow newRow = table.addRow(); 
@@ -3101,7 +3178,8 @@ public class FittsStatsComponent extends Component
    newRow.setFloat("start time", startTime);
   }
   
-  private void endLogLevel(TableRow newRow){
+  private void endLogLevel(){
+   TableRow newRow = table.getRow(table.getRowCount() - 1);
    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
    PVector pos = new PVector();
    if(component != null){

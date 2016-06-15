@@ -18,6 +18,7 @@ public interface IOptions
   public ICustomizeOptions getCustomizeOptions();
   public ICredits getCredits();
   public IUserInformation getUserInformation();
+  public IFittsLawOptions getFittsLawOptions();
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut);
 }
 
@@ -154,9 +155,13 @@ public interface ICredits
 
 public interface IUserInformation
 {
-  public void getDefaultSetting();
   public void setSaveDataFile(String loginID);
   public String getUserID();
+}
+
+public interface IFittsLawOptions
+{
+  public String getInputFile();
 }
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
@@ -176,22 +181,23 @@ public class Options implements IOptions
   private ICustomizeOptions customizeOptions;
   private ICredits credits;
   private IUserInformation userInfo;
+  private IFittsLawOptions fittsLawOptions;
   
   public Options()
   {
-    
     xmldefaultData = loadXML(SAVE_DATA_DEFAULT_FILE);
     userInfo = new UserInformation();
-    
     xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
+    fittsLawOptions = new FittsLawOptions();
   }
   
-  public void reloadOptions(){
+  public void reloadOptions()
+  {
     xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
@@ -228,6 +234,11 @@ public class Options implements IOptions
   @Override public IUserInformation getUserInformation()
   {
     return userInfo;
+  }
+  
+  @Override public IFittsLawOptions getFittsLawOptions()
+  {
+    return fittsLawOptions;
   }
 
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut)
@@ -1182,6 +1193,7 @@ public class Options implements IOptions
     
     private UserInformation()
     {
+      
     }
     
     @Override public String getUserID()
@@ -1198,14 +1210,34 @@ public class Options implements IOptions
         println("[INFO] User ID does not already exist, creating new file.");
         saveXML(xmldefaultData, newUserSavedDataOUT);
       }
-      //xmlSaveData = loadXML(newUserSavedDataIN);
+
       setSaveDataFiles(newUserSavedDataIN, newUserSavedDataOUT);
       reloadOptions();
     }
-     @Override public void getDefaultSetting()
+  }
+  
+  //--------------------------------------------
+  // Fitts Law OPTIONS
+  //--------------------------------------------
+  public class FittsLawOptions implements IFittsLawOptions
+  {
+    private final String XML_FITTS = "FittsLaw";
+    private final String INPUT_FILE = "input_file";
+    private XML xmlFitts;
+    private String inputFile;
+    private String trial;
+    
+    private FittsLawOptions()
     {
-      
+      xmlFitts = xmlSaveData.getChild(XML_FITTS);
+      inputFile = xmlFitts.getString(INPUT_FILE);
     }
+    
+    @Override public String getInputFile()
+    {
+      return inputFile;
+    } 
+
   }
 }
 

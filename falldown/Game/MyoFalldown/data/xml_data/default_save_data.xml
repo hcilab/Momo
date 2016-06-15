@@ -17,5 +17,6 @@
   </Customize>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>
+  <FittsLaw input_file="xml_data/input_platforms/testInput1.csv"/>
   <Unlocked/>
 </SaveData>

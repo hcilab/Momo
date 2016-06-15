@@ -195,7 +195,6 @@ public class GameState_UserLogin extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-       
       if (tag.equals("login"))
       {
         CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
@@ -212,7 +211,6 @@ public class GameState_UserLogin extends GameState
       else if(tag.equals("exit")){
         gameStateController.popState();
       }
-     
     }
   }
 }
@@ -266,6 +264,8 @@ public class GameState_InGame extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/game.xml");
+    tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
+    totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
   }
   
@@ -296,34 +296,36 @@ public class GameState_InGame extends GameState
     {
       String ID = options.getUserInformation().getUserID();
       if(ID == null)
+      {
         ID = "guest";
+      }
       Date d = new Date();
       
       if(logFittsLaw)
-        saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv");
+      {
+        saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+      }
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }
   }
   
-  private void createNewTable(){
+  private void createNewTable()
+  {
     table = new Table();
     table.addColumn("id");
+    table.addColumn("trial");
     table.addColumn("level");
     table.addColumn("condition");
-    table.addColumn("breakthrough time");
     table.addColumn("start point x");
-    table.addColumn("start point y");
     table.addColumn("end point x");
-    table.addColumn("end point y");
     table.addColumn("start time");
     table.addColumn("end time");
+    table.addColumn("total time");
     table.addColumn("errors");
     table.addColumn("undershoots");
     table.addColumn("overshoots");
     table.addColumn("direction changes");
-    table.addColumn("Has Coin");
-    table.addColumn("total time");
   }
 }
 

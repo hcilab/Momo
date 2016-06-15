@@ -124,8 +124,6 @@ void setup()
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
-  tableInput = loadTable("xml_data/input_platforms/testInput1.csv", "header");
-  totalRowCountInput = tableInput.getRowCount(); 
 } 
 
 void draw()

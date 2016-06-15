@@ -479,27 +479,31 @@ public class RenderComponent extends Component
       shape(offsetShape.pshape); // draw
     }
   
-   
-    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
-     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
-  
-     if(gameObject.getTag().equals("player")){
-        IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER);
-        AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
-        float[] direction = animationComponent.getDirection();
-        offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
-     }
-     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
-     S4P.updateSprites(deltaTime / 1000.0f);
-     offsetSprite.sheetSprite.draw();
-    }
-   for (OffsetPImage offsetImage : offsetPImages)
+    for (OffsetSheetSprite offsetSprite: offsetSheetSprites)
     {
-       if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform")){
+      offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
+  
+      if(gameObject.getTag().equals("player"))
+      {
+         IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER);
+         AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
+         float[] direction = animationComponent.getDirection();
+         offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
+      }
+      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+      S4P.updateSprites(deltaTime / 1000.0f);
+      offsetSprite.sheetSprite.draw();
+    }
+    
+    for (OffsetPImage offsetImage : offsetPImages)
+    {
+       if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform"))
+       {
          PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x)+1, (int)gameObject.getScale().y);
-         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
+         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x+1, gameObject.getScale().y * offsetImage.scale.y);
        }
-       else {
+       else 
+       {
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
        }
     }
@@ -894,32 +898,38 @@ public class PlayerControllerComponent extends Component
   private boolean notMoving;
   private int undershootCount;
   private int overshootCount;
-  private ArrayList<PVector> directionChangeList;
+  private int errors;
+  private float currGapPosition;
+  private float currGapWidth;
+  private float currStartPoint;
+  private boolean firstMove;
+  private boolean onLeftSide;
+  private boolean onRightSide;
   
-  private SoundFile jumpSound;
+  private SoundFile jumpSound; //<>//
   private float amplitude;
-
-  private boolean onPlatform;
-  private boolean onRegPlatform;
-  private boolean onBreakPlatform;
-  private IGameObject breakPlatform;
-  private long breakTimerStart;
-
-  public PlayerControllerComponent(IGameObject _gameObject) 
+   //<>//
+  private boolean onPlatform; //<>//
+  private boolean onRegPlatform; //<>//
+  private boolean onBreakPlatform; //<>//
+  private IGameObject breakPlatform; //<>//
+  private long breakTimerStart; //<>//
+   //<>//
+  public PlayerControllerComponent(IGameObject _gameObject)  //<>//
   { //<>//
-    super(_gameObject);
- //<>//
-    upButtonDown = false; //<>//
-    leftButtonDown = false; //<>//
-    rightButtonDown = false; //<>//
-    onPlatform = false; //<>//
-    onRegPlatform = false; //<>//
-    onBreakPlatform = false; //<>//
-    breakTimerStart = (long)Double.POSITIVE_INFINITY; //<>//
-    moveVectorX = new PVector(); //<>//
-  } //<>//
+    super(_gameObject); //<>//
 
-  @Override public void destroy() //<>// //<>//
+    upButtonDown = false; //<>// //<>//
+    leftButtonDown = false;
+    rightButtonDown = false;
+    onPlatform = false;
+    onRegPlatform = false;
+    onBreakPlatform = false;
+    breakTimerStart = (long)Double.POSITIVE_INFINITY;
+    moveVectorX = new PVector();
+  }
+
+  @Override public void destroy()
   {
 
   }
@@ -951,42 +961,44 @@ public class PlayerControllerComponent extends Component
   @Override public void update(int deltaTime)
   {
     handleEvents();
- 
+  //<>//
     HashMap<String, Float> rawInput = gatherRawInput();
     PVector moveVector = new PVector();
- 
+
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
-    if (policy == ControlPolicy.NORMAL)
+    if (policy == ControlPolicy.NORMAL) //<>//
       moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
       moveVector = applyDirectionAssistControls(rawInput);
     else if (policy == ControlPolicy.SINGLE_MUSCLE)
-      moveVector = applySingleMuscleControls(rawInput); //<>//
+      moveVector = applySingleMuscleControls(rawInput);
     else
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
 
     smoothControls(moveVector, deltaTime);
- //<>//
+
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
 
     moveVectorX = moveVector;
 
-    calculateDirectionChanges(moveVector);
     if (component != null)
     {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      calculateOverShoots(rigidBodyComponent.getPosition());
+      calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
 
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
         breakTimerStart = System.currentTimeMillis();
         pc.setPlatformDescentSpeed(breakPlatform);
-        if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player")){
+        if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
+        {
           IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
           FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
           fitsStats.endLogLevel();
-          //rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
           
           pc.incrementPlatforms();
           pc.spawnPlatformLevelInputNoSpeed();
@@ -1136,48 +1148,112 @@ public class PlayerControllerComponent extends Component
     return moveVector; 
   }
 
-  public PVector getLatestMoveVector(){
+  public PVector getLatestMoveVector()
+  {
     return moveVectorX;
   }
   
-  public void calculateDirectionChanges(PVector mVector){ 
-    if(mVector.x < 0){
-      if(!goingLeft){
+  public void calculateOverShoots(PVector pos)
+  {
+    if((pos.x > (currGapPosition + currGapWidth) && onLeftSide))
+    {
+      overshootCount++;
+      onLeftSide = false;
+      onRightSide = true;
+    }
+    else if((pos.x < (currGapPosition - currGapWidth) && onRightSide))
+    {
+      overshootCount++;
+      onLeftSide = true;
+      onRightSide = false;
+    }
+  }
+  
+  public void calculateDirectionChanges(PVector mVector, PVector pos)
+  { 
+    if(mVector.x < 0)
+    {
+      if(!goingLeft)
+      {
         goingLeft = true;
         goingRight = false;
         directionChanges++;
       }
-      else if(goingLeft && notMoving){
-        undershootCount++;
-      }
-    notMoving = false;
-  }
-  else if(mVector.x > 0){
-    if(!goingRight){
-      goingRight =true;
-      goingLeft=false;
-      directionChanges++;
-    }
-    else if(goingRight && notMoving){
-      undershootCount++;
-    }
       notMoving = false;
+      firstMove = false;
     }
-    else
+    else if(mVector.x > 0)
+    {
+      if(!goingRight)
+      {
+        goingRight =true;
+        goingLeft=false;
+        directionChanges++;
+      }
+      notMoving = false;
+      firstMove = false;
+    }
+    else if(mVector.x == 0)
+    {
+      if(!notMoving && !firstMove)
+      {
+        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth)))
+        {
+          errors++;
+        } 
+        if(goingLeft && (pos.x > (currGapPosition + currGapWidth)))
+        {
+          undershootCount++;
+        }
+        else if(goingRight && (pos.x < (currGapPosition - currGapWidth)))
+        {
+          undershootCount++;
+        }
+      }
       notMoving = true;
+    }
   }
   
-  public int getDirerctionChanges(){
+  public int getDirerctionChanges()
+  {
     return directionChanges;
   }
   
-  public int getUnderShoots(){
+  public int getUnderShoots()
+  {
     return undershootCount;
   }
   
-  public void setDirerctionChangesZero(){
+  public int getOverShoots()
+  {
+    return overshootCount;
+  }
+  
+  public int getErrors()
+  {
+    return errors; 
+  }
+  
+  public void setLoggingValuesZero(float gapPos, float halfGapWidth, float startingPosition)
+  {
+    firstMove = true;
     directionChanges = 0;
     undershootCount = 0;
+    overshootCount=0;
+    currGapPosition = gapPos;
+    currGapWidth = halfGapWidth;
+    currStartPoint = startingPosition;
+    errors =0;
+    if(currStartPoint < currGapPosition)
+    {
+      onLeftSide = true;
+      onRightSide = false; 
+    }
+    else
+    {
+      onLeftSide = false;
+      onRightSide = true; 
+    }
   }
  
   private void handleEvents() 
@@ -3185,8 +3261,6 @@ public class FittsStatsComponent extends Component
       IGameObject platform = event.getRequiredGameObjectParameter("platform");
       if(!platformLevels.isEmpty()){
         if(platformLevels.get(0).contains(platform.getUID())){
-          //if(table.getRowCount() > 0)
-          // endLogLevel();
           levelCount++;
           TableRow newRow = table.addRow(); 
           startLogLevel(newRow);
@@ -3194,8 +3268,6 @@ public class FittsStatsComponent extends Component
         }
          else if(platformLevels.size() > 1){
            if(platformLevels.get(1).contains(platform.getUID())){
-             //if(table.getRowCount() > 0)
-             //  endLogLevel();
              levelCount++;
              levelCount++;
              TableRow newRow = table.addRow(); 
@@ -3208,47 +3280,51 @@ public class FittsStatsComponent extends Component
     }
   }
   
-  private void startLogLevel(TableRow newRow){
-   IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-   PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
-   playComp.setDirerctionChangesZero();
-   IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-   PVector pos = new PVector();
-   if(component != null){
-    RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-    pos = rigidBodyComponent.getPosition();
-   }
-   startTime = totalTime;
-   newRow.setInt("id", table.getRowCount() - 1);
-   newRow.setInt("level", levelCount);
-   newRow.setString("condition", "Normal Momo Mode");
-   newRow.setFloat("start point x", pos.x);
-   newRow.setFloat("start point y", pos.y);
-   newRow.setFloat("start time", startTime);
+  private void startLogLevel(TableRow newRow)
+  {
+    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    PVector pos = new PVector();
+    if(component != null){
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      pos = rigidBodyComponent.getPosition();
+    }
+    TableRow inputRow = tableInput.getRow(table.getRowCount()-1);
+    playComp.setLoggingValuesZero(inputRow.getFloat("placement"), inputRow.getFloat("halfWidth"), pos.x);
+    startTime = totalTime;
+    newRow.setString("id", options.getUserInformation().getUserID());
+    newRow.setInt("trial", table.getRowCount());
+    newRow.setInt("level", table.getRowCount());
+    newRow.setString("condition", "Simple");
+    newRow.setFloat("start point x", pos.x);
+    newRow.setFloat("start time", startTime);
   }
   
-  private void endLogLevel(){
-   TableRow newRow = table.getRow(table.getRowCount() - 1);
-   IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-   PVector pos = new PVector();
-   if(component != null){
-    RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-    pos = rigidBodyComponent.getPosition();
-   }
-   IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-   PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
-   directionChanges = playComp.getDirerctionChanges();
-   undershoots = playComp.getUnderShoots();
-   endTime = totalTime;
-   newRow.setFloat("breakthrough time", breakthroughTime);
-   newRow.setFloat("end point x", pos.x);
-   newRow.setFloat("end point y", pos.y);
-   newRow.setFloat("end time", endTime);
-   newRow.setInt("errors", directionChanges + undershoots);
-   newRow.setInt("undershoots", undershoots);
-   newRow.setInt("overshoots", directionChanges);
-   newRow.setInt("direction changes", directionChanges);
-   newRow.setFloat("total time",endTime - startTime);
+  private void endLogLevel()
+  {
+    TableRow newRow = table.getRow(table.getRowCount() - 1);
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    PVector pos = new PVector();
+    if(component != null)
+    {
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      pos = rigidBodyComponent.getPosition();
+    }
+    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+    directionChanges = playComp.getDirerctionChanges();
+    overshoots =  playComp.getOverShoots();
+    undershoots = playComp.getUnderShoots();
+    errors = playComp.getErrors();
+    endTime = totalTime;
+    newRow.setFloat("end point x", pos.x);
+    newRow.setFloat("end time", endTime);
+    newRow.setInt("errors", errors);
+    newRow.setInt("undershoots", undershoots);
+    newRow.setInt("overshoots", overshoots);
+    newRow.setInt("direction changes", directionChanges);
+    newRow.setFloat("total time",endTime - startTime);
   }
 }
 

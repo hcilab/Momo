@@ -1445,6 +1445,8 @@ public class PlatformManagerControllerComponent extends Component
             spawnPlatformLevelInputNoSpeed();
             incrementPlatforms();
             spawnPlatformLevelInputNoSpeed();
+            incrementPlatforms();
+            spawnPlatformLevelInputNoSpeed();
             //spawnPlatformLevelInput();
             //inputPlatformCounter++;
             firstIteration = false;
@@ -1633,6 +1635,10 @@ public class PlatformManagerControllerComponent extends Component
         platLevels.add(platform.getUID());
       }
       platformLevels.add(platLevels);
+      inputPlatformCounter++;
+    }
+    else if (totalRowCountInput == inputPlatformCounter)
+    {
       inputPlatformCounter++;
     }
     else

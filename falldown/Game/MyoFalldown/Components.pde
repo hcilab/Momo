@@ -1351,6 +1351,12 @@ public class PlatformManagerControllerComponent extends Component
   private float riseSpeed;
   private int inputPlatformCounter;
   
+  private boolean firstIteration;
+  private boolean rising;
+  private int initialHeight;
+  private int thresholdHeight;
+  private RigidBodyComponent initialPlat;
+
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
     super (_gameObject);
@@ -1405,6 +1411,11 @@ public class PlatformManagerControllerComponent extends Component
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     riseSpeed = 0.0f;
+    firstIteration = true;
+    rising = false;
+    initialHeight = 0;
+    thresholdHeight = 125;
+    initialPlat = null;
   }
   
   @Override public ComponentType getComponentType()
@@ -1436,9 +1447,27 @@ public class PlatformManagerControllerComponent extends Component
             spawnPlatformLevelInputNoSpeed();
             //spawnPlatformLevelInput();
             //inputPlatformCounter++;
+            firstIteration = false;
           }
         }
         nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+      }
+    }
+
+    if (rising)
+    {
+      if (initialHeight - initialPlat.getPosition().y >= thresholdHeight)
+      {
+        for (IGameObject platform : platforms)
+        {
+          IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+          if (component != null)
+          {
+            RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+            rigidBodyComponent.setLinearVelocity(new PVector(0.0, 0.0));
+          }
+        }
+        rising = false;
       }
     }
   }
@@ -1610,21 +1639,38 @@ public class PlatformManagerControllerComponent extends Component
       eventManager.queueEvent(new Event(EventType.GAME_OVER));
   }
   
-  public void incrementPlatforms(){
-   for(int i = 0;i< platforms.size(); i++)
-   {
-     incrementPlatformsTest(platforms.get(i));
-   }
-  }
-  
-   private void incrementPlatformsTest(IGameObject platform){
-   IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
-    if (component != null)
+  public void incrementPlatforms()
+  {
+    if (firstIteration)
     {
-      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      rigidBodyComponent.setPlatformPosition(new PVector(0.0, rigidBodyComponent.getPosition().y-125));
+      for(IGameObject platform : platforms)
+      {
+        IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+        if (component != null)
+        {
+          RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+          rigidBodyComponent.setPlatformPosition(new PVector(0.0, rigidBodyComponent.getPosition().y-125));
+        }
+      }
     }
-    
+    else
+    {
+      rising = true;
+      for(IGameObject platform : platforms)
+      {
+        IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
+        if (component != null)
+        {
+          RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+          if (platform.getUID() == platforms.get(2).getUID())
+          {
+            initialPlat = rigidBodyComponent;
+            initialHeight = (int)rigidBodyComponent.getPosition().y;
+          }
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, -50));
+        }
+      }
+    }
   }
   
   private void handleEvents()

@@ -21,7 +21,7 @@
 			alignX="right"
 			alignY="center"
 			x="485.0"
-			y="130.0"
+			y="125.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -34,7 +34,7 @@
 			alignX="right"
 			alignY="center"
 			x="485.0"
-			y="180.0"
+			y="170.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -47,7 +47,20 @@
 			alignX="right"
 			alignY="center"
 			x="485.0"
-			y="230.0"
+			y="215.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="xxx"
+			fontName="Moire"
+			size="16"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="485.0"
+			y="260.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -60,7 +73,7 @@
 			alignX="right"
 			alignY="center"
 			x="485.0"
-			y="280.0"
+			y="305.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

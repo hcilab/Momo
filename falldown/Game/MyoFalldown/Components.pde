@@ -2270,6 +2270,7 @@ public class StatsCollectorComponent extends Component
 public class PostGameControllerComponent extends Component
 {
   private IGameRecord lastGameRecord;
+  private ICustomizeOptions customizeOptions;
   private boolean textIsSet;
   
   public PostGameControllerComponent(IGameObject _gameObject)
@@ -2278,6 +2279,7 @@ public class PostGameControllerComponent extends Component
     
     ArrayList<IGameRecord> records = options.getStats().getGameRecords();
     lastGameRecord = records.get(records.size() - 1);
+    customizeOptions = options.getCustomizeOptions();
     textIsSet = false;
   }
   
@@ -2307,10 +2309,11 @@ public class PostGameControllerComponent extends Component
         textElements.get(1).string = Integer.toString(lastGameRecord.getScoreAchieved());
         textElements.get(2).string = Integer.toString((int)(lastGameRecord.getAverageSpeed()));
         textElements.get(3).string = Integer.toString(lastGameRecord.getCoinsCollected());
+        textElements.get(4).string = Integer.toString(customizeOptions.getCoinsCollected());
         int milliseconds = lastGameRecord.getTimePlayed();                                                                     
         int seconds = (milliseconds/1000) % 60;                                                                            
         int minutes = milliseconds/60000;  
-        textElements.get(4).string = String.format("%3d:%02d", minutes, seconds); 
+        textElements.get(5).string = String.format("%3d:%02d", minutes, seconds);
       }
       
       textIsSet = true;

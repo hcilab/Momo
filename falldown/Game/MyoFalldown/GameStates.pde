@@ -276,7 +276,7 @@ public class GameState_PostGame extends GameState
   {
     gameOverSoundEffect.amp(1.0 * options.getIOOptions().getSoundEffectsVolume());
     gameOverSoundEffect.play();
-    gameOver.amp(1.0 * options.getIOOptions().getSoundEffectsVolume());
+    gameOver.amp(1.0 * options.getIOOptions().getMusicVolume());
     gameOver.play();
     gameObjectManager.fromXML("xml_data/post_game.xml");
   }

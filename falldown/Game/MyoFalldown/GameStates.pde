@@ -799,7 +799,8 @@ public class GameState_StatsSettings extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       IGameRecord record = options.getStats().createGameRecord();
-
+      RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("stats_message").get(0).getComponent(ComponentType.RENDER);
+      RenderComponent.OffsetPImage sorter = renderComponent.getImages().get(6);
       String tag = event.getRequiredStringParameter("tag");
       switch (tag)
       {
@@ -811,21 +812,27 @@ public class GameState_StatsSettings extends GameState
           break;
         case "level_achieved":
           Collections.sort(records, Collections.reverseOrder(record.createByLevelAchievedComparator()));
+          sorter.translation.x = 50;
           break;
         case "score_achieved":
           Collections.sort(records, Collections.reverseOrder(record.createByScoreAchievedComparator()));
-          break;
-        case "time_played":
-          Collections.sort(records, Collections.reverseOrder(record.createByTimePlayedComparator()));
-          break;
-        case "average_speed":
-          Collections.sort(records, Collections.reverseOrder(record.createByAverageSpeedComparator()));
+          sorter.translation.x = 130;
           break;
         case "coins_collected":
           Collections.sort(records, Collections.reverseOrder(record.createByCoinsCollectedComparator()));
+          sorter.translation.x = 210;
+          break;
+        case "average_speed":
+          Collections.sort(records, Collections.reverseOrder(record.createByAverageSpeedComparator()));
+          sorter.translation.x = 290;
+          break;
+        case "time_played":
+          Collections.sort(records, Collections.reverseOrder(record.createByTimePlayedComparator()));
+          sorter.translation.x = 370;
           break;
         case "date":
           Collections.sort(records, Collections.reverseOrder(record.createByDateComparator()));
+          sorter.translation.x = 450;
           break;
       }
     }

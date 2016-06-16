@@ -1,5 +1,5 @@
 <Level>
-	<GameObject file="xml_data/stats_settings_message.xml"/>
+	<GameObject file="xml_data/stats_settings_message.xml" tag="stats_message"/>
 	
 	<GameObject file="xml_data/button_back.xml" tag="back">
 		<Transform>

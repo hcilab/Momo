@@ -553,6 +553,64 @@ public class GameState_IOSettings extends GameState
       }
     }
 
+    for (IEvent event : eventManager.getEvents(EventType.MODAL_HOVER))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        if (tag.equals("input"))
+        {
+          renderComponent.getShapes().get(0).translation.x = 250;
+          renderComponent.getShapes().get(0).translation.y = 250;
+        }
+        else if (tag.equals("difference"))
+        {
+          renderComponent.getShapes().get(1).translation.x = 250;
+          renderComponent.getShapes().get(1).translation.y = 250;
+        }
+        else if (tag.equals("max"))
+        {
+          renderComponent.getShapes().get(2).translation.x = 250;
+          renderComponent.getShapes().get(2).translation.y = 250;
+        }
+        else if (tag.equals("first_over"))
+        {
+          renderComponent.getShapes().get(3).translation.x = 250;
+          renderComponent.getShapes().get(3).translation.y = 250;
+        }
+      }
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.MODAL_OFF))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        if (tag.equals("input"))
+        {
+          renderComponent.getShapes().get(0).translation.x = 700;
+          renderComponent.getShapes().get(0).translation.y = 700;
+        }
+        else if (tag.equals("difference"))
+        {
+          renderComponent.getShapes().get(1).translation.x = 700;
+          renderComponent.getShapes().get(1).translation.y = 700;
+        }
+        else if (tag.equals("max"))
+        {
+          renderComponent.getShapes().get(2).translation.x = 700;
+          renderComponent.getShapes().get(2).translation.y = 700;
+        }
+        else if (tag.equals("first_over"))
+        {
+          renderComponent.getShapes().get(3).translation.x = 700;
+          renderComponent.getShapes().get(3).translation.y = 700;
+        }
+      }
+    }
+
     if (isPauseScreen)
     {
       for(IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))

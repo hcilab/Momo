@@ -916,8 +916,13 @@ public class PlayerControllerComponent extends Component
   private IGameObject breakPlatform; //<>//
   private long breakTimerStart; //<>//
   private long crumbleTimerStart; //<>//
+  private String crumblingPlatformFile; //<>//
+ //<>//
+  public PlayerControllerComponent(IGameObject _gameObject)
+  { //<>// //<>//
+    super(_gameObject);
 
-    upButtonDown = false; //<>// //<>//
+    upButtonDown = false;
     leftButtonDown = false;
     rightButtonDown = false;
     onPlatform = false;
@@ -949,14 +954,19 @@ public class PlayerControllerComponent extends Component
     amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add"));
     jumpDelay = 500;
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
+    platformFallSound.rate(xmlComponent.getFloat("rate"));
+    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    platformFallSound.add(xmlComponent.getFloat("add"));
+    crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
   }
 
-  @Override public ComponentType getComponentType()
+  @Override public ComponentType getComponentType() //<>//
   {
     return ComponentType.PLAYER_CONTROLLER;
   }
 
-  @Override public void update(int deltaTime)
+  @Override public void update(int deltaTime) //<>//
   {
     handleEvents();
   //<>//
@@ -986,10 +996,21 @@ public class PlayerControllerComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       calculateOverShoots(rigidBodyComponent.getPosition());
       calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
+      if (System.currentTimeMillis() - crumbleTimerStart > 450 && breakPlatform != null)
+      {
+        crumbleTimerStart = System.currentTimeMillis();
+        
+        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-25,25), breakPlatform.getTranslation().y), new PVector(10, 10));
+        crumblePlatform.setTag("crumble_platform");
+        pc.setPlatformDescentSpeed(crumblePlatform);
+      }
+      
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
         breakTimerStart = System.currentTimeMillis();
         pc.setPlatformDescentSpeed(breakPlatform);
+        platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        platformFallSound.play();
         if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
         {
           IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
@@ -1296,6 +1317,7 @@ public class PlayerControllerComponent extends Component
       if (!onBreakPlatform)
       {
         breakTimerStart = System.currentTimeMillis();
+        crumbleTimerStart = System.currentTimeMillis();
       }
       onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
@@ -1386,6 +1408,7 @@ public class PlatformManagerControllerComponent extends Component
   private String slipperyPlatformFile;  
   private float slipperyPlatformChance; 
   private String stickyPlatformFile; 
+  private float stickyPlatformChance;
   private String tag; 
   
   private int maxPlatformLevels;
@@ -1511,7 +1534,21 @@ public class PlatformManagerControllerComponent extends Component
       if (riseSpeed > 0.0f)
       {
         if(!inputPlatformGaps)
+        {
           spawnPlatformLevel();
+        }
+        else if(inputPlatformGaps && !fittsLaw)
+        {
+          if(totalRowCountInput > inputPlatformCounter)
+          {
+            spawnPlatformLevelInput();
+            inputPlatformCounter++;
+          }
+        }
+        else
+        {
+          if(totalRowCountInput > inputPlatformCounter)
+          {
             spawnPlatformLevelInputNoSpeed();
             incrementPlatforms();
             spawnPlatformLevelInputNoSpeed();

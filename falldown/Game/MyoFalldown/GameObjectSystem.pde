@@ -41,6 +41,8 @@ interface IGameObject
   // Find a component attached to this GameObject. Returns null if not found.
   // Note: GameObjects are limited to having only one component of each type.
   public IComponent getComponent(ComponentType componentType);
+
+  public ArrayList<IComponent> getComponents(ComponentType componentType);
   
   // Updates and renders the Game Object over the given time in milliseconds.
   public void update(int deltaTime);
@@ -173,6 +175,20 @@ class GameObject implements IGameObject
     }
     
     return null;
+  }
+
+  @Override public ArrayList<IComponent> getComponents(ComponentType componentType)
+  {
+    ArrayList<IComponent> list = new ArrayList<IComponent>();
+    for (IComponent component : components)
+    {
+      if (component.getComponentType() == componentType)
+      {
+        list.add(component);
+      }
+    }
+
+    return list;
   }
   
   @Override public void update(int deltaTime)

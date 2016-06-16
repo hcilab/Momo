@@ -908,16 +908,14 @@ public class PlayerControllerComponent extends Component
   
   private SoundFile jumpSound; //<>//
   private float amplitude;
-   //<>//
+  private SoundFile platformFallSound; //<>//
+ //<>//
   private boolean onPlatform; //<>//
   private boolean onRegPlatform; //<>//
   private boolean onBreakPlatform; //<>//
   private IGameObject breakPlatform; //<>//
   private long breakTimerStart; //<>//
-   //<>//
-  public PlayerControllerComponent(IGameObject _gameObject)  //<>//
-  { //<>//
-    super(_gameObject); //<>//
+  private long crumbleTimerStart; //<>//
 
     upButtonDown = false; //<>// //<>//
     leftButtonDown = false;
@@ -988,7 +986,6 @@ public class PlayerControllerComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       calculateOverShoots(rigidBodyComponent.getPosition());
       calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
-
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
         breakTimerStart = System.currentTimeMillis();
@@ -1389,7 +1386,6 @@ public class PlatformManagerControllerComponent extends Component
   private String slipperyPlatformFile;  
   private float slipperyPlatformChance; 
   private String stickyPlatformFile; 
-  private float stickyPlatformChance; 
   private String tag; 
   
   private int maxPlatformLevels;
@@ -1516,15 +1512,11 @@ public class PlatformManagerControllerComponent extends Component
       {
         if(!inputPlatformGaps)
           spawnPlatformLevel();
-        else{
-          if(totalRowCountInput > inputPlatformCounter){
             spawnPlatformLevelInputNoSpeed();
             incrementPlatforms();
             spawnPlatformLevelInputNoSpeed();
             incrementPlatforms();
             spawnPlatformLevelInputNoSpeed();
-            //spawnPlatformLevelInput();
-            //inputPlatformCounter++;
             firstIteration = false;
           }
         }

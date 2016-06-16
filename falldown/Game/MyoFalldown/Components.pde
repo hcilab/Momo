@@ -478,108 +478,108 @@ public class RenderComponent extends Component
   
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.RENDER; //<>//
-  } //<>//
-   //<>//
-  @Override public void update(int deltaTime) //<>//
-  {   //<>//
+    return ComponentType.RENDER;
+  }
+ 
+  @Override public void update(int deltaTime)
+  { 
     
-    for (OffsetPShape offsetShape : offsetShapes) //<>//
-    { //<>//
-      offsetShape.pshape.resetMatrix(); //<>//
-      offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y); //<>//
-      offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y); //<>//
-      shape(offsetShape.pshape); // draw //<>//
-    } //<>//
-    //<>//
-     //<>//
-    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){ //<>//
-     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y); //<>//
-    //<>//
-     if(gameObject.getTag().equals("player")){ //<>//
-        IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER); //<>//
-        AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent; //<>//
-        float[] direction = animationComponent.getDirection(); //<>//
-        offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);  //<>//
-     }  //<>//
-     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y); //<>//
-     S4P.updateSprites(deltaTime / 1000.0f); //<>//
-     offsetSprite.sheetSprite.draw(); //<>//
-    } //<>//
-   for (OffsetPImage offsetImage : offsetPImages) //<>//
-    { //<>//
-       if(gameObject.getTag().equals("platform")){ //<>//
-         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y); //<>//
-         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y); //<>//
-       } //<>//
+    for (OffsetPShape offsetShape : offsetShapes)
+    {
+      offsetShape.pshape.resetMatrix();
+      offsetShape.pshape.translate(gameObject.getTranslation().x + offsetShape.translation.x, gameObject.getTranslation().y + offsetShape.translation.y);
+      offsetShape.pshape.scale(gameObject.getScale().x * offsetShape.scale.x, gameObject.getScale().y * offsetShape.scale.y);
+      shape(offsetShape.pshape); // draw
+    }
+  
+   
+    for (OffsetSheetSprite offsetSprite: offsetSheetSprites){
+     offsetSprite.sheetSprite.setXY(gameObject.getTranslation().x + offsetSprite.translation.x, gameObject.getTranslation().y + offsetSprite.translation.y);
+  
+     if(gameObject.getTag().equals("player")){
+        IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER);
+        AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
+        float[] direction = animationComponent.getDirection();
+        offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
+     }
+     offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+     S4P.updateSprites(deltaTime / 1000.0f);
+     offsetSprite.sheetSprite.draw();
+    }
+   for (OffsetPImage offsetImage : offsetPImages)
+    {
+       if(gameObject.getTag().equals("platform")){
+         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
+       }
        else {
-         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );  //<>//
-       } //<>//
-    } //<>//
-     //<>//
-    for (Text text : texts) //<>//
-    {  //<>//
-      textFont(text.font); //<>//
-      textAlign(text.alignX, text.alignY); //<>//
-      fill(text.fillColor); //<>//
+         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
+       }
+    }
+   
+    for (Text text : texts)
+    {
+      textFont(text.font);
+      textAlign(text.alignX, text.alignY);
+      fill(text.fillColor);
       stroke(text.strokeColor);
-      strokeWeight(text.strokeWeight); //<>//
-      text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y); //<>//
-    } //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetPShape> getShapes() //<>//
-  { //<>//
-    return offsetShapes; //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetPImage> getImages() //<>//
-  { //<>//
-    return offsetPImages; //<>//
-  } //<>//
-   //<>//
-  public ArrayList<OffsetSheetSprite> getSheetSprite() //<>//
-  { //<>//
+      strokeWeight(text.strokeWeight);
+      text(text.string, text.translation.x + gameObject.getTranslation().x, text.translation.y + gameObject.getTranslation().y);
+    }
+  }
+ 
+  public ArrayList<OffsetPShape> getShapes()
+  {
+    return offsetShapes;
+  }
+ 
+  public ArrayList<OffsetPImage> getImages()
+  {
+    return offsetPImages;
+  }
+ 
+  public ArrayList<OffsetSheetSprite> getSheetSprite()
+  {
     return offsetSheetSprites;
-  } //<>//
+  }
   
   public ArrayList<Text> getTexts()
   {
-    return texts; //<>//
+    return texts;
   } 
 
-  public ArrayList<CustomSprite> getCustomSprites() //<>//
+  public ArrayList<CustomSprite> getCustomSprites()
   {
     return customSprites;
   }
 }
 
 public class RigidBodyComponent extends Component
-{ //<>//
-  private class OnCollideEvent //<>//
-  { //<>//
-    public String collidedWith;  //<>//
-    public EventType eventType;  //<>//
-    public HashMap<String, String> eventParameters;  //<>//
+{
+  private class OnCollideEvent
+  {
+    public String collidedWith;
+    public EventType eventType;
+    public HashMap<String, String> eventParameters;
   } 
-    //<>//
+  
   private Body body; 
   public PVector latestForce; 
-  private ArrayList<OnCollideEvent> onCollideEvents;  //<>//
-  //<>//
+  private ArrayList<OnCollideEvent> onCollideEvents;
+
   public RigidBodyComponent(IGameObject _gameObject) 
-  {  //<>//
-    super(_gameObject);  //<>//
-  //<>//
-    latestForce = new PVector();  //<>//
+  {
+    super(_gameObject);
+
+    latestForce = new PVector();
     onCollideEvents = new ArrayList<OnCollideEvent>(); 
   } 
  
   @Override public void destroy() 
-  {  //<>//
+  {
     physicsWorld.destroyBody(body); 
   }  
-   //<>//
+ 
   @Override public void fromXML(XML xmlComponent)  
   {  
     BodyDef bodyDefinition = new BodyDef();  
@@ -587,22 +587,22 @@ public class RigidBodyComponent extends Component
     String bodyType = xmlComponent.getString("type");  
     if (bodyType.equals("static")) 
     { 
-      bodyDefinition.type = BodyType.STATIC;   //<>//
+      bodyDefinition.type = BodyType.STATIC; 
     }  
-    else if (bodyType.equals("kinematic"))   //<>//
+    else if (bodyType.equals("kinematic")) 
     {  
-      bodyDefinition.type = BodyType.KINEMATIC;   //<>//
+      bodyDefinition.type = BodyType.KINEMATIC; 
     }  
-    else if (bodyType.equals("dynamic"))   //<>//
+    else if (bodyType.equals("dynamic")) 
     {  
       bodyDefinition.type = BodyType.DYNAMIC; 
     } 
-    else   //<>//
+    else 
     {  
-      print("Unknown rigid body type: " + bodyType);   //<>//
-      assert(false);   //<>//
+      print("Unknown rigid body type: " + bodyType); 
+      assert(false); 
     }  
-   //<>//
+ 
     bodyDefinition.position.set(pixelsToMeters(gameObject.getTranslation().x), pixelsToMeters(gameObject.getTranslation().y));  
     bodyDefinition.angle = 0.0f;  
     bodyDefinition.linearDamping = xmlComponent.getFloat("linearDamping");  
@@ -623,114 +623,114 @@ public class RigidBodyComponent extends Component
       {
         FixtureDef fixtureDef = new FixtureDef(); 
         fixtureDef.density = rigidBodyComponent.getFloat("density"); 
-        fixtureDef.friction = rigidBodyComponent.getFloat("friction"); //<>//
-        fixtureDef.restitution = rigidBodyComponent.getFloat("restitution"); //<>//
-        fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false; //<>//
-        fixtureDef.userData = gameObject; //<>//
- //<>//
-        for (XML xmlShape : rigidBodyComponent.getChildren())  //<>//
-        {   //<>//
+        fixtureDef.friction = rigidBodyComponent.getFloat("friction");
+        fixtureDef.restitution = rigidBodyComponent.getFloat("restitution");
+        fixtureDef.isSensor = rigidBodyComponent.getString("isSensor").equals("true") ? true : false;
+        fixtureDef.userData = gameObject;
+
+        for (XML xmlShape : rigidBodyComponent.getChildren())
+        { 
           if (xmlShape.getName().equals("Shape"))  
           {  
             String shapeType = xmlShape.getString("type");  
-   //<>//
-            if (shapeType.equals("circle"))  //<>//
-            {  //<>//
-              CircleShape circleShape = new CircleShape();  //<>//
-              circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))); //<>//
-              circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;  //<>//
-                 //<>//
+ 
+            if (shapeType.equals("circle"))
+            {
+              CircleShape circleShape = new CircleShape();
+              circleShape.m_p.set(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y")));
+              circleShape.m_radius = pixelsToMeters(xmlShape.getFloat("radius")) * gameObject.getScale().x;
+               
               fixtureDef.shape = circleShape; 
             } 
             else if (shapeType.equals("box"))  
             {  
-              PolygonShape boxShape = new PolygonShape();   //<>//
-              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));  //<>//
-              boxShape.setAsBox( //<>//
-                pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x, //<>//
-                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y //<>//
-              );  //<>//
-  //<>//
-              fixtureDef.shape = boxShape; //<>//
-            }  //<>//
-            else  //<>//
-            { //<>//
-              print("Unknown fixture shape type: " + shapeType); //<>//
-              assert(false); //<>//
-            } //<>//
-          } //<>//
-        } //<>//
-          //<>//
-        body.createFixture(fixtureDef);  //<>//
-      }  //<>//
+              PolygonShape boxShape = new PolygonShape(); 
+              boxShape.m_centroid.set(new Vec2(pixelsToMeters(xmlShape.getFloat("x")), pixelsToMeters(xmlShape.getFloat("y"))));
+              boxShape.setAsBox(
+                pixelsToMeters(xmlShape.getFloat("halfWidth")) * gameObject.getScale().x,
+                pixelsToMeters(xmlShape.getFloat("halfHeight")) * gameObject.getScale().y
+              );
+
+              fixtureDef.shape = boxShape;
+            }
+            else
+            {
+              print("Unknown fixture shape type: " + shapeType);
+              assert(false);
+            }
+          }
+        }
+        
+        body.createFixture(fixtureDef);
+      }
       else if (rigidBodyComponent.getName().equals("OnCollideEvents")) 
-      {  //<>//
-        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())  //<>//
-        {  //<>//
-          if (xmlOnCollideEvent.getName().equals("Event"))  //<>//
-          { //<>//
-            OnCollideEvent onCollideEvent = new OnCollideEvent(); //<>//
-            onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");  //<>//
+      {
+        for (XML xmlOnCollideEvent : rigidBodyComponent.getChildren())
+        {
+          if (xmlOnCollideEvent.getName().equals("Event"))
+          {
+            OnCollideEvent onCollideEvent = new OnCollideEvent();
+            onCollideEvent.collidedWith = xmlOnCollideEvent.getString("collidedWith");
              
-            String stringEventType = xmlOnCollideEvent.getString("eventType");  //<>//
+            String stringEventType = xmlOnCollideEvent.getString("eventType");
             if (stringEventType.equals("COIN_COLLECTED"))  
             { 
-              onCollideEvent.eventType = EventType.COIN_COLLECTED;  //<>//
+              onCollideEvent.eventType = EventType.COIN_COLLECTED;
               onCollideEvent.eventParameters = new HashMap<String, String>(); 
               onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
             }
             else if (stringEventType.equals("GAME_OVER"))
-            { //<>//
+            {
               onCollideEvent.eventType = EventType.GAME_OVER;
-            } //<>//
+            }
             else if (stringEventType.equals("DESTROY_COIN"))
-            { //<>//
-              onCollideEvent.eventType = EventType.DESTROY_COIN; //<>//
-              onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
-              onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName")); //<>//
-            } //<>//
-            else if (stringEventType.equals("PLAYER_PLATFORM_COLLISION")) //<>//
-            { //<>//
-              onCollideEvent.eventType = EventType.PLAYER_PLATFORM_COLLISION; //<>//
-              onCollideEvent.eventParameters = new HashMap<String, String>(); //<>//
-              onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName")); //<>//
-            } //<>//
-             //<>//
-            onCollideEvents.add(onCollideEvent);  //<>//
-          }   //<>//
-        }   //<>//
-      }   //<>//
+            {
+              onCollideEvent.eventType = EventType.DESTROY_COIN;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("coinParameterName", xmlOnCollideEvent.getString("coinParameterName"));
+            }
+            else if (stringEventType.equals("PLAYER_PLATFORM_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_PLATFORM_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("platformParameterName", xmlOnCollideEvent.getString("platformParameterName"));
+            }
+           
+            onCollideEvents.add(onCollideEvent);
+          } 
+        } 
+      } 
     }  
   }  
-     //<>//
+   
   @Override public ComponentType getComponentType() 
   {
-    return ComponentType.RIGID_BODY; //<>//
+    return ComponentType.RIGID_BODY;
   } 
-     //<>//
-  @Override public void update(int deltaTime)   //<>//
-  {   //<>//
+   
+  @Override public void update(int deltaTime) 
+  { 
     // Reverse sync the physically simulated position to the Game Object position.  
     gameObject.setTranslation(new PVector(metersToPixels(body.getPosition().x), metersToPixels(body.getPosition().y)));  
   }  
-  //<>//
-  public void onCollisionEnter(IGameObject collider) //<>//
-  { //<>//
-    for (OnCollideEvent onCollideEvent : onCollideEvents) //<>//
-    {  //<>//
-      if (onCollideEvent.collidedWith.equals(collider.getTag()))   //<>//
+
+  public void onCollisionEnter(IGameObject collider)
+  {
+    for (OnCollideEvent onCollideEvent : onCollideEvents)
+    {
+      if (onCollideEvent.collidedWith.equals(collider.getTag())) 
       {  
-        if (onCollideEvent.eventType == EventType.COIN_COLLECTED)   //<>//
+        if (onCollideEvent.eventType == EventType.COIN_COLLECTED) 
         {  
           Event event = new Event(EventType.COIN_COLLECTED);  
-          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);   //<>//
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider); 
           eventManager.queueEvent(event);  
-        }   //<>//
-        else if (onCollideEvent.eventType == EventType.GAME_OVER)   //<>//
+        } 
+        else if (onCollideEvent.eventType == EventType.GAME_OVER) 
         {  
-          eventManager.queueEvent(new Event(EventType.GAME_OVER));   //<>//
+          eventManager.queueEvent(new Event(EventType.GAME_OVER)); 
         }  
-        else if (onCollideEvent.eventType == EventType.DESTROY_COIN)   //<>//
+        else if (onCollideEvent.eventType == EventType.DESTROY_COIN) 
         {   
           Event event = new Event(EventType.DESTROY_COIN);  
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("coinParameterName"), collider);  
@@ -741,24 +741,24 @@ public class RigidBodyComponent extends Component
         {  
           Event event = new Event(EventType.PLAYER_PLATFORM_COLLISION);  
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("platformParameterName"), collider);  
-          eventManager.queueEvent(event);   //<>//
-        }   //<>//
-      }   //<>//
-    }  //<>//
-  }  //<>//
-  public PVector getLinearVelocity()  //<>//
-  { //<>//
-    return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));  //<>//
-  }  //<>//
- //<>//
+          eventManager.queueEvent(event); 
+        } 
+      } 
+    }
+  }
+  public PVector getLinearVelocity()
+  {
+    return new PVector(metersToPixels(body.getLinearVelocity().x), metersToPixels(body.getLinearVelocity().y));
+  }
+
   public float getSpeed()
-  { //<>//
-    PVector linearVelocity = getLinearVelocity();  //<>//
-    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));  //<>//
-  }  //<>//
-  public PVector getAcceleration()  //<>//
+  {
+    PVector linearVelocity = getLinearVelocity();
+    return sqrt((linearVelocity.x * linearVelocity.x) + (linearVelocity.y * linearVelocity.y));
+  }
+  public PVector getAcceleration()
   { 
-    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y));   //<>//
+    return new PVector(metersToPixels(latestForce.x), metersToPixels(latestForce.y)); 
   }   
   public void setLinearVelocity(PVector linearVelocity)  
   {  
@@ -776,37 +776,37 @@ public class RigidBodyComponent extends Component
     body.applyLinearImpulse( 
       new Vec2(pixelsToMeters(impulse.x), pixelsToMeters(impulse.y)),
       new Vec2(pixelsToMeters(position.x), pixelsToMeters(position.y)), 
-      wakeUp  //<>//
-    ); //<>//
-  }  //<>//
-  //<>//
+      wakeUp
+    );
+  }
+
   private float pixelsToMeters(float pixels) 
-  {   //<>//
-    return pixels / 50.0f;   //<>//
-  }  //<>//
- //<>//
-  private float metersToPixels(float meters) //<>//
-  {  //<>//
-    return meters * 50.0f;   //<>//
-  }   //<>//
-}   //<>//
-   //<>//
-public class PlayerControllerComponent extends Component   //<>//
-{  //<>//
-  public PVector moveVectorX;  //<>//
-  private float acceleration;  //<>//
-  private float maxSpeed; //<>//
-  private float minInputThreshold;  //<>//
+  { 
+    return pixels / 50.0f; 
+  }
+
+  private float metersToPixels(float meters)
+  {
+    return meters * 50.0f; 
+  } 
+} 
+ 
+public class PlayerControllerComponent extends Component 
+{
+  public PVector moveVectorX;
+  private float acceleration;
+  private float maxSpeed;
+  private float minInputThreshold;
   private float jumpForce; 
-    //<>//
-  private String currentSpeedParameterName;   //<>//
-  //<>//
-  private String collidedPlatformParameterName;  //<>//
-  private String gapDirection;  //<>//
+  
+  private String currentSpeedParameterName; 
+
+  private String collidedPlatformParameterName;
+  private String gapDirection;
  
   private boolean upButtonDown; 
-  private boolean leftButtonDown; //<>//
-  private boolean rightButtonDown; //<>//
+  private boolean leftButtonDown;
+  private boolean rightButtonDown;
   
   private int jumpDelay;
   private int jumpTime;
@@ -816,20 +816,20 @@ public class PlayerControllerComponent extends Component   //<>//
 
   public PlayerControllerComponent(IGameObject _gameObject) 
   {  
-    super(_gameObject);   //<>//
+    super(_gameObject); 
       
-    upButtonDown = false;   //<>//
+    upButtonDown = false; 
     leftButtonDown = false;  
-    rightButtonDown = false;   //<>//
-    moveVectorX = new PVector();   //<>//
+    rightButtonDown = false; 
+    moveVectorX = new PVector(); 
   }  
-     //<>//
-  @Override public void destroy()  //<>//
-  {  //<>//
-    //<>//
-  }   //<>//
-   //<>//
-  @Override public void fromXML(XML xmlComponent)   //<>//
+   
+  @Override public void destroy()
+  {
+  
+  } 
+ 
+  @Override public void fromXML(XML xmlComponent) 
   { 
     acceleration = xmlComponent.getFloat("acceleration"); 
     maxSpeed = xmlComponent.getFloat("maxSpeed"); 
@@ -837,15 +837,15 @@ public class PlayerControllerComponent extends Component   //<>//
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
 
-    collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName"); //<>//
+    collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
-    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile")); //<>//
+    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    amplitude = xmlComponent.getFloat("amp"); //<>//
-    jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>//
-  } //<>//
+    amplitude = xmlComponent.getFloat("amp");
+    jumpSound.add(xmlComponent.getFloat("add"));
+    jumpDelay = 500;
+  }
 
   @Override public ComponentType getComponentType()
   {
@@ -870,14 +870,14 @@ public class PlayerControllerComponent extends Component   //<>//
       println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()"); 
  
     smoothControls(moveVector, deltaTime); 
- //<>//
-    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);  //<>//
-  //<>//
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);  //<>//
-    //println(moveVector.x);  //<>//
+
+    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
+
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    //println(moveVector.x);
     moveVectorX = moveVector; 
-    if (component != null) //<>//
-    { //<>//
+    if (component != null)
+    {
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;  
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
@@ -890,59 +890,59 @@ public class PlayerControllerComponent extends Component   //<>//
       if (!platformManagerList.isEmpty())
       {
         IComponent tcomponent = platformManagerList.get(0).getComponent(ComponentType.PLATFORM_MANAGER_CONTROLLER);  
-        if (tcomponent != null) //<>//
-        {   //<>//
+        if (tcomponent != null)
+        { 
           if (moveVector.y < -0.5f)
           {  
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);   //<>//
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();  
-          }   //<>//
-        }   //<>//
-      }   //<>//
-         //<>//
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed());   //<>//
-    }   //<>//
-    else //<>//
-    { //<>//
-      gameObject.translate(moveVector); //<>//
+          } 
+        } 
+      } 
+       
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
+    } 
+    else
+    {
+      gameObject.translate(moveVector);
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y))); //<>//
-    } //<>//
-
-    eventManager.queueEvent(currentSpeedEvent);
-  }  
-
-  private HashMap<String, Float> gatherRawInput() 
-  {
-    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
-    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0; 
-    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0; 
- 
+    }
+ //<>//
+    eventManager.queueEvent(currentSpeedEvent); //<>//
+  }   //<>//
+ //<>//
+  private HashMap<String, Float> gatherRawInput()  //<>//
+  { //<>//
+    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0; //<>//
+    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;  //<>//
+    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;  //<>//
+  //<>//
     HashMap<String, Float> rawInput = emgManager.poll(); 
-    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude);
+    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude); //<>// //<>//
     rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
     rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude);
     return rawInput;
-  } //<>//
- //<>//
-  private PVector applyNormalControls(HashMap<String, Float> input) //<>//
+  }
+
+  private PVector applyNormalControls(HashMap<String, Float> input)
   {
     PVector moveVector = new PVector();
     moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
     moveVector.y = -input.get(JUMP_DIRECTION_LABEL);
-    return moveVector; //<>//
-  } //<>//
- //<>//
-  private PVector applyDirectionAssistControls(HashMap<String, Float> input) //<>//
-  { //<>//
-    Float magnitude = 0.0; //<>//
-    DirectionAssistMode mode = options.getGameOptions().getDirectionAssistMode(); //<>//
-    if (mode == DirectionAssistMode.LEFT_ONLY) //<>//
-      magnitude = input.get(LEFT_DIRECTION_LABEL); //<>//
+    return moveVector;
+  }
+
+  private PVector applyDirectionAssistControls(HashMap<String, Float> input)
+  {
+    Float magnitude = 0.0;
+    DirectionAssistMode mode = options.getGameOptions().getDirectionAssistMode();
+    if (mode == DirectionAssistMode.LEFT_ONLY)
+      magnitude = input.get(LEFT_DIRECTION_LABEL);
     else if (mode == DirectionAssistMode.RIGHT_ONLY)
-      magnitude = input.get(RIGHT_DIRECTION_LABEL); //<>//
-    else if (mode == DirectionAssistMode.BOTH) //<>//
-      magnitude = input.get(LEFT_DIRECTION_LABEL) + input.get(RIGHT_DIRECTION_LABEL); //<>//
+      magnitude = input.get(RIGHT_DIRECTION_LABEL);
+    else if (mode == DirectionAssistMode.BOTH)
+      magnitude = input.get(LEFT_DIRECTION_LABEL) + input.get(RIGHT_DIRECTION_LABEL);
     else 
       println("[ERROR] Unrecognized control mode in PlayerControllerComponent::applyDirectionAssistControls"); 
     
@@ -950,29 +950,29 @@ public class PlayerControllerComponent extends Component   //<>//
     if (gapDirection == LEFT_DIRECTION_LABEL) 
       moveVector.x = -magnitude;
     else 
-      moveVector.x = magnitude;  //<>//
+      moveVector.x = magnitude;
 
     return moveVector;
   }
 
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
   {
-    PVector moveVector = new PVector(); //<>//
- //<>//
-    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>//
-    if (mode == SingleMuscleMode.AUTO_LEFT) //<>//
+    PVector moveVector = new PVector();
+
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
+    if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
-    else if (mode == SingleMuscleMode.AUTO_RIGHT) //<>//
-      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);  //<>//
-    else  //<>//
-      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
+    else if (mode == SingleMuscleMode.AUTO_RIGHT)
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
+    else
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
  //<>//
     return moveVector; 
   }
- //<>//
-  public PVector getLatestMoveVector(){  //<>//
-    return moveVectorX;  //<>//
-  }  //<>//
+
+  public PVector getLatestMoveVector(){
+    return moveVectorX;
+  }
  
   private void handleEvents() 
   { 
@@ -981,9 +981,9 @@ public class PlayerControllerComponent extends Component   //<>//
  
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
       leftButtonDown = true; 
- //<>//
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
-      rightButtonDown = true; //<>//
+
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
+      rightButtonDown = true;
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
       upButtonDown = false;
@@ -993,14 +993,14 @@ public class PlayerControllerComponent extends Component   //<>//
       
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0) 
       rightButtonDown = false; 
-  //<>//
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))  //<>//
-    {  //<>//
-      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);   //<>//
-      gapDirection = determineGapDirection(platform);   //<>//
-    }   //<>//
-  }  //<>//
-  //<>//
+
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
+      gapDirection = determineGapDirection(platform); 
+    } 
+  }
+
   private String determineGapDirection(IGameObject platform) 
   {
     IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0); 
@@ -1013,10 +1013,10 @@ public class PlayerControllerComponent extends Component   //<>//
  
     String direction = ""; 
 
-    if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)  //<>//
-    {  //<>//
-      // platform extends all the way to left wall (i.e., no gap to the left)  //<>//
-      direction = RIGHT_DIRECTION_LABEL; //<>//
+    if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
+    {
+      // platform extends all the way to left wall (i.e., no gap to the left)
+      direction = RIGHT_DIRECTION_LABEL;
     } 
     else 
     { 
@@ -1030,8 +1030,8 @@ public class PlayerControllerComponent extends Component   //<>//
     if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
     {
       moveVector.x = 0.0f;
-    }  //<>//
-    else if (moveVector.x < 0.0f)   //<>//
+    }
+    else if (moveVector.x < 0.0f) 
     {  
       moveVector.x += minInputThreshold;  
       moveVector.x *= options.getIOOptions().getLeftEMGSensitivity() * (1.0f - minInputThreshold);  

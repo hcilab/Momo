@@ -274,6 +274,10 @@ public class GameState_PostGame extends GameState
   
   @Override public void onEnter()
   {
+    gameOverSoundEffect.amp(1.0 * options.getIOOptions().getSoundEffectsVolume());
+    gameOverSoundEffect.play();
+    gameOver.amp(1.0 * options.getIOOptions().getSoundEffectsVolume());
+    gameOver.play();
     gameObjectManager.fromXML("xml_data/post_game.xml");
   }
   
@@ -286,6 +290,7 @@ public class GameState_PostGame extends GameState
   
   @Override public void onExit()
   {
+    gameOver.stop();
     gameObjectManager.clearGameObjects();
   }
   

@@ -559,25 +559,39 @@ public class GameState_IOSettings extends GameState
       if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
       {
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPShape> shapes = renderComponent.getShapes();
         if (tag.equals("input"))
         {
-          renderComponent.getShapes().get(0).translation.x = 250;
-          renderComponent.getShapes().get(0).translation.y = 250;
+          shapes.get(0).translation.x = 250;
+          for (int i = 0; i <= 3; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
         }
         else if (tag.equals("difference"))
         {
-          renderComponent.getShapes().get(1).translation.x = 250;
-          renderComponent.getShapes().get(1).translation.y = 250;
+          shapes.get(1).translation.x = 250;
+          for (int i = 4; i <= 9; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
         }
         else if (tag.equals("max"))
         {
-          renderComponent.getShapes().get(2).translation.x = 250;
-          renderComponent.getShapes().get(2).translation.y = 250;
+          shapes.get(2).translation.x = 250;
+          for (int i = 10; i <= 13; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
         }
         else if (tag.equals("first_over"))
         {
-          renderComponent.getShapes().get(3).translation.x = 250;
-          renderComponent.getShapes().get(3).translation.y = 250;
+          shapes.get(3).translation.x = 250;
+          for (int i = 14; i <= 19; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
         }
       }
     }
@@ -588,25 +602,39 @@ public class GameState_IOSettings extends GameState
       if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
       {
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPShape> shapes = renderComponent.getShapes();
         if (tag.equals("input"))
         {
-          renderComponent.getShapes().get(0).translation.x = 700;
-          renderComponent.getShapes().get(0).translation.y = 700;
+          shapes.get(0).translation.x = 1000;
+          for (int i = 0; i <= 3; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
         }
         else if (tag.equals("difference"))
         {
-          renderComponent.getShapes().get(1).translation.x = 700;
-          renderComponent.getShapes().get(1).translation.y = 700;
+          shapes.get(1).translation.x = 1000;
+          for (int i = 4; i <= 9; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
         }
         else if (tag.equals("max"))
         {
-          renderComponent.getShapes().get(2).translation.x = 700;
-          renderComponent.getShapes().get(2).translation.y = 700;
+          shapes.get(2).translation.x = 1000;
+          for (int i = 10; i <= 13; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
         }
         else if (tag.equals("first_over"))
         {
-          renderComponent.getShapes().get(3).translation.x = 700;
-          renderComponent.getShapes().get(3).translation.y = 700;
+          shapes.get(3).translation.x = 1000;
+          for (int i = 14; i <= 19; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
         }
       }
     }

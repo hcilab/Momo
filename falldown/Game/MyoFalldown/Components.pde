@@ -31,6 +31,7 @@ public enum ComponentType
   IO_OPTIONS_CONTROLLER,
   CALIBRATE_CONTROLLER,
   ID_COUNTER,
+  MODAL,
 }
 
 public interface IComponent
@@ -2707,6 +2708,66 @@ public class AnimationControllerComponent extends Component
   }
 }
 
+public class ModalComponent extends Component
+{
+  private int modalHeight;
+  private int modalWidth;
+
+  private boolean mouseOver;
+
+  public ModalComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+
+    modalHeight = 0;
+    modalWidth = 0;
+
+    mouseOver = false;
+  }
+
+  @Override public void destroy()
+  {
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    // Multiply the height and width by the scale values to make the button that size
+    modalHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
+    modalWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.MODAL;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    float widthScale = (width / 500.0f);
+    float heightScale = (height / 500.0f);
+
+    float xModal = gameObject.getTranslation().x * widthScale;
+    float yModal = gameObject.getTranslation().y * heightScale;
+
+    float actualModalWidth = modalWidth * widthScale;
+    float actualModalHeight = modalHeight * heightScale;
+    if (xModal - 0.5 * actualModalWidth <= mouseX && xModal + 0.5 * actualModalWidth >= mouseX && yModal - 0.5 * actualModalHeight <= mouseY && yModal + 0.5 * actualModalHeight >= mouseY)
+    {
+      mouseOver = true;
+      mouseHand = true;
+      Event modalEvent = new Event(EventType.MODAL_HOVER);
+      modalEvent.addStringParameter("tag", gameObject.getTag());
+      eventManager.queueEvent(modalEvent);
+    }
+    else
+    {
+      mouseOver = false;
+      Event modalEvent = new Event(EventType.MODAL_OFF);
+      modalEvent.addStringParameter("tag", gameObject.getTag());
+      eventManager.queueEvent(modalEvent);
+    }
+  }
+}
 
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {
@@ -2792,6 +2853,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if(componentName.equals("CounterID"))
   {
     component = new CounterIDComponent(gameObject);
+  }
+  else if (componentName.equals("Modal"))
+  {
+    component = new ModalComponent(gameObject);
   }
   
   if (component != null)

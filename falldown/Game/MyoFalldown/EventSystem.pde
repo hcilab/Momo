@@ -53,6 +53,9 @@ enum EventType
 
   PLAYER_CURRENT_SPEED,
   PLAYER_PLATFORM_COLLISION,
+
+  MODAL_HOVER,
+  MODAL_OFF,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -258,6 +261,9 @@ class EventManager implements IEventManager
     
     addEventTypeToMaps(EventType.PLAYER_CURRENT_SPEED);
     addEventTypeToMaps(EventType.PLAYER_PLATFORM_COLLISION);
+
+    addEventTypeToMaps(EventType.MODAL_HOVER);
+    addEventTypeToMaps(EventType.MODAL_OFF);
   }
   
   private void addEventTypeToMaps(EventType eventType)

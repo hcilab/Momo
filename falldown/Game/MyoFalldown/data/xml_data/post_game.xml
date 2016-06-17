@@ -3,6 +3,13 @@
 	
 	<GameObject file="xml_data/post_game_stats.xml"/>
 
+	<GameObject file="xml_data/button.xml" tag="buy">
+		<Transform>
+			<Translation x="400.0" y="265.0"/>
+			<Scale x="100.0" y="40.0"/>
+		</Transform>
+	</GameObject>
+
 	<GameObject file="xml_data/button_back.xml" tag="back">
 		<Transform>
 			<Translation x="25.0" y="25.0"/>

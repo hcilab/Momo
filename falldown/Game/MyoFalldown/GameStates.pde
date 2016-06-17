@@ -315,6 +315,12 @@ public class GameState_PostGame extends GameState
         gameStateController.pushState(new GameState_OptionsMenu());
         gameStateController.pushState(new GameState_StatsSettings());
       }
+      else if (tag.equals("buy"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_OptionsMenu());
+        gameStateController.pushState(new GameState_CustomizeSettings());
+      }
     }
   }
 }

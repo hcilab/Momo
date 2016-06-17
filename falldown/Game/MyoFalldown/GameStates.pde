@@ -268,12 +268,14 @@ public class GameState_InGame extends GameState
 public class GameState_PostGame extends GameState
 {
   private boolean textLoaded;
+  private boolean smartSuggestion;
 
   public GameState_PostGame()
   {
     super();
 
     textLoaded = false;
+    smartSuggestion = false;
   }
   
   @Override public void onEnter()
@@ -312,23 +314,31 @@ public class GameState_PostGame extends GameState
       if (tag.equals("back"))
       {
         gameStateController.popState();
+        if (smartSuggestion)
+          gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("play_again"))
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_InGame());
+        if (smartSuggestion)
+          gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("gameplay_record"))
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_OptionsMenu());
         gameStateController.pushState(new GameState_StatsSettings());
+        if (smartSuggestion)
+          gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("buy"))
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_OptionsMenu());
         gameStateController.pushState(new GameState_CustomizeSettings());
+        if (smartSuggestion)
+          gameStateController.pushState(new GameState_SmartSuggestion());
       }
     }
   }
@@ -346,6 +356,18 @@ public class GameState_PostGame extends GameState
 
       IGameObject gameObj = gameObjectManager.getGameObjectsByTag("buy").get(0);
       gameObj.setTranslation(new PVector(405.0 - xTranslation, 265.0));
+    }
+
+    ArrayList<IGameRecord> records = options.getStats().getGameRecords();
+    IGameRecord lastGameRecord = records.get(records.size() - 1);
+
+    if (lastGameRecord.getAverageSpeed() < 10)
+    {
+      smartSuggestion = true;
+    }
+    else if (lastGameRecord.getAverageSpeed() > 100)
+    {
+      smartSuggestion = true;
     }
 
     textLoaded = true;
@@ -1503,6 +1525,43 @@ public class GameState_NewUser extends GameState
       if (tag.equals("ok"))
       {
         gameStateController.pushState(new GameState_MainMenu());
+      }
+    }
+  }
+}
+
+public class GameState_SmartSuggestion extends GameState
+{
+  public GameState_SmartSuggestion()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/smart_suggestion.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
       }
     }
   }

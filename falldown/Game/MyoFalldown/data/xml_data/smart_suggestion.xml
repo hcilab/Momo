@@ -1,0 +1,10 @@
+<Level>
+	<GameObject file="xml_data/smart_suggestion_message.xml" tag="message"/>
+	
+	<GameObject file="xml_data/button.xml" tag="back">
+		<Transform>
+			<Translation x="250.0" y="405.0"/>
+			<Scale x="190.0" y="80.0"/>
+		</Transform>
+	</GameObject>
+</Level>

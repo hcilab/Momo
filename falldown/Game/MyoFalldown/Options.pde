@@ -135,6 +135,7 @@ public interface ICustomizeOptions
   public void preparePurchaseScreen(int _custSpriteIndex, RenderComponent renderComponent);
   public void reset();
   public void loadSavedSettings();
+  public boolean hasEnoughCoinsToBuySomething();
 }
 
 public interface IGameRecordViewHelper
@@ -1147,6 +1148,22 @@ public class Options implements IOptions
         }
       }
       saveXML(xmlCustomSettings, CUSTOM_SETTINGS_FILE_OUT);
+    }
+
+    public boolean hasEnoughCoinsToBuySomething()
+    {
+      boolean hasEnough = false;
+      XML[] sprites = xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite");
+      for (XML sprite : sprites)
+      {
+       if (sprite.getString("unlocked").equals("false") && coinsCollected >= sprite.getInt("cost"))
+       {
+         hasEnough = true;
+         break;
+       }
+      }
+
+      return hasEnough;
     }
   }
 

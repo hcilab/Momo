@@ -267,9 +267,13 @@ public class GameState_InGame extends GameState
 
 public class GameState_PostGame extends GameState
 {
+  private boolean textLoaded;
+
   public GameState_PostGame()
   {
     super();
+
+    textLoaded = false;
   }
   
   @Override public void onEnter()
@@ -286,6 +290,11 @@ public class GameState_PostGame extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!textLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadChanges();
+    }
   }
   
   @Override public void onExit()
@@ -322,6 +331,21 @@ public class GameState_PostGame extends GameState
         gameStateController.pushState(new GameState_CustomizeSettings());
       }
     }
+  }
+
+  public void loadChanges()
+  {
+    if (options.getCustomizeOptions().hasEnoughCoinsToBuySomething())
+    {
+      RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+      renderComponent.getTexts().get(6).translation.x = 360;
+      renderComponent.getImages().get(0).translation.x = 400;
+
+      IGameObject gameObj = gameObjectManager.getGameObjectsByTag("buy").get(0);
+      gameObj.setTranslation(new PVector(400.0, 265.0));
+    }
+
+    textLoaded = true;
   }
 }
 

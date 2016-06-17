@@ -1,11 +1,11 @@
 <Level>
-	<GameObject file="xml_data/post_game_message.xml"/>
+	<GameObject file="xml_data/post_game_message.xml" tag="message"/>
 	
 	<GameObject file="xml_data/post_game_stats.xml"/>
 
 	<GameObject file="xml_data/button.xml" tag="buy">
 		<Transform>
-			<Translation x="400.0" y="265.0"/>
+			<Translation x="1000.0" y="265.0"/>
 			<Scale x="100.0" y="40.0"/>
 		</Transform>
 	</GameObject>

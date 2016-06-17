@@ -337,12 +337,15 @@ public class GameState_PostGame extends GameState
   {
     if (options.getCustomizeOptions().hasEnoughCoinsToBuySomething())
     {
+      int numChars = Integer.toString(options.getCustomizeOptions().getCoinsCollected()).length();
+      int xTranslation = numChars * 8;
+
       RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-      renderComponent.getTexts().get(6).translation.x = 360;
-      renderComponent.getImages().get(0).translation.x = 400;
+      renderComponent.getTexts().get(6).translation.x = 365 - xTranslation;
+      renderComponent.getImages().get(0).translation.x = 405 - xTranslation;
 
       IGameObject gameObj = gameObjectManager.getGameObjectsByTag("buy").get(0);
-      gameObj.setTranslation(new PVector(400.0, 265.0));
+      gameObj.setTranslation(new PVector(405.0 - xTranslation, 265.0));
     }
 
     textLoaded = true;

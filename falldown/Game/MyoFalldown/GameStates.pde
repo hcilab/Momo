@@ -269,6 +269,7 @@ public class GameState_PostGame extends GameState
 {
   private boolean textLoaded;
   private boolean smartSuggestion;
+  private IGameOptions gameOps;
 
   public GameState_PostGame()
   {
@@ -276,6 +277,7 @@ public class GameState_PostGame extends GameState
 
     textLoaded = false;
     smartSuggestion = false;
+    gameOps = options.getGameOptions();
   }
   
   @Override public void onEnter()
@@ -361,11 +363,11 @@ public class GameState_PostGame extends GameState
     ArrayList<IGameRecord> records = options.getStats().getGameRecords();
     IGameRecord lastGameRecord = records.get(records.size() - 1);
 
-    if (lastGameRecord.getAverageSpeed() < 10)
+    if (lastGameRecord.getAverageSpeed() < gameOps.getLowAvgSpeedThreshold())
     {
       smartSuggestion = true;
     }
-    else if (lastGameRecord.getAverageSpeed() > 100)
+    else if (lastGameRecord.getAverageSpeed() > gameOps.getHighAvgSpeedThreshold())
     {
       smartSuggestion = true;
     }

@@ -50,6 +50,8 @@ public interface IGameOptions
   public SingleMuscleMode getSingleMuscleMode();
   public boolean getObstacles();
   public boolean getPlatformMods();
+  public float getLowAvgSpeedThreshold();
+  public float getHighAvgSpeedThreshold();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
@@ -250,6 +252,8 @@ public class Options implements IOptions
     private final String SINGLE_MUSCLE_MODE = "single_muscle_mode";
     private final String OBSTACLES = "obstacles";
     private final String PLATFORM_MODS = "platform_mods";
+    private final String LOW_AVG_SPEED_THRESHOLD = "low_avg_speed_threshold";
+    private final String HIGH_AVG_SPEED_THRESHOLD = "high_avg_speed_threshold";
     
     private XML xmlGame;
     
@@ -260,6 +264,8 @@ public class Options implements IOptions
     private SingleMuscleMode singleMuscleMode;
     private boolean obstacles;
     private boolean platformMods;
+    private float lowAvgSpeedThreshold;
+    private float highAvgSpeedThreshold;
     
     private GameOptions()
     {
@@ -269,6 +275,8 @@ public class Options implements IOptions
       levelUpOverTime = xmlGame.getString(LEVEL_UP_OVER_TIME).equals("true") ? true : false;
       obstacles = xmlGame.getString(OBSTACLES).equals("true") ? true : false;
       platformMods = xmlGame.getString(PLATFORM_MODS).equals("true") ? true : false;
+      lowAvgSpeedThreshold = xmlGame.getFloat(LOW_AVG_SPEED_THRESHOLD);
+      highAvgSpeedThreshold = xmlGame.getFloat(HIGH_AVG_SPEED_THRESHOLD);
 
       switch (xmlGame.getString(CONTROL_POLICY))
       {
@@ -342,7 +350,17 @@ public class Options implements IOptions
     {
       return platformMods;
     }
-    
+
+    public float getLowAvgSpeedThreshold()
+    {
+      return lowAvgSpeedThreshold;
+    }
+
+    public float getHighAvgSpeedThreshold()
+    {
+      return highAvgSpeedThreshold;
+    }
+
     @Override public void setStartingLevel(int _startingLevel)
     {
       startingLevel = _startingLevel;

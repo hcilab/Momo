@@ -464,18 +464,6 @@ public class RenderComponent extends Component
     return color(xmlColor.getInt("r"), xmlColor.getInt("g"), xmlColor.getInt("b"), xmlColor.getInt("a"));
   }
   
-  private void tileWallSprite(OffsetSheetSprite sprite){  
-   //wall height is 500 with width of 10
-   //tile length will be 50 starting from top
-   int height = (int)sprite.sheetSprite.getHeight();
-   int tilelength = 500/height;
-   for(int i =0; i < tilelength+1; i++){
-      sprite.sheetSprite.setXY(gameObject.getTranslation().x + sprite.translation.x, (i*height));
-      sprite.sheetSprite.draw();
-   } 
-   
-  }
-  
   
   @Override public ComponentType getComponentType()
   {
@@ -510,7 +498,7 @@ public class RenderComponent extends Component
    for (OffsetPImage offsetImage : offsetPImages)
     {
        if(gameObject.getTag().equals("platform")){
-         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x)+1, (int)gameObject.getScale().y);
          image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x , gameObject.getScale().y * offsetImage.scale.y);
        }
        else {
@@ -907,31 +895,31 @@ public class PlayerControllerComponent extends Component
     else
     {
       gameObject.translate(moveVector);
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y))); //<>//
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
     }
- //<>//
-    eventManager.queueEvent(currentSpeedEvent); //<>//
-  }   //<>//
- //<>//
-  private HashMap<String, Float> gatherRawInput()  //<>//
-  { //<>//
-    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0; //<>//
-    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;  //<>//
-    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;  //<>//
-  //<>//
-    HashMap<String, Float> rawInput = emgManager.poll(); 
-    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude); //<>// //<>//
-    rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude);
-    rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude);
-    return rawInput;
+
+    eventManager.queueEvent(currentSpeedEvent);
   }
 
-  private PVector applyNormalControls(HashMap<String, Float> input)
+  private HashMap<String, Float> gatherRawInput()
   {
-    PVector moveVector = new PVector();
-    moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
+    Float keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
+    Float keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+    Float keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+ //<>//
+    HashMap<String, Float> rawInput = emgManager.poll(); 
+    rawInput.put(LEFT_DIRECTION_LABEL, rawInput.get(LEFT_DIRECTION_LABEL)+keyboardLeftMagnitude); //<>//
+    rawInput.put(RIGHT_DIRECTION_LABEL, rawInput.get(RIGHT_DIRECTION_LABEL)+keyboardRightMagnitude); //<>//
+    rawInput.put(JUMP_DIRECTION_LABEL, rawInput.get(JUMP_DIRECTION_LABEL)+keyboardJumpMagnitude); //<>//
+    return rawInput; //<>//
+  } //<>//
+ //<>//
+  private PVector applyNormalControls(HashMap<String, Float> input) //<>//
+  { //<>//
+    PVector moveVector = new PVector(); //<>//
+    moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL); //<>//
     moveVector.y = -input.get(JUMP_DIRECTION_LABEL);
-    return moveVector;
+    return moveVector; //<>//
   }
 
   private PVector applyDirectionAssistControls(HashMap<String, Float> input)
@@ -967,52 +955,52 @@ public class PlayerControllerComponent extends Component
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
- //<>//
+
     return moveVector; 
   }
 
   public PVector getLatestMoveVector(){
     return moveVectorX;
-  }
+  } //<>//
  
   private void handleEvents() 
   { 
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) 
-      upButtonDown = true; 
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
+      upButtonDown = true; //<>//
  
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
-      leftButtonDown = true; 
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)
+      leftButtonDown = true; //<>//
 
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
       rightButtonDown = true;
- 
-    if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
+
+    if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0)   //<>//
       upButtonDown = false;
-      
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_RELEASED).size() > 0) 
+
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_RELEASED).size() > 0)
       leftButtonDown = false;
-      
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0) 
-      rightButtonDown = false; 
+
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_RELEASED).size() > 0)
+      rightButtonDown = false;
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
-      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
-      gapDirection = determineGapDirection(platform); 
-    } 
+      IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName);
+      gapDirection = determineGapDirection(platform);
+    }
   }
 
-  private String determineGapDirection(IGameObject platform) 
+  private String determineGapDirection(IGameObject platform)
   {
-    IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0); 
-    assert (leftWall != null); 
- 
-    float wallWidth = leftWall.getScale().x; 
-    float playerWidth = gameObject.getScale().x; 
-    float platformPositionX = platform.getTranslation().x; 
-    float platformWidth = platform.getScale().x; 
- 
-    String direction = ""; 
+    IGameObject leftWall = gameStateController.getGameObjectManager().getGameObjectsByTag("left_wall").get(0);
+    assert (leftWall != null);
+
+    float wallWidth = leftWall.getScale().x;
+    float playerWidth = gameObject.getScale().x;
+    float platformPositionX = platform.getTranslation().x;
+    float platformWidth = platform.getScale().x;
+
+    String direction = "";
 
     if (platformPositionX <= platformWidth/2.0 + wallWidth + playerWidth)
     {

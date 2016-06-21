@@ -481,6 +481,12 @@ public class GameState_IOSettings extends GameState
   public boolean saveDataLoaded;
   public boolean tweakedForPauseOrSettings;
 
+  SoundFile buttonClickedSoundTest;
+  float amplitude;
+
+  XML buttonXML;
+  XML buttomXMLComponent;
+
   public GameState_IOSettings()
   {
     super();
@@ -488,6 +494,14 @@ public class GameState_IOSettings extends GameState
     isPauseScreen = false;
     saveDataLoaded = false;
     tweakedForPauseOrSettings = false;
+
+    buttonXML = loadXML("xml_data/button.xml");
+    buttomXMLComponent = buttonXML.getChild("Button");
+    buttonClickedSoundTest = new SoundFile(mainObject, buttomXMLComponent.getString("buttonClickedSound"));
+    buttonClickedSoundTest.rate(buttomXMLComponent.getFloat("rate"));
+    try { buttonClickedSoundTest.pan(buttomXMLComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    amplitude = buttomXMLComponent.getFloat("amp");
+    buttonClickedSoundTest.add(buttomXMLComponent.getFloat("add"));
   }
 
   @Override public void onEnter()
@@ -597,6 +611,9 @@ public class GameState_IOSettings extends GameState
       else if (tag.equals("sound_effects"))
       {
         options.getIOOptions().setSoundEffectsVolume(sliderValue);
+
+        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        buttonClickedSoundTest.play();
       }
       else if (tag.equals("left_sensitivity"))
       {

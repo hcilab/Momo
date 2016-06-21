@@ -74,6 +74,7 @@ Table table;
 Table tableInput;
 int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
+ArrayList<PVector> platformGapPosition;
 
 // Set to true for limitations to compute Fitt's Law
 boolean fittsLaw = true;
@@ -84,6 +85,7 @@ boolean inputPlatformGaps = true;
 //Set to true if you want to log Fitts laws.
 boolean logFittsLaw = true;
 
+boolean stillPlatforms = true;
 
 void setup()
 {

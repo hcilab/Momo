@@ -51,6 +51,10 @@ public interface IGameOptions
   public SingleMuscleMode getSingleMuscleMode();
   public boolean getObstacles();
   public boolean getPlatformMods();
+  public boolean getFittsLaw();
+  public boolean getInputPlatforms();
+  public boolean getLogFitts();
+  public boolean getStillPlatforms();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
@@ -59,6 +63,10 @@ public interface IGameOptions
   public void setSingleMuscleMode(SingleMuscleMode mode);
   public void setObstacles(boolean obstacles);
   public void setPlatformMods(boolean platformMods);
+  public void setFittsLaw(boolean _fittsLaw);
+  public void setInputPlatforms(boolean _inputPlatforms);
+  public void setLogFitts(boolean _logFitts);
+  public void setStillPlatforms(boolean _stillplatforms);
 }
 
 enum EmgSamplingPolicy
@@ -259,6 +267,10 @@ public class Options implements IOptions
     private final String SINGLE_MUSCLE_MODE = "single_muscle_mode";
     private final String OBSTACLES = "obstacles";
     private final String PLATFORM_MODS = "platform_mods";
+    private final String FITTS_LAW = "fitts_law";
+    private final String INPUT_PLATFORM = "input_platform";
+    private final String LOG_FITTS = "log_fitts";
+    private final String STILL_PLATFORM = "still_platform";
     
     private XML xmlGame;
     
@@ -278,6 +290,10 @@ public class Options implements IOptions
       levelUpOverTime = xmlGame.getString(LEVEL_UP_OVER_TIME).equals("true") ? true : false;
       obstacles = xmlGame.getString(OBSTACLES).equals("true") ? true : false;
       platformMods = xmlGame.getString(PLATFORM_MODS).equals("true") ? true : false;
+      fittsLaw = xmlGame.getString(FITTS_LAW).equals("true") ? true : false;
+      inputPlatformGaps = xmlGame.getString(INPUT_PLATFORM).equals("true") ? true : false;
+      logFittsLaw = xmlGame.getString(LOG_FITTS).equals("true") ? true : false;
+      stillPlatforms = xmlGame.getString(STILL_PLATFORM).equals("true") ? true : false;
 
       switch (xmlGame.getString(CONTROL_POLICY))
       {
@@ -352,6 +368,26 @@ public class Options implements IOptions
       return platformMods;
     }
     
+    @Override public boolean getFittsLaw()
+    {
+      return fittsLaw;
+    }
+    
+    @Override public boolean getInputPlatforms()
+    {
+      return inputPlatformGaps;
+    }
+    
+    @Override public boolean getLogFitts()
+    {
+      return logFittsLaw;
+    }
+    
+    @Override public boolean getStillPlatforms()
+    {
+      return stillPlatforms;
+    }
+    
     @Override public void setStartingLevel(int _startingLevel)
     {
       startingLevel = _startingLevel;
@@ -423,6 +459,34 @@ public class Options implements IOptions
     {
       platformMods = _platformMods;
       xmlGame.setString(PLATFORM_MODS, platformMods ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setFittsLaw(boolean _fittsLaw)
+    {
+      fittsLaw = _fittsLaw;
+      xmlGame.setString(FITTS_LAW, fittsLaw ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setInputPlatforms(boolean _inputPlatforms)
+    {
+      inputPlatformGaps = _inputPlatforms;
+      xmlGame.setString(INPUT_PLATFORM, inputPlatformGaps ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setLogFitts(boolean _logFitts)
+    {
+      logFittsLaw = _logFitts;
+      xmlGame.setString(LOG_FITTS, logFittsLaw ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setStillPlatforms(boolean _stillPlatform)
+    {
+      stillPlatforms = _stillPlatform;
+      xmlGame.setString(STILL_PLATFORM, stillPlatforms ? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
@@ -1225,7 +1289,6 @@ public class Options implements IOptions
     private final String INPUT_FILE = "input_file";
     private XML xmlFitts;
     private String inputFile;
-    private String trial;
     
     private FittsLawOptions()
     {

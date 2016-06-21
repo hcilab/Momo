@@ -917,9 +917,9 @@ public class PlayerControllerComponent extends Component
   private long breakTimerStart; //<>//
   private long crumbleTimerStart; //<>//
   private String crumblingPlatformFile; //<>//
- //<>//
+   //<>//
   public PlayerControllerComponent(IGameObject _gameObject)
-  { //<>// //<>//
+  { //<>//
     super(_gameObject);
 
     upButtonDown = false;
@@ -999,8 +999,8 @@ public class PlayerControllerComponent extends Component
       if (System.currentTimeMillis() - crumbleTimerStart > 450 && breakPlatform != null)
       {
         crumbleTimerStart = System.currentTimeMillis();
-        
-        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-25,25), breakPlatform.getTranslation().y), new PVector(10, 10));
+        float crumbleScale = breakPlatform.getScale().x/2; 
+        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
         crumblePlatform.setTag("crumble_platform");
         pc.setPlatformDescentSpeed(crumblePlatform);
       }
@@ -1013,13 +1013,22 @@ public class PlayerControllerComponent extends Component
         platformFallSound.play();
         if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
         {
-          IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
-          FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
-          fitsStats.endLogLevel();
+          
+          if(logFittsLaw)
+          {
+            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
+            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
+            fitsStats.endLogLevel();
+          }
+          
+          //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
           
-          pc.incrementPlatforms();
-          pc.spawnPlatformLevelInputNoSpeed();
+          if(stillPlatforms)
+          {
+            pc.incrementPlatforms();
+            pc.spawnPlatformLevelNoRiseSpeed();
+          }
         }
       }
 
@@ -1458,6 +1467,7 @@ public class PlatformManagerControllerComponent extends Component
     
     platforms = new LinkedList<IGameObject>();
     platformLevels = new ArrayList<ArrayList<Integer>>();
+    platformGapPosition = new ArrayList<PVector>();
   }
   
   @Override public void destroy()
@@ -1533,27 +1543,22 @@ public class PlatformManagerControllerComponent extends Component
     {
       if (riseSpeed > 0.0f)
       {
-        if(!inputPlatformGaps)
+        if(!stillPlatforms)
         {
-          spawnPlatformLevel();
-        }
-        else if(inputPlatformGaps && !fittsLaw)
-        {
-          if(totalRowCountInput > inputPlatformCounter)
+          if(!((totalRowCountInput <= inputPlatformCounter) && inputPlatformGaps))
           {
-            spawnPlatformLevelInput();
-            inputPlatformCounter++;
+            spawnPlatformLevel();
           }
         }
         else
         {
           if(totalRowCountInput > inputPlatformCounter)
           {
-            spawnPlatformLevelInputNoSpeed();
+            spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
-            spawnPlatformLevelInputNoSpeed();
+            spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
-            spawnPlatformLevelInputNoSpeed();
+            spawnPlatformLevelNoRiseSpeed();
             firstIteration = false;
           }
         }
@@ -1583,31 +1588,61 @@ public class PlatformManagerControllerComponent extends Component
   {
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
-    
-    int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); 
-    
-    for (int i = 0; i < gapsInLevel; ++i)
+    ArrayList<Integer> platLevels = new ArrayList<Integer>();
+    int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1));
+    int rangeSelector;
+    PVector range;
+    if(inputPlatformGaps)
     {
-      int rangeSelector = int(random(0, platformRanges.size() - 1));
-      PVector range = platformRanges.get(rangeSelector);
-      float rangeWidth = range.y - range.x;
-      float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
-      if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
-      {
-        continue;
-      }
-      float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
-      float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+      rangeSelector = int(random(0, platformRanges.size() - 1));
+      range = platformRanges.get(rangeSelector);
       
+      TableRow row = tableInput.getRow(inputPlatformCounter);
+      float gapPosition = row.getFloat("placement")  + 12;
+      float halfGapWidth = row.getFloat("halfWidth");
+      platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
-
-      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-      breakPlatform.setTag("break_platform");
-      setPlatformRiseSpeed(breakPlatform);
-      platforms.add(breakPlatform);
+      
+      if(fittsLaw)
+      {
+        IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+        breakPlatform.setTag("break_platform");
+        setPlatformRiseSpeed(breakPlatform);
+        platforms.add(breakPlatform);
+        platLevels.add(breakPlatform.getUID());
+      }
+    inputPlatformCounter++;
     }
-    ArrayList<Integer> platLevels = new ArrayList<Integer>();
+    else
+    {
+      for (int i = 0; i < gapsInLevel; ++i)
+      {
+        rangeSelector = int(random(0, platformRanges.size() - 1));
+        range = platformRanges.get(rangeSelector);
+        float rangeWidth = range.y - range.x;
+        float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
+        if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
+        {
+          continue;
+        }
+        float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
+        float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+        platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
+        platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+        range.y = gapPosition - halfGapWidth;
+        //Have to change to see if we need break platforms
+        if(fittsLaw)
+        {
+          IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+          breakPlatform.setTag("break_platform");
+          setPlatformRiseSpeed(breakPlatform);
+          platforms.add(breakPlatform);
+          platLevels.add(breakPlatform.getUID());
+        }
+      }
+    }
+    
     for (PVector platformRange : platformRanges)
     {
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
@@ -1663,91 +1698,85 @@ public class PlatformManagerControllerComponent extends Component
     platformLevels.add(platLevels);
   }
   
-  private void spawnPlatformLevelInput()
+  public void spawnPlatformLevelNoRiseSpeed()
   {
-    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
-    platformRanges.add(new PVector(leftSide, rightSide));
-    
-    int gapsInLevel = 1; 
-    
-    for (int i = 0; i < gapsInLevel; ++i)
-    {
-      int rangeSelector = int(random(0, platformRanges.size() - 1));
-      PVector range = platformRanges.get(rangeSelector);
-      
-      TableRow row = tableInput.getRow(inputPlatformCounter);
-      float gapPosition = row.getFloat("placement");
-      float halfGapWidth = row.getFloat("halfWidth");
-      
-      platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
-      range.y = gapPosition - halfGapWidth;
-      
-      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-      breakPlatform.setTag("break_platform");
-      setPlatformRiseSpeed(breakPlatform);
-      platforms.add(breakPlatform);
-    }
-    ArrayList<Integer> platLevels = new ArrayList<Integer>();
-    for (PVector platformRange : platformRanges)
-    {
-      float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
-      float platformWidth = platformRange.y - platformRange.x;
-      
-      IGameObject platform;
-      platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
-
-      platform.setTag(tag);
-      setPlatformRiseSpeed(platform);
-      platforms.add(platform);
-      platLevels.add(platform.getUID());
-    }
-    platformLevels.add(platLevels);
-  }
-  
-  public void spawnPlatformLevelInputNoSpeed()
-  {
-    if(totalRowCountInput > inputPlatformCounter)
-    {
+      float tempSpawnHeight = spawnHeight;
       ArrayList<PVector> platformRanges = new ArrayList<PVector>();
       platformRanges.add(new PVector(leftSide, rightSide));
+      ArrayList<Integer> platLevels = new ArrayList<Integer>();
   
       int rangeSelector = int(random(0, platformRanges.size() - 1));
       PVector range = platformRanges.get(rangeSelector);
-      
-      TableRow row = tableInput.getRow(inputPlatformCounter);
-      float gapPosition = row.getFloat("placement");
-      float halfGapWidth = row.getFloat("halfWidth");
-      
-      platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
-      range.y = gapPosition - halfGapWidth;
-      
-      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-      breakPlatform.setTag("break_platform");
-  
-      platforms.add(breakPlatform);
+      if(inputPlatformGaps)
+      {
+        if(totalRowCountInput > inputPlatformCounter)
+        {
+          TableRow row = tableInput.getRow(inputPlatformCounter);
+          float gapPosition = row.getFloat("placement") + 12;
+          float halfGapWidth = row.getFloat("halfWidth");
+          platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
+          platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+          range.y = gapPosition - halfGapWidth;
+              
+          if(fittsLaw)
+          {
+            IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+            breakPlatform.setTag("break_platform");
+            platforms.add(breakPlatform);
+            platLevels.add(breakPlatform.getUID());
+          }
+        }
+        else if (totalRowCountInput == inputPlatformCounter)
+        {
+          inputPlatformCounter++;
+        }
+        else
+        {
+          eventManager.queueEvent(new Event(EventType.GAME_OVER));
+        }
+        inputPlatformCounter++;
+      }
+      else
+      {
+        int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); 
+        for (int i = 0; i < gapsInLevel; ++i)
+        {
+          rangeSelector = int(random(0, platformRanges.size() - 1));
+          range = platformRanges.get(rangeSelector);
+          float rangeWidth = range.y - range.x;
+          float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
+          if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
+          {
+            continue;
+          }
+          float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
+          float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+          platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
+          platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+          range.y = gapPosition - halfGapWidth;
+          if(fittsLaw)
+          {
+            IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+            breakPlatform.setTag("break_platform");
+            platforms.add(breakPlatform);
+            platLevels.add(breakPlatform.getUID());
+          }
+        }
+      }
    
-      ArrayList<Integer> platLevels = new ArrayList<Integer>();
       for (PVector platformRange : platformRanges)
       {
         float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
         float platformWidth = platformRange.y - platformRange.x;
         
         IGameObject platform;
-        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, spawnHeight), new PVector(platformWidth, platformHeight));
-  
+        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
+
         platform.setTag(tag);
         platforms.add(platform);
         platLevels.add(platform.getUID());
       }
       platformLevels.add(platLevels);
-      inputPlatformCounter++;
-    }
-    else if (totalRowCountInput == inputPlatformCounter)
-    {
-      inputPlatformCounter++;
-    }
-    else
-      eventManager.queueEvent(new Event(EventType.GAME_OVER));
   }
   
   public void incrementPlatforms()
@@ -2871,8 +2900,13 @@ public class GameOptionsControllerComponent extends Component
   private String autoRightTag;
   private String obstaclesTag;
   private String terrainModsTag;
+  private String fittsLawTag;
+  private String inputPlatformTag;
+  private String logFittsTag;
+  private String constraintsFittsTag;
   private float checkBoxXPosition;
   private float falseDisplacement;
+  
   
   public GameOptionsControllerComponent(IGameObject _gameObject)
   {
@@ -2900,6 +2934,10 @@ public class GameOptionsControllerComponent extends Component
     autoRightTag = xmlComponent.getString("autoRightTag");
     obstaclesTag = xmlComponent.getString("obstaclesTag");
     terrainModsTag = xmlComponent.getString("terrainModsTag");
+    fittsLawTag = xmlComponent.getString("fittsLawTag");
+    inputPlatformTag = xmlComponent.getString("inputPlatformTag");
+    logFittsTag = xmlComponent.getString("logFittsTag");
+    constraintsFittsTag = xmlComponent.getString("constraintsFittsTag");
     checkBoxXPosition = xmlComponent.getFloat("checkBoxXPosition");
     falseDisplacement = xmlComponent.getFloat("falseDisplacement");
   }
@@ -2958,6 +2996,29 @@ public class GameOptionsControllerComponent extends Component
       {
         gameOptions.setPlatformMods(!gameOptions.getPlatformMods());
       }
+      else if (tag.equals(fittsLawTag))
+      {
+        gameOptions.setFittsLaw(!gameOptions.getFittsLaw());
+        if(gameOptions.getFittsLaw())
+        {
+          gameOptions.setInputPlatforms(true);
+          gameOptions.setLogFitts(true);
+          gameOptions.setStillPlatforms(true);
+        }
+      }
+      else if (tag.equals(inputPlatformTag))
+      {
+        gameOptions.setInputPlatforms(!gameOptions.getInputPlatforms());
+      }
+      else if (tag.equals(logFittsTag))
+      {
+        gameOptions.setLogFitts(!gameOptions.getLogFitts());
+      }
+      else if (tag.equals(constraintsFittsTag))
+      {
+        gameOptions.setStillPlatforms(!gameOptions.getStillPlatforms());
+      }
+      
        
       if(gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST)
       {
@@ -3013,12 +3074,19 @@ public class GameOptionsControllerComponent extends Component
       }
       
       ArrayList<RenderComponent.OffsetPShape> shapes = renderComponent.getShapes();
+      ArrayList<RenderComponent.OffsetPImage> images = renderComponent.getImages();
       if (shapes.size() > 3)
       {
         RenderComponent.OffsetPShape levelUpOverTimeCheckBox = shapes.get(0);
         RenderComponent.OffsetPShape autoDirectCheckBox = shapes.get(1);
         RenderComponent.OffsetPShape obstaclesCheckBox = shapes.get(2);
         RenderComponent.OffsetPShape terrainModsCheckBox = shapes.get(3);
+        RenderComponent.OffsetPShape fittsLawCheckBox = shapes.get(10);
+        
+        RenderComponent.OffsetPImage inputPlatformsCheckBox = images.get(0);
+        RenderComponent.OffsetPImage logFittsCheckBox = images.get(1);
+        RenderComponent.OffsetPImage contraintsFittsCheckBox = images.get(2);
+        
         //Ellipses for Auto-DirectMode
         RenderComponent.OffsetPShape leftCheckbox = shapes.get(4);
         RenderComponent.OffsetPShape rightCheckbox = shapes.get(5);
@@ -3038,6 +3106,10 @@ public class GameOptionsControllerComponent extends Component
         singleMuscleCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE ? 0.0f : falseDisplacement);
         autoLeftCheckBox.translation.x = 75 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_LEFT ? 0.0f : falseDisplacement);
         autoRightCheckBox.translation.x = 200 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_RIGHT ? 0.0f : falseDisplacement);
+        fittsLawCheckBox.translation.x = checkBoxXPosition + (gameOptions.getFittsLaw() ? 0.0f : falseDisplacement);
+        inputPlatformsCheckBox.translation.x = 60 + (gameOptions.getInputPlatforms() ? 0.0f : falseDisplacement);
+        logFittsCheckBox.translation.x = 60 + (gameOptions.getLogFitts() ? 0.0f : falseDisplacement);
+        contraintsFittsCheckBox.translation.x = 60 + (gameOptions.getStillPlatforms() ? 0.0f : falseDisplacement);
       }
     }
   }
@@ -3279,8 +3351,11 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    handleEvents();
-    totalTime += deltaTime;
+    if(logFittsLaw)
+    {
+      handleEvents();
+      totalTime += deltaTime;
+    }
   }
   
   private void handleEvents()
@@ -3288,21 +3363,52 @@ public class FittsStatsComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
       IGameObject platform = event.getRequiredGameObjectParameter("platform");
-      if(!platformLevels.isEmpty()){
-        if(platformLevels.get(0).contains(platform.getUID())){
-          levelCount++;
-          TableRow newRow = table.addRow(); 
-          startLogLevel(newRow);
-          platformLevels.remove(0);
+      if(!platformLevels.isEmpty())
+      {
+        for(int i = 0; i<platformLevels.size(); i++)
+        {
+          if(platformLevels.get(i).contains(platform.getUID()))
+          {
+            for(int j=0; j<i +1; j++)
+            {
+              if(stillPlatforms && !fittsLaw)
+              {
+                pc.incrementPlatforms();
+                pc.spawnPlatformLevelNoRiseSpeed();
+              }
+              levelCount++;
+              platformLevels.remove(0); 
+            }
+          
+            TableRow newRow = table.addRow(); 
+            startLogLevel(newRow);
+          }
         }
-         else if(platformLevels.size() > 1){
-           if(platformLevels.get(1).contains(platform.getUID())){
-             levelCount++;
-             levelCount++;
-             TableRow newRow = table.addRow(); 
-             startLogLevel(newRow);
-             platformLevels.remove(0);
-             platformLevels.remove(0);
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
+      if(!platformLevels.isEmpty())
+      {
+        for(int i = 0; i<platformLevels.size(); i++)
+        {
+          if(platformLevels.get(i).contains(platform.getUID()))
+          {
+            for(int j=0; j<i +1; j++)
+            {
+              if(stillPlatforms && !fittsLaw)
+              {
+                pc.incrementPlatforms();
+                pc.spawnPlatformLevelNoRiseSpeed();
+              }
+              levelCount++;
+              platformLevels.remove(0); 
+            }
+          
+            TableRow newRow = table.addRow(); 
+            startLogLevel(newRow);
           }
         }
       }
@@ -3319,12 +3425,16 @@ public class FittsStatsComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       pos = rigidBodyComponent.getPosition();
     }
-    TableRow inputRow = tableInput.getRow(table.getRowCount()-1);
-    playComp.setLoggingValuesZero(inputRow.getFloat("placement"), inputRow.getFloat("halfWidth"), pos.x);
+    float gapPos = platformGapPosition.get(table.getRowCount()-1).x;
+    float gapWidth = platformGapPosition.get(table.getRowCount()-1).y;
+    playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
     startTime = totalTime;
-    newRow.setString("id", options.getUserInformation().getUserID());
+    String iD = options.getUserInformation().getUserID();
+    if(iD == null)
+      iD ="-1";
+    newRow.setString("id", iD);
     newRow.setInt("trial", table.getRowCount());
-    newRow.setInt("level", table.getRowCount());
+    newRow.setInt("level", levelCount);
     newRow.setString("condition", "Simple");
     newRow.setFloat("start point x", pos.x);
     newRow.setFloat("start time", startTime);

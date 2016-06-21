@@ -56,7 +56,5 @@
 	<GameObject file="xml_data/music_player.xml" tag="music_player"/>
 	
 	<GameObject file="xml_data/stats_collector.xml"/>
-
-	<!-- <GameObject file="xml_data/fitts_stats.xml"/> -->
 	
 </Level>

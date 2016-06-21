@@ -13,7 +13,7 @@
 		disappearHeight="50.0"
 		spawnHeight="525.0"
 		minGapsPerLevel="1"
-		maxGapsPerLevel="1"
+		maxGapsPerLevel="2"
 		minGapSize="30.0"
 		maxGapSize="50.0"
 		obstacleFile="xml_data/obstacle.xml"

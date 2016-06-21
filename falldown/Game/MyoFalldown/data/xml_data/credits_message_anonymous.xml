@@ -20,7 +20,7 @@
 		</Line>
 
 		<Text
-			string="Special Thanks....................................................."
+			string="Special Thanks..............................................................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -47,7 +47,7 @@
 		</Text>
 
 		<Text
-			string="Assets.............................."
+			string="Assets.................................."
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

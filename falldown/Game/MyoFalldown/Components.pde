@@ -906,20 +906,20 @@ public class PlayerControllerComponent extends Component
   private boolean onLeftSide;
   private boolean onRightSide;
   
-  private SoundFile jumpSound; //<>//
+  private SoundFile jumpSound; //<>// //<>//
   private float amplitude;
-  private SoundFile platformFallSound; //<>//
- //<>//
-  private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>//
-  private boolean onBreakPlatform; //<>//
-  private IGameObject breakPlatform; //<>//
-  private long breakTimerStart; //<>//
-  private long crumbleTimerStart; //<>//
-  private String crumblingPlatformFile; //<>//
-   //<>//
+  private SoundFile platformFallSound; //<>// //<>//
+ //<>// //<>//
+  private boolean onPlatform; //<>// //<>//
+  private boolean onRegPlatform; //<>// //<>//
+  private boolean onBreakPlatform; //<>// //<>//
+  private IGameObject breakPlatform; //<>// //<>//
+  private long breakTimerStart; //<>// //<>//
+  private long crumbleTimerStart; //<>// //<>//
+  private String crumblingPlatformFile; //<>// //<>//
+   //<>// //<>//
   public PlayerControllerComponent(IGameObject _gameObject)
-  { //<>//
+  { //<>// //<>//
     super(_gameObject);
 
     upButtonDown = false;
@@ -961,20 +961,20 @@ public class PlayerControllerComponent extends Component
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
   }
 
-  @Override public ComponentType getComponentType() //<>//
+  @Override public ComponentType getComponentType() //<>// //<>//
   {
     return ComponentType.PLAYER_CONTROLLER;
   }
 
-  @Override public void update(int deltaTime) //<>//
+  @Override public void update(int deltaTime) //<>// //<>//
   {
     handleEvents();
-  //<>//
+  //<>// //<>//
     HashMap<String, Float> rawInput = gatherRawInput();
     PVector moveVector = new PVector();
 
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
-    if (policy == ControlPolicy.NORMAL) //<>//
+    if (policy == ControlPolicy.NORMAL) //<>// //<>//
       moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
       moveVector = applyDirectionAssistControls(rawInput);
@@ -1584,6 +1584,11 @@ public class PlatformManagerControllerComponent extends Component
     }
   }
   
+  private void setSpawnHeight(int _spawnHeight)
+  {
+    spawnHeight =  _spawnHeight;
+  }
+  
   private void spawnPlatformLevel()
   {
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
@@ -1678,12 +1683,13 @@ public class PlatformManagerControllerComponent extends Component
       if (options.getGameOptions().getObstacles())
       {
         float generateObstacle = random(0.0, 1.0);
-        if (generateObstacle < obstacleChance)
+        if ((generateObstacle < obstacleChance) && platformWidth > 8)
         {
           float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
           float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
-          float obstacleOffset = random(max(-platformWidth/2, obstacleMinHorizontalOffset), min(platformWidth/2, obstacleMaxHorizontalOffset));
           
+          float obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
+
           IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(
             obstacleFile, 
             new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),
@@ -1951,9 +1957,6 @@ public class CoinSpawnerControllerComponent extends Component
   private int nextSpawnTime;
   private int timePassed;
   
-  private float minHorizontalOffset;
-  private float maxHorizontalOffset;
-  
   private float minVerticalOffset;
   private float maxVerticalOffset;
   
@@ -1986,9 +1989,6 @@ public class CoinSpawnerControllerComponent extends Component
     nextSpawnTime = calculateNextSpawnTime();
     timePassed = 0;
     
-    minHorizontalOffset = xmlComponent.getFloat("minHorizontalOffset");
-    maxHorizontalOffset = xmlComponent.getFloat("maxHorizontalOffset");
-    
     minVerticalOffset = xmlComponent.getFloat("minVerticalOffset");
     maxVerticalOffset = xmlComponent.getFloat("maxVerticalOffset");
     
@@ -2007,7 +2007,7 @@ public class CoinSpawnerControllerComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if (options.getGameOptions().getControlPolicy() == ControlPolicy.NORMAL)
+    if ((options.getGameOptions().getControlPolicy() == ControlPolicy.NORMAL) && !fittsLaw && !inputPlatformGaps)
     {
       handleEvents();
     
@@ -2025,6 +2025,7 @@ public class CoinSpawnerControllerComponent extends Component
   private void spawnCoin()
   {
     ArrayList<IGameObject> spawnRelativeToList = gameStateController.getGameObjectManager().getGameObjectsByTag(spawnRelativeTo);
+    //ArrayList<IGameObject> spawnRelativeObstacle = gameStateController.getGameObjectManager().getGameObjectsByTag("obstacle");
     
     int index = 0;
     while (index < spawnRelativeToList.size())
@@ -2038,14 +2039,27 @@ public class CoinSpawnerControllerComponent extends Component
         ++index;
       }
     }
+    //To make coin not appear in 
+    //int indexObstacle = 0;
+    //while (indexObstacle < spawnRelativeObstacle.size() && spawnRelativeToList.size() != 0)
+    //{
+    //  if (spawnRelativeObstacle.get(indexObstacle).getTranslation().y + spawnRelativeObstacle.get(indexObstacle).getScale().y < minHeight)
+    //  {
+    //    spawnRelativeObstacle.remove(indexObstacle);
+    //  }
+    //  else
+    //  {
+    //    //println("obstacle: " + spawnRelativeObstacle.get(indexObstacle).getTranslation().y);
+    //    ++indexObstacle;
+    //  }
+    //}
     
     if (spawnRelativeToList.size() != 0)
     {
       IGameObject spawnRelativeToObject = spawnRelativeToList.get(int(random(0, spawnRelativeToList.size())));
       
       PVector translation = spawnRelativeToObject.getTranslation();
-      PVector offset = new PVector(random(minHorizontalOffset, maxHorizontalOffset), random(minVerticalOffset, maxVerticalOffset));
-      
+      PVector offset = new PVector(random((-spawnRelativeToObject.getScale().x/2)+15, spawnRelativeToObject.getScale().x/2-15), random(minVerticalOffset, maxVerticalOffset));
       IGameObject coin = gameStateController.getGameObjectManager().addGameObject(coinFile, translation.add(offset), new PVector(1.0, 1.0));
       coin.setTag(tag);
       IComponent component = coin.getComponent(ComponentType.RIGID_BODY);

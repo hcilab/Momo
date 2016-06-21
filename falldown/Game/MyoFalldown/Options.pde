@@ -124,6 +124,7 @@ public interface ICustomizeOptions
   public int getCoinsCollected();
   public String getBackground();
   public String getOpacityBackground();
+  public String[] getMusicOptions();
 
   public void setCoinsCollected(int _newCoins);
   public void setCoinsAfterPurchase(int _price);
@@ -937,6 +938,18 @@ public class Options implements IOptions
     public String getOpacityBackground()
     {
       return opacityBackground;
+    }
+
+    public String[] getMusicOptions()
+    {
+      XML[] allMusic = xmlCust.getChildren("Music");
+      String[] music = new String[allMusic.length];
+      for(int i = 0; i < allMusic.length; i++)
+      {
+        music[i] = allMusic[i].getString("file");
+      }
+
+      return music;
     }
 
     public void setCoinsCollected(int _newCoins)

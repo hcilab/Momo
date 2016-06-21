@@ -1112,7 +1112,7 @@ public class GameState_CustomizeSettings extends GameState
         else
         {
           gameStateController.popState();
-          gameStateController.pushState(new GameState_CustomizePurchase(cost, custSpriteIndex));
+          gameStateController.pushState(new GameState_CustomizePurchase(cost, custSpriteIndex, index, id));
         }
       }
     }
@@ -1151,13 +1151,37 @@ public class GameState_CustomizePurchase extends GameState
   private int cost;
   private int totalCoins;
   private int custSpriteIndex;
+  private int index;
+  private int id;
 
-  public GameState_CustomizePurchase(int _cost, int _custSpriteIndex)
+  private SoundFile music;
+  private float amplitude;
+  private XML musicXML;
+  private XML musicXMLComponent;
+
+  public GameState_CustomizePurchase(int _cost, int _custSpriteIndex, int _index, int _id)
   {
     super();
     saveDataLoaded = false;
     cost = _cost;
     custSpriteIndex = _custSpriteIndex;
+    index = _index;
+    id = _id;
+
+    if (index == 5)
+    {
+      println("yes id == 5");
+      musicXML = loadXML("xml_data/music_player.xml");
+      musicXMLComponent = musicXML.getChild("MusicPlayer");
+      music = new SoundFile(mainObject, options.getCustomizeOptions().getMusicOptions()[id]);
+      music.rate(musicXMLComponent.getFloat("rate"));
+      // pan is not supported in stereo. that's fine, just continue.
+      try { music.pan(musicXMLComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+      amplitude = musicXMLComponent.getFloat("amp");
+      music.amp(amplitude * options.getIOOptions().getMusicVolume());
+      music.add(musicXMLComponent.getFloat("add"));
+      music.loop();
+    }
   }
 
   @Override public void onEnter()
@@ -1180,6 +1204,8 @@ public class GameState_CustomizePurchase extends GameState
 
   @Override public void onExit()
   {
+    if (music != null)
+      music.stop();
     gameObjectManager.clearGameObjects();
   }
 

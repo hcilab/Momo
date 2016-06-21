@@ -62,6 +62,9 @@ class MyoAPI implements IMyoAPI {
     SensorConfig s = new SensorConfig(strongestID, strongestReading);
     registeredSensors.put(label, s);
     println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
+    HashMap<String, float[]> readingData = new HashMap<String, float[]>();
+    readingData.put(label, new float[]{ s.sensorID, s.maxReading });
+    options.getCalibrationData().setCalibrationData(readingData);
   }
 
 

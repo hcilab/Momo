@@ -17,4 +17,5 @@
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="true"/>
   <Unlocked/>
+  <Calibration left_reading="30.64516" left_sensor="1.0" right_reading="25.275862" right_sensor="2.0"/>
 </SaveData>

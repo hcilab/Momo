@@ -1325,9 +1325,13 @@ public class GameState_CalibrateMenu extends GameState
 
 public class GameState_CalibrateSuccess extends GameState
 {
+  private boolean textLoaded;
+
   public GameState_CalibrateSuccess()
   {
     super();
+
+    textLoaded = false;
   }
   
   @Override public void onEnter()
@@ -1340,6 +1344,11 @@ public class GameState_CalibrateSuccess extends GameState
     shape(opbg,250,250,500,500);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!textLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadText();
+    }
   }
 
   @Override public void onExit()
@@ -1362,6 +1371,17 @@ public class GameState_CalibrateSuccess extends GameState
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
     }
+  }
+
+  private void loadText()
+  {
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    renderComponent.getTexts().get(3).string = "Left EMG reading: " + options.getCalibrationData().getCalibrationData().get("LEFT")[1];
+    renderComponent.getTexts().get(4).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("LEFT")[0] + ")";
+    renderComponent.getTexts().get(5).string = "Right EMG reading: " + options.getCalibrationData().getCalibrationData().get("RIGHT")[1];
+    renderComponent.getTexts().get(6).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("RIGHT")[0] + ")";
+
+    textLoaded = true;
   }
 }
 

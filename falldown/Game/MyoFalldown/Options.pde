@@ -18,6 +18,7 @@ public interface IOptions
   public ICustomizeOptions getCustomizeOptions();
   public ICredits getCredits();
   public IUserInformation getUserInformation();
+  public ICalibrationData getCalibrationData();
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut);
 }
 
@@ -161,6 +162,12 @@ public interface IUserInformation
   public boolean setSaveDataFile(String loginID);
   public String getUserID();
 }
+
+public interface ICalibrationData
+{
+  public void setCalibrationData(HashMap<String, float[]> maxReadings);
+  public HashMap<String, float[]> getCalibrationData();
+}
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
 //------------------------------------------------------------------------------------------------
@@ -179,6 +186,7 @@ public class Options implements IOptions
   private ICustomizeOptions customizeOptions;
   private ICredits credits;
   private IUserInformation userInfo;
+  private ICalibrationData calibrationData;
   
   public Options()
   {
@@ -192,6 +200,7 @@ public class Options implements IOptions
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
+    calibrationData = new CalibrationData();
   }
   
   public void reloadOptions(){
@@ -202,6 +211,7 @@ public class Options implements IOptions
     IOOptions = new IOOptions();
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
+    calibrationData = new CalibrationData();
   }
   
   @Override public IGameOptions getGameOptions()
@@ -232,6 +242,11 @@ public class Options implements IOptions
   @Override public IUserInformation getUserInformation()
   {
     return userInfo;
+  }
+
+  @Override public ICalibrationData getCalibrationData()
+  {
+    return calibrationData;
   }
 
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut)
@@ -1245,6 +1260,52 @@ public class Options implements IOptions
      @Override public void getDefaultSetting()
     {
       
+    }
+  }
+
+  public class CalibrationData implements ICalibrationData
+  {
+    private final String XML_CALIBRATION = "Calibration";
+    private XML calibrationXML;
+
+    public CalibrationData()
+    {
+      calibrationXML = xmlSaveData.getChild(XML_CALIBRATION);
+    }
+
+    public void setCalibrationData(HashMap<String, float[]> maxReadings)
+    {
+      for (String key : maxReadings.keySet())
+      {
+        if (key.equals("LEFT"))
+        {
+          float[] leftReading = maxReadings.get("LEFT");
+          calibrationXML.setFloat("left_sensor", leftReading[0]);
+          calibrationXML.setFloat("left_reading", leftReading[1]);
+        }
+        else if (key.equals("RIGHT"))
+        {
+          float[] rightReading = maxReadings.get("RIGHT");
+          calibrationXML.setFloat("right_sensor", rightReading[0]);
+          calibrationXML.setFloat("right_reading", rightReading[1]);
+        }
+      }
+
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public HashMap<String, float[]> getCalibrationData()
+    {
+      HashMap<String, float[]> calData = new HashMap<String, float[]>();
+      float[] left = new float[2];
+      left[0] = calibrationXML.getFloat("left_sensor");
+      left[1] = calibrationXML.getFloat("left_reading");
+      float[] right = new float[2];
+      right[0] = calibrationXML.getFloat("right_sensor");
+      right[1] = calibrationXML.getFloat("right_reading");
+      calData.put("LEFT", left);
+      calData.put("RIGHT", right);
+      return calData;
     }
   }
 }

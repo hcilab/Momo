@@ -606,6 +606,11 @@ public class GameState_IOSettings extends GameState
               musicPlayerComponent.setMusicVolume(options.getIOOptions().getMusicVolume());
             }
           }
+          else
+          {
+            buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getMusicVolume());
+            buttonClickedSoundTest.play();
+          }
         }
       }
       else if (tag.equals("sound_effects"))

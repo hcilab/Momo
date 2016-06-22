@@ -905,8 +905,9 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
+  private int jumpCount;
   
-  private SoundFile jumpSound;  //<>//
+  private SoundFile jumpSound; //<>// //<>//
   private float amplitude;
   private SoundFile platformFallSound; //<>//
  //<>//
@@ -918,9 +919,11 @@ public class PlayerControllerComponent extends Component
   private long crumbleTimerStart; //<>//
   private String crumblingPlatformFile; //<>//
   private int platformLevelCount; //<>//
+  private boolean justJumped;
+
   
   public PlayerControllerComponent(IGameObject _gameObject) //<>//
-  {
+  { //<>// //<>//
     super(_gameObject);
 
     upButtonDown = false;
@@ -929,6 +932,8 @@ public class PlayerControllerComponent extends Component
     onPlatform = false;
     onRegPlatform = false;
     onBreakPlatform = false;
+    jumpCount = 0;
+    justJumped = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();
   }
@@ -1005,26 +1010,60 @@ public class PlayerControllerComponent extends Component
         pc.setPlatformDescentSpeed(crumblePlatform);
       }
       
-      if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
+      if (tripleJump)
       {
-        ++platformLevelCount;
-        Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
-        fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
-        eventManager.queueEvent(fittsLawLevelUp);
-        
-        breakTimerStart = System.currentTimeMillis();
-        pc.setPlatformDescentSpeed(breakPlatform);
-        platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
-        platformFallSound.play();
-        if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
+        if (jumpCount >= 3 && onPlatform)
         {
-          IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
-          FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
-          fitsStats.endLogLevel();
-          
+          ++platformLevelCount;
+          Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+          fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+          eventManager.queueEvent(fittsLawLevelUp);
+
+          jumpCount = 0;
+          pc.setPlatformDescentSpeed(breakPlatform);
+          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+          platformFallSound.play();
+
+          if(logFittsLaw)
+          {
+            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
+            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
+            fitsStats.endLogLevel();
+          }
+
+          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+
+          if(stillPlatforms)
+          {
+            pc.incrementPlatforms();
+            pc.spawnPlatformLevelNoRiseSpeed();
+          }
+        }
+      }
+      else
+      {
+        if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
+        {
+          ++platformLevelCount;
+          Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+          fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+          eventManager.queueEvent(fittsLawLevelUp);
+
+          breakTimerStart = System.currentTimeMillis();
+          pc.setPlatformDescentSpeed(breakPlatform);
+          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+          platformFallSound.play();
+
+          if(logFittsLaw)
+          {
+            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
+            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
+            fitsStats.endLogLevel();
+          }
+
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
-          
+
           if(stillPlatforms)
           {
             pc.incrementPlatforms();
@@ -1054,11 +1093,13 @@ public class PlayerControllerComponent extends Component
         if (tcomponent != null)
         { 
           if (moveVector.y < -0.5f)
-          {  
+          {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
-            jumpSound.play();  
-          } 
+            jumpSound.play();
+
+            justJumped = true;
+          }
         } 
       } 
        
@@ -1310,6 +1351,7 @@ public class PlayerControllerComponent extends Component
       onRegPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       gapDirection = determineGapDirection(platform); 
+      jumpCount = 0;
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
@@ -1319,10 +1361,16 @@ public class PlayerControllerComponent extends Component
         onPlatform = false;
       }
       onRegPlatform = false;
+      jumpCount = 0;
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
     {
+      if (justJumped)
+      {
+        jumpCount++;
+        justJumped = false;
+      }
       onPlatform = true;
       if (!onBreakPlatform)
       {

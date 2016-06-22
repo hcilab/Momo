@@ -87,6 +87,8 @@ boolean logFittsLaw = true;
 
 boolean stillPlatforms = true;
 
+boolean tripleJump = true;
+
 void setup()
 {
   size(500, 500);

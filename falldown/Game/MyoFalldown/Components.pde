@@ -906,20 +906,21 @@ public class PlayerControllerComponent extends Component
   private boolean onLeftSide;
   private boolean onRightSide;
   
-  private SoundFile jumpSound; //<>// //<>//
+  private SoundFile jumpSound;  //<>//
   private float amplitude;
-  private SoundFile platformFallSound; //<>// //<>//
- //<>// //<>//
-  private boolean onPlatform; //<>// //<>//
-  private boolean onRegPlatform; //<>// //<>//
-  private boolean onBreakPlatform; //<>// //<>//
-  private IGameObject breakPlatform; //<>// //<>//
-  private long breakTimerStart; //<>// //<>//
-  private long crumbleTimerStart; //<>// //<>//
-  private String crumblingPlatformFile; //<>// //<>//
-   //<>// //<>//
-  public PlayerControllerComponent(IGameObject _gameObject)
-  { //<>// //<>//
+  private SoundFile platformFallSound; //<>//
+ //<>//
+  private boolean onPlatform; //<>//
+  private boolean onRegPlatform; //<>//
+  private boolean onBreakPlatform; //<>//
+  private IGameObject breakPlatform; //<>//
+  private long breakTimerStart; //<>//
+  private long crumbleTimerStart; //<>//
+  private String crumblingPlatformFile; //<>//
+  private int platformLevelCount; //<>//
+  
+  public PlayerControllerComponent(IGameObject _gameObject) //<>//
+  {
     super(_gameObject);
 
     upButtonDown = false;
@@ -960,21 +961,20 @@ public class PlayerControllerComponent extends Component
     platformFallSound.add(xmlComponent.getFloat("add"));
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
   }
-
-  @Override public ComponentType getComponentType() //<>// //<>//
+ //<>//
+  @Override public ComponentType getComponentType()
   {
     return ComponentType.PLAYER_CONTROLLER;
   }
-
-  @Override public void update(int deltaTime) //<>// //<>//
+ //<>//
+  @Override public void update(int deltaTime)
   {
-    handleEvents();
-  //<>// //<>//
+    handleEvents(); //<>//
     HashMap<String, Float> rawInput = gatherRawInput();
     PVector moveVector = new PVector();
 
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
-    if (policy == ControlPolicy.NORMAL) //<>// //<>//
+    if (policy == ControlPolicy.NORMAL) //<>//
       moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
       moveVector = applyDirectionAssistControls(rawInput);
@@ -1007,19 +1007,20 @@ public class PlayerControllerComponent extends Component
       
       if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
       {
+        ++platformLevelCount;
+        Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+        fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+        eventManager.queueEvent(fittsLawLevelUp);
+        
         breakTimerStart = System.currentTimeMillis();
         pc.setPlatformDescentSpeed(breakPlatform);
         platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
         platformFallSound.play();
         if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
         {
-          
-          if(logFittsLaw)
-          {
-            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
-            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
-            fitsStats.endLogLevel();
-          }
+          IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
+          FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
+          fitsStats.endLogLevel();
           
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
@@ -2495,6 +2496,7 @@ public class LevelDisplayComponent extends Component
 {
   private String currentLevelParameterName;
   private String levelTextPrefix;
+  private String platformLevelPrefix;
   
   public LevelDisplayComponent(IGameObject _gameObject)
   {
@@ -2505,6 +2507,7 @@ public class LevelDisplayComponent extends Component
   {
     currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
     levelTextPrefix = xmlComponent.getString("levelTextPrefix");
+    platformLevelPrefix = xmlComponent.getString("platformLevelPrefix");
   }
   
   @Override public ComponentType getComponentType()
@@ -2527,8 +2530,28 @@ public class LevelDisplayComponent extends Component
          RenderComponent renderComponent = (RenderComponent)component;
          RenderComponent.Text text = renderComponent.getTexts().get(0);
          if (text != null)
-         {
-           text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
+         { 
+           if(!inputPlatformGaps)
+           {
+             text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
+           }
+         }
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_FALL))
+    {
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)  
+      {
+         RenderComponent renderComponent = (RenderComponent)component;
+         RenderComponent.Text text = renderComponent.getTexts().get(0);
+         if (text != null)
+         { 
+           if(inputPlatformGaps)
+           {
+             text.string = platformLevelPrefix + Integer.toString(event.getRequiredIntParameter("platformLevel"));
+           }
          }
       }
     }
@@ -2679,7 +2702,7 @@ public class LevelParametersComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if (options.getGameOptions().getLevelUpOverTime() || !levelUpAtLeastOnce)
+    if ((options.getGameOptions().getLevelUpOverTime() || !levelUpAtLeastOnce))
     {
       timePassed += deltaTime;
     
@@ -2695,13 +2718,15 @@ public class LevelParametersComponent extends Component
     }
     
     bonusTimePassed += deltaTime;
-    
-    if (bonusTimePassed > timePerBonusScore)
+    if(!inputPlatformGaps)
     {
-      Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-      updateScoreEvent.addIntParameter(scoreValueParameterName, bonusScorePerLevel * currentLevel);
-      eventManager.queueEvent(updateScoreEvent);
-      bonusTimePassed = 0;
+      if (bonusTimePassed > timePerBonusScore)
+      {
+        Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+        updateScoreEvent.addIntParameter(scoreValueParameterName, bonusScorePerLevel * currentLevel);
+        eventManager.queueEvent(updateScoreEvent);
+        bonusTimePassed = 0;
+      }
     }
   }
   
@@ -2717,6 +2742,12 @@ public class LevelParametersComponent extends Component
     levelUpEvent.addIntParameter(currentLevelParameterName, currentLevel);
     levelUpEvent.addFloatParameter(currentRiseSpeedParameterName, currentRiseSpeed);
     eventManager.queueEvent(levelUpEvent);
+    if(inputPlatformGaps)
+    {
+      Event updatePlatformLevelEvent = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+      updatePlatformLevelEvent.addIntParameter("platformLevel", 1);
+      eventManager.queueEvent(updatePlatformLevelEvent); 
+    }
   }
 }
 
@@ -2801,6 +2832,7 @@ public class StatsCollectorComponent extends Component
     record.setCoinsCollected(coinsCollected);
     custom.setCoinsCollected(coinsCollected);
     record.setDate(new Date().getTime());
+    record.setIsFittsLawMode(fittsLaw);
     
     stats.addGameRecord(record);
   }
@@ -2823,22 +2855,35 @@ public class StatsCollectorComponent extends Component
     timePlayed += deltaTime;
   }
   
-    private void handleEvents()
+  private void handleEvents()
+  {
+    if(fittsLaw)
     {
-    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
-    {
-      levelAchieved = event.getRequiredIntParameter(currentLevelParameterName);
-    }
-      for (IEvent event : eventManager.getEvents(EventType.UPDATE_SCORE))
+      for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_FALL))
       {
-        scoreAchieved += event.getRequiredIntParameter(scoreValueParameterName);
+        levelAchieved = event.getRequiredIntParameter("platformLevel");
       }
+    }
+    else
+    {
+      for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
+      {
+        levelAchieved = event.getRequiredIntParameter(currentLevelParameterName);
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.UPDATE_SCORE))
+    {
+      scoreAchieved += event.getRequiredIntParameter(scoreValueParameterName);
+    }
+    
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_CURRENT_SPEED))
     {
       float currentSpeed = event.getRequiredFloatParameter(currentSpeedParameterName);
       speedInstances += 1.0f;
       averageSpeed = (((speedInstances - 1.0f) * averageSpeed) + currentSpeed) / speedInstances;
     }
+    
     for (IEvent event : eventManager.getEvents(EventType.COIN_COLLECTED))
     {
       coinsCollected++;
@@ -3331,11 +3376,6 @@ public class AnimationControllerComponent extends Component
 public class FittsStatsComponent extends Component
 { 
   private int levelCount;
-  private int id;
-  private String condition;
-  private float breakthroughTime;
-  private float startPoint;
-  private float endPoint;
   private float startTime;
   private float endTime;
   private int errors;
@@ -3346,7 +3386,6 @@ public class FittsStatsComponent extends Component
   public FittsStatsComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    id = 0;
     levelCount =0;
   }
   
@@ -3365,7 +3404,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if(logFittsLaw)
+    if(fittsLaw)
     {
       handleEvents();
       totalTime += deltaTime;
@@ -3431,53 +3470,70 @@ public class FittsStatsComponent extends Component
   
   private void startLogLevel(TableRow newRow)
   {
-    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-    PVector pos = new PVector();
-    if(component != null){
-      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      pos = rigidBodyComponent.getPosition();
-    }
-    float gapPos = platformGapPosition.get(table.getRowCount()-1).x;
-    float gapWidth = platformGapPosition.get(table.getRowCount()-1).y;
-    playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
     startTime = totalTime;
-    String iD = options.getUserInformation().getUserID();
-    if(iD == null)
-      iD ="-1";
-    newRow.setString("id", iD);
-    newRow.setInt("trial", table.getRowCount());
-    newRow.setInt("level", levelCount);
-    newRow.setString("condition", "Simple");
-    newRow.setFloat("start point x", pos.x);
-    newRow.setFloat("start time", startTime);
+    if(logFittsLaw)
+    {
+      IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+      PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+      IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+      PVector pos = new PVector();
+      if(component != null){
+        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+        pos = rigidBodyComponent.getPosition();
+      }
+      float gapPos = platformGapPosition.get(table.getRowCount()-1).x;
+      float gapWidth = platformGapPosition.get(table.getRowCount()-1).y;
+      playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
+      String iD = options.getUserInformation().getUserID();
+      if(iD == null)
+        iD ="-1";
+      newRow.setString("id", iD);
+      newRow.setInt("trial", table.getRowCount());
+      newRow.setInt("level", levelCount);
+      newRow.setString("condition", "Simple");
+      newRow.setFloat("start point x", pos.x);
+      newRow.setFloat("start time", startTime);
+    }
   }
   
   private void endLogLevel()
   {
-    TableRow newRow = table.getRow(table.getRowCount() - 1);
-    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-    PVector pos = new PVector();
-    if(component != null)
+    if(inputPlatformGaps)
     {
-      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      pos = rigidBodyComponent.getPosition();
+      endTime = totalTime;
+      Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+      int timeValue = (int)((10000-(endTime - startTime))*0.01);
+      if(timeValue < 0)
+        timeValue = 0;
+      int scoreValue = (250 + timeValue);
+      updateScoreEvent.addIntParameter("scoreValue", scoreValue);
+      eventManager.queueEvent(updateScoreEvent);
     }
-    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
-    directionChanges = playComp.getDirerctionChanges();
-    overshoots =  playComp.getOverShoots();
-    undershoots = playComp.getUnderShoots();
-    errors = playComp.getErrors();
-    endTime = totalTime;
-    newRow.setFloat("end point x", pos.x);
-    newRow.setFloat("end time", endTime);
-    newRow.setInt("errors", errors);
-    newRow.setInt("undershoots", undershoots);
-    newRow.setInt("overshoots", overshoots);
-    newRow.setInt("direction changes", directionChanges);
-    newRow.setFloat("total time",endTime - startTime);
+          
+    if(logFittsLaw)
+    {
+      TableRow newRow = table.getRow(table.getRowCount() - 1);
+      IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+      PVector pos = new PVector();
+      if(component != null)
+      {
+        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+        pos = rigidBodyComponent.getPosition();
+      }
+      IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+      PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+      directionChanges = playComp.getDirerctionChanges();
+      overshoots =  playComp.getOverShoots();
+      undershoots = playComp.getUnderShoots();
+      errors = playComp.getErrors();
+      newRow.setFloat("end point x", pos.x);
+      newRow.setFloat("end time", endTime);
+      newRow.setInt("errors", errors);
+      newRow.setInt("undershoots", undershoots);
+      newRow.setInt("overshoots", overshoots);
+      newRow.setInt("direction changes", directionChanges);
+      newRow.setFloat("total time",endTime - startTime);
+    }
   }
 }
 

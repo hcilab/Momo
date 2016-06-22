@@ -116,13 +116,15 @@ public interface IGameRecord
   public float getAverageSpeed();
   public int getCoinsCollected();
   public long getDate();
-  
+  public boolean getFittsLawMode();
+
   public void setLevelAchieved(int levelAchieved);
   public void setScoreAchieved(int scoreAchieved);
   public void setTimePlayed(int timePlayed);
   public void setAverageSpeed(float averageSpeed);
   public void setCoinsCollected(int coinsCollected);
   public void setDate(long date);
+  public void setIsFittsLawMode(boolean fittsLaw);
 }
 
 public interface ICustomizeOptions
@@ -617,6 +619,7 @@ public class Options implements IOptions
       private float averageSpeed;
       private int coinsCollected;
       private long date;
+      private boolean isFittsLaw;
       
       public GameRecord()
       {
@@ -626,6 +629,7 @@ public class Options implements IOptions
         averageSpeed = -1.0f;
         coinsCollected = -1;
         date = -1;
+        isFittsLaw = false;
       }
 
       @Override public Comparator<IGameRecord> createByLevelAchievedComparator()
@@ -688,6 +692,11 @@ public class Options implements IOptions
         return date;
       }
       
+      @Override public boolean getFittsLawMode()
+      {
+        return isFittsLaw; 
+      }
+      
       @Override public void setLevelAchieved(int _levelAchieved)
       {
         levelAchieved = _levelAchieved;
@@ -717,6 +726,11 @@ public class Options implements IOptions
       {
         date = _date;
       }
+      
+      @Override public void setIsFittsLawMode(boolean _fittsLaw)
+      {
+        isFittsLaw = _fittsLaw;
+      }
     }
     
     private final String XML_STATS = "Stats";
@@ -727,6 +741,7 @@ public class Options implements IOptions
     private final String XML_AVERAGE_SPEED = "avg_speed";
     private final String XML_COINS_COLLECTED = "coins_collected";
     private final String XML_DATE = "date";
+    private final String XML_FITTS_LAW = "fitts_law";
     
     private XML xmlStats;
     private ArrayList<IGameRecord> gameRecords;
@@ -748,6 +763,7 @@ public class Options implements IOptions
           record.setAverageSpeed(xmlRecord.getFloat(XML_AVERAGE_SPEED));
           record.setCoinsCollected(xmlRecord.getInt(XML_COINS_COLLECTED));
           record.setDate(Long.parseLong(xmlRecord.getString(XML_DATE)));
+          record.setIsFittsLawMode(xmlRecord.getString(XML_FITTS_LAW).equals("true")? true : false);
           gameRecords.add(record);
         }
       }
@@ -773,6 +789,7 @@ public class Options implements IOptions
       xmlRecord.setFloat(XML_AVERAGE_SPEED, record.getAverageSpeed());
       xmlRecord.setInt(XML_COINS_COLLECTED, record.getCoinsCollected());
       xmlRecord.setString(XML_DATE, Long.toString(record.getDate()));
+      xmlRecord.setString(XML_FITTS_LAW, record.getFittsLawMode()? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     

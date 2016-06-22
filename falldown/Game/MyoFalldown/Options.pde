@@ -93,6 +93,9 @@ public interface IStats
   public IGameRecord createGameRecord();
   public void addGameRecord(IGameRecord record);
   public void clear();
+
+  public int getHighScore();
+  public void setHighScore(int _highScore);
 }
 
 public interface IGameRecord
@@ -688,14 +691,17 @@ public class Options implements IOptions
     private final String XML_AVERAGE_SPEED = "avg_speed";
     private final String XML_COINS_COLLECTED = "coins_collected";
     private final String XML_DATE = "date";
+    private final String XML_HIGH_SCORE = "high_score";
     
     private XML xmlStats;
     private ArrayList<IGameRecord> gameRecords;
+    private int highScore;
     
     private Stats()
     {
       xmlStats = xmlSaveData.getChild(XML_STATS);
-      
+      highScore = xmlStats.getInt(XML_HIGH_SCORE);
+
       gameRecords = new ArrayList<IGameRecord>();
       
       for (XML xmlRecord : xmlStats.getChildren())
@@ -746,6 +752,18 @@ public class Options implements IOptions
         xmlStats.removeChild(xmlStats.getChild(childName));
       }
       
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public int getHighScore()
+    {
+      return highScore;
+    }
+
+    public void setHighScore(int _highScore)
+    {
+      highScore = _highScore;
+      xmlStats.setInt(XML_HIGH_SCORE, highScore);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 

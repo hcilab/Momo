@@ -70,8 +70,9 @@ boolean mouseHand;
 PShape bg;
 PShape opbg;
 PShape wbg;
-Table table;
+Table tableFittsStats;
 Table tableInput;
+Table tableRawData;
 int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
 ArrayList<PVector> platformGapPosition;
@@ -88,6 +89,8 @@ boolean logFittsLaw = true;
 boolean stillPlatforms = true;
 
 boolean tripleJump = true;
+boolean logRawData = false;
+
 
 void setup()
 {

@@ -267,6 +267,7 @@ public class GameState_InGame extends GameState
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
     totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
+    logRawData = true;
   }
   
   @Override public void update(int deltaTime)
@@ -279,6 +280,7 @@ public class GameState_InGame extends GameState
   
   @Override public void onExit()
   {
+    logRawData = false;
     gameObjectManager.clearGameObjects();
   }
   
@@ -303,7 +305,12 @@ public class GameState_InGame extends GameState
       
       if(logFittsLaw)
       {
-        saveTable(table, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+        saveTable(tableFittsStats, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+      }
+      
+      if(logRawData)
+      {
+         saveTable(tableRawData, "data/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
       }
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
@@ -312,20 +319,33 @@ public class GameState_InGame extends GameState
   
   private void createNewTable()
   {
-    table = new Table();
-    table.addColumn("id");
-    table.addColumn("trial");
-    table.addColumn("level");
-    table.addColumn("condition");
-    table.addColumn("start point x");
-    table.addColumn("end point x");
-    table.addColumn("start time");
-    table.addColumn("end time");
-    table.addColumn("total time");
-    table.addColumn("errors");
-    table.addColumn("undershoots");
-    table.addColumn("overshoots");
-    table.addColumn("direction changes");
+    tableFittsStats = new Table();
+    tableFittsStats.addColumn("id");
+    tableFittsStats.addColumn("trial");
+    tableFittsStats.addColumn("level");
+    tableFittsStats.addColumn("condition");
+    tableFittsStats.addColumn("start point x");
+    tableFittsStats.addColumn("end point x");
+    tableFittsStats.addColumn("start time");
+    tableFittsStats.addColumn("end time");
+    tableFittsStats.addColumn("total time");
+    tableFittsStats.addColumn("errors");
+    tableFittsStats.addColumn("undershoots");
+    tableFittsStats.addColumn("overshoots");
+    tableFittsStats.addColumn("direction changes");
+    
+    tableRawData = new Table();
+    tableRawData.addColumn("timestamp");
+    tableRawData.addColumn("userID");
+    tableRawData.addColumn("level");
+    tableRawData.addColumn("SensorLeft");
+    tableRawData.addColumn("SensorRight");
+    tableRawData.addColumn("InputType");
+    tableRawData.addColumn("Mode");
+    tableRawData.addColumn("MovingLeft");
+    tableRawData.addColumn("MovingRight");
+    tableRawData.addColumn("StartOfJump");
+    tableRawData.addColumn("EndOfJump");
   }
 }
 

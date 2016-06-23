@@ -30,7 +30,8 @@ public enum ComponentType
   IO_OPTIONS_CONTROLLER,
   CALIBRATE_CONTROLLER,
   ID_COUNTER,
-  FITTS_STATS
+  FITTS_STATS,
+  LOG_RAW_DATA,
 }
 
 public interface IComponent
@@ -507,7 +508,7 @@ public class RenderComponent extends Component
          image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
        }
     }
-   
+
     for (Text text : texts)
     {
       textFont(text.font);
@@ -905,10 +906,16 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
+<<<<<<< c5375ae3a73b776837513a81680ce931094cb0cb
   private int jumpCount;
   
   private SoundFile jumpSound; //<>// //<>//
   private float amplitude;
+=======
+   //<>//
+  private SoundFile jumpSound;
+  private float amplitude; //<>//
+>>>>>>> Added log raw data component and saves to csv file
   private SoundFile platformFallSound; //<>//
  //<>//
   private boolean onPlatform; //<>//
@@ -918,12 +925,20 @@ public class PlayerControllerComponent extends Component
   private long breakTimerStart; //<>//
   private long crumbleTimerStart; //<>//
   private String crumblingPlatformFile; //<>//
+<<<<<<< c5375ae3a73b776837513a81680ce931094cb0cb
   private int platformLevelCount; //<>//
   private boolean justJumped;
 
   
   public PlayerControllerComponent(IGameObject _gameObject) //<>//
   { //<>// //<>//
+=======
+  private int platformLevelCount;
+  private HashMap<String, Float> rawInput; //<>//
+  
+  public PlayerControllerComponent(IGameObject _gameObject)
+  {
+>>>>>>> Added log raw data component and saves to csv file
     super(_gameObject);
 
     upButtonDown = false;
@@ -964,22 +979,22 @@ public class PlayerControllerComponent extends Component
     platformFallSound.rate(xmlComponent.getFloat("rate"));
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     platformFallSound.add(xmlComponent.getFloat("add"));
-    crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
+    crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   }
- //<>//
+
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.PLAYER_CONTROLLER;
+    return ComponentType.PLAYER_CONTROLLER; //<>//
   }
- //<>//
-  @Override public void update(int deltaTime)
-  {
-    handleEvents(); //<>//
-    HashMap<String, Float> rawInput = gatherRawInput();
-    PVector moveVector = new PVector();
 
+  @Override public void update(int deltaTime) //<>//
+  {
+    handleEvents();
+    rawInput = gatherRawInput();
+    PVector moveVector = new PVector();
+ //<>//
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
-    if (policy == ControlPolicy.NORMAL) //<>//
+    if (policy == ControlPolicy.NORMAL)
       moveVector = applyNormalControls(rawInput);
     else if (policy == ControlPolicy.DIRECTION_ASSIST)
       moveVector = applyDirectionAssistControls(rawInput);
@@ -1178,6 +1193,11 @@ public class PlayerControllerComponent extends Component
     moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
     moveVector.y = -input.get(JUMP_DIRECTION_LABEL);
     return moveVector;
+  }
+  
+  private HashMap<String, Float> getRawInput()
+  {
+    return rawInput; 
   }
 
   private PVector applyDirectionAssistControls(HashMap<String, Float> input)
@@ -1493,8 +1513,6 @@ public class PlatformManagerControllerComponent extends Component
   private float obstacleMaxWidth;
   private float obstacleMinHeight;
   private float obstacleMaxHeight;
-  private float obstacleMinHorizontalOffset;
-  private float obstacleMaxHorizontalOffset;
   
   private float minHeightBetweenPlatformLevels;
   private float maxHeightBetweenPlatformLevels; 
@@ -1558,8 +1576,6 @@ public class PlatformManagerControllerComponent extends Component
     obstacleMaxWidth = xmlComponent.getFloat("obstacleMaxWidth");
     obstacleMinHeight = xmlComponent.getFloat("obstacleMinHeight");
     obstacleMaxHeight = xmlComponent.getFloat("obstacleMaxHeight");
-    obstacleMinHorizontalOffset = xmlComponent.getFloat("obstacleMinHorizontalOffset");
-    obstacleMaxHorizontalOffset = xmlComponent.getFloat("obstacleMaxHorizontalOffset");
     minHeightBetweenPlatformLevels = xmlComponent.getFloat("minHeightBetweenPlatformLevels");
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
@@ -1631,11 +1647,6 @@ public class PlatformManagerControllerComponent extends Component
         rising = false;
       }
     }
-  }
-  
-  private void setSpawnHeight(int _spawnHeight)
-  {
-    spawnHeight =  _spawnHeight;
   }
   
   private void spawnPlatformLevel()
@@ -2608,8 +2619,6 @@ public class LevelDisplayComponent extends Component
 
 public class CounterIDComponent extends Component
 {
-  private float counterHeight;
-  private float counterWidth;
   private String countUp;
   private String countDown;
   private int count;
@@ -2627,8 +2636,6 @@ public class CounterIDComponent extends Component
 
   @Override public void fromXML(XML xmlComponent)
   {
-    counterHeight = xmlComponent.getFloat("height");
-    counterWidth = xmlComponent.getFloat("width");
     countUp = xmlComponent.getString("countup");
     countDown = xmlComponent.getString("countdown");
     idCounts.add(0);
@@ -3421,6 +3428,7 @@ public class AnimationControllerComponent extends Component
       }
   }
 }
+
 public class FittsStatsComponent extends Component
 { 
   private int levelCount;
@@ -3481,7 +3489,7 @@ public class FittsStatsComponent extends Component
               platformLevels.remove(0); 
             }
           
-            TableRow newRow = table.addRow(); 
+            TableRow newRow = tableFittsStats.addRow(); 
             startLogLevel(newRow);
           }
         }
@@ -3508,7 +3516,7 @@ public class FittsStatsComponent extends Component
               platformLevels.remove(0); 
             }
           
-            TableRow newRow = table.addRow(); 
+            TableRow newRow = tableFittsStats.addRow(); 
             startLogLevel(newRow);
           }
         }
@@ -3529,14 +3537,14 @@ public class FittsStatsComponent extends Component
         RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
         pos = rigidBodyComponent.getPosition();
       }
-      float gapPos = platformGapPosition.get(table.getRowCount()-1).x;
-      float gapWidth = platformGapPosition.get(table.getRowCount()-1).y;
+      float gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
+      float gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
       playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
       String iD = options.getUserInformation().getUserID();
       if(iD == null)
         iD ="-1";
       newRow.setString("id", iD);
-      newRow.setInt("trial", table.getRowCount());
+      newRow.setInt("trial", tableFittsStats.getRowCount());
       newRow.setInt("level", levelCount);
       newRow.setString("condition", "Simple");
       newRow.setFloat("start point x", pos.x);
@@ -3560,7 +3568,7 @@ public class FittsStatsComponent extends Component
           
     if(logFittsLaw)
     {
-      TableRow newRow = table.getRow(table.getRowCount() - 1);
+      TableRow newRow = tableFittsStats.getRow(tableFittsStats.getRowCount() - 1);
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
       PVector pos = new PVector();
       if(component != null)
@@ -3583,6 +3591,123 @@ public class FittsStatsComponent extends Component
       newRow.setFloat("total time",endTime - startTime);
     }
   }
+}
+
+
+public class LogRawDataComponent extends Component
+{ 
+  private String userID;
+  private Date d;
+  private float level;
+  private int myoSensorLeft;
+  private int myoSensorRight;
+  private String inputType;
+  private String mode;
+  private boolean movingLeft;
+  private boolean movingRight;
+  private float startOfJump;
+  private float endOfJump;
+  
+  private int totalTime;
+  private int nextLogTime;
+  private EmgSamplingPolicy sampPolicy;
+  private ControlPolicy contPolicy;
+  
+  public LogRawDataComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    d = new Date();
+    userID = options.getUserInformation().getUserID();
+    if(userID == null)
+      userID ="-1";  
+    
+    sampPolicy = options.getIOOptions().getEmgSamplingPolicy();
+    if(sampPolicy == EmgSamplingPolicy.DIFFERENCE)
+      inputType = "diff";
+    else if(sampPolicy == EmgSamplingPolicy.MAX)
+      inputType = "max";
+    else
+      inputType = "first-over";
+      
+    contPolicy = options.getGameOptions().getControlPolicy();
+    if(ControlPolicy.SINGLE_MUSCLE == contPolicy)
+    {
+      mode = "Single Muscle - " + options.getGameOptions().getSingleMuscleMode();
+    }
+    else if(ControlPolicy.DIRECTION_ASSIST == contPolicy)
+    {
+      mode = "Direction Assist - " + options.getGameOptions().getDirectionAssistMode();
+    }
+    else
+    {
+      mode = "Normal"; 
+    }
+    
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.LOG_RAW_DATA;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    totalTime += deltaTime;
+    if(logRawData && (totalTime - nextLogTime) > 100)
+    {
+      nextLogTime = totalTime;
+      TableRow newRow = tableRawData.addRow(); 
+      logRawData(newRow);
+    }
+  }
+  
+  private void logRawData(TableRow newRow)
+  {
+    d = new Date();
+    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+    HashMap<String, Float> input = playComp.getRawInput();
+    PVector mov = playComp.getLatestMoveVector();
+    if(mov.y>0)
+      println("jump");
+    if(mov.x<0)
+    {
+      movingLeft = true;
+      movingRight= false;
+    }
+    else if(mov.x>0)
+    {
+      movingLeft = false;
+      movingRight= true;
+    }
+    else
+    {
+      movingLeft = false;
+      movingRight= false;
+    }
+    
+    newRow.setFloat("timestamp", d.getTime());
+    newRow.setString("userID", userID);
+    newRow.setInt("level", tableRawData.getRowCount());
+    newRow.setFloat("SensorLeft", input.get(LEFT_DIRECTION_LABEL));
+    newRow.setFloat("SensorRight", input.get(RIGHT_DIRECTION_LABEL));
+    newRow.setString("InputType", inputType);
+    newRow.setString("Mode", mode);
+    newRow.setString("MovingLeft", movingLeft ? "true" : "false");
+    newRow.setString("MovingRight", movingRight ? "true" : "false");
+    newRow.setString("StartOfJump", "Simple");
+    newRow.setString("EndOfJump", "Simple");    
+  }
+  
+ 
 }
 
 
@@ -3675,6 +3800,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if(componentName.equals("FittsStatsComponent"))
   {
    component = new FittsStatsComponent(gameObject); 
+  }
+  else if(componentName.equals("LogRawDataComponent"))
+  {
+   component = new LogRawDataComponent(gameObject); 
   }
   
   if (component != null)

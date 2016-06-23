@@ -906,20 +906,20 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
-  private int jumpCount; //<>//
+  private int jumpCount; //<>// //<>//
   
-  private SoundFile jumpSound;  //<>//
-  private float amplitude; //<>//
- //<>//
- //<>//
-  private SoundFile platformFallSound; //<>//
- //<>//
-  private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>//
-  private boolean onBreakPlatform; //<>//
-  private IGameObject breakPlatform; //<>//
+  private SoundFile jumpSound;  //<>// //<>//
+  private float amplitude; //<>// //<>//
+ //<>// //<>//
+ //<>// //<>//
+  private SoundFile platformFallSound; //<>// //<>//
+ //<>// //<>//
+  private boolean onPlatform; //<>// //<>//
+  private boolean onRegPlatform; //<>// //<>//
+  private boolean onBreakPlatform; //<>// //<>//
+  private IGameObject breakPlatform; //<>// //<>//
   private long breakTimerStart;
-  private long crumbleTimerStart; //<>//
+  private long crumbleTimerStart; //<>// //<>//
   private String crumblingPlatformFile; 
   private int platformLevelCount;
   private boolean justJumped;
@@ -941,6 +941,7 @@ public class PlayerControllerComponent extends Component
     jumpJumpedPlatform = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();
+    platformLevelCount = 1;
   }
 
   @Override public void destroy()
@@ -960,20 +961,20 @@ public class PlayerControllerComponent extends Component
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
-    jumpSound.rate(xmlComponent.getFloat("rate"));
+    jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
     amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add"));
     jumpDelay = 500;
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    platformFallSound.add(xmlComponent.getFloat("add"));
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   }
 
   @Override public ComponentType getComponentType()
-  {
+  { //<>//
     return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
   }
 
@@ -3608,6 +3609,7 @@ public class LogRawDataComponent extends Component
   private String userID;
   private Date d;
   private int platLevel;
+  private String playingWith;
   private String inputType;
   private String mode;
   private boolean movingLeft;
@@ -3677,6 +3679,10 @@ public class LogRawDataComponent extends Component
   
   private void logRawData(TableRow newRow)
   {
+    if(emgManager.isCalibrated())
+      playingWith = "Myo Armband";
+    else
+      playingWith = "Keyboard";
     d = new Date();
     IComponent componentFittsStats = gameObject.getComponent(ComponentType.FITTS_STATS);
     FittsStatsComponent FittsStatComp = (FittsStatsComponent)componentFittsStats;
@@ -3712,9 +3718,9 @@ public class LogRawDataComponent extends Component
       isJumping = false;
     }
     
-    newRow.setFloat("timestamp", d.getTime());
+    newRow.setFloat("timestamp", totalTime);
     newRow.setString("userID", userID);
-    newRow.setString("Playing With", "Keyboard");
+    newRow.setString("Playing With", playingWith);
     newRow.setInt("level", platLevel);
     newRow.setFloat("SensorLeft", input.get(LEFT_DIRECTION_LABEL));
     newRow.setFloat("SensorRight", input.get(RIGHT_DIRECTION_LABEL));

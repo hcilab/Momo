@@ -5,22 +5,9 @@
 			fontName="Moire" 
 			size="24"
 			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="285.0"
-			y="100.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Press SPACE to capture input"
-			fontName="Moire" 
-			size="24"
-			antialiasing="true"
 			alignX="center"
-			alignY="baseline"
-			x="285.0"
+			alignY="center"
+			x="250.0"
 			y="150.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
@@ -33,6 +20,20 @@
 		<Sprite>
 			<Image src="images/block/neon1_big.png" x="250.0" y="250.0" width="125" height="125" resizeHeight="125" resizeWidth="125"/>
 		</Sprite>
+
+		<Text
+			string="Press SPACE to capture input"
+			fontName="Moire" 
+			size="24"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="350.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 
 		<Text
 			string="EMG Calibration"

@@ -906,39 +906,27 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
-<<<<<<< c5375ae3a73b776837513a81680ce931094cb0cb
-  private int jumpCount;
+  private int jumpCount; //<>//
   
-  private SoundFile jumpSound; //<>// //<>//
-  private float amplitude;
-=======
-   //<>//
-  private SoundFile jumpSound;
+  private SoundFile jumpSound;  //<>//
   private float amplitude; //<>//
->>>>>>> Added log raw data component and saves to csv file
-  private SoundFile platformFallSound; //<>//
  //<>//
-  private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>//
-  private boolean onBreakPlatform; //<>//
-  private IGameObject breakPlatform; //<>//
+ //<>//
+  private SoundFile platformFallSound; //<>// //<>//
+ //<>//
+  private boolean onPlatform; //<>// //<>//
+  private boolean onRegPlatform; //<>// //<>//
+  private boolean onBreakPlatform; //<>// //<>//
+  private IGameObject breakPlatform; //<>// //<>//
   private long breakTimerStart; //<>//
-  private long crumbleTimerStart; //<>//
-  private String crumblingPlatformFile; //<>//
-<<<<<<< c5375ae3a73b776837513a81680ce931094cb0cb
+  private long crumbleTimerStart; //<>// //<>//
+  private String crumblingPlatformFile; 
   private int platformLevelCount; //<>//
   private boolean justJumped;
-
-  
-  public PlayerControllerComponent(IGameObject _gameObject) //<>//
-  { //<>// //<>//
-=======
-  private int platformLevelCount;
   private HashMap<String, Float> rawInput; //<>//
   
   public PlayerControllerComponent(IGameObject _gameObject)
   {
->>>>>>> Added log raw data component and saves to csv file
     super(_gameObject);
 
     upButtonDown = false;
@@ -973,20 +961,20 @@ public class PlayerControllerComponent extends Component
     jumpSound.rate(xmlComponent.getFloat("rate"));
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     amplitude = xmlComponent.getFloat("amp");
-    jumpSound.add(xmlComponent.getFloat("add"));
+    jumpSound.add(xmlComponent.getFloat("add")); //<>//
     jumpDelay = 500;
     platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
     platformFallSound.rate(xmlComponent.getFloat("rate"));
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    platformFallSound.add(xmlComponent.getFloat("add"));
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   }
-
+ //<>//
   @Override public ComponentType getComponentType()
   {
     return ComponentType.PLAYER_CONTROLLER; //<>//
   }
-
+ //<>//
   @Override public void update(int deltaTime) //<>//
   {
     handleEvents();
@@ -3676,8 +3664,6 @@ public class LogRawDataComponent extends Component
     PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
     HashMap<String, Float> input = playComp.getRawInput();
     PVector mov = playComp.getLatestMoveVector();
-    if(mov.y>0)
-      println("jump");
     if(mov.x<0)
     {
       movingLeft = true;

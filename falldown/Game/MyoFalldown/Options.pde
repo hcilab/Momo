@@ -78,7 +78,7 @@ public interface IIOOptions
   public float getRightEMGSensitivity();
   public EmgSamplingPolicy getEmgSamplingPolicy();
   public float getMinInputThreshold();
-
+  public Forearm getForearm();
   
   public void setMusicVolume(float volume);
   public void setSoundEffectsVolume(float volume);
@@ -86,6 +86,7 @@ public interface IIOOptions
   public void setRightEMGSensitivity(float sensitivity);
   public void setEmgSamplingPolicy(EmgSamplingPolicy policy);
   public void setMinInputThreshold(float _minInputThreshold);
+  public void setForearm(Forearm _myoForearm);
 }
 
 public interface IStats
@@ -469,6 +470,7 @@ public class Options implements IOptions
     private final String RIGHT_EMG_SENSITIVITY = "right_emg_sensitivity";
     private final String EMG_SAMPLING_POLICY = "emg_sampling_policy";
     private final String THRESHOLD = "min_input_threshold";
+    private final String MYO_FOREARM = "myo_forearm";
     
     private XML xmlIO;
     
@@ -478,6 +480,7 @@ public class Options implements IOptions
     private float rightEMGSensitivity;
     private EmgSamplingPolicy emgSamplingPolicy;
     private float minInputThreshold;
+    private Forearm myoForearm;
 
     private IOOptions()
     {
@@ -501,6 +504,8 @@ public class Options implements IOptions
           println("[ERROR] Unrecognized emg sampling policy while parsing IOOptions");
           break;
       }
+
+      myoForearm = xmlIO.getString(MYO_FOREARM).equals("left") ? Forearm.LEFT : Forearm.RIGHT;
     }
 
     @Override public float getMusicVolume()
@@ -531,6 +536,11 @@ public class Options implements IOptions
     public float getMinInputThreshold()
     {
       return minInputThreshold;
+    }
+
+    public Forearm getForearm()
+    {
+      return myoForearm;
     }
 
     @Override public void setMusicVolume(float volume)
@@ -582,6 +592,15 @@ public class Options implements IOptions
       minInputThreshold = _minInputThreshold / 100.0f;
       xmlIO.setFloat(THRESHOLD, minInputThreshold);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setForearm(Forearm _myoForearm)
+    {
+      String arm = (_myoForearm == Forearm.LEFT) ? "left" : "right";
+      xmlIO.setString(MYO_FOREARM, arm);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+
+      myoForearm = _myoForearm;
     }
   }
   

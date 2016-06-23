@@ -1628,11 +1628,11 @@ public class CalibrateWizardComponent extends Component
         text.string = currentAction;
         if(currentAction.equals("LEFT"))
         {
-          if (armbandWornOn == Forearm.RIGHT)
+          if (options.getIOOptions().getForearm() == Forearm.RIGHT)
           {
             img.pimage = loadImage("images/myo_gesture_icons/wave-left.png");
           }
-          else if (armbandWornOn == Forearm.LEFT)
+          else if (options.getIOOptions().getForearm() == Forearm.LEFT)
           {
             img.pimage = loadImage("images/myo_gesture_icons/LHwave-left.png");
           }
@@ -1641,12 +1641,13 @@ public class CalibrateWizardComponent extends Component
             println("[ERROR] unrecognized Forearm specified in CalibrateWizard::updateRenderComponent");
           }
         }
-        else if(currentAction.equals("RIGHT")){
-          if (armbandWornOn == Forearm.RIGHT)
+        else if(currentAction.equals("RIGHT"))
+        {
+          if (options.getIOOptions().getForearm() == Forearm.RIGHT)
           {
             img.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
           }
-          else if (armbandWornOn == Forearm.LEFT)
+          else if (options.getIOOptions().getForearm() == Forearm.LEFT)
           {
             img.pimage = loadImage("images/myo_gesture_icons/LHwave-right.png");
           }

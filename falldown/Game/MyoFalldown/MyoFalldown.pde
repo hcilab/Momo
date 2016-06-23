@@ -79,8 +79,6 @@ enum Forearm {
   RIGHT,
 }
 
-Forearm armbandWornOn;
-
 void setup()
 {
   size(500, 500);
@@ -129,8 +127,6 @@ void setup()
   gameOverSoundEffect.rate(1.0);
   try {gameOverSoundEffect.pan(0.0); } catch (UnsupportedOperationException e) {}
   gameOverSoundEffect.add(0);
-
-  armbandWornOn = Forearm.RIGHT;
 } 
 
 void draw()

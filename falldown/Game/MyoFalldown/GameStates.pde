@@ -1577,13 +1577,13 @@ public class GameState_SelectForearm extends GameState
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("left"))
       {
-        armbandWornOn = Forearm.LEFT;
+        options.getIOOptions().setForearm(Forearm.LEFT);
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
       else if (tag.equals("right"))
       {
-        armbandWornOn = Forearm.RIGHT;
+        options.getIOOptions().setForearm(Forearm.RIGHT);
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
       }

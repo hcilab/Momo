@@ -912,18 +912,19 @@ public class PlayerControllerComponent extends Component
   private float amplitude; //<>//
  //<>//
  //<>//
-  private SoundFile platformFallSound; //<>// //<>//
+  private SoundFile platformFallSound; //<>//
  //<>//
-  private boolean onPlatform; //<>// //<>//
-  private boolean onRegPlatform; //<>// //<>//
-  private boolean onBreakPlatform; //<>// //<>//
-  private IGameObject breakPlatform; //<>// //<>//
-  private long breakTimerStart; //<>//
-  private long crumbleTimerStart; //<>// //<>//
+  private boolean onPlatform; //<>//
+  private boolean onRegPlatform; //<>//
+  private boolean onBreakPlatform; //<>//
+  private IGameObject breakPlatform; //<>//
+  private long breakTimerStart;
+  private long crumbleTimerStart; //<>//
   private String crumblingPlatformFile; 
-  private int platformLevelCount; //<>//
+  private int platformLevelCount;
   private boolean justJumped;
-  private HashMap<String, Float> rawInput; //<>//
+  private boolean jumpJumpedPlatform;
+  private HashMap<String, Float> rawInput;
   
   public PlayerControllerComponent(IGameObject _gameObject)
   {
@@ -937,6 +938,7 @@ public class PlayerControllerComponent extends Component
     onBreakPlatform = false;
     jumpCount = 0;
     justJumped = false;
+    jumpJumpedPlatform = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();
   }
@@ -959,28 +961,28 @@ public class PlayerControllerComponent extends Component
     gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate"));
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
     amplitude = xmlComponent.getFloat("amp");
-    jumpSound.add(xmlComponent.getFloat("add")); //<>//
+    jumpSound.add(xmlComponent.getFloat("add"));
     jumpDelay = 500;
     platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
-    platformFallSound.rate(xmlComponent.getFloat("rate"));
+    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
+    platformFallSound.add(xmlComponent.getFloat("add"));
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   }
- //<>//
+
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.PLAYER_CONTROLLER; //<>//
+    return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
   }
- //<>//
-  @Override public void update(int deltaTime) //<>//
+
+  @Override public void update(int deltaTime)
   {
     handleEvents();
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
- //<>//
+
     ControlPolicy policy = options.getGameOptions().getControlPolicy();
     if (policy == ControlPolicy.NORMAL)
       moveVector = applyNormalControls(rawInput);
@@ -1101,6 +1103,7 @@ public class PlayerControllerComponent extends Component
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
 
+            jumpJumpedPlatform = true;
             justJumped = true;
           }
         } 
@@ -1360,6 +1363,10 @@ public class PlayerControllerComponent extends Component
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       gapDirection = determineGapDirection(platform); 
       jumpCount = 0;
+      if(jumpJumpedPlatform)
+      {
+        jumpJumpedPlatform = false;
+      }
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
@@ -3386,34 +3393,43 @@ public class AnimationControllerComponent extends Component
   {  
   }
   
-  public float[] getDirection(){
-      IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-      PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
-        float vectorX = playComp.getLatestMoveVector().x;
-        float magnitude = playComp.getLatestMoveVector().mag();
-        //to normalize the frequency the max magnitude is 1.41212
-        if(magnitude !=0)
-          magnitude = abs(1.5-magnitude);
-      if(vectorX > 0){
-        isRight = true;
-        right[2] = magnitude;
+  public float[] getDirection()
+  {
+    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+    float vectorX = playComp.getLatestMoveVector().x;
+    float magnitude = playComp.getLatestMoveVector().mag();
+    //to normalize the frequency the max magnitude is 1.41212
+    if(magnitude !=0)
+    {
+      magnitude = abs(1.5-magnitude);
+    }
+    
+    if(vectorX > 0)
+    {
+      isRight = true;
+      right[2] = magnitude;
+      return right;
+    }
+    else if(vectorX < 0)
+    {
+     isRight = false;
+     left[2]= magnitude;
+     return left; 
+    }
+    else
+    {
+      if(isRight)
+      {
+        right[2] = (magnitude);
         return right;
       }
-      else if(vectorX < 0){
-       isRight = false;
-       left[2]= magnitude;
-       return left; 
-      }
-      else{
-        if(isRight){
-          right[2] = (magnitude);
-          return right;
-        }
-        else{
-          left[2] = (magnitude);
-          return left;
-        } 
-      }
+      else
+      {
+        left[2] = (magnitude);
+        return left;
+      } 
+    }
   }
 }
 
@@ -3512,13 +3528,18 @@ public class FittsStatsComponent extends Component
     }
   }
   
+  private int getCurrentLevel()
+  {
+    return levelCount;
+  }
+  
   private void startLogLevel(TableRow newRow)
   {
     startTime = totalTime;
     if(logFittsLaw)
     {
-      IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-      PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+      IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+      PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
       PVector pos = new PVector();
       if(component != null){
@@ -3586,15 +3607,12 @@ public class LogRawDataComponent extends Component
 { 
   private String userID;
   private Date d;
-  private float level;
-  private int myoSensorLeft;
-  private int myoSensorRight;
+  private int platLevel;
   private String inputType;
   private String mode;
   private boolean movingLeft;
   private boolean movingRight;
-  private float startOfJump;
-  private float endOfJump;
+  private boolean isJumping;
   
   private int totalTime;
   private int nextLogTime;
@@ -3660,16 +3678,21 @@ public class LogRawDataComponent extends Component
   private void logRawData(TableRow newRow)
   {
     d = new Date();
-    IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-    PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+    IComponent componentFittsStats = gameObject.getComponent(ComponentType.FITTS_STATS);
+    FittsStatsComponent FittsStatComp = (FittsStatsComponent)componentFittsStats;
+    platLevel = FittsStatComp.getCurrentLevel();
+    IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
     HashMap<String, Float> input = playComp.getRawInput();
-    PVector mov = playComp.getLatestMoveVector();
-    if(mov.x<0)
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+    PVector vel = rigidBodyComponent.getLinearVelocity();
+    if(vel.x<0)
     {
       movingLeft = true;
       movingRight= false;
     }
-    else if(mov.x>0)
+    else if(vel.x>0)
     {
       movingLeft = false;
       movingRight= true;
@@ -3680,17 +3703,27 @@ public class LogRawDataComponent extends Component
       movingRight= false;
     }
     
+    if(vel.y<0)
+    {
+      isJumping = true;
+    }
+    else
+    {
+      isJumping = false;
+    }
+    
     newRow.setFloat("timestamp", d.getTime());
     newRow.setString("userID", userID);
-    newRow.setInt("level", tableRawData.getRowCount());
+    newRow.setString("Playing With", "Keyboard");
+    newRow.setInt("level", platLevel);
     newRow.setFloat("SensorLeft", input.get(LEFT_DIRECTION_LABEL));
     newRow.setFloat("SensorRight", input.get(RIGHT_DIRECTION_LABEL));
+    newRow.setFloat("SensorJump", input.get(JUMP_DIRECTION_LABEL));
     newRow.setString("InputType", inputType);
     newRow.setString("Mode", mode);
-    newRow.setString("MovingLeft", movingLeft ? "true" : "false");
-    newRow.setString("MovingRight", movingRight ? "true" : "false");
-    newRow.setString("StartOfJump", "Simple");
-    newRow.setString("EndOfJump", "Simple");    
+    newRow.setString("MovingLeft", movingLeft ? "1" : "0");
+    newRow.setString("MovingRight", movingRight ? "1" : "0");
+    newRow.setInt("Jumping", isJumping ? 1 : 0);   
   }
   
  

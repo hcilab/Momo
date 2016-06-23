@@ -335,17 +335,18 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("direction changes");
     
     tableRawData = new Table();
-    tableRawData.addColumn("timestamp");
     tableRawData.addColumn("userID");
+    tableRawData.addColumn("timestamp");
+    tableRawData.addColumn("Playing With");
     tableRawData.addColumn("level");
     tableRawData.addColumn("SensorLeft");
     tableRawData.addColumn("SensorRight");
+    tableRawData.addColumn("SensorJump");
     tableRawData.addColumn("InputType");
     tableRawData.addColumn("Mode");
     tableRawData.addColumn("MovingLeft");
     tableRawData.addColumn("MovingRight");
-    tableRawData.addColumn("StartOfJump");
-    tableRawData.addColumn("EndOfJump");
+    tableRawData.addColumn("Jumping");
   }
 }
 

@@ -962,7 +962,7 @@ public class PlayerControllerComponent extends Component
     gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add"));
     jumpDelay = 500;
@@ -1007,16 +1007,8 @@ public class PlayerControllerComponent extends Component
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       calculateOverShoots(rigidBodyComponent.getPosition());
       calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
-      if (System.currentTimeMillis() - crumbleTimerStart > 450 && breakPlatform != null)
-      {
-        crumbleTimerStart = System.currentTimeMillis();
-        float crumbleScale = breakPlatform.getScale().x/2; 
-        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
-        crumblePlatform.setTag("crumble_platform");
-        pc.setPlatformDescentSpeed(crumblePlatform);
-      }
       
-      if (tripleJump)
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES)
       {
         if (jumpCount >= 3 && onPlatform)
         {
@@ -1048,6 +1040,14 @@ public class PlayerControllerComponent extends Component
       }
       else
       {
+        if (System.currentTimeMillis() - crumbleTimerStart > 450 && breakPlatform != null)
+        {
+          crumbleTimerStart = System.currentTimeMillis();
+          float crumbleScale = breakPlatform.getScale().x/2; 
+          IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
+          crumblePlatform.setTag("crumble_platform");
+          pc.setPlatformDescentSpeed(crumblePlatform);
+        }
         if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
         {
           ++platformLevelCount;
@@ -1382,11 +1382,6 @@ public class PlayerControllerComponent extends Component
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
     {
-      if (justJumped)
-      {
-        jumpCount++;
-        justJumped = false;
-      }
       onPlatform = true;
       if (!onBreakPlatform)
       {
@@ -1396,6 +1391,19 @@ public class PlayerControllerComponent extends Component
       onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
       breakPlatform = platform;
+      
+      if (justJumped)
+      {
+        jumpCount++;
+        justJumped = false;
+        float crumbleScale = breakPlatform.getScale().x/2; 
+        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
+        crumblePlatform.setTag("crumble_platform");
+        pc.setPlatformDescentSpeed(crumblePlatform);
+        crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
+        crumblePlatform.setTag("crumble_platform");
+        pc.setPlatformDescentSpeed(crumblePlatform);
+      }
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_EXIT))
@@ -3001,6 +3009,7 @@ public class GameOptionsControllerComponent extends Component
   private float yPosition;
   
   private String increaseDifficultyOverTimeTag;
+  private String defaultTag;
   private String autoDirectTag;
   private String leftTag;
   private String rightTag;
@@ -3010,11 +3019,15 @@ public class GameOptionsControllerComponent extends Component
   private String autoRightTag;
   private String obstaclesTag;
   private String terrainModsTag;
+  private String logRawDataTag;
   private String fittsLawTag;
   private String inputPlatformTag;
   private String logFittsTag;
   private String constraintsFittsTag;
+  private String jump3timestag;
+  private String wait2secstag;
   private float checkBoxXPosition;
+  private float radioButtonXposition;
   private float falseDisplacement;
   
   
@@ -3035,6 +3048,7 @@ public class GameOptionsControllerComponent extends Component
     yPosition = xmlComponent.getFloat("yPosition");
     
     increaseDifficultyOverTimeTag = xmlComponent.getString("increaseDifficultyOverTimeTag");
+    defaultTag = xmlComponent.getString("defaultTag");
     autoDirectTag = xmlComponent.getString("autoDirectTag");
     leftTag = xmlComponent.getString("left");
     rightTag = xmlComponent.getString("right");
@@ -3044,11 +3058,15 @@ public class GameOptionsControllerComponent extends Component
     autoRightTag = xmlComponent.getString("autoRightTag");
     obstaclesTag = xmlComponent.getString("obstaclesTag");
     terrainModsTag = xmlComponent.getString("terrainModsTag");
+    logRawDataTag = xmlComponent.getString("logRawDataTag");
     fittsLawTag = xmlComponent.getString("fittsLawTag");
     inputPlatformTag = xmlComponent.getString("inputPlatformTag");
     logFittsTag = xmlComponent.getString("logFittsTag");
     constraintsFittsTag = xmlComponent.getString("constraintsFittsTag");
+    wait2secstag = xmlComponent.getString("wait2secstag");
+    jump3timestag = xmlComponent.getString("jump3timestag");
     checkBoxXPosition = xmlComponent.getFloat("checkBoxXPosition");
+    radioButtonXposition = xmlComponent.getFloat("radioButtonXposition");
     falseDisplacement = xmlComponent.getFloat("falseDisplacement");
   }
   
@@ -3069,6 +3087,10 @@ public class GameOptionsControllerComponent extends Component
       {
         gameOptions.setLevelUpOverTime(!gameOptions.getLevelUpOverTime());
       }
+      else if(tag.equals(defaultTag))
+      {
+        gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+      }
       else if (tag.equals(autoDirectTag))
       {
         if (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST)
@@ -3080,6 +3102,10 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.DIRECTION_ASSIST);
           gameOptions.setDirectionAssistMode(DirectionAssistMode.LEFT_ONLY);
           gameOptions.setObstacles(false);
+          if(gameOptions.getFittsLaw())
+          {
+            gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
+          }
         }
       }
       else if (tag.equals(singleMuscleTag))
@@ -3092,6 +3118,10 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.SINGLE_MUSCLE);
           gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
           gameOptions.setObstacles(false);
+          if(gameOptions.getFittsLaw())
+          {
+            gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
+          }
         }
       }
       else if (tag.equals(obstaclesTag))
@@ -3106,6 +3136,10 @@ public class GameOptionsControllerComponent extends Component
       {
         gameOptions.setPlatformMods(!gameOptions.getPlatformMods());
       }
+      else if(tag.equals(logRawDataTag))
+      {
+        gameOptions.setLogRawData(!gameOptions.getLogRawData());
+      }
       else if (tag.equals(fittsLawTag))
       {
         gameOptions.setFittsLaw(!gameOptions.getFittsLaw());
@@ -3114,6 +3148,15 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setInputPlatforms(true);
           gameOptions.setLogFitts(true);
           gameOptions.setStillPlatforms(true);
+          gameOptions.setLevelUpOverTime(false);
+          gameOptions.setObstacles(false);
+          gameOptions.setPlatformMods(false);
+        }
+        else
+        {
+          gameOptions.setInputPlatforms(false);
+          gameOptions.setLogFitts(false);
+          gameOptions.setStillPlatforms(false);
         }
       }
       else if (tag.equals(inputPlatformTag))
@@ -3127,6 +3170,23 @@ public class GameOptionsControllerComponent extends Component
       else if (tag.equals(constraintsFittsTag))
       {
         gameOptions.setStillPlatforms(!gameOptions.getStillPlatforms());
+      }
+      
+      if(gameOptions.getFittsLaw())
+      {
+        if(tag.equals(wait2secstag))
+        {
+          gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
+        }
+        else if(tag.equals(jump3timestag))
+        {
+          gameOptions.setBreakthroughMode(BreakthroughMode.JUMP_3TIMES);
+          if(!(gameOptions.getControlPolicy() == ControlPolicy.NORMAL))
+          {
+            gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+          }
+        }
+        
       }
       
        
@@ -3187,39 +3247,56 @@ public class GameOptionsControllerComponent extends Component
       ArrayList<RenderComponent.OffsetPImage> images = renderComponent.getImages();
       if (shapes.size() > 3)
       {
-        RenderComponent.OffsetPShape levelUpOverTimeCheckBox = shapes.get(0);
-        RenderComponent.OffsetPShape autoDirectCheckBox = shapes.get(1);
-        RenderComponent.OffsetPShape obstaclesCheckBox = shapes.get(2);
-        RenderComponent.OffsetPShape terrainModsCheckBox = shapes.get(3);
-        RenderComponent.OffsetPShape fittsLawCheckBox = shapes.get(10);
+        RenderComponent.OffsetPImage levelUpOverTimeCheckBox = images.get(0);
+        RenderComponent.OffsetPImage obstaclesCheckBox = images.get(1);
+        RenderComponent.OffsetPImage terrainModsCheckBox = images.get(2);
+         RenderComponent.OffsetPImage logRawDataCheckBox = images.get(3);
+        RenderComponent.OffsetPImage fittsLawCheckBox = images.get(4);
+       
         
-        RenderComponent.OffsetPImage inputPlatformsCheckBox = images.get(0);
-        RenderComponent.OffsetPImage logFittsCheckBox = images.get(1);
-        RenderComponent.OffsetPImage contraintsFittsCheckBox = images.get(2);
+        RenderComponent.OffsetPImage inputPlatformsCheckBox = images.get(5);
+        RenderComponent.OffsetPImage logFittsCheckBox = images.get(6);
+        RenderComponent.OffsetPImage contraintsFittsCheckBox = images.get(7);
+
         
         //Ellipses for Auto-DirectMode
-        RenderComponent.OffsetPShape leftCheckbox = shapes.get(4);
-        RenderComponent.OffsetPShape rightCheckbox = shapes.get(5);
-        RenderComponent.OffsetPShape bothCheckbox = shapes.get(6);
+        RenderComponent.OffsetPShape deafultControlCheckBox = shapes.get(0);
+        RenderComponent.OffsetPShape autoDirectCheckBox = shapes.get(1);
+        RenderComponent.OffsetPShape leftCheckbox = shapes.get(2);
+        RenderComponent.OffsetPShape rightCheckbox = shapes.get(3);
+        RenderComponent.OffsetPShape bothCheckbox = shapes.get(4);
 
-        RenderComponent.OffsetPShape singleMuscleCheckBox = shapes.get(7);
-        RenderComponent.OffsetPShape autoLeftCheckBox = shapes.get(8);
-        RenderComponent.OffsetPShape autoRightCheckBox = shapes.get(9);
+        RenderComponent.OffsetPShape singleMuscleCheckBox = shapes.get(5);
+        RenderComponent.OffsetPShape autoLeftCheckBox = shapes.get(6);
+        RenderComponent.OffsetPShape autoRightCheckBox = shapes.get(7);
+        
+        RenderComponent.OffsetPShape wait2secCheckbox = shapes.get(8);
+        RenderComponent.OffsetPShape jump3timeCheckbox = shapes.get(9);
         
         levelUpOverTimeCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLevelUpOverTime() ? 0.0f : falseDisplacement);
-        autoDirectCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST ? 0.0f : falseDisplacement);
+        
+        deafultControlCheckBox.translation.x = radioButtonXposition + (gameOptions.getControlPolicy() == ControlPolicy.NORMAL ? 0.0f : falseDisplacement);
+        
+        autoDirectCheckBox.translation.x = radioButtonXposition + (gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST ? 0.0f : falseDisplacement);
+        leftCheckbox.translation.x = 75 + ((gameOptions.getDirectionAssistMode() == DirectionAssistMode.LEFT_ONLY && gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST) ? 0.0f : falseDisplacement);
+        rightCheckbox.translation.x = 150 + ((gameOptions.getDirectionAssistMode() == DirectionAssistMode.RIGHT_ONLY && gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST) ? 0.0f : falseDisplacement);
+        bothCheckbox.translation.x = 230 + ((gameOptions.getDirectionAssistMode() == DirectionAssistMode.BOTH && gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST) ? 0.0f : falseDisplacement);
+        
+        singleMuscleCheckBox.translation.x = radioButtonXposition + (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE ? 0.0f : falseDisplacement);
+        autoLeftCheckBox.translation.x = 75 + ((gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_LEFT && gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE) ? 0.0f : falseDisplacement);
+        autoRightCheckBox.translation.x = 200 + ((gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_RIGHT && gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE) ? 0.0f : falseDisplacement);
+        
         obstaclesCheckBox.translation.x = checkBoxXPosition + (gameOptions.getObstacles() ? 0.0f : falseDisplacement);
         terrainModsCheckBox.translation.x = checkBoxXPosition + (gameOptions.getPlatformMods() ? 0.0f : falseDisplacement);
-        leftCheckbox.translation.x = 75 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.LEFT_ONLY ? 0.0f : falseDisplacement);
-        rightCheckbox.translation.x = 150 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.RIGHT_ONLY ? 0.0f : falseDisplacement);
-        bothCheckbox.translation.x = 230 + (gameOptions.getDirectionAssistMode() == DirectionAssistMode.BOTH ? 0.0f : falseDisplacement);
-        singleMuscleCheckBox.translation.x = checkBoxXPosition + (gameOptions.getControlPolicy() == ControlPolicy.SINGLE_MUSCLE ? 0.0f : falseDisplacement);
-        autoLeftCheckBox.translation.x = 75 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_LEFT ? 0.0f : falseDisplacement);
-        autoRightCheckBox.translation.x = 200 + (gameOptions.getSingleMuscleMode() == SingleMuscleMode.AUTO_RIGHT ? 0.0f : falseDisplacement);
+        logRawDataCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLogRawData() ? 0.0f : falseDisplacement);
+        
         fittsLawCheckBox.translation.x = checkBoxXPosition + (gameOptions.getFittsLaw() ? 0.0f : falseDisplacement);
         inputPlatformsCheckBox.translation.x = 60 + (gameOptions.getInputPlatforms() ? 0.0f : falseDisplacement);
         logFittsCheckBox.translation.x = 60 + (gameOptions.getLogFitts() ? 0.0f : falseDisplacement);
         contraintsFittsCheckBox.translation.x = 60 + (gameOptions.getStillPlatforms() ? 0.0f : falseDisplacement);
+        
+        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.getFittsLaw()) ? 0.0f : falseDisplacement);
+        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.getFittsLaw()) ? 0.0f : falseDisplacement);
       }
     }
   }

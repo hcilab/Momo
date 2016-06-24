@@ -88,7 +88,6 @@ boolean logFittsLaw = true;
 
 boolean stillPlatforms = true;
 
-boolean tripleJump = true;
 boolean logRawData = false;
 
 

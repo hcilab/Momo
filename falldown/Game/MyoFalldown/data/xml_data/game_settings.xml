@@ -10,36 +10,43 @@
 	
 	<GameObject file="xml_data/button.xml" tag="increase_difficulty_over_time">
 		<Transform>
-			<Translation x="375.0" y="135.0"/>
+			<Translation x="375.0" y="120.0"/>
+			<Scale x="20.0" y="20.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="default_control">
+		<Transform>
+			<Translation x="375.0" y="170.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 	
 	<GameObject file="xml_data/button.xml" tag="auto_direct">
 		<Transform>
-			<Translation x="375.0" y="168.0"/>
+			<Translation x="375.0" y="205.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="left">
 		<Transform>
-			<Translation x="75.0" y="195.0"/>
-			<Scale x="20.0" y="20.0"/>
+			<Translation x="95.0" y="220.0"/>
+			<Scale x="50.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="right">
 		<Transform>
-			<Translation x="150.0" y="195.0"/>
-			<Scale x="20.0" y="20.0"/>
+			<Translation x="170.0" y="220.0"/>
+			<Scale x="50.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 	
 	<GameObject file="xml_data/button.xml" tag="both">
 		<Transform>
-			<Translation x="230.0" y="195.0"/>
-			<Scale x="20.0" y="20.0"/>
+			<Translation x="250.0" y="220.0"/>
+			<Scale x="50.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 
@@ -52,28 +59,35 @@
 
 	<GameObject file="xml_data/button.xml" tag="auto_left">
 		<Transform>
-			<Translation x="75.0" y="265.0"/>
-			<Scale x="20.0" y="20.0"/>
+			<Translation x="105.0" y="253.0"/>
+			<Scale x="80.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="auto_right">
 		<Transform>
-			<Translation x="200.0" y="265.0"/>
-			<Scale x="20.0" y="20.0"/>
+			<Translation x="235.0" y="253.0"/>
+			<Scale x="80.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 	
 	<GameObject file="xml_data/button.xml" tag="obstacles">
 		<Transform>
-			<Translation x="375.0" y="295.0"/>
+			<Translation x="375.0" y="282.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 	
 	<GameObject file="xml_data/button.xml" tag="terrain_mods">
 		<Transform>
-			<Translation x="375.0" y="330.0"/>
+			<Translation x="375.0" y="312.0"/>
+			<Scale x="20.0" y="20.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="log_raw_data">
+		<Transform>
+			<Translation x="375.0" y="342.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
@@ -102,6 +116,20 @@
 	<GameObject file="xml_data/button.xml" tag="contraints_fitts">
 		<Transform>
 			<Translation x="55.0" y="445.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="wait_2secs">
+		<Transform>
+			<Translation x="315.0" y="420.0"/>
+			<Scale x="15.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/button.xml" tag="jump_3times">
+		<Transform>
+			<Translation x="315.0" y="435.0"/>
 			<Scale x="15.0" y="15.0"/>
 		</Transform>
 	</GameObject>

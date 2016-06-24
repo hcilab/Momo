@@ -42,6 +42,12 @@ enum SingleMuscleMode
   AUTO_RIGHT,
 }
 
+enum BreakthroughMode
+{
+  WAIT_2SEC,
+  JUMP_3TIMES,
+}
+
 public interface IGameOptions
 {
   public int getStartingLevel();
@@ -55,6 +61,8 @@ public interface IGameOptions
   public boolean getInputPlatforms();
   public boolean getLogFitts();
   public boolean getStillPlatforms();
+  public boolean getLogRawData();
+  public BreakthroughMode getBreakthroughMode();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
@@ -67,6 +75,9 @@ public interface IGameOptions
   public void setInputPlatforms(boolean _inputPlatforms);
   public void setLogFitts(boolean _logFitts);
   public void setStillPlatforms(boolean _stillplatforms);
+  public void setLogRawData(boolean _logRawData);
+  public void setBreakthroughMode(BreakthroughMode _mode);
+  
 }
 
 enum EmgSamplingPolicy
@@ -273,6 +284,9 @@ public class Options implements IOptions
     private final String INPUT_PLATFORM = "input_platform";
     private final String LOG_FITTS = "log_fitts";
     private final String STILL_PLATFORM = "still_platform";
+    private final String LOG_RAW_DATA = "log_raw_data";
+    private final String BREAKTHROUGH_MODE = "breakthrough_mode";
+    
     
     private XML xmlGame;
     
@@ -283,6 +297,8 @@ public class Options implements IOptions
     private SingleMuscleMode singleMuscleMode;
     private boolean obstacles;
     private boolean platformMods;
+    private boolean loggingRawData;
+    private BreakthroughMode breakMode;
     
     private GameOptions()
     {
@@ -296,6 +312,7 @@ public class Options implements IOptions
       inputPlatformGaps = xmlGame.getString(INPUT_PLATFORM).equals("true") ? true : false;
       logFittsLaw = xmlGame.getString(LOG_FITTS).equals("true") ? true : false;
       stillPlatforms = xmlGame.getString(STILL_PLATFORM).equals("true") ? true : false;
+      logRawData = xmlGame.getString(LOG_RAW_DATA).equals("true") ? true : false;
 
       switch (xmlGame.getString(CONTROL_POLICY))
       {
@@ -331,6 +348,17 @@ public class Options implements IOptions
           singleMuscleMode = SingleMuscleMode.AUTO_RIGHT; break;
         default:
           println("[ERROR] Invalid single muscle mode specified while parsing game options.");
+          break;
+      }
+      
+      switch (xmlGame.getString(BREAKTHROUGH_MODE)) 
+      {
+        case ("wait_2sec"):
+          breakMode = BreakthroughMode.WAIT_2SEC; break;
+        case ("jump_3times"):
+           breakMode = BreakthroughMode.JUMP_3TIMES; break;
+        default:
+          println("[ERROR] Invalid Breakthrough mode for Fitts Law whil parsing Game Optoins .");
           break;
       }
     }
@@ -388,6 +416,17 @@ public class Options implements IOptions
     @Override public boolean getStillPlatforms()
     {
       return stillPlatforms;
+    }
+    
+    @Override public boolean getLogRawData()
+    {
+      return loggingRawData;
+    }
+  
+  
+    @Override public BreakthroughMode getBreakthroughMode()
+    {
+      return breakMode;
     }
     
     @Override public void setStartingLevel(int _startingLevel)
@@ -489,6 +528,27 @@ public class Options implements IOptions
     {
       stillPlatforms = _stillPlatform;
       xmlGame.setString(STILL_PLATFORM, stillPlatforms ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setLogRawData(boolean _logRawData)
+    {
+      loggingRawData = _logRawData;
+      xmlGame.setString(LOG_RAW_DATA, loggingRawData ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+  
+    @Override public void setBreakthroughMode(BreakthroughMode _mode)
+    {
+      breakMode = _mode;
+
+      if (breakMode == BreakthroughMode.WAIT_2SEC)
+        xmlGame.setString(BREAKTHROUGH_MODE, "wait_2sec");
+      else if (breakMode == BreakthroughMode.JUMP_3TIMES)
+        xmlGame.setString(BREAKTHROUGH_MODE, "jump_3times");
+      else
+        println("[ERROR] Unrecognized single muscle mode specified in GameOptions::setSingleMuscleMode()");
+
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }

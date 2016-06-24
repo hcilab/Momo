@@ -11,21 +11,21 @@
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
-	<GameObject file="xml_data/slider.xml" tag="left_sensitivity">
+	<GameObject file="xml_data/slider.xml" tag="threshold">
 		<Transform>
-			<Translation x="375" y="225"/>
+			<Translation x="375" y="230"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
-	<GameObject file="xml_data/slider.xml" tag="right_sensitivity">
+	<GameObject file="xml_data/slider.xml" tag="left_sensitivity">
 		<Transform>
 			<Translation x="375" y="265"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
-	<GameObject file="xml_data/slider.xml" tag="threshold">
+	<GameObject file="xml_data/slider.xml" tag="right_sensitivity">
 		<Transform>
-			<Translation x="375" y="305"/>
+			<Translation x="375" y="300"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
@@ -40,7 +40,7 @@
 
 	<GameObject file="xml_data/button.xml" tag="define_input">
 		<Transform>
-			<Translation x="25.0" y="305.0"/>
+			<Translation x="25.0" y="330.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
@@ -63,6 +63,12 @@
 		</Transform>
 	</GameObject>
 
+	<GameObject file="xml_data/modal.xml" tag="threshold">
+		<Transform>
+			<Translation x="125" y="235"/>
+			<Scale x="100" y="20"/>
+		</Transform>
+	</GameObject>
 	<GameObject file="xml_data/modal.xml" tag="input">
 		<Transform>
 			<Translation x="75" y="340"/>

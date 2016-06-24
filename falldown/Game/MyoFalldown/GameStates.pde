@@ -680,6 +680,14 @@ public class GameState_IOSettings extends GameState
             texts.get(i).translation.x = 250;
           }
         }
+        else if (tag.equals("threshold"))
+        {
+          shapes.get(4).translation.x = 250;
+          for (int i = 20; i <= 26; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
+        }
       }
     }
 
@@ -719,6 +727,14 @@ public class GameState_IOSettings extends GameState
         {
           shapes.get(3).translation.x = 1000;
           for (int i = 14; i <= 19; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
+        }
+        else if (tag.equals("threshold"))
+        {
+          shapes.get(4).translation.x = 1000;
+          for (int i = 20; i <= 26; i++)
           {
             texts.get(i).translation.x = 1000;
           }

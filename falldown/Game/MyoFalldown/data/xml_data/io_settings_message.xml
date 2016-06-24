@@ -17,7 +17,7 @@
 		thresholdSliderTag="threshold"
 		thresholdSliderLeftBoundary="285.0"
 		thresholdSliderRightBoundary="465.0"
-		thresholdSliderYPosition="290.0"
+		thresholdSliderYPosition="215.0"
 	/>
 	<Render>
 		<!-- The position of these components within this file is very important,
@@ -51,7 +51,7 @@
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Text>
 			<Text
-				string="xxx"
+				string="xxx "
 				fontName="Arial"
 				size="12"
 				antialiasing="true"
@@ -148,7 +148,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="185.0"
+			y="180.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -161,13 +161,13 @@
 			alignX="left"
 			alignY="baseline"
 			x="50.0"
-			y="210.0"
+			y="205.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Left"
+			string="Threshold"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -180,33 +180,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Less"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="275.0"
-			y="245.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="More"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="475.0"
-			y="245.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Right"
+			string="Left"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -245,7 +219,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Threshold"
+			string="Right"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -253,6 +227,32 @@
 			alignY="baseline"
 			x="75.0"
 			y="305.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Less"
+			fontName="Arial"
+			size="12"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="275.0"
+			y="320.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="More"
+			fontName="Arial"
+			size="12"
+			antialiasing="true"
+			alignX="right"
+			alignY="baseline"
+			x="475.0"
+			y="320.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -618,6 +618,101 @@
 			alignY="center"
 			x="1000.0"
 			y="280.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="1000.0" y="250.0" halfWidth="300" halfHeight="300">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="64" g="64" b="64" a="255" strokeWeight="0.01"/>
+		</Rect>
+		<Text
+			string="Threshold"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="This determines at what point"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="200.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="signals are detected from the user."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="220.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="The muscle readings must surpass"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="this threshold percentage of the"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="260.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="user's calibration to be considered"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="280.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="as input."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="300.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

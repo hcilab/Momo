@@ -1,26 +1,32 @@
 <Level>
 	<GameObject file="xml_data/slider.xml" tag="music">
 		<Transform>
-			<Translation x="375" y="100"/>
-			<Scale x="200" y="20"/>
+			<Translation x="375" y="90"/>
+			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="sound_effects">
 		<Transform>
-			<Translation x="375" y="145"/>
-			<Scale x="200" y="20"/>
+			<Translation x="375" y="130"/>
+			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="left_sensitivity">
 		<Transform>
 			<Translation x="375" y="225"/>
-			<Scale x="200" y="20"/>
+			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="right_sensitivity">
 		<Transform>
-			<Translation x="375" y="270"/>
-			<Scale x="200" y="20"/>
+			<Translation x="375" y="265"/>
+			<Scale x="180" y="18"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/slider.xml" tag="threshold">
+		<Transform>
+			<Translation x="375" y="305"/>
+			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
 

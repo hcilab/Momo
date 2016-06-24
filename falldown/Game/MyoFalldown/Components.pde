@@ -2517,6 +2517,11 @@ public class IOOptionsControllerComponent extends Component
   private String rightSensitivitySliderTag;
   private float rightSensitivitySliderLeftBoundary;
   private float rightSensitivitySliderRightBoundary;
+
+  private String thresholdSliderTag;
+  private float thresholdSliderLeftBoundary;
+  private float thresholdSliderRightBoundary;
+  private float thresholdSliderYPosition;
   
   public IOOptionsControllerComponent(IGameObject _gameObject)
   {
@@ -2546,6 +2551,11 @@ public class IOOptionsControllerComponent extends Component
     rightSensitivitySliderTag = xmlComponent.getString("rightSensitivitySliderTag");
     rightSensitivitySliderLeftBoundary = xmlComponent.getFloat("rightSensitivitySliderLeftBoundary");
     rightSensitivitySliderRightBoundary = xmlComponent.getFloat("rightSensitivitySliderRightBoundary");
+
+    thresholdSliderTag = xmlComponent.getString("thresholdSliderTag");
+    thresholdSliderLeftBoundary = xmlComponent.getFloat("thresholdSliderLeftBoundary");
+    thresholdSliderRightBoundary = xmlComponent.getFloat("thresholdSliderRightBoundary");
+    thresholdSliderYPosition = xmlComponent.getFloat("thresholdSliderYPosition");
   }
   
   @Override public ComponentType getComponentType()
@@ -2564,11 +2574,13 @@ public class IOOptionsControllerComponent extends Component
       {
         RenderComponent.Text musicSliderText = texts.get(0);
         RenderComponent.Text soundEffectsSliderText = texts.get(1);
+        RenderComponent.Text thresholdSliderText = texts.get(2);
         
         float musicVolume = options.getIOOptions().getMusicVolume();
         float soundEffectsVolume = options.getIOOptions().getSoundEffectsVolume();
         float leftEMGSensitivity = options.getIOOptions().getLeftEMGSensitivity();
         float rightEMGSensitivity = options.getIOOptions().getRightEMGSensitivity();
+        float threshold = options.getIOOptions().getThreshold();
         
         musicSliderText.string = Integer.toString((int)(musicVolume * 100.0f));
         musicSliderText.translation.x = (musicVolume * (musicSliderRightBoundary - musicSliderLeftBoundary)) + musicSliderLeftBoundary;
@@ -2577,7 +2589,11 @@ public class IOOptionsControllerComponent extends Component
         soundEffectsSliderText.string = Integer.toString((int)(soundEffectsVolume * 100.0f));
         soundEffectsSliderText.translation.x = (soundEffectsVolume * (soundEffectsSliderRightBoundary - soundEffectsSliderLeftBoundary)) + soundEffectsSliderLeftBoundary;
         soundEffectsSliderText.translation.y = soundEffectsSliderYPosition;
-        
+
+        thresholdSliderText.string = Integer.toString((int)(threshold * 100.0f)) + "%";
+        thresholdSliderText.translation.x = (threshold * (thresholdSliderRightBoundary - thresholdSliderLeftBoundary)) + thresholdSliderLeftBoundary;
+        thresholdSliderText.translation.y = thresholdSliderYPosition;
+
         ArrayList<IGameObject> musicSliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(musicSliderTag);
         if (musicSliderList.size() > 0)
         {
@@ -2623,6 +2639,18 @@ public class IOOptionsControllerComponent extends Component
           {
             SliderComponent sliderComponent = (SliderComponent)component;
             sliderComponent.setTabPosition((width / 500.0f) * ((((rightEMGSensitivity - 0.2f) / 4.8f) * (rightSensitivitySliderRightBoundary - rightSensitivitySliderLeftBoundary)) + rightSensitivitySliderLeftBoundary));
+          }
+        }
+
+        ArrayList<IGameObject> thresholdSliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(thresholdSliderTag);
+        if (thresholdSliderList.size() > 0)
+        {
+          IGameObject thresholdSlider = thresholdSliderList.get(0);
+          component = thresholdSlider.getComponent(ComponentType.SLIDER);
+          if (component != null)
+          {
+            SliderComponent sliderComponent = (SliderComponent)component;
+            sliderComponent.setTabPosition((width / 500.0f) * thresholdSliderText.translation.x);
           }
         }
       }

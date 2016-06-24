@@ -634,6 +634,10 @@ public class GameState_IOSettings extends GameState
         float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
         options.getIOOptions().setRightEMGSensitivity(sensitivityValue);
       }
+      else if (tag.equals("threshold"))
+      {
+        options.getIOOptions().setThreshold(sliderValue);
+      }
     }
 
     for (IEvent event : eventManager.getEvents(EventType.MODAL_HOVER))
@@ -784,8 +788,8 @@ public class GameState_IOSettings extends GameState
         }
         else // remove "Quit Game" button
         {
-          // text (assuming it is the third occurance of text in XML)
-          texts.get(2).string = "";
+          // text (assuming it is the fourth occurance of text in XML)
+          texts.get(3).string = "";
 
           // sprite (assuming it is the first occuring sprite in XML)
           sprites.get(0).translation.x = 5000;

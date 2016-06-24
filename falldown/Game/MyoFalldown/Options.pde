@@ -77,6 +77,7 @@ public interface IIOOptions
   public float getLeftEMGSensitivity();
   public float getRightEMGSensitivity();
   public EmgSamplingPolicy getEmgSamplingPolicy();
+  public float getThreshold();
 
   
   public void setMusicVolume(float volume);
@@ -84,6 +85,7 @@ public interface IIOOptions
   public void setLeftEMGSensitivity(float sensitivity);
   public void setRightEMGSensitivity(float sensitivity);
   public void setEmgSamplingPolicy(EmgSamplingPolicy policy);
+  public void setThreshold(float _threshold);
 }
 
 public interface IStats
@@ -466,6 +468,7 @@ public class Options implements IOptions
     private final String LEFT_EMG_SENSITIVITY = "left_emg_sensitivity";
     private final String RIGHT_EMG_SENSITIVITY = "right_emg_sensitivity";
     private final String EMG_SAMPLING_POLICY = "emg_sampling_policy";
+    private final String THRESHOLD = "threshold";
     
     private XML xmlIO;
     
@@ -474,6 +477,7 @@ public class Options implements IOptions
     private float leftEMGSensitivity;
     private float rightEMGSensitivity;
     private EmgSamplingPolicy emgSamplingPolicy;
+    private float threshold;
 
     private IOOptions()
     {
@@ -483,6 +487,7 @@ public class Options implements IOptions
       soundEffectsVolume = xmlIO.getFloat(SOUND_EFFECTS_VOLUME);
       leftEMGSensitivity = xmlIO.getFloat(LEFT_EMG_SENSITIVITY);
       rightEMGSensitivity = xmlIO.getFloat(RIGHT_EMG_SENSITIVITY);
+      threshold = xmlIO.getFloat(THRESHOLD);
 
       switch (xmlIO.getString(EMG_SAMPLING_POLICY))
       {
@@ -521,6 +526,11 @@ public class Options implements IOptions
     public EmgSamplingPolicy getEmgSamplingPolicy()
     {
       return emgSamplingPolicy;
+    }
+
+    public float getThreshold()
+    {
+      return threshold;
     }
 
     @Override public void setMusicVolume(float volume)
@@ -564,6 +574,13 @@ public class Options implements IOptions
       else
         println("[ERROR] Unrecognized emg sampling policy in IOOptions::setEmgSamplingPolicy()");
 
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setThreshold(float _threshold)
+    {
+      threshold = _threshold / 100.0f;
+      xmlIO.setFloat(THRESHOLD, threshold);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }

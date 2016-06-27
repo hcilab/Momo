@@ -822,7 +822,7 @@ public class PlayerControllerComponent extends Component
   { 
     acceleration = xmlComponent.getFloat("acceleration"); 
     maxSpeed = xmlComponent.getFloat("maxSpeed"); 
-    minInputThreshold = xmlComponent.getFloat("minInputThreshold");
+    minInputThreshold = options.getIOOptions().getMinInputThreshold();
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
 
@@ -2580,7 +2580,7 @@ public class IOOptionsControllerComponent extends Component
         float soundEffectsVolume = options.getIOOptions().getSoundEffectsVolume();
         float leftEMGSensitivity = options.getIOOptions().getLeftEMGSensitivity();
         float rightEMGSensitivity = options.getIOOptions().getRightEMGSensitivity();
-        float threshold = options.getIOOptions().getThreshold();
+        float threshold = options.getIOOptions().getMinInputThreshold();
         
         musicSliderText.string = Integer.toString((int)(musicVolume * 100.0f));
         musicSliderText.translation.x = (musicVolume * (musicSliderRightBoundary - musicSliderLeftBoundary)) + musicSliderLeftBoundary;

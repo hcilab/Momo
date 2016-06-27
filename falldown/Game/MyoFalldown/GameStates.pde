@@ -636,7 +636,7 @@ public class GameState_IOSettings extends GameState
       }
       else if (tag.equals("threshold"))
       {
-        options.getIOOptions().setThreshold(sliderValue);
+        options.getIOOptions().setMinInputThreshold(sliderValue);
       }
     }
 

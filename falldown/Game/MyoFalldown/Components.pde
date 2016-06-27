@@ -1052,6 +1052,11 @@ public class PlayerControllerComponent extends Component
       moveVector.y = 0.0f;
     }
   }
+
+  public void setMinInputThreshold(float _minInputThreshold)
+  {
+    minInputThreshold = _minInputThreshold;
+  }
 }
 
 public class PlatformManagerControllerComponent extends Component

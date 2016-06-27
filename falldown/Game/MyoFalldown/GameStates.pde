@@ -637,6 +637,12 @@ public class GameState_IOSettings extends GameState
       else if (tag.equals("threshold"))
       {
         options.getIOOptions().setMinInputThreshold(sliderValue);
+        IGameState previousState = gameStateController.getPreviousState();
+        if (previousState.getGameObjectManager().getGameObjectsByTag("player").size() > 0)
+        {
+          PlayerControllerComponent playerControllerComponent = (PlayerControllerComponent) previousState.getGameObjectManager().getGameObjectsByTag("player").get(0).getComponent(ComponentType.PLAYER_CONTROLLER);
+          playerControllerComponent.setMinInputThreshold(sliderValue);
+        }
       }
     }
 

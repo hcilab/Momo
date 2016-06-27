@@ -1097,7 +1097,7 @@ public class PlayerControllerComponent extends Component
 
       if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
-        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown)
+        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
           rigidBodyComponent.setLinearVelocity(new PVector(0,0));
         }

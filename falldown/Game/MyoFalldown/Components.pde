@@ -872,7 +872,7 @@ public class RigidBodyComponent extends Component
  
 public class PlayerControllerComponent extends Component 
 {
-  public PVector moveVectorX;
+  private PVector moveVectorX;
   private float acceleration;
   private float maxSpeed;
   private float minInputThreshold;
@@ -923,7 +923,6 @@ public class PlayerControllerComponent extends Component
   private String crumblingPlatformFile; 
   private int platformLevelCount;
   private boolean justJumped;
-  private boolean jumpJumpedPlatform;
   private HashMap<String, Float> rawInput;
   
   public PlayerControllerComponent(IGameObject _gameObject)
@@ -938,7 +937,6 @@ public class PlayerControllerComponent extends Component
     onBreakPlatform = false;
     jumpCount = 0;
     justJumped = false;
-    jumpJumpedPlatform = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();
     platformLevelCount = 1;
@@ -963,36 +961,55 @@ public class PlayerControllerComponent extends Component
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
     jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    amplitude = xmlComponent.getFloat("amp");
-    jumpSound.add(xmlComponent.getFloat("add"));
+    amplitude = xmlComponent.getFloat("amp"); //<>//
+    jumpSound.add(xmlComponent.getFloat("add")); //<>//
     jumpDelay = 500;
     platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
+    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>// //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
-  }
-
+  } //<>//
+ //<>// //<>//
   @Override public ComponentType getComponentType()
-  { //<>//
+  {
     return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
-  }
-
+  } //<>//
+ //<>//
   @Override public void update(int deltaTime)
   {
+    
     handleEvents();
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
-
-    ControlPolicy policy = options.getGameOptions().getControlPolicy();
-    if (policy == ControlPolicy.NORMAL)
-      moveVector = applyNormalControls(rawInput);
-    else if (policy == ControlPolicy.DIRECTION_ASSIST)
-      moveVector = applyDirectionAssistControls(rawInput);
-    else if (policy == ControlPolicy.SINGLE_MUSCLE)
-      moveVector = applySingleMuscleControls(rawInput);
+    
+    if(!options.getGameOptions().getFittsLaw())
+    {
+      ControlPolicy policy = options.getGameOptions().getControlPolicy();
+      if (policy == ControlPolicy.NORMAL)
+        moveVector = applyNormalControls(rawInput);
+      else if (policy == ControlPolicy.DIRECTION_ASSIST)
+        moveVector = applyDirectionAssistControls(rawInput);
+      else if (policy == ControlPolicy.SINGLE_MUSCLE)
+        moveVector = applySingleMuscleControls(rawInput);
+      else
+        println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+    }
     else
-      println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+    {
+      if(onPlatform)
+      {
+      ControlPolicy policy = options.getGameOptions().getControlPolicy();
+      if (policy == ControlPolicy.NORMAL)
+        moveVector = applyNormalControls(rawInput);
+      else if (policy == ControlPolicy.DIRECTION_ASSIST)
+        moveVector = applyDirectionAssistControls(rawInput);
+      else if (policy == ControlPolicy.SINGLE_MUSCLE)
+        moveVector = applySingleMuscleControls(rawInput);
+      else
+        println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+      }
+    }
 
     smoothControls(moveVector, deltaTime);
 
@@ -1103,8 +1120,6 @@ public class PlayerControllerComponent extends Component
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
             jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
-
-            jumpJumpedPlatform = true;
             justJumped = true;
           }
         } 
@@ -1250,6 +1265,7 @@ public class PlayerControllerComponent extends Component
     }
   }
   
+  //And UnderShoots
   public void calculateDirectionChanges(PVector mVector, PVector pos)
   { 
     if(mVector.x < 0)
@@ -1361,13 +1377,10 @@ public class PlayerControllerComponent extends Component
     {
       onPlatform = true;
       onRegPlatform = true;
+      justJumped = false;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       gapDirection = determineGapDirection(platform); 
       jumpCount = 0;
-      if(jumpJumpedPlatform)
-      {
-        jumpJumpedPlatform = false;
-      }
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))
@@ -1388,11 +1401,12 @@ public class PlayerControllerComponent extends Component
         breakTimerStart = System.currentTimeMillis();
         crumbleTimerStart = System.currentTimeMillis();
       }
+
       onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
       breakPlatform = platform;
       
-      if (justJumped)
+      if (justJumped && (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES))
       {
         jumpCount++;
         justJumped = false;

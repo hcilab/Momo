@@ -69,6 +69,19 @@
 			<Image  src="images/button/buttonNormal.png" x="250.0" y="300.0" width="150" height="50" resizeHeight="50" resizeWidth="150"/>
 		</Sprite>
 
+		<Text
+			string="If you're experiencing issues, check out: http://diagnostics.myo.com/"
+			fontName="Moire"
+			size="12"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="475.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 	</Render>
 </GameObject>
 

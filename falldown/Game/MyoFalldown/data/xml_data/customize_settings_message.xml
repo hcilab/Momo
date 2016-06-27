@@ -118,7 +118,7 @@
     </Ellipse>
     <!-- Music Unlockables -->
     <CustomSprite active="true" actualSrc="images/button/musicNote.png" cost="100" greySrc="" unlocked="true">
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="175.0" y="365.0" zOrder="0"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNote.png" vertCount="1" x="175.0" y="365.0" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="100" greySrc="images/button/musicNoteGrey.png" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="50.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" x="225.0" y="365.0" zOrder="0"/>

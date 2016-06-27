@@ -64,7 +64,7 @@ public class GameState_MainMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -137,7 +137,7 @@ public class GameState_Confirm_Quit extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -180,7 +180,7 @@ public class GameState_UserLogin extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -229,7 +229,7 @@ public class GameState_MomoStory extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -272,7 +272,7 @@ public class GameState_InGame extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(bg,250,250,500,500);
+    shape(bg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
     handleEvents();
@@ -364,7 +364,7 @@ public class GameState_PostGame extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -413,7 +413,7 @@ public class GameState_OptionsMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -466,7 +466,7 @@ public class GameState_GameSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     handleEvents();
     gameObjectManager.update(deltaTime);
   }
@@ -521,7 +521,7 @@ public class GameState_IOSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -730,7 +730,7 @@ public class GameState_DefineInput extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -777,7 +777,7 @@ public class GameState_StatsSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
     refreshVisibleRecords();
@@ -884,7 +884,7 @@ public class GameState_ClearStats_Confirm extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -935,7 +935,7 @@ public class GameState_CustomizeSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -1076,7 +1076,7 @@ public class GameState_CustomizePurchase extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -1148,7 +1148,7 @@ public class GameState_Credits extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1184,7 +1184,7 @@ public class GameState_Help extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1228,7 +1228,7 @@ public class GameState_CalibrateMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(wbg,250,250,500,500);
+    shape(wbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1267,7 +1267,7 @@ public class GameState_CalibrateSuccess extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1311,7 +1311,7 @@ public class GameState_CalibrateFailure extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1354,7 +1354,7 @@ public class GameState_CalibrateFailureConfirm extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1392,7 +1392,7 @@ public class GameState_MyoNotConnected extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }

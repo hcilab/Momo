@@ -3746,7 +3746,7 @@ public class LogRawDataComponent extends Component
   @Override public void update(int deltaTime)
   {
     totalTime += deltaTime;
-    if(logRawData && (totalTime - nextLogTime) > 100)
+    if(options.getGameOptions().getLogRawData() && logRawData && (totalTime - nextLogTime) > 100)
     {
       nextLogTime = totalTime;
       TableRow newRow = tableRawData.addRow(); 

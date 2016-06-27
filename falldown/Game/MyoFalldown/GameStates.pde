@@ -610,19 +610,11 @@ public class GameState_IOSettings extends GameState
               musicPlayerComponent.setMusicVolume(options.getIOOptions().getMusicVolume());
             }
           }
-          else
-          {
-            buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getMusicVolume());
-            buttonClickedSoundTest.play();
-          }
         }
       }
       else if (tag.equals("sound_effects"))
       {
         options.getIOOptions().setSoundEffectsVolume(sliderValue);
-
-        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
-        buttonClickedSoundTest.play();
       }
       else if (tag.equals("left_sensitivity"))
       {
@@ -745,6 +737,21 @@ public class GameState_IOSettings extends GameState
             texts.get(i).translation.x = 1000;
           }
         }
+      }
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_RELEASED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("music"))
+      {
+        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getMusicVolume());
+        buttonClickedSoundTest.play();
+      }
+      else if (tag.equals("sound_effects"))
+      {
+        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        buttonClickedSoundTest.play();
       }
     }
 

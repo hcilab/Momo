@@ -680,7 +680,7 @@ public class GameState_IOSettings extends GameState
             texts.get(i).translation.x = 250;
           }
         }
-        else if (tag.equals("threshold"))
+        else if (tag.equals("threshold_modal"))
         {
           shapes.get(4).translation.x = 250;
           for (int i = 20; i <= 26; i++)
@@ -731,7 +731,7 @@ public class GameState_IOSettings extends GameState
             texts.get(i).translation.x = 1000;
           }
         }
-        else if (tag.equals("threshold"))
+        else if (tag.equals("threshold_modal"))
         {
           shapes.get(4).translation.x = 1000;
           for (int i = 20; i <= 26; i++)

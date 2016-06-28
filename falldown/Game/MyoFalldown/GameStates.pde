@@ -1115,6 +1115,7 @@ public class GameState_CustomizeSettings extends GameState
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         int cost = renderComponent.getCustomSprites().get(custSpriteIndex).cost;
         boolean unlocked = renderComponent.getCustomSprites().get(custSpriteIndex).unlocked;
+        String name = renderComponent.getCustomSprites().get(custSpriteIndex).name;
 
         options.getCustomizeOptions().preparePurchaseScreen(custSpriteIndex, renderComponent);
 
@@ -1149,7 +1150,7 @@ public class GameState_CustomizeSettings extends GameState
         else
         {
           gameStateController.popState();
-          gameStateController.pushState(new GameState_CustomizePurchase(cost, custSpriteIndex, index, id));
+          gameStateController.pushState(new GameState_CustomizePurchase(cost, custSpriteIndex, index, id, name));
         }
       }
     }
@@ -1190,13 +1191,14 @@ public class GameState_CustomizePurchase extends GameState
   private int custSpriteIndex;
   private int index;
   private int id;
+  private String name;
 
   private SoundFile music;
   private float amplitude;
   private XML musicXML;
   private XML musicXMLComponent;
 
-  public GameState_CustomizePurchase(int _cost, int _custSpriteIndex, int _index, int _id)
+  public GameState_CustomizePurchase(int _cost, int _custSpriteIndex, int _index, int _id, String _name)
   {
     super();
     saveDataLoaded = false;
@@ -1204,10 +1206,10 @@ public class GameState_CustomizePurchase extends GameState
     custSpriteIndex = _custSpriteIndex;
     index = _index;
     id = _id;
+    name = _name;
 
     if (index == 5)
     {
-      println("yes id == 5");
       musicXML = loadXML("xml_data/music_player.xml");
       musicXMLComponent = musicXML.getChild("MusicPlayer");
       music = new SoundFile(mainObject, options.getCustomizeOptions().getMusicOptions()[id]);
@@ -1271,12 +1273,13 @@ public class GameState_CustomizePurchase extends GameState
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(1).string = "Total Coins: " + Integer.toString(totalCoins);
     renderComponent.getTexts().get(2).string = "This new items costs: " + cost;
+    renderComponent.getTexts().get(3).string = name;
     if (totalCoins < cost) {
-      renderComponent.getTexts().get(5).string = "You cannot afford this!";
+      renderComponent.getTexts().get(6).string = "You cannot afford this!";
     }
     else
     {
-      renderComponent.getTexts().get(5).string = "";
+      renderComponent.getTexts().get(6).string = "";
     }
     saveDataLoaded = true;
   }

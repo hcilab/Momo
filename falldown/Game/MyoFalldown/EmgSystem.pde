@@ -44,7 +44,7 @@ class EmgManager implements IEmgManager {
 
     myoAPI = new MyoAPI();
 
-    firstOver_threshold = 0.6;
+    firstOver_threshold = options.getIOOptions().getMinInputThreshold();
     firstOver_leftOver = false;
     firstOver_rightOver = false;
   }

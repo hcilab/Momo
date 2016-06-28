@@ -32,6 +32,7 @@ public enum ComponentType
   CALIBRATE_CONTROLLER,
   ID_COUNTER,
   MODAL,
+  CALIBRATION_DISPLAY,
 }
 
 public interface IComponent
@@ -783,6 +784,7 @@ public class RigidBodyComponent extends Component
 public class PlayerControllerComponent extends Component 
 {
   public PVector moveVectorX;
+  public HashMap<String, Float> rawInput;
   private float acceleration;
   private float maxSpeed;
   private float minInputThreshold;
@@ -845,7 +847,7 @@ public class PlayerControllerComponent extends Component
   { 
     handleEvents(); 
  
-    HashMap<String, Float> rawInput = gatherRawInput(); 
+    rawInput = gatherRawInput();
     PVector moveVector = new PVector(); 
  
     ControlPolicy policy = options.getGameOptions().getControlPolicy(); 
@@ -2817,6 +2819,53 @@ public class ModalComponent extends Component
   }
 }
 
+  public class CalibrationDisplayComponent extends Component
+  {
+    private PlayerControllerComponent pcc;
+    private long time;
+
+    public CalibrationDisplayComponent(IGameObject _gameObject)
+    {
+      super(_gameObject);
+
+      time = System.currentTimeMillis();
+    }
+
+    @Override public void fromXML(XML xmlComponent)
+    {
+
+    }
+
+    @Override public ComponentType getComponentType()
+    {
+      return ComponentType.CALIBRATION_DISPLAY;
+    }
+
+    @Override public void update(int deltaTime)
+    {
+      if (pcc == null && gameStateController.getGameObjectManager().getGameObjectsByTag("player").size() > 0)
+      {
+        IGameObject playerObj = gameStateController.getGameObjectManager().getGameObjectsByTag("player").get(0);
+        pcc = (PlayerControllerComponent) playerObj.getComponent(ComponentType.PLAYER_CONTROLLER);
+      }
+
+      if (pcc != null)
+      {
+        IComponent component = gameObject.getComponent(ComponentType.RENDER);
+        if (component != null)
+        {
+           RenderComponent renderComponent = (RenderComponent)component;
+           RenderComponent.Text text = renderComponent.getTexts().get(0);
+           if (text != null && pcc.rawInput != null && System.currentTimeMillis() - time > 2000)
+           {
+             text.string = "Left: " + (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100) + "%, Right: " + (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100) + "%";
+             time = System.currentTimeMillis();
+           }
+        }
+      }
+    }
+  }
+
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {
   IComponent component = null;
@@ -2905,6 +2954,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("Modal"))
   {
     component = new ModalComponent(gameObject);
+  }
+  else if (componentName.equals("CalibrationDisplay"))
+  {
+    component = new CalibrationDisplayComponent(gameObject);
   }
   
   if (component != null)

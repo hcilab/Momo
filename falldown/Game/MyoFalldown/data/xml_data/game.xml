@@ -1,4 +1,11 @@
 <Level>
+	<GameObject file="xml_data/calibration_display.xml" tag="calibration_display">
+		<Transform>
+			<Translation x="485.0" y="485.0"/>
+			<Scale x="75" y="10"/>
+		</Transform>
+	</GameObject>
+
 	<GameObject file="xml_data/level_parameters.xml" tag="level_parameters"/>
 
 	<GameObject file="xml_data/player.xml" tag="player">

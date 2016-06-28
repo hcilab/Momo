@@ -25,7 +25,7 @@
       <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
     </Text>
     <Sprite>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.0" height="30.0" horzCount="1" scaleHeight="30" src="images/block/forest.png" vertCount="1" x="250.0" y="250.0" zOrder="0"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.0" height="30.0" horzCount="1" scaleHeight="30" src="images/player/dragon.png" vertCount="1" x="250.0" y="250.0" zOrder="0"/>
     </Sprite>
     <Text alignX="center" alignY="center" antialiasing="true" fontName="Moire" size="20" string="Cancel" x="125.0" y="350.0">
       <FillColor a="255" b="0" g="0" r="0"/>

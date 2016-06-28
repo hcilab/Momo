@@ -2,8 +2,8 @@
 	<Render>
 		<Text
 			string="Level: 1"
-			fontName="Arial" 
-			size="20"
+			fontName="Moire" 
+			size="24"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -14,5 +14,5 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 	</Render>
-	<LevelDisplay currentLevelParameterName="currentLevel" levelTextPrefix="Level: "/>
+	<LevelDisplay platformLevelPrefix="Platform Level: " currentLevelParameterName="currentLevel" levelTextPrefix="Level: "/>
 </GameObject>

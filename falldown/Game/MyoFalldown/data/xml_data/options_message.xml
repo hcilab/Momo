@@ -39,7 +39,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="200.0"   width="190" height="80" resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="200.0"   width="190" height="80" resizeWidth="190" resizeHeight="80"/>
 		</Sprite>
 		
 		<Text
@@ -57,7 +57,7 @@
 		</Text>
 
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="275.0"   width="190" height="80" resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="275.0"   width="190" height="80" resizeWidth="190" resizeHeight="80"/>
 		</Sprite>
 		
 		<Text
@@ -74,7 +74,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="190" height="80" resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="190" height="80" resizeWidth="190" resizeHeight="80"/>
 		</Sprite>
 
 		
@@ -93,7 +93,7 @@
 		</Text>
 
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="425.0"   width="190" height="80" resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="425.0"   width="190" height="80" resizeWidth="190" resizeHeight="80"/>
 		</Sprite>
 	</Render>
 </GameObject>

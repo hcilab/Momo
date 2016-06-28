@@ -64,7 +64,7 @@ public class GameState_MainMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -137,7 +137,7 @@ public class GameState_Confirm_Quit extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -180,7 +180,7 @@ public class GameState_UserLogin extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -195,7 +195,6 @@ public class GameState_UserLogin extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-       
       if (tag.equals("login"))
       {
         CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
@@ -213,11 +212,51 @@ public class GameState_UserLogin extends GameState
         }
       }
       else if(tag.equals("play_as_guest")){
-        //gameStateController.popState();
         options.getCustomizeOptions().reset();
+        gameStateController.pushState(new GameState_MomoStory());
+      }
+      else if(tag.equals("exit")){
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_MomoStory extends GameState
+{
+  public GameState_MomoStory()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/momo_story.xml");
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+       
+      if (tag.equals("skip"))
+      {
+        gameStateController.popState();
         gameStateController.pushState(new GameState_MainMenu());
       }
-     
     }
   }
 }
@@ -232,11 +271,15 @@ public class GameState_InGame extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/game.xml");
+    tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
+    totalRowCountInput = tableInput.getRowCount(); 
+    createNewTable();
+    logRawData = true;
   }
   
   @Override public void update(int deltaTime)
   {
-    shape(bg,250,250,500,500);
+    shape(bg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
     handleEvents();
@@ -244,6 +287,7 @@ public class GameState_InGame extends GameState
   
   @Override public void onExit()
   {
+    logRawData = false;
     gameObjectManager.clearGameObjects();
   }
   
@@ -259,9 +303,57 @@ public class GameState_InGame extends GameState
     }
     for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
     {
+      String ID = options.getUserInformation().getUserID();
+      if(ID == null)
+      {
+        ID = "guest";
+      }
+      Date d = new Date();
+      
+      if(logFittsLaw)
+      {
+        saveTable(tableFittsStats, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+      }
+      
+      if(options.getGameOptions().getLogRawData())
+      {
+         saveTable(tableRawData, "data/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
+      }
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }
+  }
+  
+  private void createNewTable()
+  {
+    tableFittsStats = new Table();
+    tableFittsStats.addColumn("id");
+    tableFittsStats.addColumn("trial");
+    tableFittsStats.addColumn("level");
+    tableFittsStats.addColumn("condition");
+    tableFittsStats.addColumn("start point x");
+    tableFittsStats.addColumn("end point x");
+    tableFittsStats.addColumn("start time");
+    tableFittsStats.addColumn("end time");
+    tableFittsStats.addColumn("total time");
+    tableFittsStats.addColumn("errors");
+    tableFittsStats.addColumn("undershoots");
+    tableFittsStats.addColumn("overshoots");
+    tableFittsStats.addColumn("direction changes");
+    
+    tableRawData = new Table();
+    tableRawData.addColumn("userID");
+    tableRawData.addColumn("timestamp");
+    tableRawData.addColumn("Playing With");
+    tableRawData.addColumn("level");
+    tableRawData.addColumn("SensorLeft");
+    tableRawData.addColumn("SensorRight");
+    tableRawData.addColumn("SensorJump");
+    tableRawData.addColumn("InputType");
+    tableRawData.addColumn("Mode");
+    tableRawData.addColumn("MovingLeft");
+    tableRawData.addColumn("MovingRight");
+    tableRawData.addColumn("Jumping");
   }
 }
 
@@ -291,7 +383,7 @@ public class GameState_PostGame extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -394,7 +486,7 @@ public class GameState_OptionsMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -447,7 +539,7 @@ public class GameState_GameSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     handleEvents();
     gameObjectManager.update(deltaTime);
   }
@@ -516,7 +608,7 @@ public class GameState_IOSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -852,7 +944,7 @@ public class GameState_DefineInput extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -899,7 +991,7 @@ public class GameState_StatsSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
     refreshVisibleRecords();
@@ -1013,7 +1105,7 @@ public class GameState_ClearStats_Confirm extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1064,7 +1156,7 @@ public class GameState_CustomizeSettings extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -1231,7 +1323,7 @@ public class GameState_CustomizePurchase extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -1306,7 +1398,7 @@ public class GameState_Credits extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1342,7 +1434,7 @@ public class GameState_Help extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1386,7 +1478,7 @@ public class GameState_CalibrateMenu extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(wbg,250,250,500,500);
+    shape(wbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1429,7 +1521,7 @@ public class GameState_CalibrateSuccess extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
 
@@ -1489,7 +1581,7 @@ public class GameState_CalibrateFailure extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1532,7 +1624,7 @@ public class GameState_CalibrateFailureConfirm extends GameState
 
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }
@@ -1623,7 +1715,7 @@ public class GameState_MyoNotConnected extends GameState
   
   @Override public void update(int deltaTime)
   {
-    shape(opbg,250,250,500,500);
+    shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
   }

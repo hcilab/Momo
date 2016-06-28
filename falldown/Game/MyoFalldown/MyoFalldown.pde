@@ -70,6 +70,26 @@ boolean mouseHand;
 PShape bg;
 PShape opbg;
 PShape wbg;
+Table tableFittsStats;
+Table tableInput;
+Table tableRawData;
+int totalRowCountInput;
+ArrayList<ArrayList<Integer>> platformLevels;
+ArrayList<PVector> platformGapPosition;
+
+// Set to true for limitations to compute Fitt's Law
+boolean fittsLaw = true;
+
+PlatformManagerControllerComponent pc;
+//Set to true for reading in gaps placement on platforms
+boolean inputPlatformGaps = true;
+//Set to true if you want to log Fitts laws.
+boolean logFittsLaw = true;
+
+boolean stillPlatforms = true;
+
+boolean logRawData = false;
+
 
 SoundFile gameOver;
 SoundFile gameOverSoundEffect;
@@ -313,6 +333,14 @@ class FalldownContactListener implements ContactListener
   
   @Override public void endContact(Contact contact)
   {
+    IGameObject objectA = (IGameObject)contact.getFixtureA().getUserData();
+    IGameObject objectB = (IGameObject)contact.getFixtureB().getUserData();
+
+    RigidBodyComponent rigidBodyA = (RigidBodyComponent)objectA.getComponent(ComponentType.RIGID_BODY);
+    RigidBodyComponent rigidBodyB = (RigidBodyComponent)objectB.getComponent(ComponentType.RIGID_BODY);
+
+    rigidBodyA.onExitEvent(objectB);
+    rigidBodyB.onExitEvent(objectA);
   }
   
   @Override public void preSolve(Contact contact, Manifold oldManifold)

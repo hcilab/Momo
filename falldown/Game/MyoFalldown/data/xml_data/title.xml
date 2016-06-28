@@ -76,7 +76,7 @@
 		</Sprite>
 
 		<Text
-			string="Exit"
+			string="Log Out"
 			fontName="Moire" 
 			size="15"
 			antialiasing="true"
@@ -90,7 +90,7 @@
 		</Text>
 		
 		<Sprite>
-			<Image  src="images/button/blueButton.png" x="75.0" y="478.0"   width="100" height="35"  resizeWidth="190" resizeHeight="50"/>
+			<Image  src="images/button/blueButton.png" x="75.0" y="478.0"   width="100" height="35"  resizeWidth="190" resizeHeight="35"/>
 		</Sprite>
 
 		<Text

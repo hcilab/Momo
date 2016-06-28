@@ -19,6 +19,7 @@ public interface IOptions
   public ICredits getCredits();
   public IUserInformation getUserInformation();
   public ICalibrationData getCalibrationData();
+  public IFittsLawOptions getFittsLawOptions();
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut);
 }
 
@@ -42,6 +43,12 @@ enum SingleMuscleMode
   AUTO_RIGHT,
 }
 
+enum BreakthroughMode
+{
+  WAIT_2SEC,
+  JUMP_3TIMES,
+}
+
 public interface IGameOptions
 {
   public int getStartingLevel();
@@ -53,6 +60,12 @@ public interface IGameOptions
   public boolean getPlatformMods();
   public float getLowAvgSpeedThreshold();
   public float getHighAvgSpeedThreshold();
+  public boolean getFittsLaw();
+  public boolean getInputPlatforms();
+  public boolean getLogFitts();
+  public boolean getStillPlatforms();
+  public boolean getLogRawData();
+  public BreakthroughMode getBreakthroughMode();
   
   public void setStartingLevel(int startingLevel);
   public void setLevelUpOverTime(boolean levelUpOverTime);
@@ -61,6 +74,13 @@ public interface IGameOptions
   public void setSingleMuscleMode(SingleMuscleMode mode);
   public void setObstacles(boolean obstacles);
   public void setPlatformMods(boolean platformMods);
+  public void setFittsLaw(boolean _fittsLaw);
+  public void setInputPlatforms(boolean _inputPlatforms);
+  public void setLogFitts(boolean _logFitts);
+  public void setStillPlatforms(boolean _stillplatforms);
+  public void setLogRawData(boolean _logRawData);
+  public void setBreakthroughMode(BreakthroughMode _mode);
+  
 }
 
 enum EmgSamplingPolicy
@@ -116,13 +136,15 @@ public interface IGameRecord
   public float getAverageSpeed();
   public int getCoinsCollected();
   public long getDate();
-  
+  public boolean getFittsLawMode();
+
   public void setLevelAchieved(int levelAchieved);
   public void setScoreAchieved(int scoreAchieved);
   public void setTimePlayed(int timePlayed);
   public void setAverageSpeed(float averageSpeed);
   public void setCoinsCollected(int coinsCollected);
   public void setDate(long date);
+  public void setIsFittsLawMode(boolean fittsLaw);
 }
 
 public interface ICustomizeOptions
@@ -175,6 +197,11 @@ public interface ICalibrationData
   public void setCalibrationData(HashMap<String, float[]> maxReadings);
   public HashMap<String, float[]> getCalibrationData();
 }
+
+public interface IFittsLawOptions
+{
+  public String getInputFile();
+}
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
 //------------------------------------------------------------------------------------------------
@@ -194,13 +221,12 @@ public class Options implements IOptions
   private ICredits credits;
   private IUserInformation userInfo;
   private ICalibrationData calibrationData;
+  private IFittsLawOptions fittsLawOptions;
   
   public Options()
   {
-    
     xmldefaultData = loadXML(SAVE_DATA_DEFAULT_FILE);
     userInfo = new UserInformation();
-    
     xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
@@ -208,10 +234,11 @@ public class Options implements IOptions
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
     calibrationData = new CalibrationData();
+    fittsLawOptions = new FittsLawOptions();
   }
   
-  public void reloadOptions(){
-    userInfo = new UserInformation();
+  public void reloadOptions()
+  {
     xmlSaveData = loadXML(SAVE_DATA_FILE_NAME_IN);
     gameOptions = new GameOptions();
     stats = new Stats();
@@ -250,6 +277,11 @@ public class Options implements IOptions
   {
     return userInfo;
   }
+  
+  @Override public IFittsLawOptions getFittsLawOptions()
+  {
+    return fittsLawOptions;
+  }
 
   @Override public ICalibrationData getCalibrationData()
   {
@@ -276,7 +308,13 @@ public class Options implements IOptions
     private final String PLATFORM_MODS = "platform_mods";
     private final String LOW_AVG_SPEED_THRESHOLD = "low_avg_speed_threshold";
     private final String HIGH_AVG_SPEED_THRESHOLD = "high_avg_speed_threshold";
-    
+    private final String FITTS_LAW = "fitts_law";
+    private final String INPUT_PLATFORM = "input_platform";
+    private final String LOG_FITTS = "log_fitts";
+    private final String STILL_PLATFORM = "still_platform";
+    private final String LOG_RAW_DATA = "log_raw_data";
+    private final String BREAKTHROUGH_MODE = "breakthrough_mode";
+        
     private XML xmlGame;
     
     private int startingLevel;
@@ -288,6 +326,8 @@ public class Options implements IOptions
     private boolean platformMods;
     private float lowAvgSpeedThreshold;
     private float highAvgSpeedThreshold;
+    private boolean loggingRawData;
+    private BreakthroughMode breakMode;
     
     private GameOptions()
     {
@@ -299,6 +339,11 @@ public class Options implements IOptions
       platformMods = xmlGame.getString(PLATFORM_MODS).equals("true") ? true : false;
       lowAvgSpeedThreshold = xmlGame.getFloat(LOW_AVG_SPEED_THRESHOLD);
       highAvgSpeedThreshold = xmlGame.getFloat(HIGH_AVG_SPEED_THRESHOLD);
+      fittsLaw = xmlGame.getString(FITTS_LAW).equals("true") ? true : false;
+      inputPlatformGaps = xmlGame.getString(INPUT_PLATFORM).equals("true") ? true : false;
+      logFittsLaw = xmlGame.getString(LOG_FITTS).equals("true") ? true : false;
+      stillPlatforms = xmlGame.getString(STILL_PLATFORM).equals("true") ? true : false;
+      logRawData = xmlGame.getString(LOG_RAW_DATA).equals("true") ? true : false;
 
       switch (xmlGame.getString(CONTROL_POLICY))
       {
@@ -334,6 +379,17 @@ public class Options implements IOptions
           singleMuscleMode = SingleMuscleMode.AUTO_RIGHT; break;
         default:
           println("[ERROR] Invalid single muscle mode specified while parsing game options.");
+          break;
+      }
+      
+      switch (xmlGame.getString(BREAKTHROUGH_MODE)) 
+      {
+        case ("wait_2sec"):
+          breakMode = BreakthroughMode.WAIT_2SEC; break;
+        case ("jump_3times"):
+           breakMode = BreakthroughMode.JUMP_3TIMES; break;
+        default:
+          println("[ERROR] Invalid Breakthrough mode for Fitts Law whil parsing Game Optoins .");
           break;
       }
     }
@@ -383,6 +439,37 @@ public class Options implements IOptions
       return highAvgSpeedThreshold;
     }
 
+    @Override public boolean getFittsLaw()
+    {
+      return fittsLaw;
+    }
+    
+    @Override public boolean getInputPlatforms()
+    {
+      return inputPlatformGaps;
+    }
+    
+    @Override public boolean getLogFitts()
+    {
+      return logFittsLaw;
+    }
+    
+    @Override public boolean getStillPlatforms()
+    {
+      return stillPlatforms;
+    }
+    
+    @Override public boolean getLogRawData()
+    {
+      return loggingRawData;
+    }
+  
+  
+    @Override public BreakthroughMode getBreakthroughMode()
+    {
+      return breakMode;
+    }
+    
     @Override public void setStartingLevel(int _startingLevel)
     {
       startingLevel = _startingLevel;
@@ -454,6 +541,55 @@ public class Options implements IOptions
     {
       platformMods = _platformMods;
       xmlGame.setString(PLATFORM_MODS, platformMods ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setFittsLaw(boolean _fittsLaw)
+    {
+      fittsLaw = _fittsLaw;
+      xmlGame.setString(FITTS_LAW, fittsLaw ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setInputPlatforms(boolean _inputPlatforms)
+    {
+      inputPlatformGaps = _inputPlatforms;
+      xmlGame.setString(INPUT_PLATFORM, inputPlatformGaps ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setLogFitts(boolean _logFitts)
+    {
+      logFittsLaw = _logFitts;
+      xmlGame.setString(LOG_FITTS, logFittsLaw ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setStillPlatforms(boolean _stillPlatform)
+    {
+      stillPlatforms = _stillPlatform;
+      xmlGame.setString(STILL_PLATFORM, stillPlatforms ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+    
+    @Override public void setLogRawData(boolean _logRawData)
+    {
+      loggingRawData = _logRawData;
+      xmlGame.setString(LOG_RAW_DATA, loggingRawData ? "true" : "false");
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+  
+    @Override public void setBreakthroughMode(BreakthroughMode _mode)
+    {
+      breakMode = _mode;
+
+      if (breakMode == BreakthroughMode.WAIT_2SEC)
+        xmlGame.setString(BREAKTHROUGH_MODE, "wait_2sec");
+      else if (breakMode == BreakthroughMode.JUMP_3TIMES)
+        xmlGame.setString(BREAKTHROUGH_MODE, "jump_3times");
+      else
+        println("[ERROR] Unrecognized single muscle mode specified in GameOptions::setSingleMuscleMode()");
+
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
@@ -617,6 +753,7 @@ public class Options implements IOptions
       private float averageSpeed;
       private int coinsCollected;
       private long date;
+      private boolean isFittsLaw;
       
       public GameRecord()
       {
@@ -626,6 +763,7 @@ public class Options implements IOptions
         averageSpeed = -1.0f;
         coinsCollected = -1;
         date = -1;
+        isFittsLaw = false;
       }
 
       @Override public Comparator<IGameRecord> createByLevelAchievedComparator()
@@ -688,6 +826,11 @@ public class Options implements IOptions
         return date;
       }
       
+      @Override public boolean getFittsLawMode()
+      {
+        return isFittsLaw; 
+      }
+      
       @Override public void setLevelAchieved(int _levelAchieved)
       {
         levelAchieved = _levelAchieved;
@@ -717,6 +860,11 @@ public class Options implements IOptions
       {
         date = _date;
       }
+      
+      @Override public void setIsFittsLawMode(boolean _fittsLaw)
+      {
+        isFittsLaw = _fittsLaw;
+      }
     }
     
     private final String XML_STATS = "Stats";
@@ -728,6 +876,7 @@ public class Options implements IOptions
     private final String XML_COINS_COLLECTED = "coins_collected";
     private final String XML_DATE = "date";
     private final String XML_HIGH_SCORE = "high_score";
+    private final String XML_FITTS_LAW = "fitts_law";
     
     private XML xmlStats;
     private ArrayList<IGameRecord> gameRecords;
@@ -751,6 +900,7 @@ public class Options implements IOptions
           record.setAverageSpeed(xmlRecord.getFloat(XML_AVERAGE_SPEED));
           record.setCoinsCollected(xmlRecord.getInt(XML_COINS_COLLECTED));
           record.setDate(Long.parseLong(xmlRecord.getString(XML_DATE)));
+          record.setIsFittsLawMode(xmlRecord.getString(XML_FITTS_LAW).equals("true")? true : false);
           gameRecords.add(record);
         }
       }
@@ -776,6 +926,7 @@ public class Options implements IOptions
       xmlRecord.setFloat(XML_AVERAGE_SPEED, record.getAverageSpeed());
       xmlRecord.setInt(XML_COINS_COLLECTED, record.getCoinsCollected());
       xmlRecord.setString(XML_DATE, Long.toString(record.getDate()));
+      xmlRecord.setString(XML_FITTS_LAW, record.getFittsLawMode()? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     
@@ -1296,21 +1447,21 @@ public class Options implements IOptions
   
   public class UserInformation implements IUserInformation
   {
-    private String userID;
+    private String userIDUserInfo;
     
     private UserInformation()
     {
-
+      
     }
     
     @Override public String getUserID()
     {
-      return userID;
+      return userIDUserInfo;
     }
     @Override public boolean setSaveDataFile(String loginID)
     {
       boolean newUser = false;
-      userID = loginID;
+      userIDUserInfo = loginID;
       String newUserSavedDataIN = "xml_data/user_save_data/save_data_" + loginID + ".xml";
       String newUserSavedDataOUT = "data/xml_data/user_save_data/save_data_" + loginID + ".xml";
       File f = new File(dataPath(newUserSavedDataIN));
@@ -1319,15 +1470,39 @@ public class Options implements IOptions
         newUser = true;
         saveXML(xmldefaultData, newUserSavedDataOUT);
       }
-      //xmlSaveData = loadXML(newUserSavedDataIN);
+
       setSaveDataFiles(newUserSavedDataIN, newUserSavedDataOUT);
       reloadOptions();
       return newUser;
     }
-     @Override public void getDefaultSetting()
+    
+    @Override public void getDefaultSetting()
     {
       
     }
+  }
+  
+  //--------------------------------------------
+  // Fitts Law OPTIONS
+  //--------------------------------------------
+  public class FittsLawOptions implements IFittsLawOptions
+  {
+    private final String XML_FITTS = "FittsLaw";
+    private final String INPUT_FILE = "input_file";
+    private XML xmlFitts;
+    private String inputFile;
+    
+    private FittsLawOptions()
+    {
+      xmlFitts = xmlSaveData.getChild(XML_FITTS);
+      inputFile = xmlFitts.getString(INPUT_FILE);
+    }
+    
+    @Override public String getInputFile()
+    {
+      return inputFile;
+    } 
+
   }
 
   public class CalibrationData implements ICalibrationData

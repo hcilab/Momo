@@ -3,8 +3,9 @@
 		sliderTag="starting_level"
 		sliderLeftBoundary="275.0"
 		sliderRightBoundary="475.0"
-		yPosition="123.0"
+		yPosition="75.0"
 		increaseDifficultyOverTimeTag="increase_difficulty_over_time"
+		defaultTag="default_control"
 		autoDirectTag="auto_direct"
 		autoDirectModeTag="auto_direct_mode"
 		left="left"
@@ -15,8 +16,16 @@
 		autoRightTag="auto_right"
 		obstaclesTag="obstacles"
 		terrainModsTag="terrain_mods"
-		checkBoxXPosition="375.0"
+		fittsLawTag="fitts_law"
+		inputPlatformTag="input_platform"
+		logFittsTag="log_fitts"
+		constraintsFittsTag="contraints_fitts"
+		wait2secstag="wait_2secs"
+		jump3timestag="jump_3times"
+		checkBoxXPosition="382.0"
+		radioButtonXposition="375.0"
 		falseDisplacement="5000.0"
+		logRawDataTag="log_raw_data"
 	/>
 	<Render>
 		<!-- The position of these components within this file is very important,
@@ -37,52 +46,97 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		
-		<Rect x="375.0" y="200.0" halfWidth="5" halfHeight="5">
+		<!-- Increase Level Over Time -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="350" y="115" width="25" height="25" resizeHeight="25" resizeWidth="25"/>
+		</Sprite>
+
+		<!-- Default -->
+		<Ellipse x="375.0" y="170.0" halfWidth="5" halfHeight="5">
 			<FillColor r="255" g="255" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		</Ellipse>
 		
-		<Rect x="375.0" y="250.0" halfWidth="5" halfHeight="5">
+		<!-- Auto-DirectMode -->
+		<Ellipse x="375.0" y="205.0" halfWidth="5" halfHeight="5">
 			<FillColor r="255" g="255" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		</Ellipse>
+			<!-- Left -->
+			<Ellipse x="75" y="213.0" halfWidth="4" halfHeight="4">
+				<FillColor r="255" g="255" b="255" a="0"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Ellipse>
+			<!-- Right -->
+			<Ellipse x="150" y="213.0" halfWidth="4" halfHeight="4">
+				<FillColor r="255" g="255" b="255" a="0"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
+			</Ellipse>
+			<!-- Both -->
+			<Ellipse x="230" y="213.0" halfWidth="4" halfHeight="4">
+				<FillColor r="255" g="255" b="255" a="0"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
+			</Ellipse>
 
-		<Rect x="375.0" y="425.0" halfWidth="5" halfHeight="5">
+		<!-- Single Muscle -->
+		<Ellipse x="375.0" y="245.0" halfWidth="5" halfHeight="5">
 			<FillColor r="255" g="255" b="255" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		</Ellipse>
+			<!-- Auto-Left -->
+			<Ellipse x="75.0" y="253.0" halfWidth="4" halfHeight="4">
+				<FillColor r="255" g="255" b="255" a="0"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Ellipse>
+			<!-- Auto-Right -->
+			<Ellipse x="200.0" y="253.0" halfWidth="4" halfHeight="4">
+				<FillColor r="255" g="255" b="255" a="0"/>
+				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+			</Ellipse>
+
+		<!-- Obstacles -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="375" y="277" width="25" height="25" resizeHeight="25" resizeWidth="25"/>
+		</Sprite>
 		
-		<Rect x="375.0" y="475.0" halfWidth="5" halfHeight="5">
-			<FillColor r="255" g="255" b="255" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
+		<!-- Terrain Mods -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="375" y="307" width="25" height="25" resizeHeight="25" resizeWidth="25"/>
+		</Sprite>
 
-		<Ellipse x="75" y="285.0" halfWidth="5" halfHeight="5">
+		<!-- Log Raw data -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="375" y="337" width="25" height="25" resizeHeight="25" resizeWidth="25"/>
+		</Sprite>
+
+		<!-- Fiits Law Mode -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="375" y="367" width="25" height="25" resizeHeight="25" resizeWidth="25"/>
+		</Sprite>
+
+		<!-- input Platform Gap Position -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="60" y="390"   width="20" height="20" resizeHeight="20" resizeWidth="20"/>
+		</Sprite>
+		
+		<!-- Log Fitts Law Stats -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="60" y="415"   width="20" height="20" resizeHeight="20" resizeWidth="20"/>
+		</Sprite>
+
+		<!-- Still Platform Mode -->
+		<Sprite>
+			<Image  src="images/shapes/checkMark.png" x="60" y="440"   width="20" height="20" resizeHeight="20" resizeWidth="20"/>
+		</Sprite>
+
+		<!-- Wait Two Secondes -->
+		<Ellipse x="315.0" y="420.0" halfWidth="4" halfHeight="4">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 
-		<Ellipse x="150" y="285.0" halfWidth="5" halfHeight="5">
-			<FillColor r="255" g="255" b="255" a="0"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
-		</Ellipse>
-
-		<Ellipse x="230" y="285.0" halfWidth="5" halfHeight="5">
-			<FillColor r="255" g="255" b="255" a="0"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
-		</Ellipse>
-
-		<Rect x="375.0" y="350.0" halfWidth="5" halfHeight="5">
-			<FillColor r="255" g="255" b="255" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Rect>
-
-		<Ellipse x="75.0" y="385.0" halfWidth="5" halfHeight="5">
-			<FillColor r="255" g="255" b="255" a="0"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Ellipse>
-
-		<Ellipse x="200.0" y="385.0" halfWidth="5" halfHeight="5">
+		<!-- Jump 3 Times -->
+		<Ellipse x="315.0" y="435.0" halfWidth="4" halfHeight="4">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
@@ -111,12 +165,12 @@
 		<Text
 			string="Starting Level"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="150.0"
+			y="100.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -125,85 +179,193 @@
 		<Text
 			string="Increase Level Over Time"
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
+			y="128.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375" y="120.0" halfWidth="18" halfHeight="18">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Text
+			string="Control Policy"
+			fontName="Moire"
+			size="18"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="155.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Default"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="40.0"
+			y="177.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Ellipse x="375" y="170.0" halfWidth="17" halfHeight="17">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Ellipse>
+		<Text
+			string="Auto Direct  (Beginner's Mode)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="40.0"
 			y="200.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="375" y="200.0" halfWidth="20" halfHeight="20">
+		<Ellipse x="375" y="205.0" halfWidth="17" halfHeight="17">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Rect>
-		
-		<Text
-			string="Auto Direct  (Beginner's Mode)"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
-			y="250.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="375" y="250.0" halfWidth="20" halfHeight="20">
-			<FillColor r="255" g="255" b="255" a="0"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Rect>
+		</Ellipse>
 		<Text
 			string="Left"
 			fontName="Moire"
-			size="20"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="90.0"
-			y="290.0"
+			y="218.0"
 		></Text>
-		<Ellipse x="75" y="285.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="75" y="213.0" halfWidth="10" halfHeight="10">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
 			string="Right"
 			fontName="Moire"
-			size="20"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="165.0"
-			y="290.0"
+			y="218.0"
 		></Text>
-		<Ellipse x="150" y="285.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="150" y="213.0" halfWidth="10" halfHeight="10">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
 			string="Both"
 			fontName="Moire"
-			size="20"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
 			x="245.0"
-			y="290.0"
+			y="218.0"
 		></Text>
-		<Ellipse x="230" y="285.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="230" y="213.0" halfWidth="10" halfHeight="10">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
-
 		<Text
 			string="Single Muscle"
 			fontName="Moire"
-			size="20"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="40.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Ellipse x="375" y="245.0" halfWidth="17" halfHeight="17">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Ellipse>
+		<Text
+			string="Auto-Left"
+			fontName="Moire"
+			size="12"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="90.0"
+			y="258.0"
+		></Text>
+		<Ellipse x="75" y="253.0" halfWidth="10" halfHeight="10">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Ellipse>
+		<Text
+			string="Auto-Right"
+			fontName="Moire"
+			size="12"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="215.0"
+			y="258.0"
+		></Text>
+		<Ellipse x="200" y="253.0" halfWidth="10" halfHeight="10">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Ellipse>
+		<Text
+			string="Obstacles"
+			fontName="Moire"
+			size="18"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="290.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375.0" y="282.0" halfWidth="18" halfHeight="18">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		
+		<Text
+			string="Terrain Mods"
+			fontName="Moire"
+			size="18"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="25.0"
+			y="320.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375.0" y="312.0" halfWidth="18" halfHeight="18">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Text
+			string="Log Raw Data"
+			fontName="Moire"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
@@ -213,93 +375,107 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Rect x="375" y="350.0" halfWidth="20" halfHeight="20">
+		<Rect x="375.0" y="342.0" halfWidth="18" halfHeight="18">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Rect>
 		<Text
-			string="Auto-Left"
+			string="Fitts Law: "
 			fontName="Moire"
-			size="20"
+			size="18"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="90.0"
-			y="390.0"
-		></Text>
-		<Ellipse x="75" y="385.0" halfWidth="15" halfHeight="15">
+			x="25.0"
+			y="380.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="375.0" y="372.0" halfWidth="18" halfHeight="18">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Ellipse>
+		</Rect>
+		<Rect x="55.0" y="395.0" halfWidth="15" halfHeight="15">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
 		<Text
-			string="Auto-Right"
+			string="Input Platform Gap Positions"
 			fontName="Moire"
-			size="20"
+			size="15"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="215.0"
-			y="390.0"
+			x="70.0"
+			y="400.0"
 		></Text>
-		<Ellipse x="200" y="385.0" halfWidth="15" halfHeight="15">
+		<Rect x="55.0" y="420.0" halfWidth="15" halfHeight="15">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Ellipse>
+		</Rect>
+		<Text
+			string="Log Fitts Law Statistics"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="70.0"
+			y="425.0"
+		></Text>
+		<Rect x="55.0" y="445.0" halfWidth="15" halfHeight="15">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Rect>
+		<Text
+			string="Still Platform Mode"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="70.0"
+			y="450.0"
+		></Text>
 
 		<Text
-			string="*Use one-muscle technique with either left or right side of arm,"
+			string="Breakthrough Mode"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="baseline"
+			x="300.0"
+			y="410.0"
+		></Text>
+		<Ellipse x="315.0" y="420.0" halfWidth="10" halfHeight="10">
+			<FillColor r="255" g="255" b="255" a="0"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
+		</Ellipse>
+		<Text
+			string="Hold for 2 secondes"
 			fontName="Moire"
 			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="20.0"
-			y="310.0"
-		></Text>
-		<Text
-			string=" or both muscles can be used to help guide Momo"
-			fontName="Moire"
-			size="12"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="20.0"
-			y="325.0"
-		></Text>
-		<Text
-			string="Obstacles"
-			fontName="Moire"
-			size="20"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="25.0"
+			x="325.0"
 			y="425.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="375.0" y="425.0" halfWidth="20" halfHeight="20">
+		></Text>
+		<Ellipse x="315.0" y="435.0" halfWidth="10" halfHeight="10">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Rect>
-		
+		</Ellipse>
 		<Text
-			string="Terrain Mods"
+			string="Jump 3 Times"
 			fontName="Moire"
-			size="20"
+			size="12"
 			antialiasing="true"
 			alignX="left"
 			alignY="baseline"
-			x="25.0"
-			y="475.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Rect x="375.0" y="475.0" halfWidth="20" halfHeight="20">
-			<FillColor r="255" g="255" b="255" a="0"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
-		</Rect>
+			x="325.0"
+			y="440.0"
+		></Text>
 	</Render>
 </GameObject>

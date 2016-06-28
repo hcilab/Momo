@@ -308,7 +308,7 @@ public class GameState_InGame extends GameState
         saveTable(tableFittsStats, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
       }
       
-      if(logRawData)
+      if(options.getGameOptions().getLogRawData())
       {
          saveTable(tableRawData, "data/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
       }

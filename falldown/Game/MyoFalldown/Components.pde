@@ -1799,83 +1799,83 @@ public class PlatformManagerControllerComponent extends Component
   public void spawnPlatformLevelNoRiseSpeed()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-      float tempSpawnHeight = spawnHeight;
-      ArrayList<PVector> platformRanges = new ArrayList<PVector>();
-      platformRanges.add(new PVector(leftSide, rightSide));
-      ArrayList<Integer> platLevels = new ArrayList<Integer>();
-  
-      int rangeSelector = int(random(0, platformRanges.size() - 1));
-      PVector range = platformRanges.get(rangeSelector);
-      if(inputPlatformGaps)
+    float tempSpawnHeight = spawnHeight;
+    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+    platformRanges.add(new PVector(leftSide, rightSide));
+    ArrayList<Integer> platLevels = new ArrayList<Integer>();
+
+    int rangeSelector = int(random(0, platformRanges.size() - 1));
+    PVector range = platformRanges.get(rangeSelector);
+    if(inputPlatformGaps)
+    {
+      if(totalRowCountInput > inputPlatformCounter)
       {
-        if(totalRowCountInput > inputPlatformCounter)
+        TableRow row = tableInput.getRow(inputPlatformCounter);
+        float gapPosition = row.getFloat("placement") + 12;
+        float halfGapWidth = row.getFloat("halfWidth");
+        platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
+        platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+        range.y = gapPosition - halfGapWidth;
+
+        if(fittsLaw || isBreakPlatform)
         {
-          TableRow row = tableInput.getRow(inputPlatformCounter);
-          float gapPosition = row.getFloat("placement") + 12;
-          float halfGapWidth = row.getFloat("halfWidth");
-          platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
-          platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
-          range.y = gapPosition - halfGapWidth;
-              
-          if(fittsLaw || isBreakPlatform)
-          {
-            IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-            breakPlatform.setTag("break_platform");
-            platforms.add(breakPlatform);
-            platLevels.add(breakPlatform.getUID());
-          }
+          IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+          breakPlatform.setTag("break_platform");
+          platforms.add(breakPlatform);
+          platLevels.add(breakPlatform.getUID());
         }
-        else if (totalRowCountInput == inputPlatformCounter)
-        {
-          inputPlatformCounter++;
-        }
-        else
-        {
-          eventManager.queueEvent(new Event(EventType.GAME_OVER));
-        }
+      }
+      else if (totalRowCountInput == inputPlatformCounter)
+      {
         inputPlatformCounter++;
       }
       else
       {
-        int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1)); 
-        for (int i = 0; i < gapsInLevel; ++i)
+        eventManager.queueEvent(new Event(EventType.GAME_OVER));
+      }
+      inputPlatformCounter++;
+    }
+    else
+    {
+      int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1));
+      for (int i = 0; i < gapsInLevel; ++i)
+      {
+        rangeSelector = int(random(0, platformRanges.size() - 1));
+        range = platformRanges.get(rangeSelector);
+        float rangeWidth = range.y - range.x;
+        float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
+        if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
         {
-          rangeSelector = int(random(0, platformRanges.size() - 1));
-          range = platformRanges.get(rangeSelector);
-          float rangeWidth = range.y - range.x;
-          float rangeWidthMinusDistanceBetweenGaps = rangeWidth - minDistanceBetweenGaps;
-          if (rangeWidthMinusDistanceBetweenGaps < minGapSize)
-          {
-            continue;
-          }
-          float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
-          float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
-          platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
-          platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
-          range.y = gapPosition - halfGapWidth;
-          if(fittsLaw || isBreakPlatform)
-          {
-            IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-            breakPlatform.setTag("break_platform");
-            platforms.add(breakPlatform);
-            platLevels.add(breakPlatform.getUID());
-          }
+          continue;
+        }
+        float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
+        float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+        platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
+        platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
+        range.y = gapPosition - halfGapWidth;
+        if(fittsLaw || isBreakPlatform)
+        {
+          IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+          breakPlatform.setTag("break_platform");
+          platforms.add(breakPlatform);
+          platLevels.add(breakPlatform.getUID());
         }
       }
-   
-      for (PVector platformRange : platformRanges)
-      {
-        float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
-        float platformWidth = platformRange.y - platformRange.x;
-        
-        IGameObject platform;
-        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
+    }
 
-        platform.setTag(tag);
-        platforms.add(platform);
-        platLevels.add(platform.getUID());
-      }
-      platformLevels.add(platLevels);
+    for (PVector platformRange : platformRanges)
+    {
+      float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
+      float platformWidth = platformRange.y - platformRange.x;
+
+      IGameObject platform;
+      platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
+
+      platform.setTag(tag);
+      platforms.add(platform);
+      platLevels.add(platform.getUID());
+    }
+    platformLevels.add(platLevels);
   }
   
   public void incrementPlatforms()

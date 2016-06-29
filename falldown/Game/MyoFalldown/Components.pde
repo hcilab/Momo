@@ -1512,6 +1512,7 @@ public class PlatformManagerControllerComponent extends Component
   private LinkedList<IGameObject> platforms; 
   private String platformFile;  
   private String breakPlatformFile;
+  private float breakPlatformChance;
   private String slipperyPlatformFile;  
   private float slipperyPlatformChance; 
   private String stickyPlatformFile; 
@@ -1574,6 +1575,7 @@ public class PlatformManagerControllerComponent extends Component
   {
     platformFile = xmlComponent.getString("platformFile");
     breakPlatformFile = xmlComponent.getString("breakPlatformFile");
+    breakPlatformChance = xmlComponent.getFloat("breakPlatformChance");
     slipperyPlatformFile = xmlComponent.getString("slipperyPlatformFile");
     slipperyPlatformChance = xmlComponent.getFloat("slipperyPlatformChance");
     stickyPlatformFile = xmlComponent.getString("stickyPlatformFile");
@@ -1680,6 +1682,7 @@ public class PlatformManagerControllerComponent extends Component
   
   private void spawnPlatformLevel()
   {
+    boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
@@ -1698,7 +1701,7 @@ public class PlatformManagerControllerComponent extends Component
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
       
-      if(fittsLaw)
+      if(fittsLaw || isBreakPlatform)
       {
         IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
         breakPlatform.setTag("break_platform");
@@ -1726,7 +1729,7 @@ public class PlatformManagerControllerComponent extends Component
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
         //Have to change to see if we need break platforms
-        if(fittsLaw)
+        if(fittsLaw || isBreakPlatform)
         {
           IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           breakPlatform.setTag("break_platform");
@@ -1795,6 +1798,7 @@ public class PlatformManagerControllerComponent extends Component
   
   public void spawnPlatformLevelNoRiseSpeed()
   {
+    boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
       float tempSpawnHeight = spawnHeight;
       ArrayList<PVector> platformRanges = new ArrayList<PVector>();
       platformRanges.add(new PVector(leftSide, rightSide));
@@ -1813,7 +1817,7 @@ public class PlatformManagerControllerComponent extends Component
           platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
           range.y = gapPosition - halfGapWidth;
               
-          if(fittsLaw)
+          if(fittsLaw || isBreakPlatform)
           {
             IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
             breakPlatform.setTag("break_platform");
@@ -1849,7 +1853,7 @@ public class PlatformManagerControllerComponent extends Component
           platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
           platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
           range.y = gapPosition - halfGapWidth;
-          if(fittsLaw)
+          if(fittsLaw || isBreakPlatform)
           {
             IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
             breakPlatform.setTag("break_platform");

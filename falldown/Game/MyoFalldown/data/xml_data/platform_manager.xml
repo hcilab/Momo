@@ -30,6 +30,7 @@
 		maxHeightBetweenPlatformLevels="160.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"
 		breakPlatformFile="xml_data/platform_break.xml"
+		breakPlatformChance="0.2"
 	>
 	</PlatformManagerController>
 </GameObject>

@@ -1,5 +1,5 @@
 <Level>
-	<GameObject file="xml_data/game_settings_message.xml"/>
+	<GameObject file="xml_data/game_settings_message.xml" tag="message"/>
 	
 	<GameObject file="xml_data/slider.xml" tag="starting_level">
 		<Transform>
@@ -138,6 +138,19 @@
 		<Transform>
 			<Translation x="25.0" y="25.0"/>
 			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/modal.xml" tag="auto_direct_modal">
+		<Transform>
+			<Translation x="85" y="200"/>
+			<Scale x="100" y="20"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/modal.xml" tag="single_muscle_modal">
+		<Transform>
+			<Translation x="85" y="240"/>
+			<Scale x="100" y="20"/>
 		</Transform>
 	</GameObject>
 </Level>

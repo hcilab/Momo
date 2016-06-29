@@ -478,4 +478,196 @@
 			y="440.0"
 		></Text>
 	</Render>
+	<Render>
+		<Rect x="1000.0" y="250.0" halfWidth="300" halfHeight="300">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="64" g="64" b="64" a="255" strokeWeight="0.01"/>
+		</Rect>
+		<Text
+			string="Auto Direct"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="In this mode, Momo will move towards"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="200.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="the gap in the platform when"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="220.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="any muscle stimulation is sensed."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Choose which muscles the Myo should"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="260.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="pick up to sense movement."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="280.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Rect x="1000.0" y="250.0" halfWidth="300" halfHeight="300">
+			<FillColor r="255" g="255" b="255" a="255"/>
+			<StrokeColor r="64" g="64" b="64" a="255" strokeWeight="0.01"/>
+		</Rect>
+		<Text
+			string="Single Muscle"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Momo will move in the 'auto' direction"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="200.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="by himself. Use your muscle to guide"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="220.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="him in the other direction. Focus"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="on using your right muscle for auto-left"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="260.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="and left muscle for auto-right."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="280.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="This setting is used to help"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="focus on training a single muscle."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="1000.0"
+			y="320.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	</Render>
 </GameObject>

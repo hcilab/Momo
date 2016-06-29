@@ -568,6 +568,60 @@ public class GameState_GameSettings extends GameState
         options.getGameOptions().setStartingLevel(startingLevel);
       }
     }
+
+    for (IEvent event : eventManager.getEvents(EventType.MODAL_HOVER))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPShape> shapes = renderComponent.getShapes();
+        if (tag.equals("auto_direct_modal"))
+        {
+          shapes.get(0).translation.x = 250;
+          for (int i = 0; i <= 5; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
+        }
+        else if (tag.equals("single_muscle_modal"))
+        {
+          shapes.get(1).translation.x = 250;
+          for (int i = 6; i <= 13; i++)
+          {
+            texts.get(i).translation.x = 250;
+          }
+        }
+      }
+    }
+
+    for (IEvent event : eventManager.getEvents(EventType.MODAL_OFF))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (gameObjectManager.getGameObjectsByTag("message") != null && gameObjectManager.getGameObjectsByTag("message").size() > 0 && gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).size() > 1)
+      {
+        RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponents(ComponentType.RENDER).get(1);
+        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        ArrayList<RenderComponent.OffsetPShape> shapes = renderComponent.getShapes();
+        if (tag.equals("auto_direct_modal"))
+        {
+          shapes.get(0).translation.x = 1000;
+          for (int i = 0; i <= 5; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
+        }
+        else if (tag.equals("single_muscle_modal"))
+        {
+          shapes.get(1).translation.x = 1000;
+          for (int i = 6; i <= 13; i++)
+          {
+            texts.get(i).translation.x = 1000;
+          }
+        }
+      }
+    }
   }
 }
 

@@ -2647,7 +2647,7 @@ public class LevelDisplayComponent extends Component
          RenderComponent.Text text = renderComponent.getTexts().get(0);
          if (text != null)
          { 
-           if(!inputPlatformGaps)
+           if(!options.getGameOptions().getStillPlatforms())
            {
              text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
            }
@@ -2664,7 +2664,7 @@ public class LevelDisplayComponent extends Component
          RenderComponent.Text text = renderComponent.getTexts().get(0);
          if (text != null)
          { 
-           if(inputPlatformGaps)
+           if(options.getGameOptions().getStillPlatforms())
            {
              text.string = platformLevelPrefix + Integer.toString(event.getRequiredIntParameter("platformLevel"));
            }
@@ -2830,7 +2830,7 @@ public class LevelParametersComponent extends Component
     }
     
     bonusTimePassed += deltaTime;
-    if(!inputPlatformGaps)
+    if(!options.getGameOptions().getStillPlatforms())
     {
       if (bonusTimePassed > timePerBonusScore)
       {
@@ -2969,7 +2969,7 @@ public class StatsCollectorComponent extends Component
   
   private void handleEvents()
   {
-    if(fittsLaw)
+    if(options.getGameOptions().getStillPlatforms())
     {
       for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_FALL))
       {

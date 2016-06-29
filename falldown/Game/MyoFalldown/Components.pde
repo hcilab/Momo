@@ -503,16 +503,17 @@ public class RenderComponent extends Component
     
     for (OffsetPImage offsetImage : offsetPImages)
     {
-       if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform"))
-       {
-         PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x)+1, (int)gameObject.getScale().y);
-         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,ceil(gameObject.getScale().x) *  offsetImage.scale.x+1, gameObject.getScale().y * offsetImage.scale.y);
-       }
-       else 
-       {
-         image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x ,gameObject.getScale().y * offsetImage.scale.y );
-       }
+      if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform"))
+      {
+        PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+        image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x+0.5, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x *  offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
+      }
+      else 
+      {
+        image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x,gameObject.getScale().y * offsetImage.scale.y);
+      }
     }
+    
 
     for (Text text : texts)
     {
@@ -1695,7 +1696,7 @@ public class PlatformManagerControllerComponent extends Component
       range = platformRanges.get(rangeSelector);
       
       TableRow row = tableInput.getRow(inputPlatformCounter);
-      float gapPosition = row.getFloat("placement")  + 12;
+      float gapPosition = row.getFloat("placement")  + 13;
       float halfGapWidth = row.getFloat("halfWidth");
       platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));

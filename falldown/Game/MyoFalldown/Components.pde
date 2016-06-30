@@ -3580,9 +3580,8 @@ public class FittsStatsComponent extends Component
                 pc.spawnPlatformLevelNoRiseSpeed();
               }
               levelCount++;
-              //platformLevels.remove(0); 
+              platformLevels.remove(0); 
             }
-          
             TableRow newRow = tableFittsStats.addRow(); 
             startLogLevel(newRow);
           }
@@ -3607,9 +3606,8 @@ public class FittsStatsComponent extends Component
                 pc.spawnPlatformLevelNoRiseSpeed();
               }
               levelCount++;
-              //platformLevels.remove(0); 
+              platformLevels.remove(0); 
             }
-          
             TableRow newRow = tableFittsStats.addRow(); 
             startLogLevel(newRow);
           }
@@ -3632,7 +3630,8 @@ public class FittsStatsComponent extends Component
       PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
       PVector pos = new PVector();
-      if(component != null){
+      if(component != null)
+      {
         RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
         pos = rigidBodyComponent.getPosition();
       }

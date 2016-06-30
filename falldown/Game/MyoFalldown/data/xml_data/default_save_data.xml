@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SaveData>
-  <Game control_policy="normal" direction_assist_mode="left_only" fitts_law="false" input_platform="false" level_up_over_time="true" log_fitts="false" obstacles="true" platform_mods="true" single_muscle_mode="auto_left" starting_level="1" still_platform="false"/>
+  <Game breakthrough_mode="wait_2sec" control_policy="normal" direction_assist_mode="left_only" fitts_law="false" input_platform="false" level_up_over_time="true" log_fitts="false" log_raw_data="false" obstacles="true" platform_mods="true" single_muscle_mode="auto_left" starting_level="1" still_platform="false"/>
   <IO emg_sampling_policy="difference" left_emg_sensitivity="3.1" music_volume="0.75" right_emg_sensitivity="3.1" sound_effects_volume="0.75" myo_forearm="right" min_input_threshold="0.1"/>
   <Calibrate seconds="5"/>
   <Stats high_score="0">
@@ -20,4 +20,5 @@
   <FittsLaw input_file="xml_data/input_platforms/testInput1.csv"/>
   <Unlocked/>
   <Calibration left_reading="0.0" left_sensor="0.0" right_reading="0.0" right_sensor="0.0"/>
+  <Story show="true"/>
 </SaveData>

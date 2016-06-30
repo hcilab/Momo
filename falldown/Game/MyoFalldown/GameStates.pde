@@ -204,15 +204,22 @@ public class GameState_UserLogin extends GameState
         options.getCustomizeOptions().loadSavedSettings();
         if (newUser)
         {
+          gameStateController.pushState(new GameState_MainMenu());
+          gameStateController.pushState(new GameState_MomoStory());
           gameStateController.pushState(new GameState_NewUser());
         }
         else
         {
           gameStateController.pushState(new GameState_MainMenu());
+          if (options.getStory().getShow())
+          {
+            gameStateController.pushState(new GameState_MomoStory());
+          }
         }
       }
       else if(tag.equals("play_as_guest")){
         options.getCustomizeOptions().reset();
+        gameStateController.pushState(new GameState_MainMenu());
         gameStateController.pushState(new GameState_MomoStory());
       }
       else if(tag.equals("exit")){
@@ -251,11 +258,16 @@ public class GameState_MomoStory extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-       
+
+      if (tag.equals("show"))
+      {
+        options.getStory().setShow(false);
+        gameStateController.popState();
+      }
+
       if (tag.equals("skip"))
       {
         gameStateController.popState();
-        gameStateController.pushState(new GameState_MainMenu());
       }
     }
   }
@@ -1863,7 +1875,7 @@ public class GameState_NewUser extends GameState
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("ok"))
       {
-        gameStateController.pushState(new GameState_MainMenu());
+        gameStateController.popState();
       }
     }
   }

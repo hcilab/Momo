@@ -1,9 +1,16 @@
 <Level>
 	<GameObject file="xml_data/momo_story_message.xml"/>
-		<GameObject file="xml_data/button.xml" tag="skip">
+
+	<GameObject file="xml_data/button.xml" tag="skip">
 		<Transform>
-			<Translation x="250.0" y="400.0"/>
-			<Scale x="100.0" y="50.0"/>
+			<Translation x="250.0" y="350.0"/>
+			<Scale x="100.0" y="80.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="show">
+		<Transform>
+			<Translation x="250.0" y="450.0"/>
+			<Scale x="200.0" y="80.0"/>
 		</Transform>
 	</GameObject>
 </Level>

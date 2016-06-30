@@ -20,6 +20,7 @@ public interface IOptions
   public IUserInformation getUserInformation();
   public ICalibrationData getCalibrationData();
   public IFittsLawOptions getFittsLawOptions();
+  public IStory getStory();
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut);
 }
 
@@ -202,6 +203,12 @@ public interface IFittsLawOptions
 {
   public String getInputFile();
 }
+
+public interface IStory
+{
+  public boolean getShow();
+  public void setShow(boolean _show);
+}
 //------------------------------------------------------------------------------------------------
 // IMPLEMENTATION
 //------------------------------------------------------------------------------------------------
@@ -222,6 +229,7 @@ public class Options implements IOptions
   private IUserInformation userInfo;
   private ICalibrationData calibrationData;
   private IFittsLawOptions fittsLawOptions;
+  private IStory story;
   
   public Options()
   {
@@ -235,6 +243,7 @@ public class Options implements IOptions
     credits = new Credits();
     calibrationData = new CalibrationData();
     fittsLawOptions = new FittsLawOptions();
+    story = new Story();
   }
   
   public void reloadOptions()
@@ -246,6 +255,7 @@ public class Options implements IOptions
     customizeOptions = new CustomizeOptions();
     credits = new Credits();
     calibrationData = new CalibrationData();
+    story = new Story();
   }
   
   @Override public IGameOptions getGameOptions()
@@ -286,6 +296,11 @@ public class Options implements IOptions
   @Override public ICalibrationData getCalibrationData()
   {
     return calibrationData;
+  }
+
+  @Override public IStory getStory()
+  {
+    return story;
   }
 
   public void setSaveDataFiles(String _saveDataFileIn, String _saveDataFileOut)
@@ -1548,6 +1563,42 @@ public class Options implements IOptions
       calData.put("LEFT", left);
       calData.put("RIGHT", right);
       return calData;
+    }
+  }
+
+  public class Story implements IStory
+  {
+    private final String XML_STORY = "Story";
+    private XML storyXML;
+
+    public Story()
+    {
+      storyXML = xmlSaveData.getChild(XML_STORY);
+    }
+
+    public boolean getShow()
+    {
+      boolean show = false;
+      String showStory = storyXML.getString("show");
+      if (showStory.equals("true"))
+      {
+        show = true;
+      }
+      return show;
+    }
+
+    public void setShow(boolean _show)
+    {
+      if (_show)
+      {
+        storyXML.setString("show", "true");
+      }
+      else
+      {
+        storyXML.setString("show", "false");
+      }
+
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
 }

@@ -1558,6 +1558,7 @@ public class PlatformManagerControllerComponent extends Component
   private int initialHeight;
   private int thresholdHeight;
   private RigidBodyComponent initialPlat;
+  private int currentLevel;
 
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
@@ -1566,6 +1567,7 @@ public class PlatformManagerControllerComponent extends Component
     platforms = new LinkedList<IGameObject>();
     platformLevels = new ArrayList<ArrayList<Integer>>();
     platformGapPosition = new ArrayList<PVector>();
+    currentLevel = 1;
   }
   
   @Override public void destroy()
@@ -1772,16 +1774,16 @@ public class PlatformManagerControllerComponent extends Component
       setPlatformRiseSpeed(platform);
       platforms.add(platform);
       platLevels.add(platform.getUID());
-      
+      float obstacleOffset = -100;
       if (options.getGameOptions().getObstacles())
       {
-        float generateObstacle = random(0.0, 1.0);
+        float generateObstacle = random(0.0, 1);
         if ((generateObstacle < obstacleChance) && platformWidth > 8)
         {
           float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
           float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
           
-          float obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
+          obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
 
           IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(
             obstacleFile, 
@@ -1793,6 +1795,27 @@ public class PlatformManagerControllerComponent extends Component
           platforms.add(obstacle);
         }
       }
+      
+      float coinProbability = currentLevel/10;
+      coinProbability = coinProbability/10 + 0.1;
+      float generateCoin = random(0.0, 1.0);
+      if((generateCoin < coinProbability) && platformWidth > 8)
+      {
+        float coinOffset = random((-platformWidth/2)+7.5, platformWidth/2-7.5);
+        if(abs(coinOffset - obstacleOffset) > 15)
+        {
+          IGameObject coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(platformPosition+coinOffset,505), new PVector(1.0, 1.0));
+          coin.setTag("coin");
+          IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
+          
+          if (component != null)
+          {
+            RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+            rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
+          }
+        }
+      }
+      
     }
     platformLevels.add(platLevels);
   }
@@ -1918,6 +1941,7 @@ public class PlatformManagerControllerComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
     {
       riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
+      currentLevel = event.getRequiredIntParameter("currentLevel");
       
       for (IGameObject platform : platforms)
       {
@@ -2036,148 +2060,6 @@ public class CoinEventHandlerComponent extends Component
         rigidBodyComponent.setLinearVelocity(new PVector(0.0f, -event.getRequiredFloatParameter(currentRiseSpeedParameterName)));
       }
     }
-  }
-}
-
-public class CoinSpawnerControllerComponent extends Component
-{
-  private String coinFile;
-  private String tag;
-  
-  private String spawnRelativeTo;
-  private int levelOneAvgSpawnTime;
-  private int spawnTimeDecreasePerLevel;
-  private int spawnTimeRandomWindowSize;
-  private int nextSpawnTime;
-  private int timePassed;
-  
-  private float minVerticalOffset;
-  private float maxVerticalOffset;
-  
-  private float minHeight;
-  
-  private String currentLevelParameterName;
-  private int currentLevel;
-  private String currentRiseSpeedParameterName;
-  private float riseSpeed;
-  
-  public CoinSpawnerControllerComponent(IGameObject _gameObject)
-  {
-    super(_gameObject);
-  }
-  
-  @Override public void destroy()
-  {
-  }
-  
-  @Override public void fromXML(XML xmlComponent)
-  {
-    coinFile = xmlComponent.getString("coinFile");
-    tag = xmlComponent.getString("tag");
-    
-    spawnRelativeTo = xmlComponent.getString("spawnRelativeTo");
- 
-    levelOneAvgSpawnTime = xmlComponent.getInt("levelOneAvgSpawnTime");
-    spawnTimeDecreasePerLevel = xmlComponent.getInt("spawnTimeDecreasePerLevel");
-    spawnTimeRandomWindowSize = xmlComponent.getInt("spawnTimeRandomWindowSize");
-    nextSpawnTime = calculateNextSpawnTime();
-    timePassed = 0;
-    
-    minVerticalOffset = xmlComponent.getFloat("minVerticalOffset");
-    maxVerticalOffset = xmlComponent.getFloat("maxVerticalOffset");
-    
-    minHeight = xmlComponent.getFloat("minHeight");
-    
-    currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
-    currentLevel = 1;
-    currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    riseSpeed = 0.0f;
-  }
-  
-  @Override public ComponentType getComponentType()
-  {
-    return ComponentType.COIN_SPAWNER_CONTROLLER;
-  }
-  
-  @Override public void update(int deltaTime)
-  {
-    if ((options.getGameOptions().getControlPolicy() == ControlPolicy.NORMAL) && !fittsLaw && !inputPlatformGaps)
-    {
-      handleEvents();
-    
-      timePassed += deltaTime;
-      
-      if (timePassed > nextSpawnTime)
-      {
-        spawnCoin();
-        timePassed = 0;
-        nextSpawnTime = calculateNextSpawnTime();
-      }
-    }
-  }
-  
-  private void spawnCoin()
-  {
-    ArrayList<IGameObject> spawnRelativeToList = gameStateController.getGameObjectManager().getGameObjectsByTag(spawnRelativeTo);
-    //ArrayList<IGameObject> spawnRelativeObstacle = gameStateController.getGameObjectManager().getGameObjectsByTag("obstacle");
-    
-    int index = 0;
-    while (index < spawnRelativeToList.size())
-    {
-      if (spawnRelativeToList.get(index).getTranslation().y < minHeight)
-      {
-        spawnRelativeToList.remove(index);
-      }
-      else
-      {
-        ++index;
-      }
-    }
-    //To make coin not appear in 
-    //int indexObstacle = 0;
-    //while (indexObstacle < spawnRelativeObstacle.size() && spawnRelativeToList.size() != 0)
-    //{
-    //  if (spawnRelativeObstacle.get(indexObstacle).getTranslation().y + spawnRelativeObstacle.get(indexObstacle).getScale().y < minHeight)
-    //  {
-    //    spawnRelativeObstacle.remove(indexObstacle);
-    //  }
-    //  else
-    //  {
-    //    //println("obstacle: " + spawnRelativeObstacle.get(indexObstacle).getTranslation().y);
-    //    ++indexObstacle;
-    //  }
-    //}
-    
-    if (spawnRelativeToList.size() != 0)
-    {
-      IGameObject spawnRelativeToObject = spawnRelativeToList.get(int(random(0, spawnRelativeToList.size())));
-      
-      PVector translation = spawnRelativeToObject.getTranslation();
-      PVector offset = new PVector(random((-spawnRelativeToObject.getScale().x/2)+15, spawnRelativeToObject.getScale().x/2-15), random(minVerticalOffset, maxVerticalOffset));
-      IGameObject coin = gameStateController.getGameObjectManager().addGameObject(coinFile, translation.add(offset), new PVector(1.0, 1.0));
-      coin.setTag(tag);
-      IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
-      if (component != null)
-      {
-        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-        rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
-      }
-    }
-  }
-  
-  private void handleEvents()
-  {
-    for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
-    {
-      currentLevel = event.getRequiredIntParameter(currentLevelParameterName);
-      riseSpeed = event.getRequiredFloatParameter(currentRiseSpeedParameterName);
-    }
-  }
-
-  private int calculateNextSpawnTime()
-  {
-    int avgSpawnTime = levelOneAvgSpawnTime - (currentLevel-1)*spawnTimeDecreasePerLevel;
-    return int(random(avgSpawnTime - spawnTimeRandomWindowSize/2, avgSpawnTime + spawnTimeRandomWindowSize/2));
   }
 }
 
@@ -4030,10 +3912,6 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if (componentName.equals("CoinEventHandler"))
   {
     component = new CoinEventHandlerComponent(gameObject);
-  }
-  else if (componentName.equals("CoinSpawnerController"))
-  {
-    component = new CoinSpawnerControllerComponent(gameObject);
   }
   else if (componentName.equals("ScoreTracker"))
   {

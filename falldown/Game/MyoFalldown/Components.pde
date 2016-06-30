@@ -2595,44 +2595,45 @@ public class CounterIDComponent extends Component
   
   private void handleEvents()
   {
-     
-      for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
-      {
-        String tag = event.getRequiredStringParameter("tag");
-        int index = 0;
-           
-        if(tag.contains(countUp)){
-          index = Integer.parseInt(tag.substring(tag.length()-1));
-          incrementCounter(index-1,1);
-        }
-        else if(tag.contains(countDown)){
-          index = Integer.parseInt(tag.substring(tag.length()-1));
-          incrementCounter(index-1,-1);
-        }
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      int index = 0;
+         
+      if(tag.contains(countUp)){
+        index = Integer.parseInt(tag.substring(tag.length()-1));
+        incrementCounter(index-1,1);
       }
+      else if(tag.contains(countDown)){
+        index = Integer.parseInt(tag.substring(tag.length()-1));
+        incrementCounter(index-1,-1);
+      }
+    }
   }
   
-  private void incrementCounter(int index,int counter){
-      IComponent component = gameObject.getComponent(ComponentType.RENDER);
-      count = idCounts.get(index) + counter;
-      if(count > 9)
-        count = 0;
-      if(count<0)
-        count = 9;
-        idCounts.set(index, count);
-      
-      if (component != null)
-      {
-        RenderComponent renderComponent = (RenderComponent)component;
-        ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
-          if (texts.size() > 0)
-          {
-             texts.get(index).string = Integer.toString(count);
-          }
-      }
+  private void incrementCounter(int index,int counter)
+  {
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+    count = idCounts.get(index) + counter;
+    if(count > 9)
+      count = 0;
+    if(count<0)
+      count = 9;
+      idCounts.set(index, count);
+    
+    if (component != null)
+    {
+      RenderComponent renderComponent = (RenderComponent)component;
+      ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+        if (texts.size() > 0)
+        {
+           texts.get(index).string = Integer.toString(count);
+        }
+    }
   }
   
-  public String getUserIDNumber(){
+  public String getUserIDNumber()
+  {
     String iD = idCounts.get(0).toString() +idCounts.get(1).toString() +idCounts.get(2).toString();
     return iD;
   }
@@ -2657,10 +2658,12 @@ public class LevelParametersComponent extends Component
   private String currentRiseSpeedParameterName;
   private SoundFile levelUpSound;
   private float amplitude;
+  private int platformlevelCount;
   
   public LevelParametersComponent(IGameObject _gameObject)
   {
     super(_gameObject);
+    platformlevelCount = 6;
   }
   
   @Override public void destroy()
@@ -2697,14 +2700,16 @@ public class LevelParametersComponent extends Component
   
   @Override public void update(int deltaTime)
   {
+    handleEvents();
     if ((options.getGameOptions().getLevelUpOverTime() || !levelUpAtLeastOnce))
     {
       timePassed += deltaTime;
     
-      if (timePassed > levelUpTime)
+      if (platformlevelCount > 1 )
       {
         if (currentLevel < maxLevel)
         {
+          platformlevelCount = 0;
           levelUp();
           levelUpAtLeastOnce = true;
         }
@@ -2713,16 +2718,6 @@ public class LevelParametersComponent extends Component
     }
     
     bonusTimePassed += deltaTime;
-    if(!options.getGameOptions().getStillPlatforms())
-    {
-      if (bonusTimePassed > timePerBonusScore)
-      {
-        Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-        updateScoreEvent.addIntParameter(scoreValueParameterName, bonusScorePerLevel * currentLevel);
-        eventManager.queueEvent(updateScoreEvent);
-        bonusTimePassed = 0;
-      }
-    }
   }
   
   private void levelUp()
@@ -2737,11 +2732,61 @@ public class LevelParametersComponent extends Component
     levelUpEvent.addIntParameter(currentLevelParameterName, currentLevel);
     levelUpEvent.addFloatParameter(currentRiseSpeedParameterName, currentRiseSpeed);
     eventManager.queueEvent(levelUpEvent);
-    if(inputPlatformGaps)
+    if(options.getGameOptions().getStillPlatforms())
     {
       Event updatePlatformLevelEvent = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
       updatePlatformLevelEvent.addIntParameter("platformLevel", 1);
       eventManager.queueEvent(updatePlatformLevelEvent); 
+    }
+  }
+  
+  private void handleEvents()
+  {
+    if(!options.getGameOptions().getStillPlatforms())
+    {
+      for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+      {
+        IGameObject platform = event.getRequiredGameObjectParameter("platform");
+        if(!platformLevels.isEmpty())
+        {
+          for(int i = 0; i<platformLevels.size(); i++)
+          {
+            if(platformLevels.get(i).contains(platform.getUID()))
+            {
+              for(int j=0; j<i+1; j++)
+              {
+                platformlevelCount++;
+                Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+                updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
+                eventManager.queueEvent(updateScoreEvent);
+                platformLevels.remove(0); 
+              }
+            }
+          }
+        }
+      }
+      
+      for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
+      {
+        IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
+        if(!platformLevels.isEmpty())
+        {
+          for(int i = 0; i<platformLevels.size(); i++)
+          {
+            if(platformLevels.get(i).contains(platform.getUID()))
+            {
+              for(int j=0; j<i +1; j++)
+              {
+                platformlevelCount++;
+                Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+                updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
+                eventManager.queueEvent(updateScoreEvent);
+                platformLevels.remove(0); 
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -3535,7 +3580,7 @@ public class FittsStatsComponent extends Component
                 pc.spawnPlatformLevelNoRiseSpeed();
               }
               levelCount++;
-              platformLevels.remove(0); 
+              //platformLevels.remove(0); 
             }
           
             TableRow newRow = tableFittsStats.addRow(); 
@@ -3562,7 +3607,7 @@ public class FittsStatsComponent extends Component
                 pc.spawnPlatformLevelNoRiseSpeed();
               }
               levelCount++;
-              platformLevels.remove(0); 
+              //platformLevels.remove(0); 
             }
           
             TableRow newRow = tableFittsStats.addRow(); 
@@ -3608,7 +3653,7 @@ public class FittsStatsComponent extends Component
   
   private void endLogLevel()
   {
-    if(inputPlatformGaps)
+    if(options.getGameOptions().getStillPlatforms())
     {
       endTime = totalTime;
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
@@ -3840,7 +3885,7 @@ public class ModalComponent extends Component
   }
 }
 
-  public class CalibrationDisplayComponent extends Component
+public class CalibrationDisplayComponent extends Component
   {
     private PlayerControllerComponent pcc;
     private long time;

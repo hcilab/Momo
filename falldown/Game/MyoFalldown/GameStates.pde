@@ -440,10 +440,11 @@ public class GameState_PostGame extends GameState
   public void loadChanges()
   {
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
 
     if (options.getCustomizeOptions().hasEnoughCoinsToBuySomething())
     {
-      renderComponent.getTexts().get(7).translation.x = 375;
+      texts.get(7).translation.x = 375;
       renderComponent.getImages().get(0).translation.x = 375;
 
       IGameObject gameObj = gameObjectManager.getGameObjectsByTag("buy").get(0);
@@ -465,36 +466,36 @@ public class GameState_PostGame extends GameState
     if (lastGameRecord.getScoreAchieved() > options.getStats().getHighScore())
     {
       options.getStats().setHighScore(lastGameRecord.getScoreAchieved());
-      renderComponent.getTexts().get(1).translation.x = 250;
+      texts.get(1).translation.x = 250;
     }
 
     if (lastGameRecord.getScoreAchieved() < 5)
     {
-      renderComponent.getTexts().get(0).string = "Good Try!";
+      texts.get(0).string = "Good Try!";
     }
     else if (lastGameRecord.getScoreAchieved() < 10)
     {
-      renderComponent.getTexts().get(0).string = "Nice Job!";
+      texts.get(0).string = "Nice Job!";
     }
     else if (lastGameRecord.getScoreAchieved() < 20)
     {
-      renderComponent.getTexts().get(0).string = "Bravo!";
+      texts.get(0).string = "Bravo!";
     }
     else if (lastGameRecord.getScoreAchieved() < 30)
     {
-      renderComponent.getTexts().get(0).string = "Sweet!";
+      texts.get(0).string = "Sweet!";
     }
     else if (lastGameRecord.getScoreAchieved() < 40)
     {
-      renderComponent.getTexts().get(0).string = "Stellar!";
+      texts.get(0).string = "Stellar!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 50)
+    else if (lastGameRecord.getScoreAchieved() < 100)
     {
-      renderComponent.getTexts().get(0).string = "Awesome!";
+      texts.get(0).string = "Awesome!";
     }
     else if (lastGameRecord.getScoreAchieved() >= 100)
     {
-      renderComponent.getTexts().get(0).string = "Momo Master!";
+      texts.get(0).string = "Momo Master!";
     }
 
     textLoaded = true;

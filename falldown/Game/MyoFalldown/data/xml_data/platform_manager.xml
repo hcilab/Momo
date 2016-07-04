@@ -25,7 +25,7 @@
 		obstacleMaxHeight="40.0"
 		obstacleMinHorizontalOffset="-20.0"
 		obstacleMaxHorizontalOffset="20.0"
-		minDistanceBetweenGaps="50.0"
+		minDistanceBetweenGaps="55.0"
 		minHeightBetweenPlatformLevels="120.0"
 		maxHeightBetweenPlatformLevels="160.0"
 		currentRiseSpeedParameterName="currentRiseSpeed"

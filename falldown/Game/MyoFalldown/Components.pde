@@ -2663,7 +2663,7 @@ public class LevelParametersComponent extends Component
   public LevelParametersComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    platformlevelCount = 6;
+    platformlevelCount = 11;
   }
   
   @Override public void destroy()
@@ -2705,7 +2705,7 @@ public class LevelParametersComponent extends Component
     {
       timePassed += deltaTime;
     
-      if (platformlevelCount > 1 )
+      if (platformlevelCount > (int)(currentLevel/10))
       {
         if (currentLevel < maxLevel)
         {
@@ -2746,12 +2746,13 @@ public class LevelParametersComponent extends Component
     {
       for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
       {
+        ArrayList<ArrayList<Integer>> platLevelClone = (ArrayList<ArrayList<Integer>>)(platformLevels.clone());
         IGameObject platform = event.getRequiredGameObjectParameter("platform");
-        if(!platformLevels.isEmpty())
+        if(!platLevelClone.isEmpty())
         {
-          for(int i = 0; i<platformLevels.size(); i++)
+          for(int i = 0; i<platLevelClone.size(); i++)
           {
-            if(platformLevels.get(i).contains(platform.getUID()))
+            if(platLevelClone.get(i).contains(platform.getUID()))
             {
               for(int j=0; j<i+1; j++)
               {
@@ -2759,7 +2760,7 @@ public class LevelParametersComponent extends Component
                 Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
                 updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
                 eventManager.queueEvent(updateScoreEvent);
-                platformLevels.remove(0); 
+                platLevelClone.remove(0); 
               }
             }
           }
@@ -2768,12 +2769,13 @@ public class LevelParametersComponent extends Component
       
       for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
       {
+         ArrayList<ArrayList<Integer>> platLevelClone = (ArrayList<ArrayList<Integer>>)(platformLevels.clone());
         IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
-        if(!platformLevels.isEmpty())
+        if(!platLevelClone.isEmpty())
         {
-          for(int i = 0; i<platformLevels.size(); i++)
+          for(int i = 0; i<platLevelClone.size(); i++)
           {
-            if(platformLevels.get(i).contains(platform.getUID()))
+            if(platLevelClone.get(i).contains(platform.getUID()))
             {
               for(int j=0; j<i +1; j++)
               {
@@ -2781,7 +2783,7 @@ public class LevelParametersComponent extends Component
                 Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
                 updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
                 eventManager.queueEvent(updateScoreEvent);
-                platformLevels.remove(0); 
+                platLevelClone.remove(0); 
               }
             }
           }
@@ -3554,7 +3556,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if(fittsLaw)
+    if(options.getGameOptions().getFittsLaw() || options.getGameOptions().getLogFitts())
     {
       handleEvents();
       totalTime += deltaTime;

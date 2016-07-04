@@ -2,7 +2,7 @@
 	<LevelParameters  
 		maxLevel="99" 
 		levelOneRiseSpeed="8.5"
-		riseSpeedChangePerLevel="0.7"
+		riseSpeedChangePerLevel="0.5"
 		levelUpTime="5000"
 		bonusScorePerLevel="1"
 		timePerBonusScore="1000"

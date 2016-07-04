@@ -3072,6 +3072,10 @@ public class GameOptionsControllerComponent extends Component
       if (tag.equals(increaseDifficultyOverTimeTag))
       {
         gameOptions.setLevelUpOverTime(!gameOptions.getLevelUpOverTime());
+        if(gameOptions.getLevelUpOverTime())
+        {
+         gameOptions.setStillPlatforms(false); 
+        }
       }
       else if(tag.equals(defaultTag))
       {
@@ -3156,6 +3160,10 @@ public class GameOptionsControllerComponent extends Component
       else if (tag.equals(constraintsFittsTag))
       {
         gameOptions.setStillPlatforms(!gameOptions.getStillPlatforms());
+        if(gameOptions.getStillPlatforms())
+        {
+          gameOptions.setLevelUpOverTime(false);
+        }
       }
       
       if(gameOptions.getFittsLaw())

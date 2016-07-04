@@ -63,17 +63,17 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 			<!-- Left -->
-			<Ellipse x="75" y="213.0" halfWidth="4" halfHeight="4">
+			<Ellipse x="75" y="213.0" halfWidth="3.5" halfHeight="3.5">
 				<FillColor r="255" g="255" b="255" a="0"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Ellipse>
 			<!-- Right -->
-			<Ellipse x="150" y="213.0" halfWidth="4" halfHeight="4">
+			<Ellipse x="150" y="213.0" halfWidth="3.5" halfHeight="3.5">
 				<FillColor r="255" g="255" b="255" a="0"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
 			</Ellipse>
 			<!-- Both -->
-			<Ellipse x="230" y="213.0" halfWidth="4" halfHeight="4">
+			<Ellipse x="230" y="213.0" halfWidth="3.5" halfHeight="3.5">
 				<FillColor r="255" g="255" b="255" a="0"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1"/>
 			</Ellipse>
@@ -84,12 +84,12 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 			<!-- Auto-Left -->
-			<Ellipse x="75.0" y="253.0" halfWidth="4" halfHeight="4">
+			<Ellipse x="75.0" y="253.0" halfWidth="3.5" halfHeight="3.5">
 				<FillColor r="255" g="255" b="255" a="0"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Ellipse>
 			<!-- Auto-Right -->
-			<Ellipse x="200.0" y="253.0" halfWidth="4" halfHeight="4">
+			<Ellipse x="200.0" y="253.0" halfWidth="3.5" halfHeight="3.5">
 				<FillColor r="255" g="255" b="255" a="0"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Ellipse>
@@ -130,13 +130,13 @@
 		</Sprite>
 
 		<!-- Wait Two Secondes -->
-		<Ellipse x="315.0" y="420.0" halfWidth="4" halfHeight="4">
+		<Ellipse x="315.0" y="420.0" halfWidth="3.5" halfHeight="3.5">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>
 
 		<!-- Jump 3 Times -->
-		<Ellipse x="315.0" y="435.0" halfWidth="4" halfHeight="4">
+		<Ellipse x="315.0" y="435.0" halfWidth="3.5" halfHeight="3.5">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Ellipse>

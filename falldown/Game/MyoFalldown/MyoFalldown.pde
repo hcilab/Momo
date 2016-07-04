@@ -90,10 +90,6 @@ boolean stillPlatforms = true;
 
 boolean logRawData = false;
 
-
-SoundFile gameOver;
-SoundFile gameOverSoundEffect;
-
 enum Forearm {
   LEFT,
   RIGHT,
@@ -139,15 +135,6 @@ void setup()
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
-  
-  gameOver = new SoundFile(mainObject,"music/end_level.wav");
-  gameOver.rate(1.0);
-  try {gameOver.pan(0.0); } catch (UnsupportedOperationException e) {}
-  gameOver.add(0);
-  gameOverSoundEffect = new SoundFile(mainObject,"sound_effects/death.wav");
-  gameOverSoundEffect.rate(1.0);
-  try {gameOverSoundEffect.pan(0.0); } catch (UnsupportedOperationException e) {}
-  gameOverSoundEffect.add(0);
 } 
 
 void draw()

@@ -411,6 +411,8 @@ public class GameState_PostGame extends GameState
   private boolean textLoaded;
   private boolean smartSuggestion;
   private IGameOptions gameOps;
+  private SoundFile gameOver;
+  private SoundFile gameOverSoundEffect;
 
   public GameState_PostGame()
   {
@@ -419,6 +421,15 @@ public class GameState_PostGame extends GameState
     textLoaded = false;
     smartSuggestion = false;
     gameOps = options.getGameOptions();
+
+    gameOver = new SoundFile(mainObject,"music/end_level.wav");
+    gameOver.rate(1.0);
+    try {gameOver.pan(0.0); } catch (UnsupportedOperationException e) {}
+    gameOver.add(0);
+    gameOverSoundEffect = new SoundFile(mainObject,"sound_effects/death.wav");
+    gameOverSoundEffect.rate(1.0);
+    try {gameOverSoundEffect.pan(0.0); } catch (UnsupportedOperationException e) {}
+    gameOverSoundEffect.add(0);
   }
   
   @Override public void onEnter()

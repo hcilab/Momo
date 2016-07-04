@@ -3666,10 +3666,10 @@ public class FittsStatsComponent extends Component
     {
       endTime = totalTime;
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-      int timeValue = (int)((10000-(endTime - startTime))*0.01);
+      int timeValue = (int)((10000-(endTime - startTime))*0.001);
       if(timeValue < 0)
         timeValue = 0;
-      int scoreValue = (250 + timeValue);
+      int scoreValue = (10 + timeValue);
       updateScoreEvent.addIntParameter("scoreValue", scoreValue);
       eventManager.queueEvent(updateScoreEvent);
     }

@@ -1,5 +1,23 @@
 <GameObject>
 	<Render>
+		<!-- Do not change the ordering or add any components above these two -->
+		<Text
+			string="Do Not Show Again"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="450.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="450.0"  width="200" height="80" resizeWidth="200" resizeHeight="80"/>
+		</Sprite>
+		<!--  -->
 		<Text
 			string="Momo Story"
 			fontName="Moire Bold" 
@@ -106,29 +124,13 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="350.0"
+			y="375.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"  width="100" height="80" resizeWidth="100" resizeHeight="80"/>
-		</Sprite>
-		<Text
-			string="Do Not Show Again"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="center"
-			alignY="center"
-			x="250.0"
-			y="450.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="450.0"  width="200" height="80" resizeWidth="200" resizeHeight="80"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="375.0"  width="100" height="80" resizeWidth="100" resizeHeight="80"/>
 		</Sprite>
 			
 	</Render>

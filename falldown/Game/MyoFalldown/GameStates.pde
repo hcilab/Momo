@@ -205,7 +205,7 @@ public class GameState_UserLogin extends GameState
         if (newUser)
         {
           gameStateController.pushState(new GameState_MainMenu());
-          gameStateController.pushState(new GameState_MomoStory());
+          gameStateController.pushState(new GameState_MomoStory(true));
           gameStateController.pushState(new GameState_NewUser());
         }
         else
@@ -213,14 +213,14 @@ public class GameState_UserLogin extends GameState
           gameStateController.pushState(new GameState_MainMenu());
           if (options.getStory().getShow())
           {
-            gameStateController.pushState(new GameState_MomoStory());
+            gameStateController.pushState(new GameState_MomoStory(true));
           }
         }
       }
       else if(tag.equals("play_as_guest")){
         options.getCustomizeOptions().reset();
         gameStateController.pushState(new GameState_MainMenu());
-        gameStateController.pushState(new GameState_MomoStory());
+        gameStateController.pushState(new GameState_MomoStory(false));
       }
       else if(tag.equals("exit")){
         gameStateController.popState();
@@ -231,9 +231,15 @@ public class GameState_UserLogin extends GameState
 
 public class GameState_MomoStory extends GameState
 {
-  public GameState_MomoStory()
+  private boolean isNewUser;
+  private boolean changesLoaded;
+
+  public GameState_MomoStory(boolean _isNewUser)
   {
     super();
+
+    isNewUser = _isNewUser;
+    changesLoaded = false;
   }
   
   @Override public void onEnter()
@@ -246,6 +252,11 @@ public class GameState_MomoStory extends GameState
     shape(opbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     handleEvents();
+
+    if (!changesLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
+    {
+      loadChanges();
+    }
   }
   
   @Override public void onExit()
@@ -270,6 +281,32 @@ public class GameState_MomoStory extends GameState
         gameStateController.popState();
       }
     }
+  }
+
+  private void loadChanges()
+  {
+    RenderComponent renderComponenet = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    ArrayList<RenderComponent.Text> texts = renderComponenet.getTexts();
+    ArrayList<RenderComponent.OffsetPImage> images = renderComponenet.getImages();
+
+    if (isNewUser)
+    {
+      texts.get(0).translation.x = 250;
+      images.get(0).translation.x = 250;
+
+      IGameObject gameObj = gameObjectManager.getGameObjectsByTag("show").get(0);
+      gameObj.setTranslation(new PVector(250.0, 450.0));
+    }
+    else
+    {
+      texts.get(0).translation.x = 1000;
+      images.get(0).translation.x = 1000;
+
+      IGameObject gameObj = gameObjectManager.getGameObjectsByTag("show").get(0);
+      gameObj.setTranslation(new PVector(1000.0, 450.0));
+    }
+
+    changesLoaded = true;
   }
 }
 

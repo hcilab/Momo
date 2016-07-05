@@ -1083,7 +1083,7 @@ public class PlayerControllerComponent extends Component
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
-          if(logFittsLaw)
+          if(options.getGameOptions().getFittsLaw())
           {
             IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
             FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
@@ -2743,69 +2743,66 @@ public class LevelParametersComponent extends Component
   
   private void handleEvents()
   {
-    if(!options.getGameOptions().getStillPlatforms())
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
-      for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+      IGameObject platform = event.getRequiredGameObjectParameter("platform");
+      if(!platformLevels.isEmpty())
       {
-        IGameObject platform = event.getRequiredGameObjectParameter("platform");
-        if(!platformLevels.isEmpty())
+        for(int i = 0; i<platformLevels.size(); i++)
         {
-          for(int i = 0; i<platformLevels.size(); i++)
+          if(platformLevels.get(i).contains(platform.getUID()))
           {
-            if(platformLevels.get(i).contains(platform.getUID()))
+            for(int j=0; j<i+1; j++)
             {
-              for(int j=0; j<i+1; j++)
+              platformlevelCount++;
+              totalPlatformLevelCount++;
+              Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+              updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
+              eventManager.queueEvent(updateScoreEvent);
+              platformLevels.remove(0);
+              if(stillPlatforms && !fittsLaw)
               {
-                platformlevelCount++;
-                totalPlatformLevelCount++;
-                Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-                updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
-                eventManager.queueEvent(updateScoreEvent);
-                platformLevels.remove(0);
-                if(stillPlatforms && !fittsLaw)
-                {
-                  pc.incrementPlatforms();
-                  pc.spawnPlatformLevelNoRiseSpeed();
-                }
+                pc.incrementPlatforms();
+                pc.spawnPlatformLevelNoRiseSpeed();
               }
-              if(logFittsLaw)
-              {
-                TableRow newRow = tableFittsStats.addRow(); 
-                fsc.startLogLevel(newRow, totalPlatformLevelCount); 
-              }
+            }
+            if(logFittsLaw)
+            {
+              TableRow newRow = tableFittsStats.addRow(); 
+              fsc.startLogLevel(newRow, totalPlatformLevelCount); 
             }
           }
         }
       }
-      
-      for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
+      if(!platformLevels.isEmpty())
       {
-        IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
-        if(!platformLevels.isEmpty())
+        for(int i = 0; i<platformLevels.size(); i++)
         {
-          for(int i = 0; i<platformLevels.size(); i++)
+          if(platformLevels.get(i).contains(platform.getUID()))
           {
-            if(platformLevels.get(i).contains(platform.getUID()))
+            for(int j=0; j<i +1; j++)
             {
-              for(int j=0; j<i +1; j++)
+              platformlevelCount++;
+              totalPlatformLevelCount++;
+              Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+              updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
+              eventManager.queueEvent(updateScoreEvent);
+              platformLevels.remove(0);
+              if(stillPlatforms && !fittsLaw)
               {
-                platformlevelCount++;
-                totalPlatformLevelCount++;
-                Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
-                updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
-                eventManager.queueEvent(updateScoreEvent);
-                platformLevels.remove(0);
-                if(stillPlatforms && !fittsLaw)
-                {
-                  pc.incrementPlatforms();
-                  pc.spawnPlatformLevelNoRiseSpeed();
-                }
+                pc.incrementPlatforms();
+                pc.spawnPlatformLevelNoRiseSpeed();
               }
-              if(logFittsLaw)
-              {
-                TableRow newRow = tableFittsStats.addRow(); 
-                fsc.startLogLevel(newRow, totalPlatformLevelCount); 
-              }
+            }
+            if(logFittsLaw)
+            {
+              TableRow newRow = tableFittsStats.addRow(); 
+              fsc.startLogLevel(newRow, totalPlatformLevelCount); 
             }
           }
         }
@@ -3629,14 +3626,13 @@ public class FittsStatsComponent extends Component
   private void endLogLevel()
   {
     endTime = totalTime;
-    if(options.getGameOptions().getStillPlatforms())
+    if(options.getGameOptions().getFittsLaw())
     {
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
       int timeValue = (int)((10000-(endTime - startTime))*0.001);
       if(timeValue < 0)
         timeValue = 0;
-      int scoreValue = (10 + timeValue);
-      updateScoreEvent.addIntParameter("scoreValue", scoreValue);
+      updateScoreEvent.addIntParameter("scoreValue", timeValue);
       eventManager.queueEvent(updateScoreEvent);
     }
           

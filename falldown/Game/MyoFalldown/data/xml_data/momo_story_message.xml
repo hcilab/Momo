@@ -19,7 +19,7 @@
 		</Sprite>
 		<!--  -->
 		<Text
-			string="Momo Story"
+			string="Backstory"
 			fontName="Moire Bold" 
 			size="40"
 			antialiasing="true"
@@ -37,46 +37,20 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Line>
 		<Text
-			string="Story:"
+			string="Help Momo escape the spikes of DOOM!!!"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
-			alignX="left"
+			alignX="center"
 			alignY="center"
-			x="25.0"
-			y="75.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Help Momo escape the spikes of DOOM!!! "
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="center"
-			x="50.0"
+			x="250.0"
 			y="95.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="By helping Momo travels through gaps in platforms while "
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="center"
-			x="50.0"
-			y="115.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="avoiding obstacles. On your way through the platforms"
+			string="Poor Momo is being chased through his homeland! Help"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -89,7 +63,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="be sure to collect coins to unlock new features available"
+			string="him navigate his way to safety by guiding him through"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -102,7 +76,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="in the Customization Options."
+			string="the platforms and avoiding obstacles. Along the way,"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -114,7 +88,32 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-
+		<Text
+			string="be sure to collect coins to unlock new costumes for"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="195.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Momo, music and more in the Customization Options."
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="50.0"
+			y="215.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 
 		<Text
 			string="Skip"

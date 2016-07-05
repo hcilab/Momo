@@ -1498,6 +1498,32 @@ public class GameState_CustomizePurchase extends GameState
         options.getCustomizeOptions().setCoinsAfterPurchase(cost);
         options.getCustomizeOptions().purchase(custSpriteIndex);
         totalCoins = options.getCustomizeOptions().getCoinsCollected();
+
+        if (index == 0)
+        {
+          options.getCustomizeOptions().setPlayer(custSpriteIndex);
+        }
+        else if (index == 1)
+        {
+          options.getCustomizeOptions().setPlatform(custSpriteIndex, id);
+        }
+        else if (index == 2)
+        {
+          options.getCustomizeOptions().setCoin(custSpriteIndex, id);
+        }
+        else if (index == 3)
+        {
+          options.getCustomizeOptions().setObstacle(custSpriteIndex, id);
+        }
+        else if (index == 4)
+        {
+          options.getCustomizeOptions().setBackground(custSpriteIndex, id);
+        }
+        else if (index == 5)
+        {
+          options.getCustomizeOptions().setMusic(custSpriteIndex, id);
+        }
+
         gameStateController.popState();
         gameStateController.pushState(new GameState_CustomizeSettings());
       }

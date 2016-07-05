@@ -1712,7 +1712,7 @@ public class PlatformManagerControllerComponent extends Component
         platforms.add(breakPlatform);
         platLevels.add(breakPlatform.getUID());
       }
-    inputPlatformCounter++;
+      inputPlatformCounter++;
     }
     else
     {
@@ -1727,7 +1727,7 @@ public class PlatformManagerControllerComponent extends Component
           continue;
         }
         float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
-        float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth, range.y - minDistanceBetweenGaps - halfGapWidth);
+        float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth-5, range.y - minDistanceBetweenGaps - halfGapWidth + 5);
         platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
@@ -1747,7 +1747,6 @@ public class PlatformManagerControllerComponent extends Component
     {
       float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
       float platformWidth = platformRange.y - platformRange.x;
-      
       IGameObject platform;
       
       if (options.getGameOptions().getPlatformMods())
@@ -2659,11 +2658,13 @@ public class LevelParametersComponent extends Component
   private SoundFile levelUpSound;
   private float amplitude;
   private int platformlevelCount;
+  private int totalPlatformLevelCount;
   
   public LevelParametersComponent(IGameObject _gameObject)
   {
     super(_gameObject);
     platformlevelCount = 11;
+    totalPlatformLevelCount = 0;
   }
   
   @Override public void destroy()
@@ -2746,21 +2747,31 @@ public class LevelParametersComponent extends Component
     {
       for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
       {
-        ArrayList<ArrayList<Integer>> platLevelClone = (ArrayList<ArrayList<Integer>>)(platformLevels.clone());
         IGameObject platform = event.getRequiredGameObjectParameter("platform");
-        if(!platLevelClone.isEmpty())
+        if(!platformLevels.isEmpty())
         {
-          for(int i = 0; i<platLevelClone.size(); i++)
+          for(int i = 0; i<platformLevels.size(); i++)
           {
-            if(platLevelClone.get(i).contains(platform.getUID()))
+            if(platformLevels.get(i).contains(platform.getUID()))
             {
               for(int j=0; j<i+1; j++)
               {
                 platformlevelCount++;
+                totalPlatformLevelCount++;
                 Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
                 updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
                 eventManager.queueEvent(updateScoreEvent);
-                platLevelClone.remove(0); 
+                platformLevels.remove(0);
+                if(stillPlatforms && !fittsLaw)
+                {
+                  pc.incrementPlatforms();
+                  pc.spawnPlatformLevelNoRiseSpeed();
+                }
+              }
+              if(logFittsLaw)
+              {
+                TableRow newRow = tableFittsStats.addRow(); 
+                fsc.startLogLevel(newRow, totalPlatformLevelCount); 
               }
             }
           }
@@ -2769,21 +2780,31 @@ public class LevelParametersComponent extends Component
       
       for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
       {
-         ArrayList<ArrayList<Integer>> platLevelClone = (ArrayList<ArrayList<Integer>>)(platformLevels.clone());
         IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
-        if(!platLevelClone.isEmpty())
+        if(!platformLevels.isEmpty())
         {
-          for(int i = 0; i<platLevelClone.size(); i++)
+          for(int i = 0; i<platformLevels.size(); i++)
           {
-            if(platLevelClone.get(i).contains(platform.getUID()))
+            if(platformLevels.get(i).contains(platform.getUID()))
             {
               for(int j=0; j<i +1; j++)
               {
                 platformlevelCount++;
+                totalPlatformLevelCount++;
                 Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
                 updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
                 eventManager.queueEvent(updateScoreEvent);
-                platLevelClone.remove(0); 
+                platformLevels.remove(0);
+                if(stillPlatforms && !fittsLaw)
+                {
+                  pc.incrementPlatforms();
+                  pc.spawnPlatformLevelNoRiseSpeed();
+                }
+              }
+              if(logFittsLaw)
+              {
+                TableRow newRow = tableFittsStats.addRow(); 
+                fsc.startLogLevel(newRow, totalPlatformLevelCount); 
               }
             }
           }
@@ -3566,63 +3587,7 @@ public class FittsStatsComponent extends Component
   {
     if(options.getGameOptions().getFittsLaw() || options.getGameOptions().getLogFitts())
     {
-      handleEvents();
       totalTime += deltaTime;
-    }
-  }
-  
-  private void handleEvents()
-  {
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
-    {
-      IGameObject platform = event.getRequiredGameObjectParameter("platform");
-      if(!platformLevels.isEmpty())
-      {
-        for(int i = 0; i<platformLevels.size(); i++)
-        {
-          if(platformLevels.get(i).contains(platform.getUID()))
-          {
-            for(int j=0; j<i +1; j++)
-            {
-              if(stillPlatforms && !fittsLaw)
-              {
-                pc.incrementPlatforms();
-                pc.spawnPlatformLevelNoRiseSpeed();
-              }
-              levelCount++;
-              platformLevels.remove(0); 
-            }
-            TableRow newRow = tableFittsStats.addRow(); 
-            startLogLevel(newRow);
-          }
-        }
-      }
-    }
-    
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
-    {
-      IGameObject platform = event.getRequiredGameObjectParameter("break_platform");
-      if(!platformLevels.isEmpty())
-      {
-        for(int i = 0; i<platformLevels.size(); i++)
-        {
-          if(platformLevels.get(i).contains(platform.getUID()))
-          {
-            for(int j=0; j<i +1; j++)
-            {
-              if(stillPlatforms && !fittsLaw)
-              {
-                pc.incrementPlatforms();
-                pc.spawnPlatformLevelNoRiseSpeed();
-              }
-              levelCount++;
-              platformLevels.remove(0); 
-            }
-            TableRow newRow = tableFittsStats.addRow(); 
-            startLogLevel(newRow);
-          }
-        }
-      }
     }
   }
   
@@ -3631,7 +3596,7 @@ public class FittsStatsComponent extends Component
     return levelCount;
   }
   
-  private void startLogLevel(TableRow newRow)
+  private void startLogLevel(TableRow newRow, int levelC)
   {
     startTime = totalTime;
     if(logFittsLaw)
@@ -3649,6 +3614,7 @@ public class FittsStatsComponent extends Component
       float gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
       playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
       String iD = options.getUserInformation().getUserID();
+      levelCount = levelC;
       if(iD == null)
         iD ="-1";
       newRow.setString("id", iD);
@@ -3662,9 +3628,9 @@ public class FittsStatsComponent extends Component
   
   private void endLogLevel()
   {
+    endTime = totalTime;
     if(options.getGameOptions().getStillPlatforms())
     {
-      endTime = totalTime;
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
       int timeValue = (int)((10000-(endTime - startTime))*0.001);
       if(timeValue < 0)
@@ -4033,7 +3999,8 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   }
   else if(componentName.equals("FittsStatsComponent"))
   {
-   component = new FittsStatsComponent(gameObject); 
+   component = new FittsStatsComponent(gameObject);
+   fsc = (FittsStatsComponent) component;
   }
   else if(componentName.equals("LogRawDataComponent"))
   {

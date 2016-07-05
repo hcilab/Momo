@@ -81,6 +81,7 @@ ArrayList<PVector> platformGapPosition;
 boolean fittsLaw = true;
 
 PlatformManagerControllerComponent pc;
+FittsStatsComponent fsc;
 //Set to true for reading in gaps placement on platforms
 boolean inputPlatformGaps = true;
 //Set to true if you want to log Fitts laws.

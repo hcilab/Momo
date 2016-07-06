@@ -44,6 +44,7 @@ enum EventType
   GAME_OVER,
   DESTROY_COIN,
   LEVEL_UP,
+  PLATFORM_LEVEL_UP,
   
   // Events associated with the calibrate screen
   CALIBRATE_SUCCESS,
@@ -53,6 +54,7 @@ enum EventType
 
   PLAYER_CURRENT_SPEED,
   PLAYER_PLATFORM_COLLISION,
+  PLAYER_GROUND_COLLISION,
 
   MODAL_HOVER,
   MODAL_OFF,
@@ -258,6 +260,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.GAME_OVER);
     addEventTypeToMaps(EventType.DESTROY_COIN);
     addEventTypeToMaps(EventType.LEVEL_UP);
+    addEventTypeToMaps(EventType.PLATFORM_LEVEL_UP);
 
     addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
@@ -266,6 +269,7 @@ class EventManager implements IEventManager
     
     addEventTypeToMaps(EventType.PLAYER_CURRENT_SPEED);
     addEventTypeToMaps(EventType.PLAYER_PLATFORM_COLLISION);
+    addEventTypeToMaps(EventType.PLAYER_GROUND_COLLISION);
 
     addEventTypeToMaps(EventType.MODAL_HOVER);
     addEventTypeToMaps(EventType.MODAL_OFF);

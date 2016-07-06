@@ -11,6 +11,7 @@
     </Fixture>
     <OnCollideEvents>
       <Event coinParameterName="coin" collidedWith="coin" eventType="COIN_COLLECTED"/>
+      <Event collidedWith="ground" eventType="PLAYER_GROUND_COLLISION" groundParameterName="ground"/>
       <Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
       <Event breakPlatformParameterName="break_platform" collidedWith="break_platform" eventType="PLAYER_BREAK_PLATFORM_COLLISION"/>
     </OnCollideEvents>

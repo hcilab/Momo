@@ -91,6 +91,10 @@ boolean stillPlatforms = true;
 
 boolean logRawData = false;
 
+//For still platform mode
+int stillPlatformCounter = 0;
+boolean isRising = false;
+
 enum Forearm {
   LEFT,
   RIGHT,

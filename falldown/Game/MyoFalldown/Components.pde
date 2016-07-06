@@ -708,6 +708,12 @@ public class RigidBodyComponent extends Component
               onCollideEvent.eventParameters = new HashMap<String, String>();
               onCollideEvent.eventParameters.put("breakPlatformParameterName", xmlOnCollideEvent.getString("breakPlatformParameterName"));
             }
+            else if (stringEventType.equals("PLAYER_GROUND_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_GROUND_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("groundParameterName", xmlOnCollideEvent.getString("groundParameterName"));
+            }
 
             onCollideEvents.add(onCollideEvent);
           }
@@ -786,6 +792,13 @@ public class RigidBodyComponent extends Component
         {
           Event event = new Event(EventType.PLAYER_BREAK_PLATFORM_COLLISION);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("breakPlatformParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.PLAYER_GROUND_COLLISION)
+        {
+          println("Ground Collision");
+          Event event = new Event(EventType.PLAYER_GROUND_COLLISION);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("groundParameterName"), collider);
           eventManager.queueEvent(event);
         }
       }
@@ -912,20 +925,18 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
-  private int jumpCount; //<>// //<>//
+  private int jumpCount; //<>//
   
-  private SoundFile jumpSound;  //<>// //<>//
-  private float amplitude; //<>// //<>//
- //<>// //<>//
- //<>// //<>//
-  private SoundFile platformFallSound; //<>// //<>//
- //<>// //<>//
-  private boolean onPlatform; //<>// //<>//
-  private boolean onRegPlatform; //<>// //<>//
-  private boolean onBreakPlatform; //<>// //<>//
-  private IGameObject breakPlatform; //<>// //<>//
+  private SoundFile jumpSound;  //<>//
+  private float amplitude; //<>// //<>// //<>//
+  private SoundFile platformFallSound; //<>//
+ //<>//
+  private boolean onPlatform; //<>//
+  private boolean onRegPlatform; //<>//
+  private boolean onBreakPlatform; //<>//
+  private IGameObject breakPlatform; //<>//
   private long breakTimerStart;
-  private long crumbleTimerStart; //<>// //<>//
+  private long crumbleTimerStart; //<>//
   private String crumblingPlatformFile; 
   private int platformLevelCount;
   private boolean justJumped;
@@ -973,13 +984,13 @@ public class PlayerControllerComponent extends Component
     platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>// //<>//
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   } //<>//
- //<>// //<>//
+ //<>//
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
+    return ComponentType.PLAYER_CONTROLLER; //<>//
   } //<>//
  //<>//
   @Override public void update(int deltaTime)
@@ -1036,7 +1047,7 @@ public class PlayerControllerComponent extends Component
         if (jumpCount >= 3 && onPlatform)
         {
           ++platformLevelCount;
-          Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+          Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
           fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
           eventManager.queueEvent(fittsLawLevelUp);
 
@@ -1045,7 +1056,7 @@ public class PlayerControllerComponent extends Component
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
-          if(logFittsLaw)
+          if(options.getGameOptions().getLogFitts())
           {
             IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
             FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
@@ -1054,10 +1065,10 @@ public class PlayerControllerComponent extends Component
 
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
-          if(stillPlatforms)
+          if(options.getGameOptions().getStillPlatforms())
           {
-            pc.incrementPlatforms();
             pc.spawnPlatformLevelNoRiseSpeed();
+            pc.incrementPlatforms();
           }
         }
       }
@@ -1074,7 +1085,7 @@ public class PlayerControllerComponent extends Component
         if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
         {
           ++platformLevelCount;
-          Event fittsLawLevelUp = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+          Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
           fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
           eventManager.queueEvent(fittsLawLevelUp);
 
@@ -1093,15 +1104,15 @@ public class PlayerControllerComponent extends Component
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
-          if(stillPlatforms)
+          if(options.getGameOptions().getStillPlatforms())
           {
-            pc.incrementPlatforms();
             pc.spawnPlatformLevelNoRiseSpeed();
+            pc.incrementPlatforms();
           }
         }
       }
 
-      if (fittsLaw && rigidBodyComponent.gameObject.getTag().equals("player"))
+      if (options.getGameOptions().getFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
@@ -1142,9 +1153,9 @@ public class PlayerControllerComponent extends Component
 
     eventManager.queueEvent(currentSpeedEvent);
   }
-
+ //<>//
   private HashMap<String, Float> gatherRawInput()
-  { //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+  { //<>//
     HashMap<String, Float> rawInput = emgManager.poll();
 
     Float keyboardLeftMagnitude;
@@ -1239,7 +1250,7 @@ public class PlayerControllerComponent extends Component
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
   {
     PVector moveVector = new PVector();
-
+ //<>//
     SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
     if (mode == SingleMuscleMode.AUTO_LEFT) //<>//
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
@@ -1248,7 +1259,7 @@ public class PlayerControllerComponent extends Component
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
-    return moveVector; 
+    return moveVector;  //<>//
   }
  //<>//
   public PVector getLatestMoveVector()
@@ -1361,10 +1372,10 @@ public class PlayerControllerComponent extends Component
   }
  
   private void handleEvents() 
-  { 
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
+  {  //<>//
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
       upButtonDown = true; //<>//
-  //<>// //<>//
+  //<>//
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
       leftButtonDown = true; 
 
@@ -1559,6 +1570,7 @@ public class PlatformManagerControllerComponent extends Component
   private int thresholdHeight;
   private RigidBodyComponent initialPlat;
   private int currentLevel;
+  private int currentPlatformLevel;
 
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
@@ -1590,7 +1602,7 @@ public class PlatformManagerControllerComponent extends Component
     platformHeight = xmlComponent.getFloat("platformHeight");
     disappearHeight = xmlComponent.getFloat("disappearHeight");
     spawnHeight = xmlComponent.getFloat("spawnHeight");
-    if (fittsLaw)
+    if (fittsLaw || stillPlatforms)
     {
       minGapsPerLevel = 1;
       maxGapsPerLevel = 1;
@@ -1617,9 +1629,11 @@ public class PlatformManagerControllerComponent extends Component
     riseSpeed = 0.0f;
     firstIteration = true;
     rising = false;
+    isRising = false;
     initialHeight = 0;
     thresholdHeight = 125;
     initialPlat = null;
+    currentPlatformLevel = 0;
   }
   
   @Override public ComponentType getComponentType()
@@ -1640,8 +1654,6 @@ public class PlatformManagerControllerComponent extends Component
     if (platforms.isEmpty()
       || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
     {
-      if (riseSpeed > 0.0f)
-      {
         if(!stillPlatforms)
         {
           if(!((totalRowCountInput <= inputPlatformCounter) && inputPlatformGaps))
@@ -1651,19 +1663,22 @@ public class PlatformManagerControllerComponent extends Component
         }
         else
         {
-          if(totalRowCountInput > inputPlatformCounter)
+          if(totalRowCountInput > inputPlatformCounter && riseSpeed > 0.0f && firstIteration)
           {
             spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
             spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
-            spawnPlatformLevelNoRiseSpeed();
             firstIteration = false;
           }
         }
+       if(!stillPlatforms)
         nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+      else
+        nextHeightBetweenPlatformLevels = 125;
+        
       }
-    }
+
 
     if (rising)
     {
@@ -1679,6 +1694,16 @@ public class PlatformManagerControllerComponent extends Component
           }
         }
         rising = false;
+        isRising = false;
+        if(stillPlatformCounter > 1)
+        {
+          stillPlatformCounter--;
+          Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+          fittsLawLevelUp.addIntParameter("platformLevel", currentPlatformLevel);
+          eventManager.queueEvent(fittsLawLevelUp);
+          pc.spawnPlatformLevelNoRiseSpeed();
+          pc.incrementPlatforms();
+        }
       }
     }
   }
@@ -1821,7 +1846,7 @@ public class PlatformManagerControllerComponent extends Component
   
   public void spawnPlatformLevelNoRiseSpeed()
   {
-    boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
+    boolean isBreakPlatform = random(1.0, 1.0) < breakPlatformChance ? true : false;
     float tempSpawnHeight = spawnHeight;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
@@ -1848,11 +1873,7 @@ public class PlatformManagerControllerComponent extends Component
           platLevels.add(breakPlatform.getUID());
         }
       }
-      else if (totalRowCountInput == inputPlatformCounter)
-      {
-        inputPlatformCounter++;
-      }
-      else
+      else if (totalRowCountInput <= inputPlatformCounter)
       {
         eventManager.queueEvent(new Event(EventType.GAME_OVER));
       }
@@ -1860,7 +1881,8 @@ public class PlatformManagerControllerComponent extends Component
     }
     else
     {
-      int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1));
+      //int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1));
+      int gapsInLevel = 1;
       for (int i = 0; i < gapsInLevel; ++i)
       {
         rangeSelector = int(random(0, platformRanges.size() - 1));
@@ -1899,6 +1921,7 @@ public class PlatformManagerControllerComponent extends Component
       platLevels.add(platform.getUID());
     }
     platformLevels.add(platLevels);
+    currentPlatformLevel++;
   }
   
   public void incrementPlatforms()
@@ -1918,6 +1941,7 @@ public class PlatformManagerControllerComponent extends Component
     else
     {
       rising = true;
+      isRising = true;
       for(IGameObject platform : platforms)
       {
         IComponent component = platform.getComponent(ComponentType.RIGID_BODY);
@@ -2537,7 +2561,7 @@ public class LevelDisplayComponent extends Component
       }
     }
     
-    for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_FALL))
+    for (IEvent event : eventManager.getEvents(EventType.PLATFORM_LEVEL_UP))
     {
       IComponent component = gameObject.getComponent(ComponentType.RENDER);
       if (component != null)  
@@ -2649,10 +2673,7 @@ public class LevelParametersComponent extends Component
   private boolean levelUpAtLeastOnce;
   private int levelUpTime;
   private int timePassed;
-  private int bonusScorePerLevel;
-  private int timePerBonusScore;
   private String scoreValueParameterName;
-  private int bonusTimePassed;
   private String currentLevelParameterName;
   private String currentRiseSpeedParameterName;
   private SoundFile levelUpSound;
@@ -2681,10 +2702,7 @@ public class LevelParametersComponent extends Component
     levelUpAtLeastOnce = false;
     levelUpTime = xmlComponent.getInt("levelUpTime");
     timePassed = levelUpTime - 1;
-    bonusScorePerLevel = xmlComponent.getInt("bonusScorePerLevel");
-    timePerBonusScore = xmlComponent.getInt("timePerBonusScore");
     scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
-    bonusTimePassed = 0;
     currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
     levelUpSound = new SoundFile(mainObject, xmlComponent.getString("levelUpSoundFile"));
@@ -2692,6 +2710,7 @@ public class LevelParametersComponent extends Component
     try { levelUpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     amplitude = xmlComponent.getFloat("amp");
     levelUpSound.add(xmlComponent.getFloat("add"));
+    stillPlatformCounter = 0;
   }
   
   @Override public ComponentType getComponentType()
@@ -2717,8 +2736,6 @@ public class LevelParametersComponent extends Component
         timePassed = 0;
       }
     }
-    
-    bonusTimePassed += deltaTime;
   }
   
   private void levelUp()
@@ -2735,7 +2752,7 @@ public class LevelParametersComponent extends Component
     eventManager.queueEvent(levelUpEvent);
     if(options.getGameOptions().getStillPlatforms())
     {
-      Event updatePlatformLevelEvent = new Event(EventType.PLAYER_BREAK_PLATFORM_FALL);
+      Event updatePlatformLevelEvent = new Event(EventType.PLATFORM_LEVEL_UP);
       updatePlatformLevelEvent.addIntParameter("platformLevel", 1);
       eventManager.queueEvent(updatePlatformLevelEvent); 
     }
@@ -2762,8 +2779,16 @@ public class LevelParametersComponent extends Component
               platformLevels.remove(0);
               if(stillPlatforms && !fittsLaw)
               {
-                pc.incrementPlatforms();
-                pc.spawnPlatformLevelNoRiseSpeed();
+                stillPlatformCounter++;
+                if(stillPlatformCounter > 1 && !isRising)
+                {
+                  stillPlatformCounter--;
+                  Event platformLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+                  platformLevelUp.addIntParameter("platformLevel", platformlevelCount);
+                  eventManager.queueEvent(platformLevelUp);
+                  pc.spawnPlatformLevelNoRiseSpeed();
+                  pc.incrementPlatforms();
+                }
               }
             }
             if(logFittsLaw)
@@ -2773,6 +2798,32 @@ public class LevelParametersComponent extends Component
             }
           }
         }
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_GROUND_COLLISION))
+    {
+      if(!platformLevels.isEmpty())
+      {
+        platformlevelCount++;
+        totalPlatformLevelCount++;
+        Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+        updateScoreEvent.addIntParameter(scoreValueParameterName,20);
+        eventManager.queueEvent(updateScoreEvent);
+        platformLevels.remove(0);
+        if(stillPlatforms && !fittsLaw)
+        {
+          stillPlatformCounter++;
+          if(stillPlatformCounter > 1 && !isRising)
+          {
+            stillPlatformCounter--;
+            Event platformLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+            platformLevelUp.addIntParameter("platformLevel", platformlevelCount);
+            eventManager.queueEvent(platformLevelUp);
+            pc.spawnPlatformLevelNoRiseSpeed();
+            pc.incrementPlatforms();
+          }
+        }        
       }
     }
     
@@ -2795,8 +2846,16 @@ public class LevelParametersComponent extends Component
               platformLevels.remove(0);
               if(stillPlatforms && !fittsLaw)
               {
-                pc.incrementPlatforms();
-                pc.spawnPlatformLevelNoRiseSpeed();
+                stillPlatformCounter++;
+                if(stillPlatformCounter > 1 && !isRising)
+                {
+                  stillPlatformCounter--;
+                  Event platformLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+                  platformLevelUp.addIntParameter("platformLevel", platformlevelCount);
+                  eventManager.queueEvent(platformLevelUp);
+                  pc.spawnPlatformLevelNoRiseSpeed();
+                  pc.incrementPlatforms();
+                }
               }
             }
             if(logFittsLaw)
@@ -2919,7 +2978,7 @@ public class StatsCollectorComponent extends Component
   {
     if(options.getGameOptions().getStillPlatforms())
     {
-      for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_FALL))
+      for (IEvent event : eventManager.getEvents(EventType.PLATFORM_LEVEL_UP))
       {
         levelAchieved = event.getRequiredIntParameter("platformLevel");
       }

@@ -927,7 +927,7 @@ public class PlayerControllerComponent extends Component
   private boolean onRightSide;
   private int jumpCount; //<>//
   
-  private SoundFile jumpSound;  //<>//
+  private SoundFile jumpSound; //<>//
   private float amplitude; //<>// //<>// //<>//
   private SoundFile platformFallSound; //<>//
  //<>//
@@ -1259,7 +1259,7 @@ public class PlayerControllerComponent extends Component
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
-    return moveVector;  //<>//
+    return moveVector; //<>//
   }
  //<>//
   public PVector getLatestMoveVector()
@@ -1372,10 +1372,10 @@ public class PlayerControllerComponent extends Component
   }
  
   private void handleEvents() 
-  {  //<>//
+  { //<>//
     if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
       upButtonDown = true; //<>//
-  //<>//
+ //<>//
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
       leftButtonDown = true; 
 
@@ -1723,7 +1723,7 @@ public class PlatformManagerControllerComponent extends Component
       range = platformRanges.get(rangeSelector);
       
       TableRow row = tableInput.getRow(inputPlatformCounter);
-      float gapPosition = row.getFloat("placement")  + 13;
+      float gapPosition = row.getFloat("placement")  + 15;
       float halfGapWidth = row.getFloat("halfWidth");
       platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
@@ -1859,7 +1859,7 @@ public class PlatformManagerControllerComponent extends Component
       if(totalRowCountInput > inputPlatformCounter)
       {
         TableRow row = tableInput.getRow(inputPlatformCounter);
-        float gapPosition = row.getFloat("placement") + 12;
+        float gapPosition = row.getFloat("placement") + 15;
         float halfGapWidth = row.getFloat("halfWidth");
         platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));

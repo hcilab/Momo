@@ -94,6 +94,7 @@ boolean logRawData = false;
 //For still platform mode
 int stillPlatformCounter = 0;
 boolean isRising = false;
+SoundFile buttonClickedSound;
 
 enum Forearm {
   LEFT,
@@ -140,6 +141,11 @@ void setup()
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");
   wbg = loadShape("images/background/whiteBG.svg");
+  
+  buttonClickedSound = new SoundFile(mainObject, "sound_effects/click.wav");
+  buttonClickedSound.rate(1.0);
+  try { buttonClickedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
+  buttonClickedSound.add(0.0);
 } 
 
 void draw()

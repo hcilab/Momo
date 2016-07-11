@@ -926,18 +926,18 @@ public class PlayerControllerComponent extends Component
   private boolean onLeftSide;
   private boolean onRightSide;
   private int jumpCount; //<>//
-  
+ //<>//
   private SoundFile jumpSound; //<>//
   private float amplitude; //<>// //<>// //<>//
   private SoundFile platformFallSound; //<>//
- //<>//
+   //<>//
   private boolean onPlatform; //<>//
   private boolean onRegPlatform; //<>//
   private boolean onBreakPlatform; //<>//
   private IGameObject breakPlatform; //<>//
-  private long breakTimerStart;
-  private long crumbleTimerStart; //<>//
-  private String crumblingPlatformFile; 
+  private long breakTimerStart; //<>//
+  private long crumbleTimerStart;
+  private String crumblingPlatformFile;  //<>//
   private int platformLevelCount;
   private boolean justJumped;
   private HashMap<String, Float> rawInput;
@@ -976,24 +976,24 @@ public class PlayerControllerComponent extends Component
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
-    jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    amplitude = xmlComponent.getFloat("amp"); //<>//
+    jumpSound.rate(xmlComponent.getFloat("rate"));
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500;
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
+    jumpDelay = 500; //<>//
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
     platformFallSound.add(xmlComponent.getFloat("add")); //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
   } //<>//
  //<>//
-  @Override public ComponentType getComponentType()
+  @Override public ComponentType getComponentType() //<>//
   {
-    return ComponentType.PLAYER_CONTROLLER; //<>//
+    return ComponentType.PLAYER_CONTROLLER;
   } //<>//
  //<>//
-  @Override public void update(int deltaTime)
+  @Override public void update(int deltaTime) //<>//
   {
     
     handleEvents();
@@ -1154,9 +1154,9 @@ public class PlayerControllerComponent extends Component
     eventManager.queueEvent(currentSpeedEvent);
   }
  //<>//
-  private HashMap<String, Float> gatherRawInput()
+  private HashMap<String, Float> gatherRawInput() //<>//
   { //<>//
-    HashMap<String, Float> rawInput = emgManager.poll();
+    HashMap<String, Float> rawInput = emgManager.poll(); //<>//
 
     Float keyboardLeftMagnitude;
     Float keyboardRightMagnitude;
@@ -1251,18 +1251,18 @@ public class PlayerControllerComponent extends Component
   {
     PVector moveVector = new PVector();
  //<>//
-    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>//
     if (mode == SingleMuscleMode.AUTO_LEFT) //<>//
-      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
+      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
     else if (mode == SingleMuscleMode.AUTO_RIGHT)
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
     return moveVector; //<>//
-  }
+  } //<>//
  //<>//
-  public PVector getLatestMoveVector()
+  public PVector getLatestMoveVector() //<>//
   {
     return moveVectorX;
   }
@@ -1373,10 +1373,10 @@ public class PlayerControllerComponent extends Component
  
   private void handleEvents() 
   { //<>//
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
-      upButtonDown = true; //<>//
- //<>//
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>// //<>//
+      upButtonDown = true; //<>// //<>//
+ //<>// //<>//
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
       leftButtonDown = true; 
 
     if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
@@ -2305,7 +2305,6 @@ public class ButtonComponent extends Component
   
   private boolean mouseOver;
   
-  private SoundFile buttonClickedSound;
   private float amplitude;
 
   public ButtonComponent(GameObject _gameObject)
@@ -2314,7 +2313,7 @@ public class ButtonComponent extends Component
 
     buttonHeight = 0;
     buttonWidth = 0;
-    
+    amplitude = 1;
     mouseOver = false;
   }
 
@@ -2327,11 +2326,6 @@ public class ButtonComponent extends Component
     // Multiply the height and width by the scale values to make the button that size
     buttonHeight = xmlComponent.getInt("height") * (int)gameObject.getScale().y;
     buttonWidth = xmlComponent.getInt("width") * (int)gameObject.getScale().x;
-    buttonClickedSound = new SoundFile(mainObject, xmlComponent.getString("buttonClickedSound"));
-    buttonClickedSound.rate(xmlComponent.getFloat("rate"));
-    try { buttonClickedSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    amplitude = xmlComponent.getFloat("amp");
-    buttonClickedSound.add(xmlComponent.getFloat("add"));
   }
 
   @Override public ComponentType getComponentType()

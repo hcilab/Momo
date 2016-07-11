@@ -925,10 +925,10 @@ public class PlayerControllerComponent extends Component
   private boolean firstMove;
   private boolean onLeftSide;
   private boolean onRightSide;
-  private int jumpCount; //<>//
+  private int jumpCount;
  //<>//
-  private SoundFile jumpSound; //<>//
-  private float amplitude; //<>// //<>// //<>//
+  private SoundFile jumpSound;
+  private float amplitude; //<>//
   private SoundFile platformFallSound; //<>//
    //<>//
   private boolean onPlatform; //<>//
@@ -1153,9 +1153,9 @@ public class PlayerControllerComponent extends Component
 
     eventManager.queueEvent(currentSpeedEvent);
   }
- //<>//
+
   private HashMap<String, Float> gatherRawInput() //<>//
-  { //<>//
+  {
     HashMap<String, Float> rawInput = emgManager.poll(); //<>//
 
     Float keyboardLeftMagnitude;
@@ -1250,18 +1250,18 @@ public class PlayerControllerComponent extends Component
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
   {
     PVector moveVector = new PVector();
- //<>//
+
     SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>//
-    if (mode == SingleMuscleMode.AUTO_LEFT) //<>//
+    if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
     else if (mode == SingleMuscleMode.AUTO_RIGHT)
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
-    return moveVector; //<>//
+    return moveVector; 
   } //<>//
- //<>//
+
   public PVector getLatestMoveVector() //<>//
   {
     return moveVectorX;
@@ -1372,10 +1372,10 @@ public class PlayerControllerComponent extends Component
   }
  
   private void handleEvents() 
-  { //<>//
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>// //<>//
-      upButtonDown = true; //<>// //<>//
- //<>// //<>//
+  {
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
+      upButtonDown = true; //<>//
+ //<>//
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
       leftButtonDown = true; 
 

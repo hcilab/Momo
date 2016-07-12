@@ -941,6 +941,7 @@ public class PlayerControllerComponent extends Component
   private int platformLevelCount;
   private boolean justJumped;
   private HashMap<String, Float> rawInput;
+  private int pauseOnBreakPlatformTime;
   
   public PlayerControllerComponent(IGameObject _gameObject)
   {
@@ -957,6 +958,11 @@ public class PlayerControllerComponent extends Component
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
     moveVectorX = new PVector();
     platformLevelCount = 1;
+    if (options.getGameOptions().isFittsLaw()) {
+      pauseOnBreakPlatformTime = 2000;
+    } else {
+      pauseOnBreakPlatformTime = 1000;
+    }
   }
 
   @Override public void destroy()
@@ -1000,7 +1006,7 @@ public class PlayerControllerComponent extends Component
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
     
-    if(!options.getGameOptions().getFittsLaw())
+    if(!options.getGameOptions().isFittsLaw())
     {
       ControlPolicy policy = options.getGameOptions().getControlPolicy();
       if (policy == ControlPolicy.NORMAL)
@@ -1082,7 +1088,7 @@ public class PlayerControllerComponent extends Component
           crumblePlatform.setTag("crumble_platform");
           pc.setPlatformDescentSpeed(crumblePlatform);
         }
-        if (System.currentTimeMillis() - breakTimerStart > 2000 && breakPlatform != null)
+        if (System.currentTimeMillis() - breakTimerStart > pauseOnBreakPlatformTime && breakPlatform != null)
         {
           ++platformLevelCount;
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
@@ -1094,7 +1100,7 @@ public class PlayerControllerComponent extends Component
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
-          if(options.getGameOptions().getFittsLaw())
+          if(options.getGameOptions().isFittsLaw())
           {
             IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
             FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
@@ -1112,7 +1118,7 @@ public class PlayerControllerComponent extends Component
         }
       }
 
-      if (options.getGameOptions().getFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player"))
+      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player"))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
@@ -3163,7 +3169,7 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.DIRECTION_ASSIST);
           gameOptions.setDirectionAssistMode(DirectionAssistMode.LEFT_ONLY);
           gameOptions.setObstacles(false);
-          if(gameOptions.getFittsLaw())
+          if(gameOptions.isFittsLaw())
           {
             gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
           }
@@ -3179,7 +3185,7 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.SINGLE_MUSCLE);
           gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
           gameOptions.setObstacles(false);
-          if(gameOptions.getFittsLaw())
+          if(gameOptions.isFittsLaw())
           {
             gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
           }
@@ -3203,8 +3209,8 @@ public class GameOptionsControllerComponent extends Component
       }
       else if (tag.equals(fittsLawTag))
       {
-        gameOptions.setFittsLaw(!gameOptions.getFittsLaw());
-        if(gameOptions.getFittsLaw())
+        gameOptions.setFittsLaw(!gameOptions.isFittsLaw());
+        if(gameOptions.isFittsLaw())
         {
           gameOptions.setInputPlatforms(true);
           gameOptions.setLogFitts(true);
@@ -3237,7 +3243,7 @@ public class GameOptionsControllerComponent extends Component
         }
       }
       
-      if(gameOptions.getFittsLaw())
+      if(gameOptions.isFittsLaw())
       {
         if(tag.equals(wait2secstag))
         {
@@ -3355,13 +3361,13 @@ public class GameOptionsControllerComponent extends Component
         terrainModsCheckBox.translation.x = checkBoxXPosition + (gameOptions.getPlatformMods() ? 0.0f : falseDisplacement);
         logRawDataCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLogRawData() ? 0.0f : falseDisplacement);
         
-        fittsLawCheckBox.translation.x = checkBoxXPosition + (gameOptions.getFittsLaw() ? 0.0f : falseDisplacement);
+        fittsLawCheckBox.translation.x = checkBoxXPosition + (gameOptions.isFittsLaw() ? 0.0f : falseDisplacement);
         inputPlatformsCheckBox.translation.x = 60 + (gameOptions.getInputPlatforms() ? 0.0f : falseDisplacement);
         logFittsCheckBox.translation.x = 60 + (gameOptions.getLogFitts() ? 0.0f : falseDisplacement);
         contraintsFittsCheckBox.translation.x = 60 + (gameOptions.getStillPlatforms() ? 0.0f : falseDisplacement);
         
-        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.getFittsLaw()) ? 0.0f : falseDisplacement);
-        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.getFittsLaw()) ? 0.0f : falseDisplacement);
+        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
+        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
       }
     }
   }
@@ -3635,7 +3641,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if(options.getGameOptions().getFittsLaw() || options.getGameOptions().getLogFitts())
+    if(options.getGameOptions().isFittsLaw() || options.getGameOptions().getLogFitts())
     {
       totalTime += deltaTime;
     }
@@ -3679,7 +3685,7 @@ public class FittsStatsComponent extends Component
   private void endLogLevel()
   {
     endTime = totalTime;
-    if(options.getGameOptions().getFittsLaw())
+    if(options.getGameOptions().isFittsLaw())
     {
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
       int timeValue = (int)((10000-(endTime - startTime))*0.001);

@@ -61,7 +61,7 @@ public interface IGameOptions
   public boolean getPlatformMods();
   public float getLowAvgSpeedThreshold();
   public float getHighAvgSpeedThreshold();
-  public boolean getFittsLaw();
+  public boolean isFittsLaw();
   public boolean getInputPlatforms();
   public boolean getLogFitts();
   public boolean getStillPlatforms();
@@ -137,7 +137,7 @@ public interface IGameRecord
   public float getAverageSpeed();
   public int getCoinsCollected();
   public long getDate();
-  public boolean getFittsLawMode();
+  public boolean isFittsLawMode();
 
   public void setLevelAchieved(int levelAchieved);
   public void setScoreAchieved(int scoreAchieved);
@@ -454,7 +454,7 @@ public class Options implements IOptions
       return highAvgSpeedThreshold;
     }
 
-    @Override public boolean getFittsLaw()
+    @Override public boolean isFittsLaw()
     {
       return fittsLaw;
     }
@@ -841,7 +841,7 @@ public class Options implements IOptions
         return date;
       }
       
-      @Override public boolean getFittsLawMode()
+      @Override public boolean isFittsLawMode()
       {
         return isFittsLaw; 
       }
@@ -941,7 +941,7 @@ public class Options implements IOptions
       xmlRecord.setFloat(XML_AVERAGE_SPEED, record.getAverageSpeed());
       xmlRecord.setInt(XML_COINS_COLLECTED, record.getCoinsCollected());
       xmlRecord.setString(XML_DATE, Long.toString(record.getDate()));
-      xmlRecord.setString(XML_FITTS_LAW, record.getFittsLawMode()? "true" : "false");
+      xmlRecord.setString(XML_FITTS_LAW, record.isFittsLawMode()? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     

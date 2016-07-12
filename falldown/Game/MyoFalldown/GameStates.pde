@@ -323,7 +323,7 @@ public class GameState_InGame extends GameState
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
     totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
-    logRawData = true;
+    options.getGameOptions().setLogRawData(true);
   }
   
   @Override public void update(int deltaTime)
@@ -336,7 +336,7 @@ public class GameState_InGame extends GameState
   
   @Override public void onExit()
   {
-    logRawData = false;
+    options.getGameOptions().setLogRawData(false);
     gameObjectManager.clearGameObjects();
   }
   
@@ -359,12 +359,12 @@ public class GameState_InGame extends GameState
       }
       Date d = new Date();
       
-      if(logFittsLaw)
+      if(options.getGameOptions().isLogFitts())
       {
         saveTable(tableFittsStats, "data/xml_data/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
       }
       
-      if(options.getGameOptions().getLogRawData())
+      if(options.getGameOptions().isLogRawData())
       {
          saveTable(tableRawData, "data/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
       }

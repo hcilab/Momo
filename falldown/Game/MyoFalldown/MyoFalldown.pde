@@ -77,19 +77,8 @@ int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
 ArrayList<PVector> platformGapPosition;
 
-// Set to true for limitations to compute Fitt's Law
-boolean fittsLaw = true;
-
 PlatformManagerControllerComponent pc;
 FittsStatsComponent fsc;
-//Set to true for reading in gaps placement on platforms
-boolean inputPlatformGaps = true;
-//Set to true if you want to log Fitts laws.
-boolean logFittsLaw = true;
-
-boolean stillPlatforms = true;
-
-boolean logRawData = false;
 
 //For still platform mode
 int stillPlatformCounter = 0;

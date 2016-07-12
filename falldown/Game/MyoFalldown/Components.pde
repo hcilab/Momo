@@ -1062,7 +1062,7 @@ public class PlayerControllerComponent extends Component
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
-          if(options.getGameOptions().getLogFitts())
+          if(options.getGameOptions().isLogFitts())
           {
             IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
             FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
@@ -1071,7 +1071,7 @@ public class PlayerControllerComponent extends Component
 
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
-          if(options.getGameOptions().getStillPlatforms())
+          if(options.getGameOptions().isStillPlatforms())
           {
             pc.spawnPlatformLevelNoRiseSpeed();
             pc.incrementPlatforms();
@@ -1110,7 +1110,7 @@ public class PlayerControllerComponent extends Component
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
-          if(options.getGameOptions().getStillPlatforms())
+          if(options.getGameOptions().isStillPlatforms())
           {
             pc.spawnPlatformLevelNoRiseSpeed();
             pc.incrementPlatforms();
@@ -1172,7 +1172,7 @@ public class PlayerControllerComponent extends Component
     Float myoRightMagnitude;
     Float myoJumpMagnitude;
 
-    if (fittsLaw)
+    if (options.getGameOptions().isFittsLaw())
     {
       if (onPlatform)
       {
@@ -1608,7 +1608,7 @@ public class PlatformManagerControllerComponent extends Component
     platformHeight = xmlComponent.getFloat("platformHeight");
     disappearHeight = xmlComponent.getFloat("disappearHeight");
     spawnHeight = xmlComponent.getFloat("spawnHeight");
-    if (fittsLaw || stillPlatforms)
+    if (options.getGameOptions().isFittsLaw() || options.getGameOptions().isStillPlatforms())
     {
       minGapsPerLevel = 1;
       maxGapsPerLevel = 1;
@@ -1660,9 +1660,9 @@ public class PlatformManagerControllerComponent extends Component
     if (platforms.isEmpty()
       || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
     {
-        if(!stillPlatforms)
+        if(!options.getGameOptions().isStillPlatforms())
         {
-          if(!((totalRowCountInput <= inputPlatformCounter) && inputPlatformGaps))
+          if(!((totalRowCountInput <= inputPlatformCounter) && options.getGameOptions().isInputPlatforms()))
           {
             spawnPlatformLevel();
           }
@@ -1678,7 +1678,7 @@ public class PlatformManagerControllerComponent extends Component
             firstIteration = false;
           }
         }
-       if(!stillPlatforms)
+       if(!options.getGameOptions().isStillPlatforms())
         nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
       else
         nextHeightBetweenPlatformLevels = 125;
@@ -1723,7 +1723,7 @@ public class PlatformManagerControllerComponent extends Component
     int gapsInLevel = int(random(minGapsPerLevel, maxGapsPerLevel + 1));
     int rangeSelector;
     PVector range;
-    if(inputPlatformGaps)
+    if(options.getGameOptions().isInputPlatforms())
     {
       rangeSelector = int(random(0, platformRanges.size() - 1));
       range = platformRanges.get(rangeSelector);
@@ -1735,7 +1735,7 @@ public class PlatformManagerControllerComponent extends Component
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
       
-      if(fittsLaw || isBreakPlatform)
+      if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
       {
         IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
         breakPlatform.setTag("break_platform");
@@ -1763,7 +1763,7 @@ public class PlatformManagerControllerComponent extends Component
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
         //Have to change to see if we need break platforms
-        if(fittsLaw || isBreakPlatform)
+        if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
         {
           IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           breakPlatform.setTag("break_platform");
@@ -1860,7 +1860,7 @@ public class PlatformManagerControllerComponent extends Component
 
     int rangeSelector = int(random(0, platformRanges.size() - 1));
     PVector range = platformRanges.get(rangeSelector);
-    if(inputPlatformGaps)
+    if(options.getGameOptions().isInputPlatforms())
     {
       if(totalRowCountInput > inputPlatformCounter)
       {
@@ -1871,7 +1871,7 @@ public class PlatformManagerControllerComponent extends Component
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
 
-        if(fittsLaw || isBreakPlatform)
+        if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
         {
           IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           breakPlatform.setTag("break_platform");
@@ -1904,7 +1904,7 @@ public class PlatformManagerControllerComponent extends Component
         platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
-        if(fittsLaw || isBreakPlatform)
+        if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
         {
           IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           breakPlatform.setTag("break_platform");
@@ -2553,7 +2553,7 @@ public class LevelDisplayComponent extends Component
          RenderComponent.Text text = renderComponent.getTexts().get(0);
          if (text != null)
          { 
-           if(!options.getGameOptions().getStillPlatforms())
+           if(!options.getGameOptions().isStillPlatforms())
            {
              text.string = levelTextPrefix + Integer.toString(event.getRequiredIntParameter(currentLevelParameterName));
            }
@@ -2570,7 +2570,7 @@ public class LevelDisplayComponent extends Component
          RenderComponent.Text text = renderComponent.getTexts().get(0);
          if (text != null)
          { 
-           if(options.getGameOptions().getStillPlatforms())
+           if(options.getGameOptions().isStillPlatforms())
            {
              text.string = platformLevelPrefix + Integer.toString(event.getRequiredIntParameter("platformLevel"));
            }
@@ -2750,7 +2750,7 @@ public class LevelParametersComponent extends Component
     levelUpEvent.addIntParameter(currentLevelParameterName, currentLevel);
     levelUpEvent.addFloatParameter(currentRiseSpeedParameterName, currentRiseSpeed);
     eventManager.queueEvent(levelUpEvent);
-    if(options.getGameOptions().getStillPlatforms())
+    if(options.getGameOptions().isStillPlatforms())
     {
       Event updatePlatformLevelEvent = new Event(EventType.PLATFORM_LEVEL_UP);
       updatePlatformLevelEvent.addIntParameter("platformLevel", 1);
@@ -2777,7 +2777,7 @@ public class LevelParametersComponent extends Component
               updateScoreEvent.addIntParameter(scoreValueParameterName,(j+1)*10);
               eventManager.queueEvent(updateScoreEvent);
               platformLevels.remove(0);
-              if(stillPlatforms && !fittsLaw)
+              if(options.getGameOptions().isStillPlatforms() && !options.getGameOptions().isFittsLaw())
               {
                 stillPlatformCounter++;
                 if(stillPlatformCounter > 1 && !isRising)
@@ -2791,7 +2791,7 @@ public class LevelParametersComponent extends Component
                 }
               }
             }
-            if(logFittsLaw)
+            if(options.getGameOptions().isLogFitts())
             {
               TableRow newRow = tableFittsStats.addRow(); 
               fsc.startLogLevel(newRow, totalPlatformLevelCount); 
@@ -2811,7 +2811,7 @@ public class LevelParametersComponent extends Component
         updateScoreEvent.addIntParameter(scoreValueParameterName,20);
         eventManager.queueEvent(updateScoreEvent);
         platformLevels.remove(0);
-        if(stillPlatforms && !fittsLaw)
+        if(options.getGameOptions().isStillPlatforms() && !options.getGameOptions().isFittsLaw())
         {
           stillPlatformCounter++;
           if(stillPlatformCounter > 1 && !isRising)
@@ -2844,7 +2844,7 @@ public class LevelParametersComponent extends Component
               updateScoreEvent.addIntParameter(scoreValueParameterName, (j+1)*10);
               eventManager.queueEvent(updateScoreEvent);
               platformLevels.remove(0);
-              if(stillPlatforms && !fittsLaw)
+              if(options.getGameOptions().isStillPlatforms() && !options.getGameOptions().isFittsLaw())
               {
                 stillPlatformCounter++;
                 if(stillPlatformCounter > 1 && !isRising)
@@ -2858,7 +2858,7 @@ public class LevelParametersComponent extends Component
                 }
               }
             }
-            if(logFittsLaw)
+            if(options.getGameOptions().isLogFitts())
             {
               TableRow newRow = tableFittsStats.addRow(); 
               fsc.startLogLevel(newRow, totalPlatformLevelCount); 
@@ -2951,7 +2951,7 @@ public class StatsCollectorComponent extends Component
     record.setCoinsCollected(coinsCollected);
     custom.setCoinsCollected(coinsCollected);
     record.setDate(new Date().getTime());
-    record.setIsFittsLawMode(fittsLaw);
+    record.setIsFittsLawMode(options.getGameOptions().isFittsLaw());
     
     stats.addGameRecord(record);
   }
@@ -2976,7 +2976,7 @@ public class StatsCollectorComponent extends Component
   
   private void handleEvents()
   {
-    if(options.getGameOptions().getStillPlatforms())
+    if(options.getGameOptions().isStillPlatforms())
     {
       for (IEvent event : eventManager.getEvents(EventType.PLATFORM_LEVEL_UP))
       {
@@ -3205,7 +3205,7 @@ public class GameOptionsControllerComponent extends Component
       }
       else if(tag.equals(logRawDataTag))
       {
-        gameOptions.setLogRawData(!gameOptions.getLogRawData());
+        gameOptions.setLogRawData(!gameOptions.isLogRawData());
       }
       else if (tag.equals(fittsLawTag))
       {
@@ -3228,16 +3228,16 @@ public class GameOptionsControllerComponent extends Component
       }
       else if (tag.equals(inputPlatformTag))
       {
-        gameOptions.setInputPlatforms(!gameOptions.getInputPlatforms());
+        gameOptions.setInputPlatforms(!gameOptions.isInputPlatforms());
       }
       else if (tag.equals(logFittsTag))
       {
-        gameOptions.setLogFitts(!gameOptions.getLogFitts());
+        gameOptions.setLogFitts(!gameOptions.isLogFitts());
       }
       else if (tag.equals(constraintsFittsTag))
       {
-        gameOptions.setStillPlatforms(!gameOptions.getStillPlatforms());
-        if(gameOptions.getStillPlatforms())
+        gameOptions.setStillPlatforms(!gameOptions.isStillPlatforms());
+        if(gameOptions.isStillPlatforms())
         {
           gameOptions.setLevelUpOverTime(false);
         }
@@ -3359,12 +3359,12 @@ public class GameOptionsControllerComponent extends Component
         
         obstaclesCheckBox.translation.x = checkBoxXPosition + (gameOptions.getObstacles() ? 0.0f : falseDisplacement);
         terrainModsCheckBox.translation.x = checkBoxXPosition + (gameOptions.getPlatformMods() ? 0.0f : falseDisplacement);
-        logRawDataCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLogRawData() ? 0.0f : falseDisplacement);
+        logRawDataCheckBox.translation.x = checkBoxXPosition + (gameOptions.isLogRawData() ? 0.0f : falseDisplacement);
         
         fittsLawCheckBox.translation.x = checkBoxXPosition + (gameOptions.isFittsLaw() ? 0.0f : falseDisplacement);
-        inputPlatformsCheckBox.translation.x = 60 + (gameOptions.getInputPlatforms() ? 0.0f : falseDisplacement);
-        logFittsCheckBox.translation.x = 60 + (gameOptions.getLogFitts() ? 0.0f : falseDisplacement);
-        contraintsFittsCheckBox.translation.x = 60 + (gameOptions.getStillPlatforms() ? 0.0f : falseDisplacement);
+        inputPlatformsCheckBox.translation.x = 60 + (gameOptions.isInputPlatforms() ? 0.0f : falseDisplacement);
+        logFittsCheckBox.translation.x = 60 + (gameOptions.isLogFitts() ? 0.0f : falseDisplacement);
+        contraintsFittsCheckBox.translation.x = 60 + (gameOptions.isStillPlatforms() ? 0.0f : falseDisplacement);
         
         wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
         jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
@@ -3641,7 +3641,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if(options.getGameOptions().isFittsLaw() || options.getGameOptions().getLogFitts())
+    if(options.getGameOptions().isFittsLaw() || options.getGameOptions().isLogFitts())
     {
       totalTime += deltaTime;
     }
@@ -3655,7 +3655,7 @@ public class FittsStatsComponent extends Component
   private void startLogLevel(TableRow newRow, int levelC)
   {
     startTime = totalTime;
-    if(logFittsLaw)
+    if(options.getGameOptions().isLogFitts())
     {
       IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
       PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
@@ -3695,7 +3695,7 @@ public class FittsStatsComponent extends Component
       eventManager.queueEvent(updateScoreEvent);
     }
           
-    if(logFittsLaw)
+    if(options.getGameOptions().isLogFitts())
     {
       TableRow newRow = tableFittsStats.getRow(tableFittsStats.getRowCount() - 1);
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
@@ -3788,7 +3788,7 @@ public class LogRawDataComponent extends Component
   @Override public void update(int deltaTime)
   {
     totalTime += deltaTime;
-    if(options.getGameOptions().getLogRawData() && logRawData && (totalTime - nextLogTime) > 100)
+    if(options.getGameOptions().isLogRawData() && (totalTime - nextLogTime) > 100)
     {
       nextLogTime = totalTime;
       TableRow newRow = tableRawData.addRow(); 

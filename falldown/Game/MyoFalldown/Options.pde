@@ -62,10 +62,10 @@ public interface IGameOptions
   public float getLowAvgSpeedThreshold();
   public float getHighAvgSpeedThreshold();
   public boolean isFittsLaw();
-  public boolean getInputPlatforms();
-  public boolean getLogFitts();
-  public boolean getStillPlatforms();
-  public boolean getLogRawData();
+  public boolean isInputPlatforms();
+  public boolean isLogFitts();
+  public boolean isStillPlatforms();
+  public boolean isLogRawData();
   public BreakthroughMode getBreakthroughMode();
   
   public void setStartingLevel(int startingLevel);
@@ -341,8 +341,12 @@ public class Options implements IOptions
     private boolean platformMods;
     private float lowAvgSpeedThreshold;
     private float highAvgSpeedThreshold;
-    private boolean loggingRawData;
     private BreakthroughMode breakMode;
+    private boolean fittsLaw;
+    private boolean inputPlatformGaps;
+    private boolean logFittsLaw;
+    private boolean stillPlatforms;
+    private boolean logRawData;
     
     private GameOptions()
     {
@@ -459,24 +463,24 @@ public class Options implements IOptions
       return fittsLaw;
     }
     
-    @Override public boolean getInputPlatforms()
+    @Override public boolean isInputPlatforms()
     {
       return inputPlatformGaps;
     }
     
-    @Override public boolean getLogFitts()
+    @Override public boolean isLogFitts()
     {
       return logFittsLaw;
     }
     
-    @Override public boolean getStillPlatforms()
+    @Override public boolean isStillPlatforms()
     {
       return stillPlatforms;
     }
     
-    @Override public boolean getLogRawData()
+    @Override public boolean isLogRawData()
     {
-      return loggingRawData;
+      return logRawData;
     }
   
   
@@ -589,8 +593,8 @@ public class Options implements IOptions
     
     @Override public void setLogRawData(boolean _logRawData)
     {
-      loggingRawData = _logRawData;
-      xmlGame.setString(LOG_RAW_DATA, loggingRawData ? "true" : "false");
+      logRawData = _logRawData;
+      xmlGame.setString(LOG_RAW_DATA, logRawData ? "true" : "false");
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   

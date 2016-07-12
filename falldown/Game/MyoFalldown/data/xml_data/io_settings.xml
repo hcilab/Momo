@@ -46,13 +46,13 @@
 	</GameObject>
 	<GameObject file="xml_data/button.xml" tag="difference">
 		<Transform>
-			<Translation x="375.0" y="325.0"/>
+			<Translation x="375.0" y="360.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/button.xml" tag="max">
 		<Transform>
-			<Translation x="375.0" y="370.0"/>
+			<Translation x="375.0" y="390.0"/>
 			<Scale x="20.0" y="20.0"/>
 		</Transform>
 	</GameObject>

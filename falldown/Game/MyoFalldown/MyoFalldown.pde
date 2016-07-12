@@ -84,6 +84,8 @@ FittsStatsComponent fsc;
 int stillPlatformCounter = 0;
 boolean isRising = false;
 SoundFile buttonClickedSound;
+HashMap<String,PImage> allImages;
+Table imageSources;
 
 enum Forearm {
   LEFT,
@@ -135,6 +137,9 @@ void setup()
   buttonClickedSound.rate(1.0);
   try { buttonClickedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
   buttonClickedSound.add(0.0);
+  
+  allImages = new HashMap<String,PImage>();
+  loadAllImages();
 } 
 
 void draw()
@@ -338,4 +343,12 @@ class FalldownContactListener implements ContactListener
   @Override public void postSolve(Contact contact, ContactImpulse impulse)
   {
   }
+}
+
+void loadAllImages(){
+  imageSources = loadTable("images/imagesSource.csv");
+  for(int i = 1; i<imageSources.getRowCount();i++){
+    TableRow row = imageSources.getRow(i); 
+    allImages.put(row.getString(0), loadImage(row.getString(0)));
+  }  
 }

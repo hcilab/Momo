@@ -104,13 +104,13 @@ public class RenderComponent extends Component
 
   public class OffsetPImage
   {
-    public PImage pimage;
+    public String pimageName;
     public PVector translation;
     public PVector scale;
 
-    public OffsetPImage(PImage _pimage, PVector _translation, PVector _scale)
+    public OffsetPImage(String _pimageName, PVector _translation, PVector _scale)
     {
-      pimage = _pimage;
+      pimageName = _pimageName;
       translation = _translation;
       scale = _scale;
     }
@@ -330,11 +330,11 @@ public class RenderComponent extends Component
          }
           else if(xmlSpriteComponent.getName().equals("Image")){
             OffsetPImage offsetsprite = new OffsetPImage(
-              loadImage(xmlSpriteComponent.getString("src")),
+              xmlSpriteComponent.getString("src"),
               new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
               new PVector(xmlSpriteComponent.getFloat("width"), xmlSpriteComponent.getFloat("height"))
             );
-             offsetsprite.pimage.resize(xmlSpriteComponent.getInt("resizeWidth"),xmlSpriteComponent.getInt("resizeHeight"));
+            // offsetsprite.pimage.resize(xmlSpriteComponent.getInt("resizeWidth"),xmlSpriteComponent.getInt("resizeHeight"));
             offsetPImages.add(offsetsprite);
          }
        }
@@ -505,12 +505,12 @@ public class RenderComponent extends Component
     {
       if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform"))
       {
-        PImage cropImg = offsetImage.pimage.get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
+        PImage cropImg = allImages.get(offsetImage.pimageName).get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x+0.5, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x *  offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
       }
       else 
       {
-        image(offsetImage.pimage, gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x,gameObject.getScale().y * offsetImage.scale.y);
+        image(allImages.get(offsetImage.pimageName), gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x,gameObject.getScale().y * offsetImage.scale.y);
       }
     }
     
@@ -930,19 +930,23 @@ public class PlayerControllerComponent extends Component
   private SoundFile jumpSound;
   private float amplitude; //<>//
   private SoundFile platformFallSound; //<>//
-   //<>//
+    //<>//
   private boolean onPlatform; //<>//
   private boolean onRegPlatform; //<>//
   private boolean onBreakPlatform; //<>//
   private IGameObject breakPlatform; //<>//
   private long breakTimerStart; //<>//
-  private long crumbleTimerStart;
-  private String crumblingPlatformFile;  //<>//
-  private int platformLevelCount;
-  private boolean justJumped;
+  private long crumbleTimerStart; //<>//
+  private String crumblingPlatformFile; //<>//
+  private int platformLevelCount; //<>//
+  private boolean justJumped; //<>//
   private HashMap<String, Float> rawInput;
+<<<<<<< 45c36e487b08a34ad1f22a4173e1f7c2de07a581
   private int pauseOnBreakPlatformTime;
   
+=======
+ //<>//
+>>>>>>> Add HashMap for selected Images, Made Images much smaller also
   public PlayerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -987,23 +991,23 @@ public class PlayerControllerComponent extends Component
     amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add")); //<>//
     jumpDelay = 500; //<>//
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
     platformFallSound.add(xmlComponent.getFloat("add")); //<>//
-    crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
+    crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
   } //<>//
  //<>//
   @Override public ComponentType getComponentType() //<>//
-  {
-    return ComponentType.PLAYER_CONTROLLER;
+  { //<>//
+    return ComponentType.PLAYER_CONTROLLER; //<>//
   } //<>//
  //<>//
-  @Override public void update(int deltaTime) //<>//
+  @Override public void update(int deltaTime)
   {
-    
-    handleEvents();
-    rawInput = gatherRawInput();
+     //<>//
+    handleEvents(); //<>//
+    rawInput = gatherRawInput(); //<>//
     PVector moveVector = new PVector();
     
     if(!options.getGameOptions().isFittsLaw())
@@ -1164,9 +1168,9 @@ public class PlayerControllerComponent extends Component
   {
     HashMap<String, Float> rawInput = emgManager.poll(); //<>//
 
-    Float keyboardLeftMagnitude;
+    Float keyboardLeftMagnitude; //<>//
     Float keyboardRightMagnitude;
-    Float keyboardJumpMagnitude;
+    Float keyboardJumpMagnitude; //<>//
 
     Float myoLeftMagnitude;
     Float myoRightMagnitude;
@@ -1261,18 +1265,18 @@ public class PlayerControllerComponent extends Component
     if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
     else if (mode == SingleMuscleMode.AUTO_RIGHT)
-      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL); //<>//
     else
-      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
 
     return moveVector; 
   } //<>//
 
   public PVector getLatestMoveVector() //<>//
   {
-    return moveVectorX;
+    return moveVectorX; //<>//
   }
-  
+   //<>//
   public void calculateOverShoots(PVector pos)
   {
     if((pos.x > (currGapPosition + currGapWidth) && onLeftSide))
@@ -1383,10 +1387,10 @@ public class PlayerControllerComponent extends Component
       upButtonDown = true; //<>//
  //<>//
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
-      leftButtonDown = true; 
-
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
-      rightButtonDown = true;
+      leftButtonDown = true;  //<>//
+ //<>//
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
+      rightButtonDown = true; //<>//
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
       upButtonDown = false;
@@ -2221,11 +2225,11 @@ public class CalibrateWizardComponent extends Component
         {
           if (options.getIOOptions().getForearm() == Forearm.RIGHT)
           {
-            img.pimage = loadImage("images/myo_gesture_icons/wave-left.png");
+            img.pimageName = "images/myo_gesture_icons/wave-left.png";
           }
           else if (options.getIOOptions().getForearm() == Forearm.LEFT)
           {
-            img.pimage = loadImage("images/myo_gesture_icons/LHwave-left.png");
+            img.pimageName = "images/myo_gesture_icons/LHwave-left.png";
           }
           else
           {
@@ -2236,11 +2240,11 @@ public class CalibrateWizardComponent extends Component
         {
           if (options.getIOOptions().getForearm() == Forearm.RIGHT)
           {
-            img.pimage = loadImage("images/myo_gesture_icons/wave-right.png");
+            img.pimageName = "images/myo_gesture_icons/wave-right.png";
           }
           else if (options.getIOOptions().getForearm() == Forearm.LEFT)
           {
-            img.pimage = loadImage("images/myo_gesture_icons/LHwave-right.png");
+            img.pimageName = "images/myo_gesture_icons/LHwave-right.png";
           }
           else
           {

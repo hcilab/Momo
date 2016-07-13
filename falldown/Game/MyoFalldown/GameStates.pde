@@ -323,7 +323,6 @@ public class GameState_InGame extends GameState
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
     totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
-    options.getGameOptions().setLogRawData(true);
   }
   
   @Override public void update(int deltaTime)

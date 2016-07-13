@@ -473,11 +473,6 @@ public class RenderComponent extends Component
   @Override public void update(int deltaTime)
   { 
     
-    //long allocated = Runtime.getRuntime().totalMemory();
-    //long free = Runtime.getRuntime().freeMemory();
-    //long maximum = Runtime.getRuntime().maxMemory();
-    //println("allocated: " + allocated + " free:" + free + " maximum:" + maximum );
-    
     for (OffsetPShape offsetShape : offsetShapes)
     {
       offsetShape.pshape.resetMatrix();
@@ -511,7 +506,6 @@ public class RenderComponent extends Component
       }
       else 
       {
-        //println(offsetImage.pimageName + " " + (gameObject.getTranslation().x + offsetImage.translation.x) + " " + (gameObject.getTranslation().y + offsetImage.translation.y) + " " + (gameObject.getScale().x *  offsetImage.scale.x) + " " + (gameObject.getScale().y * offsetImage.scale.y));
         image(allImages.get(offsetImage.pimageName), gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x,gameObject.getScale().y * offsetImage.scale.y);
       }
     }
@@ -937,17 +931,17 @@ public class PlayerControllerComponent extends Component
   private boolean onBreakPlatform; //<>//
   private IGameObject breakPlatform; //<>//
   private long breakTimerStart; //<>//
-  private long crumbleTimerStart; //<>//
+  private long crumbleTimerStart;
   private String crumblingPlatformFile; //<>//
   private int platformLevelCount; //<>//
-  private boolean justJumped;
+  private boolean justJumped; //<>//
   private HashMap<String, Float> rawInput; //<>//
-  private int pauseOnBreakPlatformTime;
-  
-  public PlayerControllerComponent(IGameObject _gameObject)
-  {
+  private int pauseOnBreakPlatformTime; //<>//
+   //<>//
+  public PlayerControllerComponent(IGameObject _gameObject) //<>//
+  { //<>//
     super(_gameObject);
-
+ //<>//
     upButtonDown = false;
     leftButtonDown = false;
     rightButtonDown = false;
@@ -987,23 +981,23 @@ public class PlayerControllerComponent extends Component
     try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
     amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>//
+    jumpDelay = 500; //<>// //<>//
     platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
     platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
     try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
+    platformFallSound.add(xmlComponent.getFloat("add"));
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
-  }
-
+  } //<>//
+ //<>//
   @Override public ComponentType getComponentType() //<>//
   { //<>//
     return ComponentType.PLAYER_CONTROLLER; //<>//
-  }
+  } //<>//
 
   @Override public void update(int deltaTime)
-  {
-    
-    handleEvents();
+  { //<>//
+     //<>//
+    handleEvents(); //<>//
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
     
@@ -1164,9 +1158,9 @@ public class PlayerControllerComponent extends Component
   private HashMap<String, Float> gatherRawInput()
   {
     HashMap<String, Float> rawInput = emgManager.poll();
-
+ //<>//
     Float keyboardLeftMagnitude;
-    Float keyboardRightMagnitude;
+    Float keyboardRightMagnitude; //<>//
     Float keyboardJumpMagnitude;
 
     Float myoLeftMagnitude;
@@ -1261,18 +1255,18 @@ public class PlayerControllerComponent extends Component
     SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
     if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
-    else if (mode == SingleMuscleMode.AUTO_RIGHT)
+    else if (mode == SingleMuscleMode.AUTO_RIGHT) //<>//
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
-    else
+    else //<>//
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
 
     return moveVector;  //<>//
   }
 
   public PVector getLatestMoveVector()
-  {
+  { //<>//
     return moveVectorX;
-  }
+  } //<>//
   
   public void calculateOverShoots(PVector pos)
   {
@@ -1383,10 +1377,10 @@ public class PlayerControllerComponent extends Component
     if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
       upButtonDown = true;
 
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
-      leftButtonDown = true; 
-
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
+      leftButtonDown = true;  //<>//
+ //<>//
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
       rightButtonDown = true;
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
@@ -3789,8 +3783,9 @@ public class LogRawDataComponent extends Component
   @Override public void update(int deltaTime)
   {
     totalTime += deltaTime;
-    if(options.getGameOptions().isLogRawData() && (totalTime - nextLogTime) > 100)
+    if((gameStateController.getCurrentState() instanceof GameState_InGame) && options.getGameOptions().isLogRawData() && (totalTime - nextLogTime) > 100)
     {
+      println("Logging Raw Data" + options.getGameOptions().isLogRawData());
       nextLogTime = totalTime;
       TableRow newRow = tableRawData.addRow(); 
       logRawData(newRow);

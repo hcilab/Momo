@@ -1381,7 +1381,7 @@ public class GameState_CustomizeSettings extends GameState
             options.getCustomizeOptions().setMusic(custSpriteIndex, id);
           }
 
-          renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).sprite.translation.x;
+          renderComponent.getShapes().get(index+1).translation.x = renderComponent.getCustomSprites().get(custSpriteIndex).pimage.translation.x;
         }
         else
         {

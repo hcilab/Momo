@@ -2,7 +2,7 @@
 <GameObject>
   <Render>
     <Sprite>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="146.0" horzCount="1" scaleHeight="1" src="images/obstacle/pokerMad.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="50.0" horzCount="1" scaleHeight="1" src="images/obstacle/pokerMad.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="kinematic">

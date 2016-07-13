@@ -157,7 +157,7 @@ public class RenderComponent extends Component
   // Used only for the sprites on the Customize page
   public class CustomSprite
   {
-    public OffsetSheetSprite sprite;
+    public OffsetPImage pimage;
     public int cost;
     public String actualSrc;
     public int horzCount;
@@ -168,9 +168,9 @@ public class RenderComponent extends Component
     public boolean active;
     public String name;
 
-    public CustomSprite(OffsetSheetSprite _sprite, int _cost, String _actualSrc, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, String _unlocked, String _active, String _name)
+    public CustomSprite(OffsetPImage _pimage, int _cost, String _actualSrc, int _horzCount, int _vertCount, int _defaultCount, float _frameFreq, String _unlocked, String _active, String _name)
     {
-      sprite = _sprite;
+      pimage = _pimage;
       cost = _cost;
       actualSrc = _actualSrc;
       horzCount = _horzCount;
@@ -334,7 +334,6 @@ public class RenderComponent extends Component
               new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
               new PVector(xmlSpriteComponent.getFloat("width"), xmlSpriteComponent.getFloat("height"))
             );
-            // offsetsprite.pimage.resize(xmlSpriteComponent.getInt("resizeWidth"),xmlSpriteComponent.getInt("resizeHeight"));
             offsetPImages.add(offsetsprite);
          }
        }
@@ -409,10 +408,10 @@ public class RenderComponent extends Component
         for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            CustomSprite customSprite = new CustomSprite(
-                 new OffsetSheetSprite(
-                 new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
+                 new OffsetPImage(
+                 xmlSpriteComponent.getString("src"),
                  new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
-                 new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))),
+                 new PVector(xmlSpriteComponent.getFloat("width"), (xmlSpriteComponent.getFloat("height")))),
                  xmlRenderable.getInt("cost"),
                  xmlRenderable.getString("actualSrc"),
                  xmlSpriteComponent.getInt("horzCount"),
@@ -423,10 +422,7 @@ public class RenderComponent extends Component
                  xmlRenderable.getString("active"),
                  xmlRenderable.getString("name")
             );
-            customSprite.sprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));
-            customSprite.sprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
-            customSprite.sprite.sheetSprite.setScale(xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"));
-            offsetSheetSprites.add(customSprite.sprite);
+            offsetPImages.add(customSprite.pimage);
             customSprites.add(customSprite);
           }
         }
@@ -477,6 +473,11 @@ public class RenderComponent extends Component
   @Override public void update(int deltaTime)
   { 
     
+    //long allocated = Runtime.getRuntime().totalMemory();
+    //long free = Runtime.getRuntime().freeMemory();
+    //long maximum = Runtime.getRuntime().maxMemory();
+    //println("allocated: " + allocated + " free:" + free + " maximum:" + maximum );
+    
     for (OffsetPShape offsetShape : offsetShapes)
     {
       offsetShape.pshape.resetMatrix();
@@ -510,11 +511,11 @@ public class RenderComponent extends Component
       }
       else 
       {
+        //println(offsetImage.pimageName + " " + (gameObject.getTranslation().x + offsetImage.translation.x) + " " + (gameObject.getTranslation().y + offsetImage.translation.y) + " " + (gameObject.getScale().x *  offsetImage.scale.x) + " " + (gameObject.getScale().y * offsetImage.scale.y));
         image(allImages.get(offsetImage.pimageName), gameObject.getTranslation().x + offsetImage.translation.x, gameObject.getTranslation().y + offsetImage.translation.y,gameObject.getScale().x *  offsetImage.scale.x,gameObject.getScale().y * offsetImage.scale.y);
       }
     }
     
-
     for (Text text : texts)
     {
       textFont(text.font);
@@ -926,22 +927,22 @@ public class PlayerControllerComponent extends Component
   private boolean onLeftSide;
   private boolean onRightSide;
   private int jumpCount;
- //<>//
+ 
   private SoundFile jumpSound;
-  private float amplitude; //<>//
+  private float amplitude;
   private SoundFile platformFallSound; //<>//
-    //<>// //<>//
+   
   private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>// //<>//
-  private boolean onBreakPlatform; //<>// //<>//
-  private IGameObject breakPlatform; //<>// //<>//
-  private long breakTimerStart; //<>// //<>//
-  private long crumbleTimerStart; //<>// //<>//
-  private String crumblingPlatformFile; //<>// //<>//
-  private int platformLevelCount; //<>// //<>//
-  private boolean justJumped; //<>// //<>//
-  private HashMap<String, Float> rawInput;
-  private int pauseOnBreakPlatformTime; //<>//
+  private boolean onRegPlatform; //<>//
+  private boolean onBreakPlatform; //<>//
+  private IGameObject breakPlatform; //<>//
+  private long breakTimerStart; //<>//
+  private long crumbleTimerStart; //<>//
+  private String crumblingPlatformFile; //<>//
+  private int platformLevelCount; //<>//
+  private boolean justJumped;
+  private HashMap<String, Float> rawInput; //<>//
+  private int pauseOnBreakPlatformTime;
   
   public PlayerControllerComponent(IGameObject _gameObject)
   {
@@ -980,30 +981,30 @@ public class PlayerControllerComponent extends Component
 
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
-    gapDirection = LEFT_DIRECTION_LABEL;
-    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile")); //<>//
-    jumpSound.rate(xmlComponent.getFloat("rate"));
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>// //<>//
-    amplitude = xmlComponent.getFloat("amp"); //<>//
+    gapDirection = LEFT_DIRECTION_LABEL; //<>//
+    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
+    jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    amplitude = xmlComponent.getFloat("amp");
     jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>// //<>//
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>// //<>//
-    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>// //<>//
-    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>// //<>//
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>// //<>//
+    jumpDelay = 500; //<>//
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
+    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
+    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
-  } //<>// //<>//
- //<>//
+  }
+
   @Override public ComponentType getComponentType() //<>//
-  { //<>// //<>//
-    return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
-  } //<>// //<>//
- //<>//
+  { //<>//
+    return ComponentType.PLAYER_CONTROLLER; //<>//
+  }
+
   @Override public void update(int deltaTime)
   {
-     //<>//
-    handleEvents(); //<>//
-    rawInput = gatherRawInput(); //<>//
+    
+    handleEvents();
+    rawInput = gatherRawInput();
     PVector moveVector = new PVector();
     
     if(!options.getGameOptions().isFittsLaw())
@@ -1157,16 +1158,16 @@ public class PlayerControllerComponent extends Component
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
     }
 
-    eventManager.queueEvent(currentSpeedEvent);
-  } //<>//
-
-  private HashMap<String, Float> gatherRawInput() //<>// //<>//
+    eventManager.queueEvent(currentSpeedEvent); //<>//
+  }
+ //<>//
+  private HashMap<String, Float> gatherRawInput()
   {
-    HashMap<String, Float> rawInput = emgManager.poll(); //<>//
+    HashMap<String, Float> rawInput = emgManager.poll();
 
-    Float keyboardLeftMagnitude; //<>//
+    Float keyboardLeftMagnitude;
     Float keyboardRightMagnitude;
-    Float keyboardJumpMagnitude; //<>//
+    Float keyboardJumpMagnitude;
 
     Float myoLeftMagnitude;
     Float myoRightMagnitude;
@@ -1254,25 +1255,25 @@ public class PlayerControllerComponent extends Component
   }
 
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
-  {
-    PVector moveVector = new PVector(); //<>//
-
-    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>// //<>//
+  { //<>//
+    PVector moveVector = new PVector();
+ //<>//
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
     if (mode == SingleMuscleMode.AUTO_LEFT)
-      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
+      moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
     else if (mode == SingleMuscleMode.AUTO_RIGHT)
-      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL); //<>//
+      moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
- //<>//
-    return moveVector; 
-  } //<>// //<>//
 
-  public PVector getLatestMoveVector() //<>//
-  {
-    return moveVectorX; //<>//
+    return moveVector;  //<>//
   }
-   //<>//
+
+  public PVector getLatestMoveVector()
+  {
+    return moveVectorX;
+  }
+  
   public void calculateOverShoots(PVector pos)
   {
     if((pos.x > (currGapPosition + currGapWidth) && onLeftSide))
@@ -1376,17 +1377,17 @@ public class PlayerControllerComponent extends Component
       onRightSide = true; 
     }
   }
- 
+  //<>//
   private void handleEvents()  //<>//
   { //<>//
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>// //<>//
-      upButtonDown = true; //<>// //<>//
- //<>//
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
-      leftButtonDown = true;  //<>//
- //<>//
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
-      rightButtonDown = true; //<>//
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
+      upButtonDown = true;
+
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
+      leftButtonDown = true; 
+
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
+      rightButtonDown = true;
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 
       upButtonDown = false;

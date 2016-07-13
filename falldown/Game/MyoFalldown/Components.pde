@@ -930,23 +930,19 @@ public class PlayerControllerComponent extends Component
   private SoundFile jumpSound;
   private float amplitude; //<>//
   private SoundFile platformFallSound; //<>//
-    //<>//
+    //<>// //<>//
   private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>//
-  private boolean onBreakPlatform; //<>//
-  private IGameObject breakPlatform; //<>//
-  private long breakTimerStart; //<>//
-  private long crumbleTimerStart; //<>//
-  private String crumblingPlatformFile; //<>//
-  private int platformLevelCount; //<>//
-  private boolean justJumped; //<>//
+  private boolean onRegPlatform; //<>// //<>//
+  private boolean onBreakPlatform; //<>// //<>//
+  private IGameObject breakPlatform; //<>// //<>//
+  private long breakTimerStart; //<>// //<>//
+  private long crumbleTimerStart; //<>// //<>//
+  private String crumblingPlatformFile; //<>// //<>//
+  private int platformLevelCount; //<>// //<>//
+  private boolean justJumped; //<>// //<>//
   private HashMap<String, Float> rawInput;
-<<<<<<< 45c36e487b08a34ad1f22a4173e1f7c2de07a581
-  private int pauseOnBreakPlatformTime;
+  private int pauseOnBreakPlatformTime; //<>//
   
-=======
- //<>//
->>>>>>> Add HashMap for selected Images, Made Images much smaller also
   public PlayerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -985,23 +981,23 @@ public class PlayerControllerComponent extends Component
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
-    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
+    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile")); //<>//
     jumpSound.rate(xmlComponent.getFloat("rate"));
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
-    amplitude = xmlComponent.getFloat("amp");
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>// //<>//
+    amplitude = xmlComponent.getFloat("amp"); //<>//
     jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>//
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
-    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
-    platformFallSound.add(xmlComponent.getFloat("add")); //<>//
-    crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
-  } //<>//
+    jumpDelay = 500; //<>// //<>//
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>// //<>//
+    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>// //<>//
+    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>// //<>//
+    platformFallSound.add(xmlComponent.getFloat("add")); //<>// //<>//
+    crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
+  } //<>// //<>//
  //<>//
   @Override public ComponentType getComponentType() //<>//
-  { //<>//
-    return ComponentType.PLAYER_CONTROLLER; //<>//
-  } //<>//
+  { //<>// //<>//
+    return ComponentType.PLAYER_CONTROLLER; //<>// //<>//
+  } //<>// //<>//
  //<>//
   @Override public void update(int deltaTime)
   {
@@ -1162,9 +1158,9 @@ public class PlayerControllerComponent extends Component
     }
 
     eventManager.queueEvent(currentSpeedEvent);
-  }
+  } //<>//
 
-  private HashMap<String, Float> gatherRawInput() //<>//
+  private HashMap<String, Float> gatherRawInput() //<>// //<>//
   {
     HashMap<String, Float> rawInput = emgManager.poll(); //<>//
 
@@ -1259,18 +1255,18 @@ public class PlayerControllerComponent extends Component
 
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
   {
-    PVector moveVector = new PVector();
+    PVector moveVector = new PVector(); //<>//
 
-    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>//
+    SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode(); //<>// //<>//
     if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL); //<>//
     else if (mode == SingleMuscleMode.AUTO_RIGHT)
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL); //<>//
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
-
+ //<>//
     return moveVector; 
-  } //<>//
+  } //<>// //<>//
 
   public PVector getLatestMoveVector() //<>//
   {
@@ -1381,10 +1377,10 @@ public class PlayerControllerComponent extends Component
     }
   }
  
-  private void handleEvents() 
-  {
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
-      upButtonDown = true; //<>//
+  private void handleEvents()  //<>//
+  { //<>//
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>// //<>//
+      upButtonDown = true; //<>// //<>//
  //<>//
     if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
       leftButtonDown = true;  //<>//

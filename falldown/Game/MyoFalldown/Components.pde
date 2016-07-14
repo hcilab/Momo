@@ -791,7 +791,6 @@ public class RigidBodyComponent extends Component
         }
         else if (onCollideEvent.eventType == EventType.PLAYER_GROUND_COLLISION)
         {
-          println("Ground Collision");
           Event event = new Event(EventType.PLAYER_GROUND_COLLISION);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("groundParameterName"), collider);
           eventManager.queueEvent(event);

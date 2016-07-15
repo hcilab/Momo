@@ -40,8 +40,8 @@
     <CustomSprite active="true" actualSrc="images/block/grassMid.png" cost="0" greySrc="" name="Grassy Platform" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/block/grassMid.png" vertCount="1" width="30" x="175.0" y="167.5" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/block/castleMid.png" cost="25" greySrc="images/block/castleMidGrey.png" name="Castle Bricks" unlocked="true">
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/block/castleMid.png" vertCount="1" width="30" x="225.0" y="167.5" zOrder="0"/>
+    <CustomSprite active="false" actualSrc="images/block/castleMid.png" cost="25" greySrc="images/block/castleMidGrey.png" name="Castle Bricks" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/block/castleMidGrey.png" vertCount="1" width="30" x="225.0" y="167.5" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/block/keybrick.png" cost="30" greySrc="images/block/keybrickGrey.png" name="Space Platform" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/block/keybrickGrey.png" vertCount="1" width="30" x="275.0" y="167.5" zOrder="0"/>

@@ -3607,13 +3607,12 @@ public class AnimationControllerComponent extends Component
 public class FittsStatsComponent extends Component
 { 
   private int levelCount;
-  private float startTime;
-  private float endTime;
+  private long startTime;
+  private long endTime;
   private int errors;
   private int undershoots;
   private int overshoots;
   private int directionChanges;
-  private float totalTime;
   public FittsStatsComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -3635,10 +3634,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    if(options.getGameOptions().isFittsLaw() || options.getGameOptions().isLogFitts())
-    {
-      totalTime += deltaTime;
-    }
+    
   }
   
   private int getCurrentLevel()
@@ -3648,7 +3644,7 @@ public class FittsStatsComponent extends Component
   
   private void startLogLevel(TableRow newRow, int levelC)
   {
-    startTime = totalTime;
+    startTime = System.currentTimeMillis();
     if(options.getGameOptions().isLogFitts())
     {
       IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
@@ -3672,13 +3668,13 @@ public class FittsStatsComponent extends Component
       newRow.setInt("level", levelCount);
       newRow.setString("condition", "Simple");
       newRow.setFloat("start point x", pos.x);
-      newRow.setFloat("start time", startTime);
+      newRow.setLong("start time", startTime);
     }
   }
   
   private void endLogLevel()
   {
-    endTime = totalTime;
+    endTime = System.currentTimeMillis();
     if(options.getGameOptions().isFittsLaw())
     {
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
@@ -3706,12 +3702,12 @@ public class FittsStatsComponent extends Component
       undershoots = playComp.getUnderShoots();
       errors = playComp.getErrors();
       newRow.setFloat("end point x", pos.x);
-      newRow.setFloat("end time", endTime);
+      newRow.setLong("end time", endTime);
       newRow.setInt("errors", errors);
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
       newRow.setInt("direction changes", directionChanges);
-      newRow.setFloat("total time",endTime - startTime);
+      newRow.setLong("total time",endTime - startTime);
     }
   }
 }
@@ -3720,7 +3716,6 @@ public class FittsStatsComponent extends Component
 public class LogRawDataComponent extends Component
 { 
   private String userID;
-  private Date d;
   private int platLevel;
   private String playingWith;
   private String inputType;
@@ -3729,15 +3724,14 @@ public class LogRawDataComponent extends Component
   private boolean movingRight;
   private boolean isJumping;
   
-  private int totalTime;
-  private int nextLogTime;
+  private long totalTime;
+  private long nextLogTime;
   private EmgSamplingPolicy sampPolicy;
   private ControlPolicy contPolicy;
   
   public LogRawDataComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    d = new Date();
     userID = options.getUserInformation().getUserID();
     if(userID == null)
       userID ="-1";  
@@ -3784,7 +3778,6 @@ public class LogRawDataComponent extends Component
     totalTime += deltaTime;
     if((gameStateController.getCurrentState() instanceof GameState_InGame) && options.getGameOptions().isLogRawData() && (totalTime - nextLogTime) > 100)
     {
-      println("Logging Raw Data" + options.getGameOptions().isLogRawData());
       nextLogTime = totalTime;
       TableRow newRow = tableRawData.addRow(); 
       logRawData(newRow);
@@ -3797,7 +3790,7 @@ public class LogRawDataComponent extends Component
       playingWith = "Myo Armband";
     else
       playingWith = "Keyboard";
-    d = new Date();
+      
     IComponent componentFittsStats = gameObject.getComponent(ComponentType.FITTS_STATS);
     FittsStatsComponent FittsStatComp = (FittsStatsComponent)componentFittsStats;
     platLevel = FittsStatComp.getCurrentLevel();
@@ -3832,7 +3825,7 @@ public class LogRawDataComponent extends Component
       isJumping = false;
     }
     
-    newRow.setFloat("timestamp", totalTime);
+    newRow.setLong("timestamp", System.currentTimeMillis());
     newRow.setString("userID", userID);
     newRow.setString("Playing With", playingWith);
     newRow.setInt("level", platLevel);
@@ -3843,7 +3836,7 @@ public class LogRawDataComponent extends Component
     newRow.setString("Mode", mode);
     newRow.setString("MovingLeft", movingLeft ? "1" : "0");
     newRow.setString("MovingRight", movingRight ? "1" : "0");
-    newRow.setInt("Jumping", isJumping ? 1 : 0);   
+    newRow.setInt("MovingUp", isJumping ? 1 : 0);   
   }
   
  

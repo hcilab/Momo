@@ -1119,7 +1119,13 @@ public class PlayerControllerComponent extends Component
           rigidBodyComponent.setLinearVelocity(new PVector(0,0));
         }
       }
-
+      
+      //This is too eliminate momo from being launch off the platform
+      if(isRising)
+      {
+        rigidBodyComponent.applyForce(new PVector(0, -4.5f), new PVector(gameObject.getTranslation().x, 270));
+      }
+      
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))

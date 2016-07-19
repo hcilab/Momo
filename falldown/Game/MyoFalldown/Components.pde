@@ -1811,7 +1811,7 @@ public class PlatformManagerControllerComponent extends Component
         if ((generateObstacle < obstacleChance) && platformWidth > 8)
         {
           float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
-          float obstacleHeight = random(obstacleMinHeight, obstacleMaxHeight);
+          float obstacleHeight = obstacleWidth *2.5;
           
           obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
 

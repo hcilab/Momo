@@ -1082,6 +1082,8 @@ public class Options implements IOptions
     private XML xmlCustomPurchase;
 
     private XML playerData;
+    private XML playerDataHappy;
+    private XML playerDataDanger;
     private XML animationData;
     private XML platformData;
     private XML platformSlipperyData;
@@ -1123,6 +1125,8 @@ public class Options implements IOptions
       xmlCustomPurchase = loadXML(CUSTOM_PURCHASE_FILE_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      playerDataHappy = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[2];
+      playerDataDanger = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[1];
       animationData = xmlPlayer.getChildren("AnimationController")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       platformSlipperyData = xmlPlatformSlippery.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
@@ -1209,6 +1213,9 @@ public class Options implements IOptions
       playerData.setString("farmeFreq", sprite.getString("farmeFreq"));
       playerData.setString("height", sprite.getString("height"));
       playerData.setString("scaleHeight", sprite.getString("scaleHeight"));
+      playerData.setString("zone", sprite.getString("neutralZone"));
+      playerDataHappy.setString("zone", sprite.getString("happyZone"));
+      playerDataDanger.setString("zone",sprite.getString("dangerZone"));
       animationData.setString("rightStart", animation.getString("rightStart"));
       animationData.setString("rightEnd", animation.getString("rightEnd"));
       animationData.setString("leftStart", animation.getString("leftStart"));

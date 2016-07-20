@@ -86,10 +86,17 @@ boolean isRising = false;
 SoundFile buttonClickedSound;
 HashMap<String,PImage> allImages;
 Table imageSources;
+Zone zone;
 
 enum Forearm {
   LEFT,
   RIGHT,
+}
+
+enum Zone { 
+  DANGER,
+  NEUTRAL,
+  HAPPY,
 }
 
 void setup()

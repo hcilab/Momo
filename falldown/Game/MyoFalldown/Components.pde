@@ -121,12 +121,14 @@ public class RenderComponent extends Component
     public Sprite sheetSprite;
     public PVector translation;
     public PVector scale;
+    public String zone;
     
-    public OffsetSheetSprite(Sprite _sheetSprite, PVector _translation, PVector _scale)
+    public OffsetSheetSprite(Sprite _sheetSprite, PVector _translation, PVector _scale, String _zone)
     {
       sheetSprite = _sheetSprite;
       translation = _translation;
       scale = _scale;
+      zone = _zone;
     }
   }
   
@@ -321,7 +323,8 @@ public class RenderComponent extends Component
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
                new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
-               new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height")))
+               new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"))),
+               xmlSpriteComponent.getString("zone")
             );
             offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
             offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
@@ -491,10 +494,28 @@ public class RenderComponent extends Component
          AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
          float[] direction = animationComponent.getDirection();
          offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
+         
+         offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+         S4P.updateSprites(deltaTime / 1000.0f);
+         if(offsetSprite.zone.equals("NEUTRAL") && zone == Zone.NEUTRAL){
+           offsetSprite.sheetSprite.draw();
+         } 
+         else if (offsetSprite.zone.equals("HAPPY") && zone == Zone.HAPPY){
+           offsetSprite.sheetSprite.draw();
+         } 
+         else if(offsetSprite.zone.equals("DANGER") && zone == Zone.DANGER){
+           offsetSprite.sheetSprite.draw();
+         } 
+         else if(offsetSprite.zone.equals("ALL")){
+           offsetSprite.sheetSprite.draw();
+         } 
       }
-      offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
-      S4P.updateSprites(deltaTime / 1000.0f);
-      offsetSprite.sheetSprite.draw();
+      else{
+        offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+        S4P.updateSprites(deltaTime / 1000.0f);
+        offsetSprite.sheetSprite.draw(); 
+      }
+     
     }
     
     for (OffsetPImage offsetImage : offsetPImages)
@@ -1121,11 +1142,21 @@ public class PlayerControllerComponent extends Component
       }
       
       //This is too eliminate momo from being launch off the platform
-      if(isRising)
+      if(isRising  && options.getGameOptions().isFittsLaw() && options.getGameOptions().isStillPlatforms())
       {
         rigidBodyComponent.applyForce(new PVector(0, -4.5f), new PVector(gameObject.getTranslation().x, 270));
       }
       
+      if(gameObject.getTranslation().y < 195){
+        zone = Zone.DANGER;
+      } 
+      else if(gameObject.getTranslation().y < 340){
+        zone = Zone.NEUTRAL;
+      }
+      else{
+        zone = Zone.HAPPY;
+      }
+       //<>//
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))

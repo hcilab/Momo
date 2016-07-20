@@ -1,7 +1,7 @@
 <GameObject>
 	<LevelParameters  
 		maxLevel="99" 
-		levelOneRiseSpeed="8.5"
+		levelOneRiseSpeed="10"
 		riseSpeedChangePerLevel="0.5"
 		levelUpTime="5000"
 		bonusScorePerLevel="1"

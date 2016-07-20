@@ -1558,7 +1558,8 @@ public class PlayerControllerComponent extends Component
 
 public class PlatformManagerControllerComponent extends Component
 { 
-  private LinkedList<IGameObject> platforms; 
+  private LinkedList<IGameObject> platforms;
+  private LinkedList<IGameObject> obstacles;
   private String platformFile;  
   private String breakPlatformFile;
   private float breakPlatformChance;
@@ -1612,7 +1613,7 @@ public class PlatformManagerControllerComponent extends Component
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
     super (_gameObject);
-    
+    obstacles = new LinkedList<IGameObject>();
     platforms = new LinkedList<IGameObject>();
     platformLevels = new ArrayList<ArrayList<Integer>>();
     platformGapPosition = new ArrayList<PVector>();
@@ -1709,10 +1710,15 @@ public class PlatformManagerControllerComponent extends Component
             firstIteration = false;
           }
         }
-       if(!options.getGameOptions().isStillPlatforms())
-        nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
-      else
-        nextHeightBetweenPlatformLevels = 125;
+       
+        if(!options.getGameOptions().isStillPlatforms())
+        {
+          nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+        }
+        else
+        {
+          nextHeightBetweenPlatformLevels = 125;
+        }
         
       }
 
@@ -1768,11 +1774,11 @@ public class PlatformManagerControllerComponent extends Component
       
       if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
       {
-        IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-        breakPlatform.setTag("break_platform");
-        setPlatformRiseSpeed(breakPlatform);
-        platforms.add(breakPlatform);
-        platLevels.add(breakPlatform.getUID());
+       IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+       breakPlatform.setTag("break_platform");
+       setPlatformRiseSpeed(breakPlatform);
+       platforms.add(breakPlatform);
+       platLevels.add(breakPlatform.getUID());
       }
       inputPlatformCounter++;
     }
@@ -1843,17 +1849,19 @@ public class PlatformManagerControllerComponent extends Component
         {
           float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
           float obstacleHeight = obstacleWidth *2.5;
-          
+            
           obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
-
-          IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(
-            obstacleFile, 
-            new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),
-            new PVector(obstacleWidth, obstacleHeight)
-          );
+  
+          IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(obstacleFile, new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),new PVector(obstacleWidth, obstacleHeight));
           obstacle.setTag(obstacleTag);
-          setPlatformRiseSpeed(obstacle);
-          platforms.add(obstacle);
+          IComponent component = obstacle.getComponent(ComponentType.RIGID_BODY);
+            
+           if (component != null)
+           {
+             RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+             rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
+           }
+           obstacles.add(obstacle);
         }
       }
       
@@ -1862,19 +1870,19 @@ public class PlatformManagerControllerComponent extends Component
       float generateCoin = random(0.0, 1.0);
       if((generateCoin < coinProbability) && platformWidth > 8)
       {
-        float coinOffset = random((-platformWidth/2)+7.5, platformWidth/2-7.5);
-        if(abs(coinOffset - obstacleOffset) > 15)
-        {
-          IGameObject coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(platformPosition+coinOffset,505), new PVector(1.0, 1.0));
-          coin.setTag("coin");
-          IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
+       float coinOffset = random((-platformWidth/2)+7.5, platformWidth/2-7.5);
+       if(abs(coinOffset - obstacleOffset) > 15)
+       {
+         IGameObject coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(platformPosition+coinOffset,505), new PVector(1.0, 1.0));
+         coin.setTag("coin");
+         IComponent component = coin.getComponent(ComponentType.RIGID_BODY);
           
-          if (component != null)
-          {
-            RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-            rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
-          }
-        }
+         if (component != null)
+         {
+           RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+           rigidBodyComponent.setLinearVelocity(new PVector(0.0, -riseSpeed));
+         }
+       }
       }
       
     }
@@ -2006,6 +2014,11 @@ public class PlatformManagerControllerComponent extends Component
       for (IGameObject platform : platforms)
       {
         setPlatformRiseSpeed(platform);
+      }
+      
+      for (IGameObject obstacle : obstacles)
+      {
+        setPlatformRiseSpeed(obstacle);
       }
     }
   }

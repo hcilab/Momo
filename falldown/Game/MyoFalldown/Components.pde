@@ -3385,8 +3385,8 @@ public class GameOptionsControllerComponent extends Component
         RenderComponent.OffsetPShape autoLeftCheckBox = shapes.get(6);
         RenderComponent.OffsetPShape autoRightCheckBox = shapes.get(7);
         
-        RenderComponent.OffsetPShape wait2secCheckbox = shapes.get(8);
-        RenderComponent.OffsetPShape jump3timeCheckbox = shapes.get(9);
+        RenderComponent.OffsetPShape jump3timeCheckbox = shapes.get(8);
+        RenderComponent.OffsetPShape wait2secCheckbox = shapes.get(9);
         
         levelUpOverTimeCheckBox.translation.x = checkBoxXPosition + (gameOptions.getLevelUpOverTime() ? 0.0f : falseDisplacement);
         
@@ -3410,8 +3410,8 @@ public class GameOptionsControllerComponent extends Component
         logFittsCheckBox.translation.x = 60 + (gameOptions.isLogFitts() ? 0.0f : falseDisplacement);
         contraintsFittsCheckBox.translation.x = 60 + (gameOptions.isStillPlatforms() ? 0.0f : falseDisplacement);
         
-        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
         jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
+        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
       }
     }
   }

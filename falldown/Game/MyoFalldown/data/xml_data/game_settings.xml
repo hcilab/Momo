@@ -120,14 +120,14 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/button.xml" tag="wait_2secs">
+	<GameObject file="xml_data/button.xml" tag="jump_3times">
 		<Transform>
 			<Translation x="315.0" y="420.0"/>
 			<Scale x="15.0" y="15.0"/>
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/button.xml" tag="jump_3times">
+	<GameObject file="xml_data/button.xml" tag="wait_2secs">
 		<Transform>
 			<Translation x="315.0" y="435.0"/>
 			<Scale x="15.0" y="15.0"/>

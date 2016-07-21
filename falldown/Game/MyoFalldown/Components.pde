@@ -3954,51 +3954,73 @@ public class ModalComponent extends Component
 }
 
 public class CalibrationDisplayComponent extends Component
+{
+  private PlayerControllerComponent pcc;
+  private long time;
+  private boolean show;
+
+  public CalibrationDisplayComponent(IGameObject _gameObject)
   {
-    private PlayerControllerComponent pcc;
-    private long time;
+    super(_gameObject);
 
-    public CalibrationDisplayComponent(IGameObject _gameObject)
+    time = System.currentTimeMillis();
+    show = true;
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.CALIBRATION_DISPLAY;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    if (pcc == null && gameStateController.getGameObjectManager().getGameObjectsByTag("player").size() > 0)
     {
-      super(_gameObject);
-
-      time = System.currentTimeMillis();
+      IGameObject playerObj = gameStateController.getGameObjectManager().getGameObjectsByTag("player").get(0);
+      pcc = (PlayerControllerComponent) playerObj.getComponent(ComponentType.PLAYER_CONTROLLER);
     }
 
-    @Override public void fromXML(XML xmlComponent)
+    if (pcc != null)
     {
-
-    }
-
-    @Override public ComponentType getComponentType()
-    {
-      return ComponentType.CALIBRATION_DISPLAY;
-    }
-
-    @Override public void update(int deltaTime)
-    {
-      if (pcc == null && gameStateController.getGameObjectManager().getGameObjectsByTag("player").size() > 0)
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)
       {
-        IGameObject playerObj = gameStateController.getGameObjectManager().getGameObjectsByTag("player").get(0);
-        pcc = (PlayerControllerComponent) playerObj.getComponent(ComponentType.PLAYER_CONTROLLER);
+         RenderComponent renderComponent = (RenderComponent)component;
+         RenderComponent.Text text = renderComponent.getTexts().get(0);
+         if (text != null && pcc.rawInput != null && System.currentTimeMillis() - time > 2000)
+         {
+           text.string = "Left: " + (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100) + "%, Right: " + (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100) + "%";
+           time = System.currentTimeMillis();
+         }
       }
+    }
 
-      if (pcc != null)
-      {
-        IComponent component = gameObject.getComponent(ComponentType.RENDER);
-        if (component != null)
-        {
-           RenderComponent renderComponent = (RenderComponent)component;
-           RenderComponent.Text text = renderComponent.getTexts().get(0);
-           if (text != null && pcc.rawInput != null && System.currentTimeMillis() - time > 2000)
-           {
-             text.string = "Left: " + (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100) + "%, Right: " + (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100) + "%";
-             time = System.currentTimeMillis();
-           }
-        }
+    for (IEvent event : eventManager.getEvents(EventType.TOGGLE_CALIBRATION_DISPLAY)) {
+      if (show) {
+        hide();
+        show = !show;
+      } else {
+        show();
+        show = !show;
       }
     }
   }
+
+  public void hide() {
+    IComponent component = gameObject.getComponent(ComponentType.CALIBRATION_DISPLAY);
+    component.getGameObject().setTranslation(new PVector(1000.0, 485.0));
+  }
+
+  public void show() {
+    IComponent component = gameObject.getComponent(ComponentType.CALIBRATION_DISPLAY);
+    component.getGameObject().setTranslation(new PVector(485.0, 485.0));
+  }
+}
 
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {

@@ -239,6 +239,10 @@ void keyPressed()
     eventManager.queueEvent(event);
     return;
   }
+  else if (gameStateController.getCurrentState() instanceof GameState_InGame && ( key == 't' || key == 'T')) {
+    event = new Event(EventType.TOGGLE_CALIBRATION_DISPLAY);
+    eventManager.queueEvent(event);
+  }
 }
 
 void keyReleased()

@@ -3757,7 +3757,12 @@ public class FittsStatsComponent extends Component
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
       newRow.setInt("direction changes", directionChanges);
-      newRow.setLong("total time",endTime - startTime);
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC) {
+        newRow.setLong("total time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
+      }
+      else { // TODO somehow subtract the time spent jumping as well ??
+        newRow.setLong("total time",endTime - startTime);
+      }
     }
   }
 }

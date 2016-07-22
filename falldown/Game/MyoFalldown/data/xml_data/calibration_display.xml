@@ -1,6 +1,6 @@
 <GameObject>
 	<Render>
-		<Rect halfHeight="1" halfWidth="1" x="-75.0" y="0.0">
+		<Rect halfHeight="1" halfWidth="1" x="-75.0" y="-3">
       		<FillColor r="255" g="255" b="255" a="255"/>
       		<StrokeColor a="255" b="255" g="255" r="255" strokeWeight="1.0"/>
     	</Rect>

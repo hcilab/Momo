@@ -2,7 +2,7 @@
 	<GameObject file="xml_data/calibration_display.xml" tag="calibration_display">
 		<Transform>
 			<Translation x="485.0" y="485.0"/>
-			<Scale x="75" y="10"/>
+			<Scale x="75" y="5"/>
 		</Transform>
 	</GameObject>
 

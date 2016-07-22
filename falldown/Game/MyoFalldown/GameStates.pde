@@ -639,7 +639,7 @@ public class GameState_GameSettings extends GameState
     handleEvents();
     gameObjectManager.update(deltaTime);
 
-    if (!textLoaded && gameObjectManager.getGameObjectsByTag("counter").size() > 0)
+    if (!textLoaded && gameObjectManager.getGameObjectsByTag("counter").size() > 0 && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
       loadText();
     }
@@ -654,9 +654,20 @@ public class GameState_GameSettings extends GameState
   {
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
-      if (event.getRequiredStringParameter("tag").equals("back"))
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
       {
         gameStateController.popState();
+      }
+      else if (tag.equals("count_up")) {
+        RenderComponent rc = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        int time = options.getGameOptions().getDwellTime() == 9 ? 1 : options.getGameOptions().getDwellTime() + 1;
+        rc.getTexts().get(22).string = "Hold for " + time + " seconds";
+      }
+      else if (tag.equals("count_down")) {
+        RenderComponent rc = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+        int time = options.getGameOptions().getDwellTime() == 1 ? 9 : options.getGameOptions().getDwellTime() - 1;
+        rc.getTexts().get(22).string = "Hold for " + time + " seconds";
       }
     }
     
@@ -726,10 +737,15 @@ public class GameState_GameSettings extends GameState
   }
 
   public void loadText() {
-    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("counter").get(0).getComponent(ComponentType.RENDER);
-    ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+    RenderComponent renderComponentCounter = (RenderComponent) gameObjectManager.getGameObjectsByTag("counter").get(0).getComponent(ComponentType.RENDER);
+    ArrayList<RenderComponent.Text> texts = renderComponentCounter.getTexts();
 
     texts.get(0).string = String.valueOf(options.getGameOptions().getDwellTime());
+
+    RenderComponent renderComponenetMessage = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    ArrayList<RenderComponent.Text> texts2 = renderComponenetMessage.getTexts();
+
+    texts2.get(22).string = "Hold for " + options.getGameOptions().getDwellTime() + " seconds";
 
     textLoaded = true;
   }

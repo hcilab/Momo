@@ -45,6 +45,8 @@ enum EventType
   DESTROY_COIN,
   LEVEL_UP,
   PLATFORM_LEVEL_UP,
+  PUSH_BONUS,
+  FINISH_BONUS,
   
   // Events associated with the calibrate screen
   CALIBRATE_SUCCESS,
@@ -63,8 +65,8 @@ enum EventType
   PLAYER_BREAK_PLATFORM_COLLISION,
   PLAYER_BREAK_PLATFORM_EXIT,
   PLAYER_BREAK_PLATFORM_FALL,
-
-  TOGGLE_CALIBRATION_DISPLAY
+  TOGGLE_CALIBRATION_DISPLAY,
+  PLAYER_PORTAL_COLLISION,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -263,6 +265,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.DESTROY_COIN);
     addEventTypeToMaps(EventType.LEVEL_UP);
     addEventTypeToMaps(EventType.PLATFORM_LEVEL_UP);
+    addEventTypeToMaps(EventType.PUSH_BONUS);
+    addEventTypeToMaps(EventType.FINISH_BONUS);
 
     addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
@@ -280,8 +284,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_COLLISION);
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_EXIT);
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_FALL);
-
     addEventTypeToMaps(EventType.TOGGLE_CALIBRATION_DISPLAY);
+    addEventTypeToMaps(EventType.PLAYER_PORTAL_COLLISION);
   }
   
   private void addEventTypeToMaps(EventType eventType)

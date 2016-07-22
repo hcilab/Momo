@@ -16,6 +16,7 @@
       <Event collidedWith="ground" eventType="PLAYER_GROUND_COLLISION" groundParameterName="ground"/>
       <Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
       <Event breakPlatformParameterName="break_platform" collidedWith="break_platform" eventType="PLAYER_BREAK_PLATFORM_COLLISION"/>
+      <Event collidedWith="portal_platform" eventType="PLAYER_PORTAL_COLLISION" portalParameterName="portal_platform"/>
     </OnCollideEvents>
     <OnExitEvents>
       <Event eventType="PLAYER_PLATFORM_EXIT" exitFrom="platform" platformParameterName="platform"/>

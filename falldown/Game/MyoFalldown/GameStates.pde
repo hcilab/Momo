@@ -321,6 +321,8 @@ public class GameState_InGame extends GameState
   {
     gameObjectManager.fromXML("xml_data/game.xml");
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
+    tableBonusInput = loadTable(options.getFittsLawOptions().getBonusFile(), "header");
+    bonusInputCounter = 0;
     totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
   }
@@ -335,7 +337,6 @@ public class GameState_InGame extends GameState
   
   @Override public void onExit()
   {
-    options.getGameOptions().setLogRawData(false);
     gameObjectManager.clearGameObjects();
   }
   
@@ -369,6 +370,10 @@ public class GameState_InGame extends GameState
       }
       gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.PUSH_BONUS))
+    {
+      gameStateController.pushState(new GameState_FittsBonusGame());
     }
   }
   
@@ -410,6 +415,44 @@ public class GameState_InGame extends GameState
       tableRawData.addColumn("MovingUp");
     }
   }
+}
+
+
+public class GameState_FittsBonusGame extends GameState
+{
+  public GameState_FittsBonusGame()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/bonus_game.xml");
+    pc.spawnBonusPlatformLevels();
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    shape(bg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    bonusPhysicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
+    handleEvents();
+  }
+  
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  { 
+    for (IEvent event : eventManager.getEvents(EventType.FINISH_BONUS))
+    {
+      gameStateController.popState();
+    }
+  }
+  
+  
 }
 
 public class GameState_PostGame extends GameState

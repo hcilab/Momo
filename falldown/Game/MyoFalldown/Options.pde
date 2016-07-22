@@ -204,6 +204,7 @@ public interface ICalibrationData
 public interface IFittsLawOptions
 {
   public String getInputFile();
+  public String getBonusFile();
 }
 
 public interface IStory
@@ -1530,19 +1531,26 @@ public class Options implements IOptions
   {
     private final String XML_FITTS = "FittsLaw";
     private final String INPUT_FILE = "input_file";
+    private final String INPUT_BONUS_FILE = "input_bonus_file";
     private XML xmlFitts;
     private String inputFile;
+    private String inputBonusFile;
     
     private FittsLawOptions()
     {
       xmlFitts = xmlSaveData.getChild(XML_FITTS);
       inputFile = xmlFitts.getString(INPUT_FILE);
+      inputBonusFile = xmlFitts.getString(INPUT_BONUS_FILE);
     }
     
     @Override public String getInputFile()
     {
       return inputFile;
-    } 
+    }
+    
+    @Override public String getBonusFile(){
+      return inputBonusFile;
+    }
 
   }
 

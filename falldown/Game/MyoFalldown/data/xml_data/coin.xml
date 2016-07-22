@@ -2,7 +2,7 @@
 <GameObject>
   <Render>
     <Sprite>
-      <SpriteSheet alphaImage="" defaultCount="5" farmeFreq="1f" height="42.0" horzCount="6" scaleHeight="15" src="images/coin/coin_sheet.png" vertCount="1" x="0.0" y="0.0" zOrder="5"/>
+      <SpriteSheet alphaImage="" defaultCount="5" farmeFreq="0f" height="42.0" horzCount="6" scaleHeight="15" src="images/coin/coin_sheet.png" vertCount="1" x="0.0" y="0.0" zOrder="5"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="dynamic">

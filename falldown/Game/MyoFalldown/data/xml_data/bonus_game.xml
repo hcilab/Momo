@@ -1,0 +1,51 @@
+<Level>
+	
+	<GameObject file="xml_data/bonus_game_message.xml" tag="bonus_game_message"/>
+
+	<GameObject file="xml_data/calibration_display.xml" tag="calibration_display">
+		<Transform>
+			<Translation x="485.0" y="485.0"/>
+			<Scale x="75" y="10"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/player.xml" tag="player">
+		<Transform>
+			<Translation x="50.0" y="50.0"/>
+			<Scale x="25.0" y="25.0"/>
+		</Transform>
+	</GameObject>
+	
+
+  <GameObject file="xml_data/wall.xml" tag="left_wall">
+		<Transform>
+			<Translation x="7.50" y="250.0"/>
+      		<Scale x="15" y="500.0"/>
+		</Transform>
+	</GameObject>
+
+  <GameObject file="xml_data/wall.xml" tag="right_wall">
+		<Transform>
+			<Translation x="492.50" y="250.0"/>
+      		<Scale x="15" y="500"/>
+		</Transform>
+	</GameObject>
+
+  <GameObject file="xml_data/platform.xml" tag="ceiling">
+		<Transform>
+			<Translation x="250" y="41.5"/>
+			<Scale x="470.0" y="15.0"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/platform_manager.xml" tag="platform_manager"/>
+		
+	<GameObject file="xml_data/music_player.xml" tag="music_player"/>
+
+	<GameObject file="xml_data/score_tracker.xml">
+		<Transform>
+			<Translation x="485.0" y="24.0"/>
+		</Transform>
+	</GameObject>
+	
+</Level>

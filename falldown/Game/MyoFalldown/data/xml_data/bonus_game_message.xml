@@ -1,0 +1,18 @@
+<GameObject>
+	<Render>	
+		<Text
+			string="Bonus Level"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="80.0"
+			y="20.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+	</Render>
+</GameObject>

@@ -44,6 +44,7 @@ FalldownContactListener contactListener;
 int velocityIterations;    // Fewer iterations increases performance but accuracy suffers.
 int positionIterations;    // More iterations decreases performance but improves accuracy.
                            // Box2D recommends 8 for velocity and 3 for position.
+World bonusPhysicsWorld; 
 
 // The controller for the current game state (i.e. main menu, in-game, etc)
 IGameStateController gameStateController;
@@ -73,6 +74,8 @@ PShape wbg;
 Table tableFittsStats;
 Table tableInput;
 Table tableRawData;
+Table tableBonusInput;
+int bonusInputCounter;
 int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
 ArrayList<PVector> platformGapPosition;
@@ -84,6 +87,8 @@ FittsStatsComponent fsc;
 int stillPlatformCounter = 0;
 boolean isRising = false;
 SoundFile buttonClickedSound;
+SoundFile coinCollectedSound;
+
 HashMap<String,PImage> allImages;
 Table imageSources;
 Zone zone;
@@ -117,8 +122,10 @@ void setup()
   
   gravity = new Vec2(0.0, 10.0);
   physicsWorld = new World(gravity); // gravity
+  bonusPhysicsWorld = new World(gravity);
   contactListener = new FalldownContactListener();
   physicsWorld.setContactListener(contactListener);
+  bonusPhysicsWorld.setContactListener(contactListener);
   velocityIterations = 3;  // Our simple games probably don't need as much iteration.
   positionIterations = 1;
   
@@ -144,6 +151,11 @@ void setup()
   buttonClickedSound.rate(1.0);
   try { buttonClickedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
   buttonClickedSound.add(0.0);
+  
+   coinCollectedSound = new SoundFile(mainObject, "sound_effects/Coin01.aif");
+   coinCollectedSound.rate(1.0);
+   try {coinCollectedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
+   coinCollectedSound.add(0.0);
   
   allImages = new HashMap<String,PImage>();
   loadAllImages();

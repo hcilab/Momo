@@ -923,30 +923,30 @@ public class RigidBodyComponent extends Component
 
   private float metersToPixels(float meters)
   {
-    return meters * 50.0f; 
+    return meters * 50.0f;  //<>// //<>// //<>//
   } 
-} 
- 
-public class PlayerControllerComponent extends Component 
-{
-  public PVector moveVectorX;
+}  //<>// //<>// //<>//
+  //<>// //<>// //<>//
+public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
+{ //<>// //<>// //<>//
+  public PVector moveVectorX; //<>// //<>// //<>//
   private float acceleration;
-  private float maxSpeed;
-  private float minInputThreshold;
-  private float jumpForce; 
-  
-  private String currentSpeedParameterName; 
-
-  private String collidedPlatformParameterName;
-  private String collidedBreakPlatformParameterName;
-  private String gapDirection;
- 
-  private boolean upButtonDown; 
-  private boolean leftButtonDown;
-  private boolean rightButtonDown;
-  
+  private float maxSpeed; //<>// //<>// //<>//
+  private float minInputThreshold; //<>// //<>// //<>//
+  private float jumpForce;  //<>// //<>// //<>//
+   //<>// //<>// //<>//
+  private String currentSpeedParameterName;  //<>// //<>// //<>//
+ //<>// //<>// //<>//
+  private String collidedPlatformParameterName; //<>// //<>// //<>//
+  private String collidedBreakPlatformParameterName; //<>// //<>// //<>//
+  private String gapDirection; //<>// //<>//
+  //<>// //<>// //<>//
+  private boolean upButtonDown;  //<>// //<>//
+  private boolean leftButtonDown; //<>// //<>//
+  private boolean rightButtonDown; //<>// //<>//
+   //<>// //<>//
   private boolean leftMyoForce;
-  private boolean rightMyoForce;
+  private boolean rightMyoForce; //<>// //<>//
   
   private int jumpDelay;
   private int jumpTime;
@@ -967,41 +967,42 @@ public class PlayerControllerComponent extends Component
  
   private SoundFile jumpSound;
   private float amplitude;
-  private SoundFile platformFallSound; //<>//
+  private SoundFile platformFallSound; 
    
-  private boolean onPlatform; //<>//
-  private boolean onRegPlatform; //<>//
-  private boolean onBreakPlatform; //<>//
-  private IGameObject breakPlatform; //<>//
-  private long breakTimerStart; //<>//
+  private boolean onPlatform; 
+  private boolean onRegPlatform; 
+  private boolean onBreakPlatform;
+  private IGameObject breakPlatform;
+  private IGameObject portalPlatform;
+  private long breakTimerStart; //<>// //<>// //<>//
   private long crumbleTimerStart;
-  private String crumblingPlatformFile; //<>//
-  private int platformLevelCount; //<>//
-  private boolean justJumped; //<>//
-  private HashMap<String, Float> rawInput; //<>//
-  private int pauseOnBreakPlatformTime; //<>//
-  private float distanceTravelled;
-  private float lastXPos;
-   //<>//
+  private String crumblingPlatformFile; //<>// //<>// //<>//
+  private int platformLevelCount; //<>// //<>// //<>//
+  private boolean justJumped;
+  private HashMap<String, Float> rawInput; //<>// //<>// //<>//
+  private int pauseOnBreakPlatformTime; //<>// //<>// //<>//
+  private float distanceTravelled; //<>// //<>//
+  private float lastXPos; //<>// //<>//
+   //<>// //<>// //<>//
   public PlayerControllerComponent(IGameObject _gameObject) //<>//
-  { //<>//
-    super(_gameObject);
- //<>//
-    upButtonDown = false;
-    leftButtonDown = false;
-    rightButtonDown = false;
-    onPlatform = false;
-    onRegPlatform = false;
-    onBreakPlatform = false;
-    jumpCount = 0;
-    justJumped = false;
-    breakTimerStart = (long)Double.POSITIVE_INFINITY;
-    moveVectorX = new PVector();
-    platformLevelCount = 1;
+  { //<>// //<>// //<>//
+    super(_gameObject); //<>// //<>//
+ //<>// //<>// //<>//
+    upButtonDown = false; //<>// //<>// //<>//
+    leftButtonDown = false; //<>// //<>// //<>//
+    rightButtonDown = false; //<>// //<>// //<>//
+    onPlatform = false; //<>// //<>// //<>//
+    onRegPlatform = false; //<>// //<>// //<>//
+    onBreakPlatform = false; //<>// //<>// //<>//
+    jumpCount = 0; //<>// //<>//
+    justJumped = false; //<>// //<>//
+    breakTimerStart = (long)Double.POSITIVE_INFINITY; //<>// //<>// //<>//
+    moveVectorX = new PVector(); //<>// //<>// //<>//
+    platformLevelCount = 1; //<>//
     if (options.getGameOptions().isFittsLaw()) {
-      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
-    } else {
-      pauseOnBreakPlatformTime = 1000;
+      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000; //<>// //<>//
+    } else { //<>// //<>//
+      pauseOnBreakPlatformTime = 1000; //<>// //<>//
     }
     distanceTravelled = 0;
     lastXPos = gameObject.getTranslation().x;
@@ -1022,28 +1023,27 @@ public class PlayerControllerComponent extends Component
 
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
-    gapDirection = LEFT_DIRECTION_LABEL; //<>//
+    gapDirection = LEFT_DIRECTION_LABEL;
     jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
-    jumpSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    jumpSound.rate(xmlComponent.getFloat("rate"));
+    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     amplitude = xmlComponent.getFloat("amp");
-    jumpSound.add(xmlComponent.getFloat("add")); //<>//
-    jumpDelay = 500; //<>// //<>//
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile")); //<>//
-    platformFallSound.rate(xmlComponent.getFloat("rate")); //<>//
-    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {} //<>//
+    jumpSound.add(xmlComponent.getFloat("add"));
+    jumpDelay = 500;
+    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
+    platformFallSound.rate(xmlComponent.getFloat("rate"));
+    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
     platformFallSound.add(xmlComponent.getFloat("add"));
-    crumblingPlatformFile = xmlComponent.getString("crumblePlatform"); //<>//
-  } //<>//
- //<>//
-  @Override public ComponentType getComponentType() //<>//
-  { //<>//
-    return ComponentType.PLAYER_CONTROLLER; //<>//
-  } //<>//
+    crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.PLAYER_CONTROLLER;
+  }
 
   @Override public void update(int deltaTime)
-  { //<>//
-     //<>//
+  {
     handleEvents(); //<>//
     float newXPos = gameObject.getTranslation().x;
     distanceTravelled += abs(lastXPos - newXPos);
@@ -1157,21 +1157,21 @@ public class PlayerControllerComponent extends Component
 
           if(options.getGameOptions().isStillPlatforms())
           {
-            pc.spawnPlatformLevelNoRiseSpeed();
+            pc.spawnPlatformLevelNoRiseSpeed(); //<>// //<>//
             pc.incrementPlatforms();
-          }
+          } //<>// //<>//
         }
       }
 
-      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player"))
+      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) //<>// //<>// //<>//
       {
-        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
+        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped) //<>// //<>// //<>//
         {
           rigidBodyComponent.setLinearVelocity(new PVector(0,0));
         }
-      }
+      } //<>// //<>// //<>//
       
-      //This is too eliminate momo from being launch off the platform
+      //This is too eliminate momo from being launch off the platform //<>// //<>// //<>//
       if(isRising  && options.getGameOptions().isFittsLaw() && options.getGameOptions().isStillPlatforms())
       {
         rigidBodyComponent.applyForce(new PVector(0, -4.5f), new PVector(gameObject.getTranslation().x, 270));
@@ -1186,7 +1186,7 @@ public class PlayerControllerComponent extends Component
       else{
         zone = Zone.HAPPY;
       }
-       //<>//
+      
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
@@ -1218,15 +1218,15 @@ public class PlayerControllerComponent extends Component
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
     }
 
-    eventManager.queueEvent(currentSpeedEvent); //<>//
+    eventManager.queueEvent(currentSpeedEvent);
   }
- //<>//
+
   private HashMap<String, Float> gatherRawInput()
   {
     HashMap<String, Float> rawInput = emgManager.poll();
- //<>//
+
     Float keyboardLeftMagnitude;
-    Float keyboardRightMagnitude; //<>//
+    Float keyboardRightMagnitude;
     Float keyboardJumpMagnitude;
 
     Float myoLeftMagnitude;
@@ -1254,30 +1254,30 @@ public class PlayerControllerComponent extends Component
 
         myoLeftMagnitude = 0.0;
         myoRightMagnitude = 0.0;
-        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
+        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL); //<>// //<>//
       }
-    }
+    } //<>// //<>//
     else
     {
       keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
-      keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+      keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0; //<>// //<>// //<>//
       keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
-
-      myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL);
+ //<>// //<>// //<>//
+      myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL); //<>// //<>//
       myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL);
-      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
-    }
+      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL); //<>// //<>//
+    } //<>// //<>// //<>//
 
-    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
-    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
+    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false; //<>//
+    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false; //<>//
 
-    rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude);
+    rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude); //<>//
     rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);
-    rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude);
+    rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude); //<>// //<>//
     return rawInput;
-  }
+  } //<>// //<>// //<>//
 
-  private PVector applyNormalControls(HashMap<String, Float> input)
+  private PVector applyNormalControls(HashMap<String, Float> input) //<>//
   {
     PVector moveVector = new PVector();
     moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
@@ -1313,24 +1313,24 @@ public class PlayerControllerComponent extends Component
   }
 
   private PVector applySingleMuscleControls(HashMap<String, Float> input)
-  { //<>//
+  {
     PVector moveVector = new PVector();
- //<>//
+
     SingleMuscleMode mode = options.getGameOptions().getSingleMuscleMode();
     if (mode == SingleMuscleMode.AUTO_LEFT)
       moveVector.x = -1 + 2*input.get(RIGHT_DIRECTION_LABEL);
-    else if (mode == SingleMuscleMode.AUTO_RIGHT) //<>//
+    else if (mode == SingleMuscleMode.AUTO_RIGHT)
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
-    else //<>//
-      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls"); //<>//
+    else
+      println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
-    return moveVector;  //<>//
+    return moveVector; 
   }
 
   public PVector getLatestMoveVector()
-  { //<>//
+  {
     return moveVectorX;
-  } //<>//
+  }
   
   public void calculateOverShoots(PVector pos)
   {
@@ -1374,24 +1374,24 @@ public class PlayerControllerComponent extends Component
       firstMove = false;
     }
     else if(mVector.x == 0)
-    {
-      if(!notMoving && !firstMove)
-      {
-        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth)))
-        {
-          errors++;
-        } 
-        if(goingLeft && (pos.x > (currGapPosition + currGapWidth)))
-        {
-          undershootCount++;
-        }
-        else if(goingRight && (pos.x < (currGapPosition - currGapWidth)))
-        {
-          undershootCount++;
-        }
-      }
-      notMoving = true;
-    }
+    { //<>//
+      if(!notMoving && !firstMove) //<>//
+      { //<>// //<>//
+        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth))) //<>// //<>//
+        { //<>//
+          errors++; //<>//
+        }  //<>// //<>//
+        if(goingLeft && (pos.x > (currGapPosition + currGapWidth))) //<>// //<>//
+        { //<>// //<>// //<>//
+          undershootCount++; //<>// //<>// //<>//
+        } //<>//
+        else if(goingRight && (pos.x < (currGapPosition - currGapWidth))) //<>//
+        { //<>// //<>//
+          undershootCount++; //<>// //<>//
+        } //<>// //<>// //<>//
+      } //<>// //<>// //<>//
+      notMoving = true; //<>//
+    } //<>//
   }
   
   public int getDirerctionChanges()
@@ -1435,16 +1435,16 @@ public class PlayerControllerComponent extends Component
       onRightSide = true; 
     }
   }
-  //<>//
-  private void handleEvents()  //<>//
-  { //<>//
-    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0) //<>//
+ 
+  private void handleEvents() 
+  {
+    if (eventManager.getEvents(EventType.UP_BUTTON_PRESSED).size() > 0)
       upButtonDown = true;
 
-    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0)  //<>//
-      leftButtonDown = true;  //<>//
- //<>//
-    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0) //<>//
+    if (eventManager.getEvents(EventType.LEFT_BUTTON_PRESSED).size() > 0) 
+      leftButtonDown = true; 
+
+    if (eventManager.getEvents(EventType.RIGHT_BUTTON_PRESSED).size() > 0)
       rightButtonDown = true;
  
     if (eventManager.getEvents(EventType.UP_BUTTON_RELEASED).size() > 0) 

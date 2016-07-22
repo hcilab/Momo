@@ -1762,9 +1762,9 @@ public class GameState_CalibrateSuccess extends GameState
   private void loadText()
   {
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-    renderComponent.getTexts().get(3).string = "Left EMG reading: " + options.getCalibrationData().getCalibrationData().get("LEFT")[1];
+    renderComponent.getTexts().get(3).string = "Left EMG reading: " + nfc(options.getCalibrationData().getCalibrationData().get("LEFT")[1], 1);
     renderComponent.getTexts().get(4).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("LEFT")[0] + ")";
-    renderComponent.getTexts().get(5).string = "Right EMG reading: " + options.getCalibrationData().getCalibrationData().get("RIGHT")[1];
+    renderComponent.getTexts().get(5).string = "Right EMG reading: " + nfc(options.getCalibrationData().getCalibrationData().get("RIGHT")[1], 1);
     renderComponent.getTexts().get(6).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("RIGHT")[0] + ")";
 
     textLoaded = true;

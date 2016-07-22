@@ -82,6 +82,7 @@ ArrayList<PVector> platformGapPosition;
 
 PlatformManagerControllerComponent pc;
 FittsStatsComponent fsc;
+BonusPlatformManager bpc;
 
 //For still platform mode
 int stillPlatformCounter = 0;

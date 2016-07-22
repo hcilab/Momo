@@ -1,0 +1,11 @@
+<GameObject>
+	<BonusPlatformManager
+		platformFile="xml_data/platform.xml"
+		tag="platform"
+		leftSide="15.0"
+		rightSide="485.0"
+		platformHeight="15.0"
+		portalPlatformFile="xml_data/platform_portal.xml"
+	>
+	</BonusPlatformManager>
+</GameObject>

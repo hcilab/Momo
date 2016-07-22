@@ -13,6 +13,7 @@ public enum ComponentType
   RIGID_BODY,
   PLAYER_CONTROLLER,
   PLATFORM_MANAGER_CONTROLLER,
+  BONUS_PLATFORM_MANAGER,
   COIN_EVENT_HANDLER,
   COIN_SPAWNER_CONTROLLER,
   SCORE_TRACKER,
@@ -922,32 +923,33 @@ public class RigidBodyComponent extends Component
   }
 
   private float metersToPixels(float meters)
-  {
-    return meters * 50.0f;  //<>// //<>// //<>//
-  } 
-}  //<>// //<>// //<>//
-  //<>// //<>// //<>//
-public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
-{ //<>// //<>// //<>//
-  public PVector moveVectorX; //<>// //<>// //<>//
-  private float acceleration;
-  private float maxSpeed; //<>// //<>// //<>//
-  private float minInputThreshold; //<>// //<>// //<>//
-  private float jumpForce;  //<>// //<>// //<>//
-   //<>// //<>// //<>//
-  private String currentSpeedParameterName;  //<>// //<>// //<>//
- //<>// //<>// //<>//
-  private String collidedPlatformParameterName; //<>// //<>// //<>//
-  private String collidedBreakPlatformParameterName; //<>// //<>// //<>//
-  private String gapDirection; //<>// //<>//
-  //<>// //<>// //<>//
-  private boolean upButtonDown;  //<>// //<>//
-  private boolean leftButtonDown; //<>// //<>//
-  private boolean rightButtonDown; //<>// //<>//
-   //<>// //<>//
+  { //<>//
+    return meters * 50.0f; 
+  }  //<>//
+}  //<>//
+  //<>//
+public class PlayerControllerComponent extends Component  //<>//
+{ //<>//
+  public PVector moveVectorX;
+  private float acceleration; //<>//
+  private float maxSpeed; //<>//
+  private float minInputThreshold; //<>//
+  private float jumpForce;  //<>//
+   //<>//
+  private String currentSpeedParameterName;  //<>//
+ //<>//
+  private String collidedPlatformParameterName; //<>//
+  private String collidedBreakPlatformParameterName; //<>//
+  private String gapDirection; //<>//
+  //<>//
+  private boolean upButtonDown;  //<>//
+  private boolean leftButtonDown; //<>//
+  private boolean rightButtonDown; //<>//
+
+   //<>//
   private boolean leftMyoForce;
-  private boolean rightMyoForce; //<>// //<>//
-  
+  private boolean rightMyoForce;
+
   private int jumpDelay;
   private int jumpTime;
   private int directionChanges;
@@ -972,37 +974,37 @@ public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
   private boolean onPlatform; 
   private boolean onRegPlatform; 
   private boolean onBreakPlatform;
-  private IGameObject breakPlatform;
+  private IGameObject breakPlatform; //<>//
   private IGameObject portalPlatform;
-  private long breakTimerStart; //<>// //<>// //<>//
-  private long crumbleTimerStart;
-  private String crumblingPlatformFile; //<>// //<>// //<>//
-  private int platformLevelCount; //<>// //<>// //<>//
-  private boolean justJumped;
-  private HashMap<String, Float> rawInput; //<>// //<>// //<>//
-  private int pauseOnBreakPlatformTime; //<>// //<>// //<>//
-  private float distanceTravelled; //<>// //<>//
-  private float lastXPos; //<>// //<>//
-   //<>// //<>// //<>//
+  private long breakTimerStart; //<>//
+  private long crumbleTimerStart; //<>//
+  private String crumblingPlatformFile;
+  private int platformLevelCount; //<>//
+  private boolean justJumped; //<>//
+  private HashMap<String, Float> rawInput; //<>//
+  private int pauseOnBreakPlatformTime; //<>//
+  private float distanceTravelled; //<>//
+  private float lastXPos;
+   //<>//
   public PlayerControllerComponent(IGameObject _gameObject) //<>//
-  { //<>// //<>// //<>//
-    super(_gameObject); //<>// //<>//
- //<>// //<>// //<>//
-    upButtonDown = false; //<>// //<>// //<>//
-    leftButtonDown = false; //<>// //<>// //<>//
-    rightButtonDown = false; //<>// //<>// //<>//
-    onPlatform = false; //<>// //<>// //<>//
-    onRegPlatform = false; //<>// //<>// //<>//
-    onBreakPlatform = false; //<>// //<>// //<>//
-    jumpCount = 0; //<>// //<>//
-    justJumped = false; //<>// //<>//
-    breakTimerStart = (long)Double.POSITIVE_INFINITY; //<>// //<>// //<>//
-    moveVectorX = new PVector(); //<>// //<>// //<>//
+  { //<>//
+    super(_gameObject); //<>//
+ //<>//
+    upButtonDown = false; //<>//
+    leftButtonDown = false; //<>//
+    rightButtonDown = false; //<>//
+    onPlatform = false; //<>//
+    onRegPlatform = false; //<>//
+    onBreakPlatform = false; //<>//
+    jumpCount = 0; //<>//
+    justJumped = false; //<>//
+    breakTimerStart = (long)Double.POSITIVE_INFINITY;
+    moveVectorX = new PVector();
     platformLevelCount = 1; //<>//
-    if (options.getGameOptions().isFittsLaw()) {
-      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000; //<>// //<>//
-    } else { //<>// //<>//
-      pauseOnBreakPlatformTime = 1000; //<>// //<>//
+    if (options.getGameOptions().isFittsLaw()) { //<>//
+      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000; //<>//
+    } else {
+      pauseOnBreakPlatformTime = 1000;
     }
     distanceTravelled = 0;
     lastXPos = gameObject.getTranslation().x;
@@ -1044,7 +1046,7 @@ public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
 
   @Override public void update(int deltaTime)
   {
-    handleEvents(); //<>//
+    handleEvents();
     float newXPos = gameObject.getTranslation().x;
     distanceTravelled += abs(lastXPos - newXPos);
     lastXPos = newXPos;
@@ -1155,23 +1157,25 @@ public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
-          if(options.getGameOptions().isStillPlatforms())
+          if(options.getGameOptions().isStillPlatforms()) //<>//
           {
-            pc.spawnPlatformLevelNoRiseSpeed(); //<>// //<>//
+            pc.spawnPlatformLevelNoRiseSpeed(); //<>//
             pc.incrementPlatforms();
-          } //<>// //<>//
+          }
         }
-      }
+      } //<>//
 
-      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) //<>// //<>// //<>//
+      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) //<>//
       {
-        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped) //<>// //<>// //<>//
+        if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
-          rigidBodyComponent.setLinearVelocity(new PVector(0,0));
+          rigidBodyComponent.setLinearVelocity(new PVector(0,0)); //<>//
         }
-      } //<>// //<>// //<>//
+      } //<>//
       
-      //This is too eliminate momo from being launch off the platform //<>// //<>// //<>//
+
+      //This is too eliminate momo from being launch off the platform
+
       if(isRising  && options.getGameOptions().isFittsLaw() && options.getGameOptions().isStillPlatforms())
       {
         rigidBodyComponent.applyForce(new PVector(0, -4.5f), new PVector(gameObject.getTranslation().x, 270));
@@ -1250,34 +1254,34 @@ public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
         // set left and right to zero - can't control movement when in the air
         keyboardLeftMagnitude = 0.0;
         keyboardRightMagnitude = 0.0;
-        keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+        keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0; //<>//
 
-        myoLeftMagnitude = 0.0;
+        myoLeftMagnitude = 0.0; //<>//
         myoRightMagnitude = 0.0;
-        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL); //<>// //<>//
+        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
       }
-    } //<>// //<>//
+    } //<>//
     else
-    {
-      keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0;
-      keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0; //<>// //<>// //<>//
-      keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
- //<>// //<>// //<>//
-      myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL); //<>// //<>//
-      myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL);
-      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL); //<>// //<>//
-    } //<>// //<>// //<>//
-
-    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false; //<>//
-    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false; //<>//
+    { //<>//
+      keyboardLeftMagnitude = leftButtonDown ? 1.0 : 0.0; //<>//
+      keyboardRightMagnitude = rightButtonDown ? 1.0 : 0.0;
+      keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0; //<>//
+ //<>//
+      myoLeftMagnitude = rawInput.get(LEFT_DIRECTION_LABEL);
+      myoRightMagnitude = rawInput.get(RIGHT_DIRECTION_LABEL); //<>//
+      myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL); //<>//
+    }
+ //<>//
+    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
+    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
 
     rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude); //<>//
     rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);
-    rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude); //<>// //<>//
+    rawInput.put(JUMP_DIRECTION_LABEL, myoJumpMagnitude+keyboardJumpMagnitude); //<>//
     return rawInput;
-  } //<>// //<>// //<>//
+  }
 
-  private PVector applyNormalControls(HashMap<String, Float> input) //<>//
+  private PVector applyNormalControls(HashMap<String, Float> input)
   {
     PVector moveVector = new PVector();
     moveVector.x = input.get(RIGHT_DIRECTION_LABEL) - input.get(LEFT_DIRECTION_LABEL);
@@ -1372,26 +1376,27 @@ public class PlayerControllerComponent extends Component  //<>// //<>// //<>//
       }
       notMoving = false;
       firstMove = false;
-    }
-    else if(mVector.x == 0)
+    } //<>//
+    else if(mVector.x == 0) //<>//
     { //<>//
       if(!notMoving && !firstMove) //<>//
-      { //<>// //<>//
-        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth))) //<>// //<>//
+
+      {
+        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth))) //<>//
         { //<>//
           errors++; //<>//
-        }  //<>// //<>//
-        if(goingLeft && (pos.x > (currGapPosition + currGapWidth))) //<>// //<>//
-        { //<>// //<>// //<>//
-          undershootCount++; //<>// //<>// //<>//
+        }  //<>//
+        if(goingLeft && (pos.x > (currGapPosition + currGapWidth)))
+        {
+          undershootCount++; //<>//
         } //<>//
         else if(goingRight && (pos.x < (currGapPosition - currGapWidth))) //<>//
-        { //<>// //<>//
-          undershootCount++; //<>// //<>//
-        } //<>// //<>// //<>//
-      } //<>// //<>// //<>//
-      notMoving = true; //<>//
-    } //<>//
+        { //<>//
+          undershootCount++;
+        }
+      }
+      notMoving = true;
+    }
   }
   
   public int getDirerctionChanges()
@@ -1801,7 +1806,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0,1.0) < 0.0 ? true: false;
+    boolean isPortal = random(0.0,1.0) < 0.2 ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
@@ -2071,71 +2076,6 @@ public class PlatformManagerControllerComponent extends Component
     }
   }
   
-  public void spawnBonusPlatformLevels()
-  {
-    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
-    platformRanges.add(new PVector(leftSide, rightSide));
-    float tempSpawnHeight = 50;
-    int rangeSelector = int(random(0, platformRanges.size() - 1));
-    PVector range = platformRanges.get(rangeSelector);
-    tempSpawnHeight = 38;
-    TableRow row = tableBonusInput.getRow(bonusInputCounter);
-    float gapPosition = row.getFloat("placement");
-    float halfGapWidth = row.getFloat("halfWidth");
-    
-    bonusInputCounter++;
-    if(bonusInputCounter >= tableBonusInput.getRowCount()){
-      bonusInputCounter = 0; 
-    }
-    
-    int numberOfCoins = abs((int)((250-gapPosition+halfGapWidth) - (250+gapPosition-halfGapWidth))/20);
-    
-    for(int i = 0; i<6;i++)
-    {
-      float tempGapPosition = 250+(gapPosition * pow(-1,i));
-      platformGapPosition.add(new PVector(tempGapPosition,halfGapWidth));
-      platformRanges.add(rangeSelector + 1, new PVector(tempGapPosition + halfGapWidth, range.y));
-      range.y = tempGapPosition - halfGapWidth;
-      tempSpawnHeight += 76;
-      
-      if(i == 5)
-      {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
-        portalPlatform.setTag("portal_platform");
-        platforms.add(portalPlatform);
-      }
-      
-    
-      for (PVector platformRange : platformRanges)
-      {
-        float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
-        float platformWidth = platformRange.y - platformRange.x;
-  
-        IGameObject platform;
-        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
-  
-        platform.setTag(tag);
-        platforms.add(platform);
-        
-        for(int j =0;j<numberOfCoins;j++)
-        {
-          IGameObject coin;
-          if(tempGapPosition < 250){
-            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+halfGapWidth+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
-          }
-          else{
-            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-halfGapWidth-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
-          }
-          coin.setTag("coin");
-        }
-      }
-      platformRanges = new ArrayList<PVector>();
-      platformRanges.add(new PVector(leftSide, rightSide));
-      rangeSelector = int(random(0, platformRanges.size() - 1));
-      range = platformRanges.get(rangeSelector);
-   } 
-  }
-  
   private void handleEvents()
   {
     for (IEvent event : eventManager.getEvents(EventType.LEVEL_UP))
@@ -2174,6 +2114,110 @@ public class PlatformManagerControllerComponent extends Component
     }
     platforms.remove(platform);
   }
+}
+
+public class BonusPlatformManager extends Component
+{
+  private String platformFile;  
+  private String portalPlatformFile;
+  private String tag; 
+  
+  private float leftSide;
+  private float rightSide;
+  
+  private float platformHeight;
+
+  public BonusPlatformManager(IGameObject _gameObject)
+  {
+    super(_gameObject);
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    platformFile = xmlComponent.getString("platformFile");
+    tag = xmlComponent.getString("tag");
+    leftSide = xmlComponent.getFloat("leftSide");
+    rightSide = xmlComponent.getFloat("rightSide");
+    platformHeight = xmlComponent.getFloat("platformHeight");
+    portalPlatformFile = xmlComponent.getString("portalPlatformFile");
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.BONUS_PLATFORM_MANAGER;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    
+  }
+  
+  public void spawnBonusPlatformLevels()
+  {
+    ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+    platformRanges.add(new PVector(15, 485));
+    float tempSpawnHeight = 50;
+    int rangeSelector = int(random(0, platformRanges.size() - 1));
+    PVector range = platformRanges.get(rangeSelector);
+    tempSpawnHeight = 38;
+    TableRow row = tableBonusInput.getRow(bonusInputCounter);
+    float gapPosition = row.getFloat("placement");
+    float halfGapWidth = row.getFloat("halfWidth");
+    
+    bonusInputCounter++;
+    if(bonusInputCounter >= tableBonusInput.getRowCount()){
+      bonusInputCounter = 0; 
+    }
+    
+    int numberOfCoins = abs((int)((250-gapPosition+halfGapWidth) - (250+gapPosition-halfGapWidth))/20);
+    
+    for(int i = 0; i<6;i++)
+    {
+      float tempGapPosition = 250+(gapPosition * pow(-1,i));
+      platformGapPosition.add(new PVector(tempGapPosition,halfGapWidth));
+      platformRanges.add(rangeSelector + 1, new PVector(tempGapPosition + halfGapWidth, range.y));
+      range.y = tempGapPosition - halfGapWidth;
+      tempSpawnHeight += 76;
+      
+      if(i == 5)
+      {
+        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
+        portalPlatform.setTag("portal_platform");
+      }
+    
+      for (PVector platformRange : platformRanges)
+      {
+        float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
+        float platformWidth = platformRange.y - platformRange.x;
+  
+        IGameObject platform;
+        platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
+  
+        platform.setTag(tag);
+        
+        for(int j =0;j<numberOfCoins;j++)
+        {
+          IGameObject coin;
+          if(tempGapPosition < 250){
+            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+halfGapWidth+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          }
+          else{
+            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-halfGapWidth-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          }
+          coin.setTag("coin");
+        }
+      }
+      platformRanges = new ArrayList<PVector>();
+      platformRanges.add(new PVector(leftSide, rightSide));
+      rangeSelector = int(random(0, platformRanges.size() - 1));
+      range = platformRanges.get(rangeSelector);
+   }
+  }
+  
 }
 
 public class CoinEventHandlerComponent extends Component
@@ -4369,6 +4413,11 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if(componentName.equals("Counter"))
   {
     component = new CounterComponent(gameObject);
+  }
+  else if(componentName.equals("BonusPlatformManager"))
+  {
+   component = new BonusPlatformManager(gameObject);
+   bpc = (BonusPlatformManager) component;
   }
   
   if (component != null)

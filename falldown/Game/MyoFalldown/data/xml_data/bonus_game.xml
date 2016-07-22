@@ -38,7 +38,7 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/platform_manager.xml" tag="platform_manager"/>
+	<GameObject file="xml_data/bonus_platform_manager.xml" tag="bonus_platform_manager"/>
 		
 	<GameObject file="xml_data/music_player.xml" tag="music_player"/>
 

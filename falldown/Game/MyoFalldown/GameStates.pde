@@ -428,7 +428,7 @@ public class GameState_FittsBonusGame extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/bonus_game.xml");
-    pc.spawnBonusPlatformLevels();
+    bpc.spawnBonusPlatformLevels();
   }
   
   @Override public void update(int deltaTime)

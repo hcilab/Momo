@@ -974,7 +974,7 @@ public class PlayerControllerComponent extends Component
     moveVectorX = new PVector();
     platformLevelCount = 1;
     if (options.getGameOptions().isFittsLaw()) {
-      pauseOnBreakPlatformTime = 2000;
+      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
     } else {
       pauseOnBreakPlatformTime = 1000;
     }
@@ -4022,6 +4022,78 @@ public class CalibrationDisplayComponent extends Component
   }
 }
 
+public class CounterComponent extends Component
+{
+  private String countUp;
+  private String countDown;
+  private int count;
+  private ArrayList<Integer> idCounts;
+  public CounterComponent(GameObject _gameObject)
+  {
+    super(_gameObject);
+    idCounts = new ArrayList<Integer>();
+    count = 1;
+  }
+
+  @Override public void destroy()
+  {
+  }
+
+  @Override public void fromXML(XML xmlComponent)
+  {
+    countUp = xmlComponent.getString("countup");
+    countDown = xmlComponent.getString("countdown");
+    idCounts.add(options.getGameOptions().getDwellTime());
+  }
+
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.ID_COUNTER;
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+
+      if(tag.contains(countUp)){
+        adjustCounter(1);
+      }
+      else if(tag.contains(countDown)){
+        adjustCounter(-1);
+      }
+    }
+  }
+
+  private void adjustCounter(int adjustment)
+  {
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+    count = idCounts.get(0) + adjustment;
+    if(count > 9)
+      count = 1;
+    if(count<1)
+      count = 9;
+    idCounts.set(0, count);
+    options.getGameOptions().setDwellTime(count);
+
+    if (component != null)
+    {
+      RenderComponent renderComponent = (RenderComponent)component;
+      ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+      if (texts.size() > 0)
+      {
+         texts.get(0).string = Integer.toString(count);
+      }
+    }
+  }
+}
+
 IComponent componentFactory(GameObject gameObject, XML xmlComponent)
 {
   IComponent component = null;
@@ -4120,6 +4192,10 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   else if(componentName.equals("LogRawDataComponent"))
   {
    component = new LogRawDataComponent(gameObject); 
+  }
+  else if(componentName.equals("Counter"))
+  {
+    component = new CounterComponent(gameObject);
   }
   
   if (component != null)

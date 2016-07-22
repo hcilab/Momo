@@ -620,9 +620,12 @@ public class GameState_OptionsMenu extends GameState
 
 public class GameState_GameSettings extends GameState
 {
+  boolean textLoaded;
+
   public GameState_GameSettings()
   {
     super();
+    textLoaded = false;
   }
 
   @Override public void onEnter()
@@ -635,6 +638,11 @@ public class GameState_GameSettings extends GameState
     shape(opbg,250,250,500,505);
     handleEvents();
     gameObjectManager.update(deltaTime);
+
+    if (!textLoaded && gameObjectManager.getGameObjectsByTag("counter").size() > 0)
+    {
+      loadText();
+    }
   }
 
   @Override public void onExit()
@@ -715,6 +723,15 @@ public class GameState_GameSettings extends GameState
         }
       }
     }
+  }
+
+  public void loadText() {
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("counter").get(0).getComponent(ComponentType.RENDER);
+    ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+
+    texts.get(0).string = String.valueOf(options.getGameOptions().getDwellTime());
+
+    textLoaded = true;
   }
 }
 

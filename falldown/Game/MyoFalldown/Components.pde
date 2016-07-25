@@ -1742,40 +1742,36 @@ public class PlatformManagerControllerComponent extends Component
       gameStateController.getGameObjectManager().removeGameObject(platform.getUID());
     }
     
-    if( !(gameStateController.getCurrentState() instanceof GameState_FittsBonusGame))
+    if ((platforms.isEmpty())
+      || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
     {
-      if ((platforms.isEmpty())
-        || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
-      {
-          if(!options.getGameOptions().isStillPlatforms())
+        if(!options.getGameOptions().isStillPlatforms())
+        {
+          if(!((totalRowCountInput <= inputPlatformCounter) && options.getGameOptions().isInputPlatforms()))
           {
-            if(!((totalRowCountInput <= inputPlatformCounter) && options.getGameOptions().isInputPlatforms()))
-            {
-              spawnPlatformLevel();
-            }
+            spawnPlatformLevel();
           }
-          else
+        }
+        else
+        {
+          if(totalRowCountInput > inputPlatformCounter && riseSpeed > 0.0f && firstIteration)
           {
-            if(totalRowCountInput > inputPlatformCounter && riseSpeed > 0.0f && firstIteration)
-            {
-              spawnPlatformLevelNoRiseSpeed();
-              incrementPlatforms();
-              spawnPlatformLevelNoRiseSpeed();
-              incrementPlatforms();
-              firstIteration = false;
-            }
+            spawnPlatformLevelNoRiseSpeed();
+            incrementPlatforms();
+            spawnPlatformLevelNoRiseSpeed();
+            incrementPlatforms();
+            firstIteration = false;
           }
-         
-          if(!options.getGameOptions().isStillPlatforms())
-          {
-            nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
-          }
-          else
-          {
-            nextHeightBetweenPlatformLevels = 125;
-          }
-          
-       }
+        }
+       
+        if(!options.getGameOptions().isStillPlatforms())
+        {
+          nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
+        }
+        else
+        {
+          nextHeightBetweenPlatformLevels = 125;
+        }
      }
 
 
@@ -1810,7 +1806,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0,1.0) < 0.2 ? true: false;
+    boolean isPortal = random(0.0,1.0) < 0.99 ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
@@ -2122,6 +2118,7 @@ public class PlatformManagerControllerComponent extends Component
 
 public class BonusPlatformManager extends Component
 {
+  private LinkedList<IGameObject> coins;
   private String platformFile;  
   private String portalPlatformFile;
   private String tag; 
@@ -2130,10 +2127,13 @@ public class BonusPlatformManager extends Component
   private float rightSide;
   
   private float platformHeight;
+  private long startTime;
+  private int removeCoins;
 
   public BonusPlatformManager(IGameObject _gameObject)
   {
     super(_gameObject);
+    coins = new LinkedList<IGameObject>();
   }
   
   @Override public void destroy()
@@ -2148,6 +2148,8 @@ public class BonusPlatformManager extends Component
     rightSide = xmlComponent.getFloat("rightSide");
     platformHeight = xmlComponent.getFloat("platformHeight");
     portalPlatformFile = xmlComponent.getString("portalPlatformFile");
+    removeCoins = 2;
+    
   }
   
   @Override public ComponentType getComponentType()
@@ -2156,12 +2158,30 @@ public class BonusPlatformManager extends Component
   }
   
   @Override public void update(int deltaTime)
-  {
-    
+  { 
+    if(System.currentTimeMillis() - startTime > 10000){
+      removeHalfCoins(); 
+    }
+  }
+  
+  public void removeHalfCoins(){
+    int counter = 0;
+    startTime = System.currentTimeMillis();
+    for(IGameObject coin : coins)
+    {
+      if(counter%removeCoins == 1)
+      {
+        gameStateController.getGameObjectManager().removeGameObject(coin.getUID());
+      }
+      counter++;
+    }
+    removeCoins++;
   }
   
   public void spawnBonusPlatformLevels()
   {
+    coins.clear();
+    startTime = System.currentTimeMillis();
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(15, 485));
     float tempSpawnHeight = 50;
@@ -2202,19 +2222,21 @@ public class BonusPlatformManager extends Component
         platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
   
         platform.setTag(tag);
-        
-        for(int j =0;j<numberOfCoins;j++)
-        {
-          IGameObject coin;
-          if(tempGapPosition < 250){
-            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+halfGapWidth+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
-          }
-          else{
-            coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-halfGapWidth-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
-          }
-          coin.setTag("coin");
-        }
       }
+      
+      for(int j =0;j<numberOfCoins;j++)
+      {
+        IGameObject coin;
+        if(tempGapPosition < 250){
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+halfGapWidth+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+        }
+        else{
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-halfGapWidth-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+        }
+        coin.setTag("coin");
+        coins.add(coin);
+      }
+      
       platformRanges = new ArrayList<PVector>();
       platformRanges.add(new PVector(leftSide, rightSide));
       rangeSelector = int(random(0, platformRanges.size() - 1));

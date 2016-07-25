@@ -1742,6 +1742,12 @@ public class PlatformManagerControllerComponent extends Component
       gameStateController.getGameObjectManager().removeGameObject(platform.getUID());
     }
     
+    while (!obstacles.isEmpty() && obstacles.getFirst().getTranslation().y < disappearHeight)
+    {
+      IGameObject obstacle = obstacles.removeFirst();
+      gameStateController.getGameObjectManager().removeGameObject(obstacle.getUID());
+    }
+    
     if ((platforms.isEmpty())
       || (platforms.size() < maxPlatformLevels && ((spawnHeight - platforms.getLast().getTranslation().y) > nextHeightBetweenPlatformLevels)))
     {

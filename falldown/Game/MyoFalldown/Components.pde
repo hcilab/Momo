@@ -3961,15 +3961,17 @@ public class ModalComponent extends Component
 public class CalibrationDisplayComponent extends Component
 {
   private PlayerControllerComponent pcc;
-  private long time;
   private boolean show;
+  private int left;
+  private int right;
 
   public CalibrationDisplayComponent(IGameObject _gameObject)
   {
     super(_gameObject);
 
-    time = System.currentTimeMillis();
     show = true;
+    left = 0;
+    right = 0;
   }
 
   @Override public void fromXML(XML xmlComponent)
@@ -3995,13 +3997,23 @@ public class CalibrationDisplayComponent extends Component
       IComponent component = gameObject.getComponent(ComponentType.RENDER);
       if (component != null)
       {
-         RenderComponent renderComponent = (RenderComponent)component;
-         RenderComponent.Text text = renderComponent.getTexts().get(0);
-         if (text != null && pcc.rawInput != null && System.currentTimeMillis() - time > 2000)
-         {
-           text.string = "Left: " + (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100) + "%, Right: " + (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100) + "%";
-           time = System.currentTimeMillis();
-         }
+        RenderComponent renderComponent = (RenderComponent)component;
+        RenderComponent.Text text = renderComponent.getTexts().get(0);
+        if (text != null && pcc.rawInput != null)
+        {
+          int currLeft = (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100);
+          int currRight = (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100);
+          if (abs(currLeft - left) > 5)
+          {
+            text.string = "Left: " + currLeft + "%, Right: " + right + "%";
+            left = currLeft;
+          }
+          if (abs(currRight - right) > 5)
+          {
+            text.string = "Left: " + left + "%, Right: " + currRight + "%";
+            right = currRight;
+          }
+        }
       }
     }
 

@@ -47,6 +47,7 @@ enum EventType
   PLATFORM_LEVEL_UP,
   PUSH_BONUS,
   FINISH_BONUS,
+  BONUS_COINS_COLLECTED,
   
   // Events associated with the calibrate screen
   CALIBRATE_SUCCESS,
@@ -267,7 +268,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.PLATFORM_LEVEL_UP);
     addEventTypeToMaps(EventType.PUSH_BONUS);
     addEventTypeToMaps(EventType.FINISH_BONUS);
-
+    addEventTypeToMaps(EventType.BONUS_COINS_COLLECTED);
+    
     addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);
 

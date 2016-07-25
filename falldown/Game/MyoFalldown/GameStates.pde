@@ -449,10 +449,16 @@ public class GameState_FittsBonusGame extends GameState
     for (IEvent event : eventManager.getEvents(EventType.FINISH_BONUS))
     {
       gameStateController.popState();
+      
+      Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
+      updateScoreEvent.addIntParameter("scoreValue",event.getRequiredIntParameter("bonusScore"));
+      eventManager.queueEvent(updateScoreEvent);
+      
+      Event bonusCoins = new Event(EventType.BONUS_COINS_COLLECTED);
+      bonusCoins.addIntParameter("coinscoleected",event.getRequiredIntParameter("bounsCoinsCollected"));
+      eventManager.queueEvent(bonusCoins);
     }
   }
-  
-  
 }
 
 public class GameState_PostGame extends GameState

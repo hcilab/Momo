@@ -42,7 +42,7 @@
 		
 	<GameObject file="xml_data/music_player.xml" tag="music_player"/>
 
-	<GameObject file="xml_data/score_tracker.xml">
+	<GameObject file="xml_data/bonus_score_tracker.xml">
 		<Transform>
 			<Translation x="485.0" y="24.0"/>
 		</Transform>

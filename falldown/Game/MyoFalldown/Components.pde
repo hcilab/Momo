@@ -35,6 +35,7 @@ public enum ComponentType
   CALIBRATION_DISPLAY,
   FITTS_STATS,
   LOG_RAW_DATA,
+  BONUS_SCORE,
 }
 
 public interface IComponent
@@ -1524,9 +1525,12 @@ public class PlayerControllerComponent extends Component  //<>//
       Event bonusGame = new Event(EventType.PUSH_BONUS);
       eventManager.queueEvent(bonusGame);
       
-      
-      
       Event finishBonusGame = new Event(EventType.FINISH_BONUS);
+      if(bsc!=null)
+      {
+        finishBonusGame.addIntParameter("bonusScore",bsc.getBonusScore());
+        finishBonusGame.addIntParameter("bounsCoinsCollected",bsc.getBonusCoins());
+      }
       eventManager.queueEvent(finishBonusGame);
       
       IGameObject platform = event.getRequiredGameObjectParameter("portal_platform");
@@ -2315,7 +2319,6 @@ public class ScoreTrackerComponent extends Component
   public ScoreTrackerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    
     totalScore = 0;
   }
   
@@ -2356,6 +2359,76 @@ public class ScoreTrackerComponent extends Component
         }
       }
     }
+  }
+}
+
+public class BonusScoreComponent extends Component
+{
+  private String scoreValueParameterName;
+  private String scoreTextPrefix;
+  private int totalScore;
+  private int coinsCollected;
+  
+  public BonusScoreComponent(IGameObject _gameObject)
+  {
+    super(_gameObject);
+    coinsCollected = 0;
+    totalScore = 0;
+  }
+  
+  @Override public void destroy()
+  {
+  }
+  
+  @Override public void fromXML(XML xmlComponent)
+  {
+    scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
+    scoreTextPrefix = xmlComponent.getString("scoreTextPrefix");
+  }
+  
+  @Override public ComponentType getComponentType()
+  {
+    return ComponentType.BONUS_SCORE;
+  }
+  
+  @Override public void update(int deltaTime)
+  {
+    handleEvents();
+  }
+  
+  private int getBonusScore()
+  {
+    return totalScore;
+  }
+  
+  private int getBonusCoins()
+  {
+    return coinsCollected;
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.UPDATE_SCORE))
+    {
+      totalScore += event.getRequiredIntParameter(scoreValueParameterName);
+    
+      IComponent component = gameObject.getComponent(ComponentType.RENDER);
+      if (component != null)
+      {
+        RenderComponent renderComponent = (RenderComponent)component;
+        RenderComponent.Text text = renderComponent.getTexts().get(0);
+        if (text != null)
+        {
+          text.string = scoreTextPrefix + Integer.toString(totalScore);
+        }
+      }
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.COIN_COLLECTED))
+    {
+      coinsCollected++;
+    }
+    
   }
 }
 
@@ -3220,6 +3293,12 @@ public class StatsCollectorComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.COIN_COLLECTED))
     {
       coinsCollected++;
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.BONUS_COINS_COLLECTED))
+    {
+      int bonusCoinsCollected = event.getRequiredIntParameter("coinscoleected");
+      coinsCollected+= bonusCoinsCollected;
     }
   }
 }
@@ -4418,6 +4497,11 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   {
    component = new BonusPlatformManager(gameObject);
    bpc = (BonusPlatformManager) component;
+  }
+  else if(componentName.equals("BonusScoreComponent"))
+  {
+    component = new BonusScoreComponent(gameObject);
+    bsc = (BonusScoreComponent) component;
   }
   
   if (component != null)

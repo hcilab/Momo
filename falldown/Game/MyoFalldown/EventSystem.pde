@@ -45,9 +45,12 @@ enum EventType
   DESTROY_COIN,
   LEVEL_UP,
   PLATFORM_LEVEL_UP,
+  
+  //Events Associated with the Bonus Fitts Law Level
   PUSH_BONUS,
   FINISH_BONUS,
   BONUS_COINS_COLLECTED,
+  THROUGH_PLATFORM_GAP,
   
   // Events associated with the calibrate screen
   CALIBRATE_SUCCESS,
@@ -266,9 +269,11 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.DESTROY_COIN);
     addEventTypeToMaps(EventType.LEVEL_UP);
     addEventTypeToMaps(EventType.PLATFORM_LEVEL_UP);
+    
     addEventTypeToMaps(EventType.PUSH_BONUS);
     addEventTypeToMaps(EventType.FINISH_BONUS);
     addEventTypeToMaps(EventType.BONUS_COINS_COLLECTED);
+    addEventTypeToMaps(EventType.THROUGH_PLATFORM_GAP);
     
     addEventTypeToMaps(EventType.CALIBRATE_SUCCESS);
     addEventTypeToMaps(EventType.CALIBRATE_FAILURE);

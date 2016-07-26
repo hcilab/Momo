@@ -1245,10 +1245,8 @@ public class PlayerControllerComponent extends Component
       myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
     }
 
-    // 0.1 for now, can be changed to higher/lower val
-    // used as min required force to pick up movement
-    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > 0.1 ? true : false;
-    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > 0.1 ? true : false;
+    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
+    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
 
     rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude);
     rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);

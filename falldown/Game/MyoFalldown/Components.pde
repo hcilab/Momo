@@ -957,6 +957,8 @@ public class PlayerControllerComponent extends Component
   private boolean justJumped; //<>//
   private HashMap<String, Float> rawInput; //<>//
   private int pauseOnBreakPlatformTime; //<>//
+  private float distanceTravelled;
+  private float lastXPos;
    //<>//
   public PlayerControllerComponent(IGameObject _gameObject) //<>//
   { //<>//
@@ -978,6 +980,8 @@ public class PlayerControllerComponent extends Component
     } else {
       pauseOnBreakPlatformTime = 1000;
     }
+    distanceTravelled = 0;
+    lastXPos = gameObject.getTranslation().x;
   }
 
   @Override public void destroy()
@@ -1018,6 +1022,9 @@ public class PlayerControllerComponent extends Component
   { //<>//
      //<>//
     handleEvents(); //<>//
+    float newXPos = gameObject.getTranslation().x;
+    distanceTravelled += abs(lastXPos - newXPos);
+    lastXPos = newXPos;
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
     
@@ -3660,13 +3667,17 @@ public class FittsStatsComponent extends Component
   private long startTime;
   private long endTime;
   private int errors;
+  private float gapPos;
+  private float gapWidth;
+  private float optimalPath;
+  private float distanceTravelled;
   private int undershoots;
   private int overshoots;
   private int directionChanges;
   public FittsStatsComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    levelCount =0;
+    levelCount = 0;
   }
   
   @Override public void destroy()
@@ -3706,8 +3717,23 @@ public class FittsStatsComponent extends Component
         RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
         pos = rigidBodyComponent.getPosition();
       }
-      float gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
-      float gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
+
+      gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
+      gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
+
+      if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
+      {
+        optimalPath = 0;
+      }
+      else if (gapPos > pos.x)
+      {
+        optimalPath = round(abs(pos.x - (gapPos - gapWidth)));
+      }
+      else
+      {
+        optimalPath = round(abs(pos.x - (gapPos + gapWidth)));
+      }
+
       playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
       String iD = options.getUserInformation().getUserID();
       levelCount = levelC;
@@ -3747,12 +3773,22 @@ public class FittsStatsComponent extends Component
       }
       IComponent componentRigid = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
       PlayerControllerComponent playComp = (PlayerControllerComponent)componentRigid;
+      if (playComp.distanceTravelled < optimalPath) {
+        distanceTravelled = optimalPath;
+      }
+      else {
+        distanceTravelled = round(playComp.distanceTravelled);
+      }
+      playComp.distanceTravelled = 0;
+      playComp.lastXPos = gapPos;
       directionChanges = playComp.getDirerctionChanges();
       overshoots =  playComp.getOverShoots();
       undershoots = playComp.getUnderShoots();
       errors = playComp.getErrors();
       newRow.setFloat("end point x", pos.x);
       newRow.setLong("end time", endTime);
+      newRow.setFloat("optimal path", optimalPath);
+      newRow.setFloat("distance travelled", distanceTravelled);
       newRow.setInt("errors", errors);
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);

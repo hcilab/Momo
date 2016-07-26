@@ -1013,6 +1013,7 @@ public class PlayerControllerComponent extends Component  //<>// //<>//
     lastXPos = gameObject.getTranslation().x;
    
     bonusPlatforms = new ArrayList<Integer>();
+    bonusPlatforms.add(55);
     bonusPlatforms.add(114);
     bonusPlatforms.add(190);
     bonusPlatforms.add(266);
@@ -1200,18 +1201,18 @@ public class PlayerControllerComponent extends Component  //<>// //<>//
       else{
         zone = Zone.HAPPY;
       }
+      
       if(gameStateController.getCurrentState() instanceof GameState_FittsBonusGame)
       {
-        if(bonusPlatforms.get(0) < gameObject.getTranslation().y)
+        if(bonusPlatforms.get(0) < gameObject.getTranslation().y && !bonusPlatforms.isEmpty())
         {
-          println("Platform Cleared"); 
           bonusPlatforms.remove(0);
-          Event throughBonusGap = new Event(EventType.THROUGH_PLATFORM_GAP);
-          eventManager.queueEvent(throughBonusGap);
+          Event throughBonusGapEvent = new Event(EventType.THROUGH_PLATFORM_GAP);
+          throughBonusGapEvent.addIntParameter("levelCount",7-bonusPlatforms.size());
+          eventManager.queueEvent(throughBonusGapEvent);
         }        
       }
 
-      
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
@@ -1831,7 +1832,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0,1.0) < 0.99 ? true: false;
+    boolean isPortal = random(0.0,1.0) < 0.00 ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
@@ -2231,10 +2232,10 @@ public class BonusPlatformManager extends Component
       platformRanges.add(rangeSelector + 1, new PVector(tempGapPosition + halfGapWidth, range.y));
       range.y = tempGapPosition - halfGapWidth;
       tempSpawnHeight += 76;
-      println(tempSpawnHeight);
+      
       if(i == 5)
       {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
+        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight+5));
         portalPlatform.setTag("portal_platform");
       }
     
@@ -3984,7 +3985,19 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    
+    handleEvents();
+  }
+  
+  private void handleEvents(){
+    for (IEvent event : eventManager.getEvents(EventType.THROUGH_PLATFORM_GAP))
+    {
+      if(tableFittsStats.getRowCount() > 0)
+      {
+        endLogLevel();
+      }
+      TableRow newRow = tableFittsStats.addRow(); 
+      startLogLevel(newRow, event.getRequiredIntParameter("levelCount"));
+    }
   }
   
   private int getCurrentLevel()

@@ -3785,6 +3785,7 @@ public class FittsStatsComponent extends Component
       errors = playComp.getErrors();
       newRow.setFloat("end point x", pos.x);
       newRow.setLong("end time", endTime);
+      newRow.setFloat("gap width", gapWidth*2);
       newRow.setFloat("optimal path", optimalPath);
       newRow.setFloat("distance travelled", distanceTravelled);
       newRow.setInt("errors", errors);

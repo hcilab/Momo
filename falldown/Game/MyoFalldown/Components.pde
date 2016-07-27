@@ -1013,13 +1013,12 @@ public class PlayerControllerComponent extends Component
     lastXPos = gameObject.getTranslation().x;
    
     bonusPlatforms = new ArrayList<Integer>();
-    bonusPlatforms.add(55);
     bonusPlatforms.add(114);
     bonusPlatforms.add(190);
     bonusPlatforms.add(266);
     bonusPlatforms.add(342);
     bonusPlatforms.add(418);
-    bonusPlatforms.add(494);
+    bonusPlatforms.add(487);
   }
 
   @Override public void destroy()
@@ -2155,6 +2154,10 @@ public class BonusPlatformManager extends Component
   private float platformHeight;
   private long startTime;
   private int removeCoins;
+  
+  private float gapPosition;
+  private float halfGapWidth;
+  private ArrayList<ArrayList<Integer>> bonusplatformLevels;;
 
   public BonusPlatformManager(IGameObject _gameObject)
   {
@@ -2175,7 +2178,9 @@ public class BonusPlatformManager extends Component
     platformHeight = xmlComponent.getFloat("platformHeight");
     portalPlatformFile = xmlComponent.getString("portalPlatformFile");
     removeCoins = 2;
-    
+    gapPosition = 0;
+    halfGapWidth = 0;
+    bonusplatformLevels = new ArrayList<ArrayList<Integer>>();
   }
   
   @Override public ComponentType getComponentType()
@@ -2185,8 +2190,25 @@ public class BonusPlatformManager extends Component
   
   @Override public void update(int deltaTime)
   { 
+    handleEvents();
     if(System.currentTimeMillis() - startTime > 10000){
       removeHalfCoins(); 
+    }
+  }
+  
+  private void handleEvents(){
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
+    {
+      IGameObject platform = event.getRequiredGameObjectParameter("platform");
+      if(!bonusplatformLevels.isEmpty())
+      {
+          if(bonusplatformLevels.get(0).contains(platform.getUID()))
+          {
+            TableRow newRow = tableFittsStats.addRow(); 
+            fsc.startLogLevel(newRow, 7-bonusplatformLevels.size()); 
+            bonusplatformLevels.remove(0);
+          }
+      }
     }
   }
   
@@ -2209,14 +2231,15 @@ public class BonusPlatformManager extends Component
     coins.clear();
     startTime = System.currentTimeMillis();
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
+    ArrayList<Integer> platLevels = new ArrayList<Integer>();
     platformRanges.add(new PVector(15, 485));
     float tempSpawnHeight = 50;
     int rangeSelector = int(random(0, platformRanges.size() - 1));
     PVector range = platformRanges.get(rangeSelector);
     tempSpawnHeight = 38;
     TableRow row = tableBonusInput.getRow(bonusInputCounter);
-    float gapPosition = row.getFloat("placement");
-    float halfGapWidth = row.getFloat("halfWidth");
+    gapPosition = row.getFloat("placement");
+    halfGapWidth = row.getFloat("halfWidth");
     
     bonusInputCounter++;
     if(bonusInputCounter >= tableBonusInput.getRowCount()){
@@ -2235,10 +2258,10 @@ public class BonusPlatformManager extends Component
       
       if(i == 5)
       {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight+5));
+        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+5), new PVector(halfGapWidth*2, platformHeight-10));
         portalPlatform.setTag("portal_platform");
       }
-    
+      platLevels = new ArrayList<Integer>();
       for (PVector platformRange : platformRanges)
       {
         float platformPosition = (platformRange.x + platformRange.y) / 2.0f;
@@ -2248,8 +2271,9 @@ public class BonusPlatformManager extends Component
         platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
   
         platform.setTag(tag);
+        platLevels.add(platform.getUID());
       }
-      
+      bonusplatformLevels.add(platLevels);
       for(int j =0;j<numberOfCoins;j++)
       {
         IGameObject coin;
@@ -3990,13 +4014,8 @@ public class FittsStatsComponent extends Component
   
   private void handleEvents(){
     for (IEvent event : eventManager.getEvents(EventType.THROUGH_PLATFORM_GAP))
-    {
-      if(tableFittsStats.getRowCount() > 0)
-      {
+    {   println("Through Gap");
         endLogLevel();
-      }
-      TableRow newRow = tableFittsStats.addRow(); 
-      startLogLevel(newRow, event.getRequiredIntParameter("levelCount"));
     }
   }
   
@@ -4008,46 +4027,46 @@ public class FittsStatsComponent extends Component
   private void startLogLevel(TableRow newRow, int levelC)
   {
     startTime = System.currentTimeMillis();
-    if(options.getGameOptions().isLogFitts())
+    
+    IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
+    PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
+    IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+    PVector pos = new PVector();
+    if(component != null)
     {
-      IComponent componentPlayerComp = gameObject.getComponent(ComponentType.PLAYER_CONTROLLER);
-      PlayerControllerComponent playComp = (PlayerControllerComponent)componentPlayerComp;
-      IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-      PVector pos = new PVector();
-      if(component != null)
-      {
-        RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-        pos = rigidBodyComponent.getPosition();
-      }
-
-      gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
-      gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
-
-      if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
-      {
-        optimalPath = 0;
-      }
-      else if (gapPos > pos.x)
-      {
-        optimalPath = round(abs(pos.x - (gapPos - gapWidth)));
-      }
-      else
-      {
-        optimalPath = round(abs(pos.x - (gapPos + gapWidth)));
-      }
-
-      playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
-      String iD = options.getUserInformation().getUserID();
-      levelCount = levelC;
-      if(iD == null)
-        iD ="-1";
-      newRow.setString("id", iD);
-      newRow.setInt("trial", tableFittsStats.getRowCount());
-      newRow.setInt("level", levelCount);
-      newRow.setString("condition", "Simple");
-      newRow.setFloat("start point x", pos.x);
-      newRow.setLong("start time", startTime);
+      RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+      pos = rigidBodyComponent.getPosition();
     }
+
+    gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
+    gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
+
+    if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
+    {
+      optimalPath = 0;
+    }
+    else if (gapPos > pos.x)
+    {
+      optimalPath = round(abs(pos.x - (gapPos - gapWidth)));
+    }
+    else
+    {
+      optimalPath = round(abs(pos.x - (gapPos + gapWidth)));
+    }
+    
+    playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
+    String iD = options.getUserInformation().getUserID();
+    levelCount = levelC;
+    if(iD == null)
+      iD ="-1";
+    newRow.setString("id", iD);
+    newRow.setInt("trial", tableFittsStats.getRowCount());
+    newRow.setInt("level", levelCount);
+    newRow.setString("condition", "Simple");
+    newRow.setFloat("start point x", pos.x);
+    newRow.setLong("start time", startTime);
+    newRow.setFloat("optimal path", optimalPath);
+    fittsLawRecorded =true;
   }
   
   private void endLogLevel()
@@ -4063,8 +4082,6 @@ public class FittsStatsComponent extends Component
       eventManager.queueEvent(updateScoreEvent);
     }
           
-    if(options.getGameOptions().isLogFitts())
-    {
       TableRow newRow = tableFittsStats.getRow(tableFittsStats.getRowCount() - 1);
       IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
       PVector pos = new PVector();
@@ -4090,19 +4107,17 @@ public class FittsStatsComponent extends Component
       newRow.setFloat("end point x", pos.x);
       newRow.setLong("end time", endTime);
       newRow.setFloat("gap width", gapWidth*2);
-      newRow.setFloat("optimal path", optimalPath);
       newRow.setFloat("distance travelled", distanceTravelled);
       newRow.setInt("errors", errors);
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
       newRow.setInt("direction changes", directionChanges);
-      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC) {
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && (gameStateController.getCurrentState() instanceof GameState_InGame)) {
         newRow.setLong("total time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
       }
       else { // TODO somehow subtract the time spent jumping as well ??
         newRow.setLong("total time",endTime - startTime);
       }
-    }
   }
 }
 

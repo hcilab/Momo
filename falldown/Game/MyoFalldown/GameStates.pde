@@ -359,7 +359,7 @@ public class GameState_InGame extends GameState
       }
       Date d = new Date();
       
-      if(options.getGameOptions().isLogFitts())
+      if(fittsLawRecorded)
       {
         saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
       }
@@ -379,25 +379,23 @@ public class GameState_InGame extends GameState
   
   private void createNewTable()
   {
-    if(options.getGameOptions().isLogFitts()){
-      tableFittsStats = new Table();
-      tableFittsStats.addColumn("id");
-      tableFittsStats.addColumn("trial");
-      tableFittsStats.addColumn("level");
-      tableFittsStats.addColumn("condition");
-      tableFittsStats.addColumn("start point x");
-      tableFittsStats.addColumn("end point x");
-      tableFittsStats.addColumn("start time");
-      tableFittsStats.addColumn("end time");
-      tableFittsStats.addColumn("total time");
-      tableFittsStats.addColumn("gap width");
-      tableFittsStats.addColumn("optimal path");
-      tableFittsStats.addColumn("distance travelled");
-      tableFittsStats.addColumn("errors");
-      tableFittsStats.addColumn("undershoots");
-      tableFittsStats.addColumn("overshoots");
-      tableFittsStats.addColumn("direction changes");
-    }
+    tableFittsStats = new Table();
+    tableFittsStats.addColumn("id");
+    tableFittsStats.addColumn("trial");
+    tableFittsStats.addColumn("level");
+    tableFittsStats.addColumn("condition");
+    tableFittsStats.addColumn("start point x");
+    tableFittsStats.addColumn("end point x");
+    tableFittsStats.addColumn("start time");
+    tableFittsStats.addColumn("end time");
+    tableFittsStats.addColumn("total time");
+    tableFittsStats.addColumn("gap width");
+    tableFittsStats.addColumn("optimal path");
+    tableFittsStats.addColumn("distance travelled");
+    tableFittsStats.addColumn("errors");
+    tableFittsStats.addColumn("undershoots");
+    tableFittsStats.addColumn("overshoots");
+    tableFittsStats.addColumn("direction changes");
     
     if(options.getGameOptions().isLogRawData()){
       tableRawData = new Table();

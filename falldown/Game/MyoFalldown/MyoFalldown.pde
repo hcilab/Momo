@@ -90,6 +90,7 @@ int stillPlatformCounter = 0;
 boolean isRising = false;
 SoundFile buttonClickedSound;
 SoundFile coinCollectedSound;
+boolean fittsLawRecorded;
 
 HashMap<String,PImage> allImages;
 Table imageSources;
@@ -144,6 +145,7 @@ void setup()
   currentFrameHeight = height;
   
   mouseHand = false;
+  fittsLawRecorded = false;
 
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");

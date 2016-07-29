@@ -134,7 +134,7 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/counter_single.xml" tag="counter">
+	<GameObject file="xml_data/counter_single.xml" tag="counterDwellTime">
 		<Transform>
 			<Translation x="495.0" y="425.0"/>
 			<Scale x="15.0" y="40.0"/>

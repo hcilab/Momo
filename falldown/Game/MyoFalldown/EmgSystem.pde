@@ -53,7 +53,21 @@ class EmgManager implements IEmgManager {
     Event event;
 
     try {
-      myoAPI.registerAction(label, 0);
+      if (calibrationMode == CalibrationMode.AUTO)
+      {
+        myoAPI.registerAction(label, 0);
+      }
+      else
+      {
+        if (label.equals(LEFT_DIRECTION_LABEL))
+        {
+          myoAPI.registerActionManual(label, leftSensor);
+        }
+        else
+        {
+          myoAPI.registerActionManual(label, rightSensor);
+        }
+      }
 
     } catch (CalibrationFailedException e) {
       return false;

@@ -1,5 +1,7 @@
 <GameObject>
-	<Counter tag="counterDwellTime" height="1" width="1" countup="count_up" countdown="count_down"/>
+	<Counter tag="counterDwellTime" height="1" width="1" countup="count_up" countdown="count_down" min="1" max="9"/>
+	<Counter tag="counterSensorLeft" height="1" width="1" countup="count_up_left" countdown="count_down_left" min="0" max="7"/>
+	<Counter tag="counterSensorRight" height="1" width="1" countup="count_up_right" countdown="count_down_right" min="0" max="7"/>
 	<Render>	
 		<Sprite>
 			<Image src="images/shapes/triangleUP.png" x="-25" y="-25.0" width="1" height="0.3" resizeWidth="15" resizeHeight="15"/>

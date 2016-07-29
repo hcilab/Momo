@@ -36,6 +36,7 @@ public enum ComponentType
   FITTS_STATS,
   LOG_RAW_DATA,
   BONUS_SCORE,
+  SINGLE_COUNTER,
 }
 
 public interface IComponent
@@ -2546,6 +2547,7 @@ public class CalibrateWizardComponent extends Component
     {
       // register action
       boolean success = emgManager.registerAction(currentAction);
+
       if (!success) {
         Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);
         eventManager.queueEvent(failureEvent);
@@ -4399,11 +4401,15 @@ public class CounterComponent extends Component
   private String countDown;
   private int count;
   private ArrayList<Integer> idCounts;
+  private int min;
+  private int max;
+  private boolean isTextValSet;
+
   public CounterComponent(GameObject _gameObject)
   {
     super(_gameObject);
     idCounts = new ArrayList<Integer>();
-    count = 1;
+    isTextValSet = false;
   }
 
   @Override public void destroy()
@@ -4414,16 +4420,34 @@ public class CounterComponent extends Component
   {
     countUp = xmlComponent.getString("countup");
     countDown = xmlComponent.getString("countdown");
-    idCounts.add(options.getGameOptions().getDwellTime());
+    min = xmlComponent.getInt("min");
+    max = xmlComponent.getInt("max");
+
+    // TODO: set this elsewhere
+    if (gameObject.getTag().equals("counterDwellTime"))
+    {
+      println(options.getGameOptions().getDwellTime());
+      idCounts.add(options.getGameOptions().getDwellTime());
+    }
+    else if (gameObject.getTag().equals("counterSensorLeft") || gameObject.getTag().equals("counterSensorRight"))
+    {
+      idCounts.add(0);
+      leftSensor = 0;
+      rightSensor = 0;
+    }
   }
 
   @Override public ComponentType getComponentType()
   {
-    return ComponentType.ID_COUNTER;
+    return ComponentType.SINGLE_COUNTER;
   }
 
   @Override public void update(int deltaTime)
   {
+    if (!isTextValSet)
+    {
+      isTextValSet = setTextVal();
+    }
     handleEvents();
   }
 
@@ -4433,10 +4457,12 @@ public class CounterComponent extends Component
     {
       String tag = event.getRequiredStringParameter("tag");
 
-      if(tag.contains(countUp)){
+      if(tag.contains(countUp))
+      {
         adjustCounter(1);
       }
-      else if(tag.contains(countDown)){
+      else if(tag.contains(countDown))
+      {
         adjustCounter(-1);
       }
     }
@@ -4446,10 +4472,10 @@ public class CounterComponent extends Component
   {
     IComponent component = gameObject.getComponent(ComponentType.RENDER);
     count = idCounts.get(0) + adjustment;
-    if(count > 9)
-      count = 1;
-    if(count<1)
-      count = 9;
+    if(count > max)
+      count = min;
+    else if(count < min)
+      count = max;
     idCounts.set(0, count);
     options.getGameOptions().setDwellTime(count);
 
@@ -4462,6 +4488,29 @@ public class CounterComponent extends Component
          texts.get(0).string = Integer.toString(count);
       }
     }
+  }
+
+  private boolean setTextVal()
+  {
+    IComponent component = gameObject.getComponent(ComponentType.RENDER);
+
+    if (component != null)
+    {
+      RenderComponent renderComponent = (RenderComponent)component;
+      ArrayList<RenderComponent.Text> texts = renderComponent.getTexts();
+      if (texts.size() > 0)
+      {
+        texts.get(0).string = Integer.toString(idCounts.get(0));
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public int getCount()
+  {
+    return count;
   }
 }
 
@@ -4566,7 +4615,9 @@ IComponent componentFactory(GameObject gameObject, XML xmlComponent)
   }
   else if(componentName.equals("Counter"))
   {
-    component = new CounterComponent(gameObject);
+    if (gameObject.getTag().equals(xmlComponent.getString("tag"))) {
+      component = new CounterComponent(gameObject);
+    }
   }
   else if(componentName.equals("BonusPlatformManager"))
   {

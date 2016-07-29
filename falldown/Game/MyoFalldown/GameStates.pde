@@ -1804,7 +1804,7 @@ public class GameState_CalibrateSuccess extends GameState
       else if (tag.equals("Calibrate"))
       {
         gameStateController.popState();
-        gameStateController.pushState(new GameState_SelectForearm());
+        gameStateController.pushState(new GameState_CalibrateFailure());
       }
     }
   }
@@ -1856,12 +1856,18 @@ public class GameState_CalibrateFailure extends GameState
       {
         gameStateController.popState();
       }
-      else if (tag.equals("Calibrate"))
+      else if (tag.equals("auto"))
       {
+        calibrationMode = CalibrationMode.AUTO;
         gameStateController.popState();
         gameStateController.pushState(new GameState_SelectForearm());
       }
-     
+      else if (tag.equals("manual"))
+      {
+        calibrationMode = CalibrationMode.MANUAL;
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_SelectSensors());
+      }
     }
   }
 }
@@ -2073,6 +2079,56 @@ public class GameState_SmartSuggestion extends GameState
       if (tag.equals("back"))
       {
         gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_SelectSensors extends GameState
+{
+  public GameState_SelectSensors()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/select_sensors.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("next"))
+      {
+        CounterComponent ccLeft = (CounterComponent) gameObjectManager.getGameObjectsByTag("counterSensorLeft").get(0).getComponent(ComponentType.SINGLE_COUNTER);
+        leftSensor = ccLeft.getCount();
+        CounterComponent ccRight = (CounterComponent) gameObjectManager.getGameObjectsByTag("counterSensorRight").get(0).getComponent(ComponentType.SINGLE_COUNTER);
+        rightSensor = ccRight.getCount();
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_SelectForearm());
+      }
+      else if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else
+      {
+        println("[ERROR] Unrecognized button clicked in GameStates_SelectSensors");
       }
     }
   }

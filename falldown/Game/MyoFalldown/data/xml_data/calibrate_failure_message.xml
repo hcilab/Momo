@@ -68,21 +68,66 @@
 		</Text>
 
 		<Text
-			string="Begin Calibration"
+			string="Begin Auto Calibration"
 			fontName="Moire"
-			size="20"
+			size="15"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="250.0"
-			y="350.0"
+			x="125.0"
+			y="250.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="200" height="80"  resizeWidth="200" resizeHeight="80"/>
+			<Image  src="images/button/buttonNormal.png" x="125.0" y="250.0"   width="200" height="80"  resizeWidth="200" resizeHeight="80"/>
 		</Sprite>
+
+		<Text
+			string="(Sensors will be chosen for you)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="125.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="Begin Manual Calibration"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="375.0"
+			y="250.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="375.0" y="250.0"   width="200" height="80"  resizeWidth="200" resizeHeight="80"/>
+		</Sprite>
+
+		<Text
+			string="(Choose your preferred sensors)"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="375.0"
+			y="300.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 
 		<Text
 			string="If you're experiencing issues, check out: http://diagnostics.myo.com/"

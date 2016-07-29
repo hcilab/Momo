@@ -73,9 +73,16 @@ class MyoAPI implements IMyoAPI {
   // could later provide a hook for user-specified settings.
   //
   void registerActionManual(String label, int sensorID) {
-    SensorConfig s = new SensorConfig(sensorID, MAX_MYO_READING);
+    Sample[] currentSamples = {};
+    currentSamples = sampleWindow.toArray(currentSamples); // infers type-info
+    float mav = meanAbsoluteValue(currentSamples, sensorID);
+
+    SensorConfig s = new SensorConfig(sensorID, mav);
     registeredSensors.put(label, s);
     println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
+    HashMap<String, float[]> readingData = new HashMap<String, float[]>();
+    readingData.put(label, new float[]{ s.sensorID, s.maxReading });
+    options.getCalibrationData().setCalibrationData(readingData);
   }
 
 

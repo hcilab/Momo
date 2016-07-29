@@ -96,6 +96,11 @@ HashMap<String,PImage> allImages;
 Table imageSources;
 Zone zone;
 
+// used for manual calibration
+CalibrationMode calibrationMode;
+int leftSensor = -1;
+int rightSensor = -1;
+
 enum Forearm {
   LEFT,
   RIGHT,
@@ -105,6 +110,11 @@ enum Zone {
   DANGER,
   NEUTRAL,
   HAPPY,
+}
+
+enum CalibrationMode {
+  AUTO,
+  MANUAL,
 }
 
 void setup()

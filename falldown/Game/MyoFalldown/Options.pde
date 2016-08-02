@@ -199,6 +199,8 @@ public interface ICalibrationData
 {
   public void setCalibrationData(HashMap<String, float[]> maxReadings);
   public HashMap<String, float[]> getCalibrationData();
+  public float getLeftReading();
+  public float getRightReading();
 }
 
 public interface IFittsLawOptions
@@ -1597,6 +1599,16 @@ public class Options implements IOptions
       calData.put("LEFT", left);
       calData.put("RIGHT", right);
       return calData;
+    }
+
+    public float getLeftReading()
+    {
+      return calibrationXML.getFloat("left_reading");
+    }
+
+    public float getRightReading()
+    {
+      return calibrationXML.getFloat("right_reading");
     }
   }
 

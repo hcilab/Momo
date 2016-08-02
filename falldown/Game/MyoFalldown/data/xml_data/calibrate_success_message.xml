@@ -46,7 +46,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="150.0"
+			y="125.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -60,7 +60,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="215.0"
+			y="175.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -73,7 +73,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="235.0"
+			y="195.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -87,7 +87,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="265.0"
+			y="290.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -100,7 +100,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="285.0"
+			y="310.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -114,14 +114,94 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="350.0"
+			y="425.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="350.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="250.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
 		</Sprite>
+
+		<Text
+			string="xxx"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="210.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="0"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="150.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="127"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="350.0"
+			y="225.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="xxx"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="325.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="0"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="right"
+			alignY="center"
+			x="150.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="127"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="left"
+			alignY="center"
+			x="350.0"
+			y="340.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
 
 		<Text
 			string="If you're experiencing issues, check out: http://diagnostics.myo.com/"

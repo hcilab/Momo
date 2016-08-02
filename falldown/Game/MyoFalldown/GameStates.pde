@@ -1817,6 +1817,40 @@ public class GameState_CalibrateSuccess extends GameState
     renderComponent.getTexts().get(5).string = "Right EMG reading: " + nfc(options.getCalibrationData().getCalibrationData().get("RIGHT")[1], 1);
     renderComponent.getTexts().get(6).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("RIGHT")[0] + ")";
 
+    float leftSensitivity = options.getCalibrationData().getLeftReading();
+    RenderComponent.Text sliderText = renderComponent.getTexts().get(8);
+    sliderText.string = nfc(leftSensitivity,1);
+    sliderText.translation.x = (((leftSensitivity/100.0f) * (340-160)) + 160);
+
+    ArrayList<IGameObject> sliders = gameStateController.getGameObjectManager().getGameObjectsByTag("left_slider");
+    if (sliders.size() > 0)
+    {
+      IGameObject slider = sliders.get(0);
+      IComponent comp = slider.getComponent(ComponentType.SLIDER);
+      if (comp != null)
+      {
+        SliderComponent sliderComponent = (SliderComponent) comp;
+        sliderComponent.setTabPosition((width / 500.0) * sliderText.translation.x);
+      }
+    }
+
+    float rightSensitivity = options.getCalibrationData().getRightReading();
+    RenderComponent.Text sliderTextRight = renderComponent.getTexts().get(11);
+    sliderTextRight.string = nfc(rightSensitivity,1);
+    sliderTextRight.translation.x = (((rightSensitivity/100.0f) * (340-160)) + 160);
+
+    ArrayList<IGameObject> slidersRight = gameStateController.getGameObjectManager().getGameObjectsByTag("right_slider");
+    if (slidersRight.size() > 0)
+    {
+      IGameObject sliderRight = slidersRight.get(0);
+      IComponent compRight = sliderRight.getComponent(ComponentType.SLIDER);
+      if (compRight != null)
+      {
+        SliderComponent sliderComponent = (SliderComponent) compRight;
+        sliderComponent.setTabPosition((width / 500.0) * sliderTextRight.translation.x);
+      }
+    }
+
     textLoaded = true;
   }
 }

@@ -201,6 +201,10 @@ public interface ICalibrationData
   public HashMap<String, float[]> getCalibrationData();
   public float getLeftReading();
   public float getRightReading();
+  public float getLeftSensitivity();
+  public float getRightSensitivity();
+  public void setLeftSensitivity(float _leftSensitivity);
+  public void setRightSensitivity(float _rightSensitivity);
 }
 
 public interface IFittsLawOptions
@@ -1575,12 +1579,14 @@ public class Options implements IOptions
           float[] leftReading = maxReadings.get("LEFT");
           calibrationXML.setFloat("left_sensor", leftReading[0]);
           calibrationXML.setFloat("left_reading", leftReading[1]);
+          calibrationXML.setFloat("left_sensitivity", leftReading[1]);
         }
         else if (key.equals("RIGHT"))
         {
           float[] rightReading = maxReadings.get("RIGHT");
           calibrationXML.setFloat("right_sensor", rightReading[0]);
           calibrationXML.setFloat("right_reading", rightReading[1]);
+          calibrationXML.setFloat("right_sensitivity", rightReading[1]);
         }
       }
 
@@ -1609,6 +1615,28 @@ public class Options implements IOptions
     public float getRightReading()
     {
       return calibrationXML.getFloat("right_reading");
+    }
+
+    public float getLeftSensitivity()
+    {
+      return calibrationXML.getFloat("left_sensitivity");
+    }
+
+    public float getRightSensitivity()
+    {
+      return calibrationXML.getFloat("right_sensitivity");
+    }
+
+    public void setLeftSensitivity(float _leftSensitivity)
+    {
+      calibrationXML.setFloat("left_sensitivity", _leftSensitivity);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    public void setRightSensitivity(float _rightSensitivity)
+    {
+      calibrationXML.setFloat("right_sensitivity", _rightSensitivity);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
   }
 

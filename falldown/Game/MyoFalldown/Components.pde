@@ -1019,7 +1019,7 @@ public class PlayerControllerComponent extends Component
     bonusPlatforms.add(266);
     bonusPlatforms.add(342);
     bonusPlatforms.add(418);
-    bonusPlatforms.add(487);
+    bonusPlatforms.add(485);
   }
 
   @Override public void destroy()
@@ -1192,19 +1192,22 @@ public class PlayerControllerComponent extends Component
         rigidBodyComponent.applyForce(new PVector(0, -4.5f), new PVector(gameObject.getTranslation().x, 270));
       }
       
-      if(gameObject.getTranslation().y < 195){
+      if(gameObject.getTranslation().y < 195)
+      {
         zone = Zone.DANGER;
       } 
-      else if(gameObject.getTranslation().y < 340){
+      else if(gameObject.getTranslation().y < 340)
+      {
         zone = Zone.NEUTRAL;
       }
-      else{
+      else
+      {
         zone = Zone.HAPPY;
       }
       
       if(gameStateController.getCurrentState() instanceof GameState_FittsBonusGame)
       {
-        if(bonusPlatforms.get(0) < gameObject.getTranslation().y && !bonusPlatforms.isEmpty())
+        if(!bonusPlatforms.isEmpty() && bonusPlatforms.get(0) < gameObject.getTranslation().y)
         {
           bonusPlatforms.remove(0);
           Event throughBonusGapEvent = new Event(EventType.THROUGH_PLATFORM_GAP);
@@ -1847,7 +1850,6 @@ public class PlatformManagerControllerComponent extends Component
       TableRow row = tableInput.getRow(inputPlatformCounter);
       float gapPosition = row.getFloat("placement")  + 15;
       float halfGapWidth = row.getFloat("halfWidth");
-      platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
       platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
       range.y = gapPosition - halfGapWidth;
       
@@ -1885,7 +1887,6 @@ public class PlatformManagerControllerComponent extends Component
         }
         float halfGapWidth = random(minGapSize, min(maxGapSize, rangeWidthMinusDistanceBetweenGaps)) / 2.0;
         float gapPosition = random(range.x + minDistanceBetweenGaps + halfGapWidth-5, range.y - minDistanceBetweenGaps - halfGapWidth + 5);
-        platformGapPosition.add(new PVector(gapPosition,halfGapWidth));
         platformRanges.add(rangeSelector + 1, new PVector(gapPosition + halfGapWidth, range.y));
         range.y = gapPosition - halfGapWidth;
         
@@ -2197,7 +2198,8 @@ public class BonusPlatformManager extends Component
     }
   }
   
-  private void handleEvents(){
+  private void handleEvents()
+  {
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_COLLISION))
     {
       IGameObject platform = event.getRequiredGameObjectParameter("platform");
@@ -2206,7 +2208,7 @@ public class BonusPlatformManager extends Component
           if(bonusplatformLevels.get(0).contains(platform.getUID()))
           {
             TableRow newRow = tableFittsStats.addRow(); 
-            fsc.startLogLevel(newRow, 7-bonusplatformLevels.size()); 
+            fsc.startLogLevel(newRow, 7-bonusplatformLevels.size(), bonusInputCounter); 
             bonusplatformLevels.remove(0);
           }
       }
@@ -2259,7 +2261,7 @@ public class BonusPlatformManager extends Component
       
       if(i == 5)
       {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+5), new PVector(halfGapWidth*2, platformHeight-10));
+        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight-10));
         portalPlatform.setTag("portal_platform");
       }
       platLevels = new ArrayList<Integer>();
@@ -3155,7 +3157,7 @@ public class LevelParametersComponent extends Component
             if(options.getGameOptions().isLogFitts())
             {
               TableRow newRow = tableFittsStats.addRow(); 
-              fsc.startLogLevel(newRow, totalPlatformLevelCount); 
+              fsc.startLogLevel(newRow, totalPlatformLevelCount, totalPlatformLevelCount); 
             }
           }
         }
@@ -3222,7 +3224,7 @@ public class LevelParametersComponent extends Component
             if(options.getGameOptions().isLogFitts())
             {
               TableRow newRow = tableFittsStats.addRow(); 
-              fsc.startLogLevel(newRow, totalPlatformLevelCount); 
+              fsc.startLogLevel(newRow, totalPlatformLevelCount,totalPlatformLevelCount); 
             }
           }
         }
@@ -4016,7 +4018,7 @@ public class FittsStatsComponent extends Component
   
   private void handleEvents(){
     for (IEvent event : eventManager.getEvents(EventType.THROUGH_PLATFORM_GAP))
-    {   println("Through Gap");
+    {
         endLogLevel();
     }
   }
@@ -4026,7 +4028,7 @@ public class FittsStatsComponent extends Component
     return levelCount;
   }
   
-  private void startLogLevel(TableRow newRow, int levelC)
+  private void startLogLevel(TableRow newRow, int levelC,int trialNum)
   {
     startTime = System.currentTimeMillis();
     
@@ -4042,7 +4044,7 @@ public class FittsStatsComponent extends Component
 
     gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
     gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
-
+    
     if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
     {
       optimalPath = 0;
@@ -4062,13 +4064,13 @@ public class FittsStatsComponent extends Component
     if(iD == null)
       iD ="-1";
     newRow.setString("id", iD);
-    newRow.setInt("trial", tableFittsStats.getRowCount());
+    newRow.setInt("trial", trialNum);
     newRow.setInt("level", levelCount);
     newRow.setString("condition", "Simple");
     newRow.setFloat("start point x", pos.x);
     newRow.setLong("start time", startTime);
     newRow.setFloat("optimal path", optimalPath);
-    fittsLawRecorded =true;
+    fittsLawRecorded = true;
   }
   
   private void endLogLevel()
@@ -4249,8 +4251,6 @@ public class LogRawDataComponent extends Component
     newRow.setString("MovingRight", movingRight ? "1" : "0");
     newRow.setInt("MovingUp", isJumping ? 1 : 0);   
   }
-  
- 
 }
 
 public class ModalComponent extends Component

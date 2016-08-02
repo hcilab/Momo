@@ -78,6 +78,7 @@ Table tableBonusInput;
 int bonusInputCounter;
 int totalRowCountInput;
 ArrayList<ArrayList<Integer>> platformLevels;
+//This is used to keep track of the gap position and width for Fitts Law Mode 
 ArrayList<PVector> platformGapPosition;
 
 PlatformManagerControllerComponent pc;

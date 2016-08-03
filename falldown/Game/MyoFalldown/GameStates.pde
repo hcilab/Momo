@@ -1781,7 +1781,7 @@ public class GameState_CalibrateSuccess extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
-    if (textLoaded)
+    if (textLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
       HashMap<String, Float> emgInput = emgManager.pollRaw();
       updateRects(emgInput);

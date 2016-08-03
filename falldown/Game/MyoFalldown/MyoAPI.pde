@@ -7,6 +7,7 @@ interface IMyoAPI {
   void registerActionManual(String label, int sensorID);
   HashMap<String, Float> poll();
   void onEmg(long nowMicros, int[] sensorData);
+  void updateRegisteredSensorValues(String directionLabel, float sliderValue);
 }
 
 
@@ -150,6 +151,11 @@ class MyoAPI implements IMyoAPI {
     }
     mav /= samples.length;
     return mav;
+  }
+
+  void updateRegisteredSensorValues(String directionLabel, float sliderValue) {
+    int sensor = registeredSensors.get(directionLabel).sensorID;
+    registeredSensors.put(directionLabel, new SensorConfig(sensor, sliderValue));
   }
 }
 

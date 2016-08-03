@@ -3,6 +3,7 @@ interface IEmgManager {
   HashMap<String, Float> poll();
   void onEmg(long nowMillis, int[] sensorData);
   boolean isCalibrated();
+  void updateRegisteredSensorValues(String directionLabel, float sliderValue);
 }
 
 
@@ -156,6 +157,10 @@ class EmgManager implements IEmgManager {
   boolean isCalibrated() {
     return true;
   }
+
+  void updateRegisteredSensorValues(String directionLabel, float sliderValue) {
+    myoAPI.updateRegisteredSensorValues(directionLabel, sliderValue);
+  }
 }
 
 
@@ -178,4 +183,6 @@ class NullEmgManager implements IEmgManager {
   boolean isCalibrated() {
     return false;
   }
+
+  void updateRegisteredSensorValues(String directionLabel, float sliderValue) {} // no-op
 }

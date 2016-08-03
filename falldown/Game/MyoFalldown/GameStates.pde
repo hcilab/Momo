@@ -1875,6 +1875,20 @@ public class GameState_CalibrateSuccess extends GameState
         }
       }
     }
+
+    for (IEvent event : eventManager.getEvents(EventType.SLIDER_RELEASED))
+    {
+      if (event.getRequiredStringParameter("tag").equals("left_slider"))
+      {
+        float newVal = (127.0f * (event.getRequiredFloatParameter("sliderValue") / 100.0f));
+        emgManager.updateRegisteredSensorValues(LEFT_DIRECTION_LABEL, newVal);
+      }
+      else if (event.getRequiredStringParameter("tag").equals("right_slider"))
+      {
+        float newVal = (127.0f * (event.getRequiredFloatParameter("sliderValue") / 100.0f));
+        emgManager.updateRegisteredSensorValues(RIGHT_DIRECTION_LABEL, newVal);
+      }
+    }
   }
 
   private void loadText()

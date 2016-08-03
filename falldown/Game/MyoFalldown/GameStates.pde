@@ -427,6 +427,7 @@ public class GameState_FittsBonusGame extends GameState
   {
     gameObjectManager.fromXML("xml_data/bonus_game.xml");
     bpc.spawnBonusPlatformLevels();
+    bonusLevel = true;
   }
   
   @Override public void update(int deltaTime)
@@ -439,6 +440,7 @@ public class GameState_FittsBonusGame extends GameState
   
   @Override public void onExit()
   {
+    bonusLevel = false;
     gameObjectManager.clearGameObjects();
   }
   

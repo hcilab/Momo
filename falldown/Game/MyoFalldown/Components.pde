@@ -117,7 +117,7 @@ public class RenderComponent extends Component
       translation = _translation;
       scale = _scale;
     }
-  } 
+  }
   
   public class OffsetSheetSprite
   {
@@ -125,13 +125,18 @@ public class RenderComponent extends Component
     public PVector translation;
     public PVector scale;
     public String zone;
+    public long initTime;
+    public int timeLapsed;
+    public int flashCount;
     
-    public OffsetSheetSprite(Sprite _sheetSprite, PVector _translation, PVector _scale, String _zone)
+    public OffsetSheetSprite(Sprite _sheetSprite, PVector _translation, PVector _scale, String _zone, long _initTime, int _timeLapsed)
     {
       sheetSprite = _sheetSprite;
       translation = _translation;
       scale = _scale;
       zone = _zone;
+      initTime = _initTime;
+      timeLapsed = _timeLapsed;
     }
   }
   
@@ -322,12 +327,41 @@ public class RenderComponent extends Component
       }
       else if (xmlRenderable.getName().equals("Sprite")){
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
+         int timeLapsed = 0;
+         //if(gameObject.getTranslation().y < 115)
+         //{
+         //  timeLapsed = (int)random(2000, 5000);
+         //}
+         //else if(gameObject.getTranslation().y < 191)
+         //{
+         //   timeLapsed = (int)random(5000, 9000);
+         //}
+         //else if(gameObject.getTranslation().y < 267)
+         //{
+         //  timeLapsed = (int)random(10000, 14000);
+         //}
+         //else if(gameObject.getTranslation().y < 343)
+         //{
+         //  timeLapsed = (int)random(15000, 19000);
+         //}
+         //else if(gameObject.getTranslation().y < 419)
+         //{
+         //  timeLapsed = (int)random(20000, 24000);
+         //}
+         //else if(gameObject.getTranslation().y < 490)
+         //{
+         //  timeLapsed = (int)random(25000, 29000);
+         //}
+         //else
+         //{
+           timeLapsed = (int)random(5000, 25000);
+         //}
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
                new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
                new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"))),
-               xmlSpriteComponent.getString("zone")
+               xmlSpriteComponent.getString("zone"), System.currentTimeMillis(), timeLapsed 
             );
             offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
             offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
@@ -344,7 +378,7 @@ public class RenderComponent extends Component
          }
        }
      }
-      else if (xmlRenderable.getName().equals("Text"))
+     else if (xmlRenderable.getName().equals("Text"))
       {
         int alignX = CENTER;
         int alignY = BASELINE;
@@ -513,7 +547,42 @@ public class RenderComponent extends Component
            offsetSprite.sheetSprite.draw();
          } 
       }
-      else{
+      else if(gameObject.getTag().equals("coin"))
+      {
+        offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+        S4P.updateSprites(deltaTime / 1000.0f);
+        if(abs(offsetSprite.initTime - System.currentTimeMillis()) > offsetSprite.timeLapsed)
+        {
+          gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
+        }
+        else if(abs(offsetSprite.initTime - System.currentTimeMillis()) > (offsetSprite.timeLapsed - 10000))
+        {
+        
+          int framesequence = ((int)(abs(offsetSprite.initTime - System.currentTimeMillis()) - (offsetSprite.timeLapsed - 10000))/1000);
+        //This is for the transparent coin
+          //offsetSprite.sheetSprite.setFrameSequence(framesequence, framesequence, 0f);
+          //offsetSprite.sheetSprite.draw();
+          int flashingSequence = (10 - framesequence);
+          
+        //this is for the flashing coin  
+          if(offsetSprite.flashCount >= flashingSequence)
+          {
+            offsetSprite.flashCount=0;
+          }
+          else
+          {
+            offsetSprite.flashCount++;
+            offsetSprite.sheetSprite.draw();
+          }
+          
+        }
+        else
+        {
+          offsetSprite.sheetSprite.draw();
+        }
+      }
+      else
+      {
         offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
         S4P.updateSprites(deltaTime / 1000.0f);
         offsetSprite.sheetSprite.draw(); 
@@ -1121,11 +1190,9 @@ public class PlayerControllerComponent extends Component
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
-          if(options.getGameOptions().isLogFitts())
+          if(options.getGameOptions().isLogFitts() || bonusLevel)
           {
-            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
-            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
-            fitsStats.endLogLevel();
+            fsc.endLogLevel();
           }
 
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
@@ -1158,12 +1225,10 @@ public class PlayerControllerComponent extends Component
           pc.setPlatformDescentSpeed(breakPlatform);
           platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
-
-          if(options.getGameOptions().isFittsLaw())
+          
+          if(options.getGameOptions().isLogFitts() || bonusLevel)
           {
-            IComponent componentFitts = gameObject.getComponent(ComponentType.FITTS_STATS);
-            FittsStatsComponent fitsStats = (FittsStatsComponent)componentFitts;
-            fitsStats.endLogLevel();
+            fsc.endLogLevel();
           }
 
           //Sets Momo in middle of break platform so player does not slow down against side of platforms
@@ -1741,7 +1806,15 @@ public class PlatformManagerControllerComponent extends Component
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    riseSpeed = 0.0f;
+    if(options.getGameOptions().isStillPlatforms())
+    {
+      riseSpeed = 0.0f;
+    }
+    else
+    {
+      riseSpeed = 10.0f;
+    }
+    
     firstIteration = true;
     rising = false;
     isRising = false;
@@ -1783,7 +1856,7 @@ public class PlatformManagerControllerComponent extends Component
         }
         else
         {
-          if(totalRowCountInput > inputPlatformCounter && riseSpeed > 0.0f && firstIteration)
+          if(totalRowCountInput > inputPlatformCounter && firstIteration)
           {
             spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
@@ -1835,7 +1908,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0,1.0) < 0.00 ? true: false;
+    boolean isPortal = random(0.0,1.0) < 0.1 ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();
@@ -1856,11 +1929,11 @@ public class PlatformManagerControllerComponent extends Component
      
       if(options.getGameOptions().isFittsLaw() || isBreakPlatform)
       {
-       IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
-       breakPlatform.setTag("break_platform");
-       setPlatformRiseSpeed(breakPlatform);
-       platforms.add(breakPlatform);
-       platLevels.add(breakPlatform.getUID());
+        IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
+        breakPlatform.setTag("break_platform");
+        setPlatformRiseSpeed(breakPlatform);
+        platforms.add(breakPlatform);
+        platLevels.add(breakPlatform.getUID());
       }
       else if(isPortal)
       {
@@ -2149,13 +2222,13 @@ public class BonusPlatformManager extends Component
   private String platformFile;  
   private String portalPlatformFile;
   private String tag; 
+  private String breakPlatformFile;
   
   private float leftSide;
   private float rightSide;
   
   private float platformHeight;
   private long startTime;
-  private int removeCoins;
   
   private float gapPosition;
   private float halfGapWidth;
@@ -2179,7 +2252,7 @@ public class BonusPlatformManager extends Component
     rightSide = xmlComponent.getFloat("rightSide");
     platformHeight = xmlComponent.getFloat("platformHeight");
     portalPlatformFile = xmlComponent.getString("portalPlatformFile");
-    removeCoins = 2;
+    breakPlatformFile = xmlComponent.getString("breakPlatformFile");
     gapPosition = 0;
     halfGapWidth = 0;
     bonusplatformLevels = new ArrayList<ArrayList<Integer>>();
@@ -2193,9 +2266,6 @@ public class BonusPlatformManager extends Component
   @Override public void update(int deltaTime)
   { 
     handleEvents();
-    if(System.currentTimeMillis() - startTime > 10000){
-      removeHalfCoins(); 
-    }
   }
   
   private void handleEvents()
@@ -2213,20 +2283,6 @@ public class BonusPlatformManager extends Component
           }
       }
     }
-  }
-  
-  public void removeHalfCoins(){
-    int counter = 0;
-    startTime = System.currentTimeMillis();
-    for(IGameObject coin : coins)
-    {
-      if(counter%removeCoins == 1)
-      {
-        gameStateController.getGameObjectManager().removeGameObject(coin.getUID());
-      }
-      counter++;
-    }
-    removeCoins++;
   }
   
   public void spawnBonusPlatformLevels()
@@ -2264,6 +2320,11 @@ public class BonusPlatformManager extends Component
         IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight-10));
         portalPlatform.setTag("portal_platform");
       }
+
+      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
+      breakPlatform.setTag("break_platform");
+      platLevels.add(breakPlatform.getUID());
+
       platLevels = new ArrayList<Integer>();
       for (PVector platformRange : platformRanges)
       {
@@ -2296,7 +2357,6 @@ public class BonusPlatformManager extends Component
       range = platformRanges.get(rangeSelector);
    }
   }
-  
 }
 
 public class CoinEventHandlerComponent extends Component
@@ -3047,7 +3107,7 @@ public class LevelParametersComponent extends Component
   public LevelParametersComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    platformlevelCount = 11;
+    platformlevelCount = 0;
     totalPlatformLevelCount = 0;
   }
   
@@ -3084,10 +3144,8 @@ public class LevelParametersComponent extends Component
   @Override public void update(int deltaTime)
   {
     handleEvents();
-    if ((options.getGameOptions().getLevelUpOverTime() || !levelUpAtLeastOnce))
+    if ((options.getGameOptions().getLevelUpOverTime()))
     {
-      timePassed += deltaTime;
-    
       if (platformlevelCount > (int)(currentLevel/10))
       {
         if (currentLevel < maxLevel)
@@ -3096,14 +3154,13 @@ public class LevelParametersComponent extends Component
           levelUp();
           levelUpAtLeastOnce = true;
         }
-        timePassed = 0;
       }
     }
   }
   
   private void levelUp()
   {
-    ++currentLevel;
+    currentLevel++;
     currentRiseSpeed += riseSpeedChangePerLevel;
     
     levelUpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
@@ -3154,7 +3211,7 @@ public class LevelParametersComponent extends Component
                 }
               }
             }
-            if(options.getGameOptions().isLogFitts())
+            if(options.getGameOptions().isLogFitts() || bonusLevel)
             {
               TableRow newRow = tableFittsStats.addRow(); 
               fsc.startLogLevel(newRow, totalPlatformLevelCount, totalPlatformLevelCount); 
@@ -3221,7 +3278,7 @@ public class LevelParametersComponent extends Component
                 }
               }
             }
-            if(options.getGameOptions().isLogFitts())
+            if(options.getGameOptions().isLogFitts() || bonusLevel)
             {
               TableRow newRow = tableFittsStats.addRow(); 
               fsc.startLogLevel(newRow, totalPlatformLevelCount,totalPlatformLevelCount); 
@@ -4013,14 +4070,7 @@ public class FittsStatsComponent extends Component
   
   @Override public void update(int deltaTime)
   {
-    handleEvents();
-  }
-  
-  private void handleEvents(){
-    for (IEvent event : eventManager.getEvents(EventType.THROUGH_PLATFORM_GAP))
-    {
-        endLogLevel();
-    }
+
   }
   
   private int getCurrentLevel()

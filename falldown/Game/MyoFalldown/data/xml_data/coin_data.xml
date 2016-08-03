@@ -1,8 +1,8 @@
 <GameObject>
 	<Render>
-		<SpriteSheet src="images/coin/coin_sheet.png" alphaImage=""
+		<SpriteSheet src="images/coin/coin_transparent.png" alphaImage=""
 				x="175.0" y="215.0"  
-				horzCount="6" vertCount="1" defaultCount="5" farmeFreq="0f"
+				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
 				zOrder="0" height="42.0" scaleHeight="30"> 
 		</SpriteSheet>
 		<SpriteSheet src="images/coin/crown.png" alphaImage=""

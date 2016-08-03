@@ -6,6 +6,7 @@
 		rightSide="485.0"
 		platformHeight="15.0"
 		portalPlatformFile="xml_data/platform_portal.xml"
+		breakPlatformFile="xml_data/platform_break.xml"
 	>
 	</BonusPlatformManager>
 </GameObject>

@@ -92,6 +92,7 @@ boolean isRising = false;
 SoundFile buttonClickedSound;
 SoundFile coinCollectedSound;
 boolean fittsLawRecorded;
+boolean bonusLevel;
 
 HashMap<String,PImage> allImages;
 Table imageSources;
@@ -157,6 +158,7 @@ void setup()
   
   mouseHand = false;
   fittsLawRecorded = false;
+  bonusLevel = false;
 
   bg = loadShape("images/background/rockMountain.svg");
   opbg =  loadShape("images/background/opacityLandscape.svg");

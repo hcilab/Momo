@@ -1,6 +1,7 @@
 interface IEmgManager {
   boolean registerAction(String label);
   HashMap<String, Float> poll();
+  HashMap<String, Float> pollRaw();
   void onEmg(long nowMillis, int[] sensorData);
   boolean isCalibrated();
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
@@ -150,6 +151,18 @@ class EmgManager implements IEmgManager {
     return toReturn;
   }
 
+  HashMap<String, Float> pollRaw() {
+    HashMap<String, Float> readings = myoAPI.poll();
+    Float left = readings.get(LEFT_DIRECTION_LABEL);
+    Float right = readings.get(RIGHT_DIRECTION_LABEL);
+
+    HashMap<String, Float> toReturn = new HashMap<String, Float>();
+    toReturn.put(LEFT_DIRECTION_LABEL, left);
+    toReturn.put(RIGHT_DIRECTION_LABEL, right);
+
+    return toReturn;
+  }
+
   void onEmg(long nowMillis, int[] sensorData) {
     myoAPI.onEmg(nowMillis, sensorData);
   }
@@ -175,6 +188,13 @@ class NullEmgManager implements IEmgManager {
     toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
     toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
     toReturn.put(JUMP_DIRECTION_LABEL, 0.0);
+    return toReturn;
+  }
+
+  HashMap<String, Float> pollRaw() {
+    HashMap<String, Float> toReturn = new HashMap<String, Float>();
+    toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
+    toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
     return toReturn;
   }
 

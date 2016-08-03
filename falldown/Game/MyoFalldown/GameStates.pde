@@ -1852,7 +1852,7 @@ public class GameState_CalibrateSuccess extends GameState
       {
         float sliderValue = event.getRequiredFloatParameter("sliderValue");
         float newRightVal = (127.0f * (sliderValue / 100.0f));
-        options.getCalibrationData().setLeftSensitivity(newRightVal);
+        options.getCalibrationData().setRightSensitivity(newRightVal);
 
         IComponent component = gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         if (component != null)
@@ -1922,7 +1922,7 @@ public class GameState_CalibrateSuccess extends GameState
     float leftSensitivity = options.getCalibrationData().getLeftSensitivity();
     RenderComponent.Text sliderText = renderComponent.getTexts().get(8);
     sliderText.string = nfc(leftSensitivity,1);
-    sliderText.translation.x = (((leftSensitivity/100.0f) * (340-160)) + 160);
+    sliderText.translation.x = (((leftSensitivity/127.0f) * (340-160)) + 160);
 
     ArrayList<IGameObject> sliders = gameStateController.getGameObjectManager().getGameObjectsByTag("left_slider");
     if (sliders.size() > 0)
@@ -1939,7 +1939,7 @@ public class GameState_CalibrateSuccess extends GameState
     float rightSensitivity = options.getCalibrationData().getRightSensitivity();
     RenderComponent.Text sliderTextRight = renderComponent.getTexts().get(11);
     sliderTextRight.string = nfc(rightSensitivity,1);
-    sliderTextRight.translation.x = (((rightSensitivity/100.0f) * (340-160)) + 160);
+    sliderTextRight.translation.x = (((rightSensitivity/127.0f) * (340-160)) + 160);
 
     ArrayList<IGameObject> slidersRight = gameStateController.getGameObjectManager().getGameObjectsByTag("right_slider");
     if (slidersRight.size() > 0)

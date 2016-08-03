@@ -1781,6 +1781,12 @@ public class GameState_CalibrateSuccess extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
+    if (textLoaded)
+    {
+      HashMap<String, Float> emgInput = emgManager.pollRaw();
+      updateRects(emgInput);
+    }
+
     if (!textLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
       loadText();
@@ -1889,6 +1895,20 @@ public class GameState_CalibrateSuccess extends GameState
         emgManager.updateRegisteredSensorValues(RIGHT_DIRECTION_LABEL, newVal);
       }
     }
+  }
+
+  private void updateRects(HashMap<String, Float> input)
+  {
+    float leftRectVal = (input.get(LEFT_DIRECTION_LABEL) * 180.0f);
+    int xPoint = floor(leftRectVal/2 + 160);
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    renderComponent.getShapes().get(2).translation.x = xPoint;
+    renderComponent.getShapes().get(2).scale.x = floor(leftRectVal/2);
+
+    float rightRectVal = (input.get(RIGHT_DIRECTION_LABEL) * 180.0f);
+    xPoint = floor(rightRectVal/2 + 160);
+    renderComponent.getShapes().get(4).translation.x = xPoint;
+    renderComponent.getShapes().get(4).scale.x = floor(rightRectVal/2);
   }
 
   private void loadText()

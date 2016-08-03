@@ -9,13 +9,13 @@
 
 	<GameObject file="xml_data/slider.xml" tag="left_slider">
 		<Transform>
-			<Translation x="250" y="230"/>
+			<Translation x="250" y="185"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="right_slider">
 		<Transform>
-			<Translation x="250" y="345"/>
+			<Translation x="250" y="335"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>

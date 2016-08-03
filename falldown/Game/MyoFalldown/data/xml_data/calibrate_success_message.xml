@@ -46,7 +46,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="125.0"
+			y="90.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -60,7 +60,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="175.0"
+			y="120.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -73,7 +73,7 @@
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
-			y="195.0"
+			y="140.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -83,24 +83,24 @@
 			string=""
 			fontName="Moire" 
 			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="270.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string=""
+			fontName="Moire" 
+			size="16"
 			antialiasing="true"
 			alignX="center"
 			alignY="baseline"
 			x="250.0"
 			y="290.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string=""
-			fontName="Moire" 
-			size="16"
-			antialiasing="true"
-			alignX="center"
-			alignY="baseline"
-			x="250.0"
-			y="310.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -131,7 +131,7 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="210.0"
+			y="160.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -144,7 +144,7 @@
 			alignX="right"
 			alignY="center"
 			x="150.0"
-			y="225.0"
+			y="180.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -157,11 +157,17 @@
 			alignX="left"
 			alignY="center"
 			x="350.0"
-			y="225.0"
+			y="180.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect halfHeight="8" halfWidth="90" x="250.0" y="220">
+			<StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="6" halfWidth="0" x="250.0" y="220">
+			<StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+		</Rect>
 
 		<Text
 			string="xxx"
@@ -171,7 +177,7 @@
 			alignX="center"
 			alignY="center"
 			x="250.0"
-			y="325.0"
+			y="310.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -184,7 +190,7 @@
 			alignX="right"
 			alignY="center"
 			x="150.0"
-			y="340.0"
+			y="330.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -197,11 +203,17 @@
 			alignX="left"
 			alignY="center"
 			x="350.0"
-			y="340.0"
+			y="330.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect halfHeight="8" halfWidth="90" x="250.0" y="370">
+			<StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="6" halfWidth="0" x="250.0" y="370">
+			<StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+		</Rect>
 
 		<Text
 			string="If you're experiencing issues, check out: http://diagnostics.myo.com/"

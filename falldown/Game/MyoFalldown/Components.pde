@@ -1242,7 +1242,7 @@ public class PlayerControllerComponent extends Component
         }
       }
 
-      if (options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player"))
+      if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) || (bonusLevel && rigidBodyComponent.gameObject.getTag().equals("player")))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
@@ -1327,7 +1327,7 @@ public class PlayerControllerComponent extends Component
     Float myoRightMagnitude;
     Float myoJumpMagnitude;
 
-    if (options.getGameOptions().isFittsLaw())
+    if (options.getGameOptions().isFittsLaw() || bonusLevel)
     {
       if (onPlatform)
       {

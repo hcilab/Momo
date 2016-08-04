@@ -3,7 +3,10 @@
 		<SpriteSheet src="images/player/Momo.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="2" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="40.0" scaleHeight="1" neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"> 
+				zOrder="0" height="40.0" scaleHeight="1" 
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/MomoHappy.png" dangerSrc="images/player/MomoDanger.png"
+				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="0" leftStart="1" leftEnd="1">
 		</AnimationController>
@@ -11,7 +14,10 @@
 		<SpriteSheet src="images/player/dragonSprite.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1" neutralZone="ALL" happyZone="NONE" dangerZone="NONE"> 
+				zOrder="0" height="50.0" scaleHeight="1" 
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/dragonSpriteHappy.png" dangerSrc="images/player/dragonSpriteDanger.png"
+				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="3" leftStart="4" leftEnd="8">
 		</AnimationController>
@@ -19,7 +25,10 @@
 		<SpriteSheet src="images/player/monster.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1" neutralZone="ALL" happyZone="NONE" dangerZone="NONE"> 
+				zOrder="0" height="50.0" scaleHeight="1" 
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/monsterHappy.png" dangerSrc="images/player/monsterDanger.png"
+				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="7" leftStart="8" leftEnd="15">
 		</AnimationController>
@@ -27,7 +36,10 @@
 		<SpriteSheet src="images/player/grumpyBirdSprite.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1" neutralZone="ALL" happyZone="NONE" dangerZone="NONE"> 
+				zOrder="0" height="50.0" scaleHeight="1" 
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/grumpyBirdSpriteHappy.png" dangerSrc="images/player/grumpyBirdSpriteDanger.png"
+				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="3" leftStart="4" leftEnd="8">
 		</AnimationController>

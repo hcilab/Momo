@@ -1236,8 +1236,23 @@ public class Options implements IOptions
       playerData.setString("height", sprite.getString("height"));
       playerData.setString("scaleHeight", sprite.getString("scaleHeight"));
       playerData.setString("zone", sprite.getString("neutralZone"));
+      
+      playerDataHappy.setString("horzCount", sprite.getString("horzCount"));
+      playerDataHappy.setString("vertCount", sprite.getString("vertCount"));
+      playerDataHappy.setString("defaultCount", sprite.getString("defaultCount"));
+      playerDataHappy.setString("farmeFreq", sprite.getString("farmeFreq"));
+      playerDataHappy.setString("height", sprite.getString("height"));
       playerDataHappy.setString("zone", sprite.getString("happyZone"));
+      playerDataHappy.setString("src", sprite.getString("happySrc"));
+       
+      playerDataDanger.setString("horzCount", sprite.getString("horzCount"));
+      playerDataDanger.setString("vertCount", sprite.getString("vertCount"));
+      playerDataDanger.setString("defaultCount", sprite.getString("defaultCount"));
+      playerDataDanger.setString("farmeFreq", sprite.getString("farmeFreq"));
+      playerDataDanger.setString("height", sprite.getString("height"));
       playerDataDanger.setString("zone",sprite.getString("dangerZone"));
+      playerDataDanger.setString("src",sprite.getString("dangerSrc"));
+      
       animationData.setString("rightStart", animation.getString("rightStart"));
       animationData.setString("rightEnd", animation.getString("rightEnd"));
       animationData.setString("leftStart", animation.getString("leftStart"));

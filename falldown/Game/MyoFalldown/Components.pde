@@ -328,34 +328,34 @@ public class RenderComponent extends Component
       else if (xmlRenderable.getName().equals("Sprite")){
        for (XML xmlSpriteComponent : xmlRenderable.getChildren()){
          int timeLapsed = 0;
-         //if(gameObject.getTranslation().y < 115)
-         //{
-         //  timeLapsed = (int)random(2000, 5000);
-         //}
-         //else if(gameObject.getTranslation().y < 191)
-         //{
-         //   timeLapsed = (int)random(5000, 9000);
-         //}
-         //else if(gameObject.getTranslation().y < 267)
-         //{
-         //  timeLapsed = (int)random(10000, 14000);
-         //}
-         //else if(gameObject.getTranslation().y < 343)
-         //{
-         //  timeLapsed = (int)random(15000, 19000);
-         //}
-         //else if(gameObject.getTranslation().y < 419)
-         //{
-         //  timeLapsed = (int)random(20000, 24000);
-         //}
-         //else if(gameObject.getTranslation().y < 490)
-         //{
-         //  timeLapsed = (int)random(25000, 29000);
-         //}
-         //else
-         //{
+         if(gameObject.getTranslation().y < 115)
+         {
+          timeLapsed = (int)random(2000, 5000);
+         }
+         else if(gameObject.getTranslation().y < 191)
+         {
+           timeLapsed = (int)random(5000, 9000);
+         }
+         else if(gameObject.getTranslation().y < 267)
+         {
+          timeLapsed = (int)random(10000, 14000);
+         }
+         else if(gameObject.getTranslation().y < 343)
+         {
+          timeLapsed = (int)random(15000, 19000);
+         }
+         else if(gameObject.getTranslation().y < 419)
+         {
+          timeLapsed = (int)random(20000, 24000);
+         }
+         else if(gameObject.getTranslation().y < 490)
+         {
+          timeLapsed = (int)random(25000, 29000);
+         }
+         else
+         {
            timeLapsed = (int)random(5000, 25000);
-         //}
+         }
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(
                new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
@@ -560,20 +560,20 @@ public class RenderComponent extends Component
         
           int framesequence = ((int)(abs(offsetSprite.initTime - System.currentTimeMillis()) - (offsetSprite.timeLapsed - 10000))/1000);
         //This is for the transparent coin
-          //offsetSprite.sheetSprite.setFrameSequence(framesequence, framesequence, 0f);
-          //offsetSprite.sheetSprite.draw();
+          offsetSprite.sheetSprite.setFrameSequence(framesequence, framesequence, 0f);
+          offsetSprite.sheetSprite.draw();
           int flashingSequence = (10 - framesequence);
           
         //this is for the flashing coin  
-          if(offsetSprite.flashCount >= flashingSequence)
-          {
-            offsetSprite.flashCount=0;
-          }
-          else
-          {
-            offsetSprite.flashCount++;
-            offsetSprite.sheetSprite.draw();
-          }
+          //if(offsetSprite.flashCount >= flashingSequence)
+          //{
+          //  offsetSprite.flashCount=0;
+          //}
+          //else
+          //{
+          //  offsetSprite.flashCount++;
+          //  offsetSprite.sheetSprite.draw();
+          //}
           
         }
         else

@@ -458,6 +458,14 @@ public class GameState_FittsBonusGame extends GameState
       bonusCoins.addIntParameter("coinscoleected",event.getRequiredIntParameter("bounsCoinsCollected"));
       eventManager.queueEvent(bonusCoins);
     }
+    for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
+    for (IEvent event : eventManager.getEvents(EventType.ESCAPE_PRESSED))
+    {
+      gameStateController.pushState(new GameState_IOSettings());
+    }
   }
 }
 
@@ -835,7 +843,7 @@ public class GameState_IOSettings extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/io_settings.xml");
-    isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame;
+    isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame || gameStateController.getPreviousState() instanceof GameState_FittsBonusGame;
   }
 
   @Override public void update(int deltaTime)

@@ -97,16 +97,12 @@ public interface IIOOptions
 {
   public float getMusicVolume();
   public float getSoundEffectsVolume();
-  public float getLeftEMGSensitivity();
-  public float getRightEMGSensitivity();
   public EmgSamplingPolicy getEmgSamplingPolicy();
   public float getMinInputThreshold();
   public Forearm getForearm();
   
   public void setMusicVolume(float volume);
   public void setSoundEffectsVolume(float volume);
-  public void setLeftEMGSensitivity(float sensitivity);
-  public void setRightEMGSensitivity(float sensitivity);
   public void setEmgSamplingPolicy(EmgSamplingPolicy policy);
   public void setMinInputThreshold(float _minInputThreshold);
   public void setForearm(Forearm _myoForearm);
@@ -643,8 +639,6 @@ public class Options implements IOptions
     private final String XML_IO = "IO";
     private final String MUSIC_VOLUME = "music_volume";
     private final String SOUND_EFFECTS_VOLUME = "sound_effects_volume";
-    private final String LEFT_EMG_SENSITIVITY = "left_emg_sensitivity";
-    private final String RIGHT_EMG_SENSITIVITY = "right_emg_sensitivity";
     private final String EMG_SAMPLING_POLICY = "emg_sampling_policy";
     private final String THRESHOLD = "min_input_threshold";
     private final String MYO_FOREARM = "myo_forearm";
@@ -653,8 +647,6 @@ public class Options implements IOptions
     
     private float musicVolume;
     private float soundEffectsVolume;
-    private float leftEMGSensitivity;
-    private float rightEMGSensitivity;
     private EmgSamplingPolicy emgSamplingPolicy;
     private float minInputThreshold;
     private Forearm myoForearm;
@@ -665,8 +657,6 @@ public class Options implements IOptions
       
       musicVolume = xmlIO.getFloat(MUSIC_VOLUME);
       soundEffectsVolume = xmlIO.getFloat(SOUND_EFFECTS_VOLUME);
-      leftEMGSensitivity = xmlIO.getFloat(LEFT_EMG_SENSITIVITY);
-      rightEMGSensitivity = xmlIO.getFloat(RIGHT_EMG_SENSITIVITY);
       minInputThreshold = xmlIO.getFloat(THRESHOLD);
 
       switch (xmlIO.getString(EMG_SAMPLING_POLICY))
@@ -693,16 +683,6 @@ public class Options implements IOptions
     @Override public float getSoundEffectsVolume()
     {
       return soundEffectsVolume;
-    }
-
-    @Override public float getLeftEMGSensitivity()
-    {
-      return leftEMGSensitivity;
-    }
-
-    @Override public float getRightEMGSensitivity()
-    {
-      return rightEMGSensitivity;
     }
     
     public EmgSamplingPolicy getEmgSamplingPolicy()
@@ -731,20 +711,6 @@ public class Options implements IOptions
     {
       soundEffectsVolume = volume / 100.0f;
       xmlIO.setFloat(SOUND_EFFECTS_VOLUME, soundEffectsVolume);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
-    }
-
-    @Override public void setLeftEMGSensitivity(float sensitivity)
-    {
-      leftEMGSensitivity = sensitivity;
-      xmlIO.setFloat(LEFT_EMG_SENSITIVITY, leftEMGSensitivity);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
-    }
-
-    @Override public void setRightEMGSensitivity(float sensitivity)
-    {
-      rightEMGSensitivity = sensitivity;
-      xmlIO.setFloat(RIGHT_EMG_SENSITIVITY, rightEMGSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
     

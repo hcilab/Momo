@@ -1660,7 +1660,7 @@ public class PlayerControllerComponent extends Component
     else if (moveVector.x < 0.0f) 
     {  
       moveVector.x += minInputThreshold;  
-      moveVector.x *= options.getIOOptions().getLeftEMGSensitivity() * (1.0f - minInputThreshold);  
+      moveVector.x *= (1.0f - minInputThreshold);
   
       if (moveVector.x < -1.0f)  
       {  
@@ -1670,7 +1670,7 @@ public class PlayerControllerComponent extends Component
     else
     { 
       moveVector.x -= minInputThreshold; 
-      moveVector.x *= options.getIOOptions().getRightEMGSensitivity() * (1.0f - minInputThreshold); 
+      moveVector.x *= (1.0f - minInputThreshold);
  
 
       if (moveVector.x > 1.0f)
@@ -3810,14 +3810,6 @@ public class IOOptionsControllerComponent extends Component
   private float soundEffectsSliderLeftBoundary;
   private float soundEffectsSliderRightBoundary;
   private float soundEffectsSliderYPosition;
-  
-  private String leftSensitivitySliderTag;
-  private float leftSensitivitySliderLeftBoundary;
-  private float leftSensitivitySliderRightBoundary;
-  
-  private String rightSensitivitySliderTag;
-  private float rightSensitivitySliderLeftBoundary;
-  private float rightSensitivitySliderRightBoundary;
 
   private String thresholdSliderTag;
   private float thresholdSliderLeftBoundary;
@@ -3844,14 +3836,6 @@ public class IOOptionsControllerComponent extends Component
     soundEffectsSliderLeftBoundary = xmlComponent.getFloat("soundEffectsSliderLeftBoundary");
     soundEffectsSliderRightBoundary = xmlComponent.getFloat("soundEffectsSliderRightBoundary");
     soundEffectsSliderYPosition = xmlComponent.getFloat("soundEffectsSliderYPosition");
-    
-    leftSensitivitySliderTag = xmlComponent.getString("leftSensitivitySliderTag");
-    leftSensitivitySliderLeftBoundary = xmlComponent.getFloat("leftSensitivitySliderLeftBoundary");
-    leftSensitivitySliderRightBoundary = xmlComponent.getFloat("leftSensitivitySliderRightBoundary");
-    
-    rightSensitivitySliderTag = xmlComponent.getString("rightSensitivitySliderTag");
-    rightSensitivitySliderLeftBoundary = xmlComponent.getFloat("rightSensitivitySliderLeftBoundary");
-    rightSensitivitySliderRightBoundary = xmlComponent.getFloat("rightSensitivitySliderRightBoundary");
 
     thresholdSliderTag = xmlComponent.getString("thresholdSliderTag");
     thresholdSliderLeftBoundary = xmlComponent.getFloat("thresholdSliderLeftBoundary");
@@ -3879,8 +3863,6 @@ public class IOOptionsControllerComponent extends Component
         
         float musicVolume = options.getIOOptions().getMusicVolume();
         float soundEffectsVolume = options.getIOOptions().getSoundEffectsVolume();
-        float leftEMGSensitivity = options.getIOOptions().getLeftEMGSensitivity();
-        float rightEMGSensitivity = options.getIOOptions().getRightEMGSensitivity();
         float threshold = options.getIOOptions().getMinInputThreshold();
         
         musicSliderText.string = Integer.toString((int)(musicVolume * 100.0f));
@@ -3916,30 +3898,6 @@ public class IOOptionsControllerComponent extends Component
           {
             SliderComponent sliderComponent = (SliderComponent)component;
             sliderComponent.setTabPosition((width / 500.0f) * soundEffectsSliderText.translation.x);
-          }
-        }
-        
-        ArrayList<IGameObject> leftSensitivitySliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(leftSensitivitySliderTag);
-        if (leftSensitivitySliderList.size() > 0)
-        {
-          IGameObject leftSensitivitySlider = leftSensitivitySliderList.get(0);
-          component = leftSensitivitySlider.getComponent(ComponentType.SLIDER);
-          if (component != null)
-          {
-            SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition((width / 500.0f) * ((((leftEMGSensitivity - 0.2f) / 4.8f) * (leftSensitivitySliderRightBoundary - leftSensitivitySliderLeftBoundary)) + leftSensitivitySliderLeftBoundary));
-          }
-        }
-        
-        ArrayList<IGameObject> rightSensitivitySliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(rightSensitivitySliderTag);
-        if (rightSensitivitySliderList.size() > 0)
-        {
-          IGameObject rightSensitivitySlider = rightSensitivitySliderList.get(0);
-          component = rightSensitivitySlider.getComponent(ComponentType.SLIDER);
-          if (component != null)
-          {
-            SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition((width / 500.0f) * ((((rightEMGSensitivity - 0.2f) / 4.8f) * (rightSensitivitySliderRightBoundary - rightSensitivitySliderLeftBoundary)) + rightSensitivitySliderLeftBoundary));
           }
         }
 

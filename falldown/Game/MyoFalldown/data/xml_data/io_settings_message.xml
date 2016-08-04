@@ -8,16 +8,10 @@
 		soundEffectsSliderLeftBoundary="285.0"
 		soundEffectsSliderRightBoundary="465.0"
 		soundEffectsSliderYPosition="115.0"
-		leftSensitivitySliderTag="left_sensitivity"
-		leftSensitivitySliderLeftBoundary="285.0"
-		leftSensitivitySliderRightBoundary="465.0"
-		rightSensitivitySliderTag="right_sensitivity"
-		rightSensitivitySliderLeftBoundary="285.0"
-		rightSensitivitySliderRightBoundary="465.0"
 		thresholdSliderTag="threshold"
 		thresholdSliderLeftBoundary="285.0"
 		thresholdSliderRightBoundary="465.0"
-		thresholdSliderYPosition="215.0"
+		thresholdSliderYPosition="235.0"
 	/>
 	<Render>
 		<!-- The position of these components within this file is very important,
@@ -148,7 +142,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="25.0"
-			y="180.0"
+			y="200.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -161,7 +155,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="50.0"
-			y="205.0"
+			y="225.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -174,91 +168,13 @@
 			alignX="left"
 			alignY="baseline"
 			x="75.0"
-			y="235.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Left"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="75.0"
-			y="270.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Less"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="275.0"
-			y="285.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="More"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="475.0"
-			y="285.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Right"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="75.0"
-			y="305.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Less"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="275.0"
-			y="320.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="More"
-			fontName="Arial"
-			size="12"
-			antialiasing="true"
-			alignX="right"
-			alignY="baseline"
-			x="475.0"
-			y="320.0"
+			y="255.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image src="images/button/questionMark.png" x="25.0" y="335.0" width="20" height="20" resizeHeight="20" resizeWidth="20"/>
+			<Image src="images/button/questionMark.png" x="25.0" y="285.0" width="20" height="20" resizeHeight="20" resizeWidth="20"/>
 		</Sprite>
 		<Text
 			string="Input"
@@ -268,7 +184,7 @@
 			alignX="left"
 			alignY="baseline"
 			x="50.0"
-			y="340.0"
+			y="290.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -281,12 +197,12 @@
 			alignX="left"
 			alignY="baseline"
 			x="75.0"
-			y="365.0"
+			y="320.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Ellipse x="375" y="360.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="375" y="315.0" halfWidth="15" halfHeight="15">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
@@ -298,12 +214,12 @@
 			alignX="left"
 			alignY="baseline"
 			x="75.0"
-			y="395.0"
+			y="350.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Ellipse x="375" y="390.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="375" y="345.0" halfWidth="15" halfHeight="15">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
@@ -315,12 +231,12 @@
 			alignX="left"
 			alignY="baseline"
 			x="75.0"
-			y="425.0"
+			y="380.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
-		<Ellipse x="375" y="420.0" halfWidth="15" halfHeight="15">
+		<Ellipse x="375" y="375.0" halfWidth="15" halfHeight="15">
 			<FillColor r="255" g="255" b="255" a="0"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>

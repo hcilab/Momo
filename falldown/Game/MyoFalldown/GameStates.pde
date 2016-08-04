@@ -948,16 +948,6 @@ public class GameState_IOSettings extends GameState
       {
         options.getIOOptions().setSoundEffectsVolume(sliderValue);
       }
-      else if (tag.equals("left_sensitivity"))
-      {
-        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
-        options.getIOOptions().setLeftEMGSensitivity(sensitivityValue);
-      }
-      else if (tag.equals("right_sensitivity"))
-      {
-        float sensitivityValue = (4.8f * (sliderValue / 100.0f)) + 0.2f;
-        options.getIOOptions().setRightEMGSensitivity(sensitivityValue);
-      }
       else if (tag.equals("threshold"))
       {
         options.getIOOptions().setMinInputThreshold(sliderValue);

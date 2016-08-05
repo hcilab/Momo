@@ -206,6 +206,7 @@ public class RenderComponent extends Component
     }
   }
 
+  private long totalTime;
   private ArrayList<OffsetPShape> offsetShapes;
   private ArrayList<Text> texts;
   private ArrayList<OffsetSheetSprite> offsetSheetSprites;
@@ -221,6 +222,7 @@ public class RenderComponent extends Component
     offsetSheetSprites = new ArrayList<OffsetSheetSprite>();
     offsetPImages = new  ArrayList<OffsetPImage>();
     customSprites = new ArrayList<CustomSprite>();
+    totalTime = 0;
   }
   
   @Override public void fromXML(XML xmlComponent)
@@ -361,7 +363,7 @@ public class RenderComponent extends Component
                new Sprite(MyoFalldown.this, xmlSpriteComponent.getString("src"),xmlSpriteComponent.getInt("horzCount"), xmlSpriteComponent.getInt("vertCount"), xmlSpriteComponent.getInt("zOrder")),
                new PVector(xmlSpriteComponent.getFloat("x"), xmlSpriteComponent.getFloat("y")),
                new PVector(1, (xmlSpriteComponent.getFloat("scaleHeight")/xmlSpriteComponent.getFloat("height"))),
-               xmlSpriteComponent.getString("zone"), System.currentTimeMillis(), timeLapsed 
+               xmlSpriteComponent.getString("zone"), totalTime, timeLapsed 
             );
             offsetSheetSprite.sheetSprite.setFrameSequence(0, xmlSpriteComponent.getInt("defaultCount"), xmlSpriteComponent.getFloat("farmeFreq"));  
             offsetSheetSprite.sheetSprite.setDomain(-100,-100,width+100,height+100,Sprite.HALT);
@@ -512,7 +514,7 @@ public class RenderComponent extends Component
  
   @Override public void update(int deltaTime)
   { 
-    
+    totalTime += deltaTime;
     for (OffsetPShape offsetShape : offsetShapes)
     {
       offsetShape.pshape.resetMatrix();
@@ -551,20 +553,20 @@ public class RenderComponent extends Component
       {
         offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
         S4P.updateSprites(deltaTime / 1000.0f);
-        if(abs(offsetSprite.initTime - System.currentTimeMillis()) > offsetSprite.timeLapsed)
+        if(abs(offsetSprite.initTime - totalTime) > offsetSprite.timeLapsed)
         {
           gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
         }
-        else if(abs(offsetSprite.initTime - System.currentTimeMillis()) > (offsetSprite.timeLapsed - 10000))
+        else if(abs(offsetSprite.initTime - totalTime) > (offsetSprite.timeLapsed - 10000))
         {
-        
-          int framesequence = ((int)(abs(offsetSprite.initTime - System.currentTimeMillis()) - (offsetSprite.timeLapsed - 10000))/1000);
-        //This is for the transparent coin
+        //This is for the transparent coin  
+          int framesequence = ((int)(abs(offsetSprite.initTime - totalTime) - (offsetSprite.timeLapsed - 10000))/1000);
           offsetSprite.sheetSprite.setFrameSequence(framesequence, framesequence, 0f);
           offsetSprite.sheetSprite.draw();
-          int flashingSequence = (10 - framesequence);
+          
           
         //this is for the flashing coin  
+          //int flashingSequence = (10 - framesequence);
           //if(offsetSprite.flashCount >= flashingSequence)
           //{
           //  offsetSprite.flashCount=0;

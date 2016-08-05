@@ -553,14 +553,14 @@ public class GameState_PostGame extends GameState
       if (tag.equals("back"))
       {
         gameStateController.popState();
-        if (smartSuggestion)
+        if (smartSuggestion && emgManager.isCalibrated())
           gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("play_again"))
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_InGame());
-        if (smartSuggestion)
+        if (smartSuggestion && emgManager.isCalibrated())
           gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("gameplay_record"))
@@ -568,7 +568,7 @@ public class GameState_PostGame extends GameState
         gameStateController.popState();
         gameStateController.pushState(new GameState_OptionsMenu());
         gameStateController.pushState(new GameState_StatsSettings());
-        if (smartSuggestion)
+        if (smartSuggestion && emgManager.isCalibrated())
           gameStateController.pushState(new GameState_SmartSuggestion());
       }
       else if (tag.equals("buy"))
@@ -576,7 +576,7 @@ public class GameState_PostGame extends GameState
         gameStateController.popState();
         gameStateController.pushState(new GameState_OptionsMenu());
         gameStateController.pushState(new GameState_CustomizeSettings());
-        if (smartSuggestion)
+        if (smartSuggestion && emgManager.isCalibrated())
           gameStateController.pushState(new GameState_SmartSuggestion());
       }
     }

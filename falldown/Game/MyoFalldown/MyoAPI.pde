@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 
 interface IMyoAPI {
   void registerAction(String label, int delayMillis) throws CalibrationFailedException;
-  void registerActionManual(String label, int sensorID);
+  void registerActionManual(String label, int sensorID) throws CalibrationFailedException;
   HashMap<String, Float> poll();
   void onEmg(long nowMicros, int[] sensorData);
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
@@ -73,10 +73,14 @@ class MyoAPI implements IMyoAPI {
   // the default maximum. This function is useful for debugging/testing, but
   // could later provide a hook for user-specified settings.
   //
-  void registerActionManual(String label, int sensorID) {
+  void registerActionManual(String label, int sensorID) throws CalibrationFailedException {
     Sample[] currentSamples = {};
     currentSamples = sampleWindow.toArray(currentSamples); // infers type-info
     float mav = meanAbsoluteValue(currentSamples, sensorID);
+
+    if (mav == 0) {
+      throw new CalibrationFailedException();
+    }
 
     SensorConfig s = new SensorConfig(sensorID, mav);
     registeredSensors.put(label, s);

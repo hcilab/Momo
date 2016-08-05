@@ -1,6 +1,6 @@
 <GameObject>
 	<BonusPlatformManager
-		platformFile="xml_data/platform.xml"
+		platformFile="xml_data/platform_bonus.xml"
 		tag="platform"
 		leftSide="15.0"
 		rightSide="485.0"

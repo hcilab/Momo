@@ -486,7 +486,6 @@ public class GameState_FittsBonusGame extends GameState
       }
       gameStateController.popState();
       gameStateController.popState();
-      gameStateController.popState();
       gameStateController.pushState(new GameState_PostGame());
     }
   }

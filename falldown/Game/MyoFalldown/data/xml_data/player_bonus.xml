@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameObject>
+  <Render>
+    <Sprite>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/Momo.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="ALL"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoDanger.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="NONE"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoHappy.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="NONE"/>
+    </Sprite>
+  </Render>
+  <RigidBody active="true" allowSleep="false" angularDamping="0.01" awake="true" bullet="false" fixedRotation="true" gravityScale="0.3" linearDamping="0.0" type="dynamic">
+    <Fixture density="0.15" friction="0.925" isSensor="false" restitution="0.1">
+      <Shape halfHeight="0.5" halfWidth="0.5" type="box" x="0.0" y="0.0"/>
+    </Fixture>
+    <OnCollideEvents>
+      <Event coinParameterName="coin" collidedWith="coin" eventType="COIN_COLLECTED"/>
+      <Event collidedWith="ground" eventType="PLAYER_GROUND_COLLISION" groundParameterName="ground"/>
+      <Event collidedWith="platform" eventType="PLAYER_PLATFORM_COLLISION" platformParameterName="platform"/>
+      <Event breakPlatformParameterName="break_platform" collidedWith="break_platform" eventType="PLAYER_BREAK_PLATFORM_COLLISION"/>
+      <Event collidedWith="portal_platform" eventType="PLAYER_PORTAL_COLLISION" portalParameterName="portal_platform"/>
+    </OnCollideEvents>
+    <OnExitEvents>
+      <Event eventType="PLAYER_PLATFORM_EXIT" exitFrom="platform" platformParameterName="platform"/>
+      <Event breakPlatformParameterName="break_platform" eventType="PLAYER_BREAK_PLATFORM_EXIT" exitFrom="break_platform"/>
+    </OnExitEvents>
+  </RigidBody>
+  <AnimationController leftEnd="1" leftStart="1" rightEnd="0" rightStart="0"/>
+  <PlayerController acceleration="0.8" add="0.0" amp="1.0" collidedBreakPlatformParameterName="break_platform" collidedPlatformParameterName="platform" crumblePlatform="xml_data/platform_crumbling.xml" currentSpeedParameterName="currentSpeed" fallSoundFile="sound_effects/Falling.mp3" jumpForce="-3.52" jumpSoundFile="sound_effects/boing_spring.wav" maxSpeed="350.0" minInputThreshold="0.3" pan="0.0" rate="1.0"/>
+  <FittsStatsComponent/>
+  <LogRawDataComponent/>
+</GameObject>

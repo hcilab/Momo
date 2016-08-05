@@ -9,7 +9,7 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/player.xml" tag="player">
+	<GameObject file="xml_data/player_bonus.xml" tag="player">
 		<Transform>
 			<Translation x="50.0" y="50.0"/>
 			<Scale x="25.0" y="25.0"/>

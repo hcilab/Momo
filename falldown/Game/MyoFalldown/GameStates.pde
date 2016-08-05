@@ -466,6 +466,29 @@ public class GameState_FittsBonusGame extends GameState
     {
       gameStateController.pushState(new GameState_IOSettings());
     }
+    for (IEvent event : eventManager.getEvents(EventType.GAME_OVER))
+    {
+      String ID = options.getUserInformation().getUserID();
+      if(ID == null)
+      {
+        ID = "guest";
+      }
+      Date d = new Date();
+      
+      if(fittsLawRecorded)
+      {
+        saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+      }
+      
+      if(options.getGameOptions().isLogRawData())
+      {
+         saveTable(tableRawData, "data/csv/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
+      }
+      gameStateController.popState();
+      gameStateController.popState();
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_PostGame());
+    }
   }
 }
 

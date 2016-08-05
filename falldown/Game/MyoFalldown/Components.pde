@@ -1750,6 +1750,8 @@ public class PlatformManagerControllerComponent extends Component
   private RigidBodyComponent initialPlat;
   private int currentLevel;
   private int currentPlatformLevel;
+  
+  private float lastPlatformHeight;
 
   public PlatformManagerControllerComponent(IGameObject _gameObject)
   {
@@ -1806,15 +1808,7 @@ public class PlatformManagerControllerComponent extends Component
     maxHeightBetweenPlatformLevels = xmlComponent.getFloat("maxHeightBetweenPlatformLevels");
     nextHeightBetweenPlatformLevels = random(minHeightBetweenPlatformLevels, maxHeightBetweenPlatformLevels);
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    if(options.getGameOptions().isStillPlatforms())
-    {
-      riseSpeed = 0.0f;
-    }
-    else
-    {
-      riseSpeed = 10.0f;
-    }
-    
+    riseSpeed = 0.0f;
     firstIteration = true;
     rising = false;
     isRising = false;
@@ -1832,10 +1826,16 @@ public class PlatformManagerControllerComponent extends Component
   @Override public void update(int deltaTime)
   {
     handleEvents();
-    while (!platforms.isEmpty() && platforms.getFirst().getTranslation().y < disappearHeight)
+    while (!platforms.isEmpty() && ((platforms.getFirst().getTranslation().y < disappearHeight) 
+      || ((platforms.getFirst().getTranslation().y == lastPlatformHeight) && !options.getGameOptions().isStillPlatforms())))
     {
       IGameObject platform = platforms.removeFirst();
       gameStateController.getGameObjectManager().removeGameObject(platform.getUID());
+    }
+   
+    if(!platforms.isEmpty())
+    {
+      lastPlatformHeight = platforms.getFirst().getTranslation().y;
     }
     
     while (!obstacles.isEmpty() && obstacles.getFirst().getTranslation().y < disappearHeight)
@@ -1851,12 +1851,16 @@ public class PlatformManagerControllerComponent extends Component
         {
           if(!((totalRowCountInput <= inputPlatformCounter) && options.getGameOptions().isInputPlatforms()))
           {
-            spawnPlatformLevel();
+            //This used to be able to start at any level
+            if(riseSpeed > 0)
+            {
+              spawnPlatformLevel();
+            }
           }
         }
         else
         {
-          if(totalRowCountInput > inputPlatformCounter && firstIteration)
+          if(totalRowCountInput > inputPlatformCounter && riseSpeed > 0.0f && firstIteration)
           {
             spawnPlatformLevelNoRiseSpeed();
             incrementPlatforms();
@@ -3107,7 +3111,7 @@ public class LevelParametersComponent extends Component
   public LevelParametersComponent(IGameObject _gameObject)
   {
     super(_gameObject);
-    platformlevelCount = 0;
+    platformlevelCount = 10;
     totalPlatformLevelCount = 0;
   }
   
@@ -3144,7 +3148,7 @@ public class LevelParametersComponent extends Component
   @Override public void update(int deltaTime)
   {
     handleEvents();
-    if ((options.getGameOptions().getLevelUpOverTime()))
+    if ((options.getGameOptions().getLevelUpOverTime()) || !levelUpAtLeastOnce)
     {
       if (platformlevelCount > (int)(currentLevel/10))
       {

@@ -78,7 +78,7 @@ class MyoAPI implements IMyoAPI {
     currentSamples = sampleWindow.toArray(currentSamples); // infers type-info
     float mav = meanAbsoluteValue(currentSamples, sensorID);
 
-    if (mav == 0) {
+    if (!(mav > 0)) {
       throw new CalibrationFailedException();
     }
 

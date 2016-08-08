@@ -4313,7 +4313,6 @@ public class ModalComponent extends Component
     if (xModal - 0.5 * actualModalWidth <= mouseX && xModal + 0.5 * actualModalWidth >= mouseX && yModal - 0.5 * actualModalHeight <= mouseY && yModal + 0.5 * actualModalHeight >= mouseY)
     {
       mouseOver = true;
-      mouseHand = true;
       Event modalEvent = new Event(EventType.MODAL_HOVER);
       modalEvent.addStringParameter("tag", gameObject.getTag());
       eventManager.queueEvent(modalEvent);

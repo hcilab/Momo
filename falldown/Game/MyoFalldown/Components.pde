@@ -1058,8 +1058,7 @@ public class PlayerControllerComponent extends Component
   private int pauseOnBreakPlatformTime;
   private float distanceTravelled;
   private float lastXPos;
-  private  ArrayList<Integer> bonusPlatforms;
-
+  
   public PlayerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -1083,14 +1082,6 @@ public class PlayerControllerComponent extends Component
     }
     distanceTravelled = 0;
     lastXPos = gameObject.getTranslation().x;
-   
-    bonusPlatforms = new ArrayList<Integer>();
-    bonusPlatforms.add(114);
-    bonusPlatforms.add(190);
-    bonusPlatforms.add(266);
-    bonusPlatforms.add(342);
-    bonusPlatforms.add(418);
-    bonusPlatforms.add(485);
   }
 
   @Override public void destroy()
@@ -1270,17 +1261,6 @@ public class PlayerControllerComponent extends Component
       else
       {
         zone = Zone.HAPPY;
-      }
-      
-      if(gameStateController.getCurrentState() instanceof GameState_FittsBonusGame)
-      {
-        if(!bonusPlatforms.isEmpty() && bonusPlatforms.get(0) < gameObject.getTranslation().y)
-        {
-          bonusPlatforms.remove(0);
-          Event throughBonusGapEvent = new Event(EventType.THROUGH_PLATFORM_GAP);
-          throughBonusGapEvent.addIntParameter("levelCount",7-bonusPlatforms.size());
-          eventManager.queueEvent(throughBonusGapEvent);
-        }        
       }
 
       PVector linearVelocity = rigidBodyComponent.getLinearVelocity();  
@@ -2045,6 +2025,10 @@ public class PlatformManagerControllerComponent extends Component
       
       float coinProbability = currentLevel/10;
       coinProbability = coinProbability/10 + 0.1;
+      if(coinProbability < 0.5)
+      {
+        coinProbability = 0.5; 
+      }
       float generateCoin = random(0.0, 1.0);
       if((generateCoin < coinProbability) && platformWidth > 8)
       {

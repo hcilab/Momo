@@ -53,7 +53,7 @@
 
 	<GameObject file="xml_data/modal.xml" tag="threshold_modal">
 		<Transform>
-			<Translation x="125" y="205"/>
+			<Translation x="125" y="255"/>
 			<Scale x="100" y="20"/>
 		</Transform>
 	</GameObject>

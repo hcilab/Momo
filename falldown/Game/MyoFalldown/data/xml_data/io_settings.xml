@@ -59,25 +59,25 @@
 	</GameObject>
 	<GameObject file="xml_data/modal.xml" tag="input">
 		<Transform>
-			<Translation x="75" y="300"/>
+			<Translation x="75" y="290"/>
 			<Scale x="50" y="20"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/modal.xml" tag="difference">
 		<Transform>
-			<Translation x="125" y="325"/>
-			<Scale x="100" y="20"/>
+			<Translation x="165" y="320"/>
+			<Scale x="180" y="20"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/modal.xml" tag="max">
 		<Transform>
-			<Translation x="125" y="355"/>
-			<Scale x="100" y="20"/>
+			<Translation x="105" y="350"/>
+			<Scale x="70" y="15"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/modal.xml" tag="first_over">
 		<Transform>
-			<Translation x="125" y="385"/>
+			<Translation x="125" y="380"/>
 			<Scale x="100" y="20"/>
 		</Transform>
 	</GameObject>

@@ -161,7 +161,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Threshold"
+			string="Threshold (?)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -190,7 +190,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="Difference (default)"
+			string="Difference (default) (?)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -207,7 +207,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
-			string="Max"
+			string="Max (?)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"
@@ -224,7 +224,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
-			string="First-Over"
+			string="First-Over (?)"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

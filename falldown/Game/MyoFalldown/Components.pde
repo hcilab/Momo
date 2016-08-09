@@ -594,7 +594,7 @@ public class RenderComponent extends Component
     
     for (OffsetPImage offsetImage : offsetPImages)
     {
-      if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform"))
+      if(gameObject.getTag().equals("platform") || gameObject.getTag().equals("break_platform") || gameObject.getTag().equals("portal_platform"))
       {
         PImage cropImg = allImages.get(offsetImage.pimageName).get(0,0,ceil(gameObject.getScale().x), (int)gameObject.getScale().y);
         image(cropImg, gameObject.getTranslation().x + offsetImage.translation.x+0.5, gameObject.getTranslation().y + offsetImage.translation.y, gameObject.getScale().x *  offsetImage.scale.x, gameObject.getScale().y * offsetImage.scale.y);
@@ -1936,7 +1936,7 @@ public class PlatformManagerControllerComponent extends Component
       }
       else if(isPortal)
       {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, 7));
+        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
         portalPlatform.setTag("portal_platform");
         setPlatformRiseSpeed(portalPlatform);
         platforms.add(portalPlatform);
@@ -1973,7 +1973,7 @@ public class PlatformManagerControllerComponent extends Component
         }
         else if(isPortal)
         {
-          IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight/2));
+          IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           portalPlatform.setTag("portal_platform");
           setPlatformRiseSpeed(portalPlatform);
           platforms.add(portalPlatform);

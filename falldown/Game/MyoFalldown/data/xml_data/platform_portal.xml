@@ -2,7 +2,7 @@
 <GameObject>
   <Render>
     <Sprite>
-      <Image height="1" resizeHeight="15" resizeWidth="475" src="images/block/platformPortal.png" width="1" x="0.0" y="0.0"/>
+      <Image height="1" resizeHeight="15" resizeWidth="475" src="images/block/underwaterPortal.png" width="1" x="0.0" y="0.0"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="kinematic">

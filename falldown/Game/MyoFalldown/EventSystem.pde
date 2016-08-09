@@ -27,6 +27,7 @@ enum EventType
   
   COIN_COLLECTED,
   UPDATE_SCORE,
+  MUSIC_RESTART,
 
   // Mouse clicked events.
   MOUSE_PRESSED,
@@ -71,6 +72,7 @@ enum EventType
   PLAYER_BREAK_PLATFORM_FALL,
   TOGGLE_CALIBRATION_DISPLAY,
   PLAYER_PORTAL_COLLISION,
+  PLAYER_END_PORTAL_COLLISION,
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -253,7 +255,8 @@ class EventManager implements IEventManager
     
     addEventTypeToMaps(EventType.COIN_COLLECTED);
     addEventTypeToMaps(EventType.UPDATE_SCORE);
-
+    addEventTypeToMaps(EventType.MUSIC_RESTART);
+    
     addEventTypeToMaps(EventType.MOUSE_PRESSED);
     addEventTypeToMaps(EventType.MOUSE_CLICKED);
     addEventTypeToMaps(EventType.MOUSE_DRAGGED);
@@ -293,6 +296,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_FALL);
     addEventTypeToMaps(EventType.TOGGLE_CALIBRATION_DISPLAY);
     addEventTypeToMaps(EventType.PLAYER_PORTAL_COLLISION);
+    addEventTypeToMaps(EventType.PLAYER_END_PORTAL_COLLISION);
   }
   
   private void addEventTypeToMaps(EventType eventType)

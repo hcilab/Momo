@@ -428,20 +428,26 @@ public class GameState_FittsBonusGame extends GameState
     gameObjectManager.fromXML("xml_data/bonus_game.xml");
     bpc.spawnBonusPlatformLevels();
     bonusLevel = true;
+    bonusMusic.amp(1 * options.getIOOptions().getMusicVolume());
+    bonusMusic.loop();
   }
   
   @Override public void update(int deltaTime)
   {
-    shape(bg,250,250,500,505);
+    shape(bbg,250,250,500,505);
     gameObjectManager.update(deltaTime);
     bonusPhysicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
     handleEvents();
+    shape(obbg,250,250,500,505);
   }
   
   @Override public void onExit()
   {
     bonusLevel = false;
     gameObjectManager.clearGameObjects();
+    bonusMusic.stop();
+    Event updateScoreEvent = new Event(EventType.MUSIC_RESTART);
+    eventManager.queueEvent(updateScoreEvent);
   }
   
   private void handleEvents()

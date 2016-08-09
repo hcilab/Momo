@@ -34,13 +34,11 @@
   <GameObject file="xml_data/platform.xml" tag="ceiling">
 		<Transform>
 			<Translation x="250" y="41.5"/>
-			<Scale x="470.0" y="15.0"/>
+			<Scale x="470.0" y="0.0"/>
 		</Transform>
 	</GameObject>
 
 	<GameObject file="xml_data/bonus_platform_manager.xml" tag="bonus_platform_manager"/>
-		
-	<GameObject file="xml_data/music_player.xml" tag="music_player"/>
 
 	<GameObject file="xml_data/bonus_score_tracker.xml">
 		<Transform>

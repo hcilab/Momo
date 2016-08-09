@@ -819,6 +819,12 @@ public class RigidBodyComponent extends Component
               onCollideEvent.eventParameters = new HashMap<String, String>();
               onCollideEvent.eventParameters.put("portalParameterName", xmlOnCollideEvent.getString("portalParameterName"));
             }
+            else if (stringEventType.equals("PLAYER_END_PORTAL_COLLISION"))
+            {
+              onCollideEvent.eventType = EventType.PLAYER_END_PORTAL_COLLISION;
+              onCollideEvent.eventParameters = new HashMap<String, String>();
+              onCollideEvent.eventParameters.put("endPortalParameterName", xmlOnCollideEvent.getString("endPortalParameterName"));
+            }
 
             onCollideEvents.add(onCollideEvent);
           }
@@ -911,6 +917,12 @@ public class RigidBodyComponent extends Component
         {
           Event event = new Event(EventType.PLAYER_PORTAL_COLLISION);
           event.addGameObjectParameter(onCollideEvent.eventParameters.get("portalParameterName"), collider);
+          eventManager.queueEvent(event);
+        }
+        else if (onCollideEvent.eventType == EventType.PLAYER_END_PORTAL_COLLISION)
+        {
+          Event event = new Event(EventType.PLAYER_END_PORTAL_COLLISION);
+          event.addGameObjectParameter(onCollideEvent.eventParameters.get("endPortalParameterName"), collider);
           eventManager.queueEvent(event);
         }
       }
@@ -1595,17 +1607,18 @@ public class PlayerControllerComponent extends Component
       Event bonusGame = new Event(EventType.PUSH_BONUS);
       eventManager.queueEvent(bonusGame);
       
-      Event finishBonusGame = new Event(EventType.FINISH_BONUS);
-      if(bsc!=null)
-      {
-        finishBonusGame.addIntParameter("bonusScore",bsc.getBonusScore());
-        finishBonusGame.addIntParameter("bounsCoinsCollected",bsc.getBonusCoins());
-      }
-      eventManager.queueEvent(finishBonusGame);
-      
       IGameObject platform = event.getRequiredGameObjectParameter("portal_platform");
       portalPlatform = platform;
       gameStateController.getGameObjectManager().removeGameObject(portalPlatform.getUID());
+    }
+    
+    for (IEvent event : eventManager.getEvents(EventType.PLAYER_END_PORTAL_COLLISION))
+    {
+      Event finishBonusGame = new Event(EventType.FINISH_BONUS);
+      finishBonusGame.addIntParameter("bonusScore",bsc.getBonusScore());
+      finishBonusGame.addIntParameter("bounsCoinsCollected",bsc.getBonusCoins());
+      eventManager.queueEvent(finishBonusGame);
+      
     }
   }
 
@@ -2307,8 +2320,8 @@ public class BonusPlatformManager extends Component
       
       if(i == 5)
       {
-        IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight-10));
-        portalPlatform.setTag("portal_platform");
+        IGameObject endPortalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight-10));
+        endPortalPlatform.setTag("end_portal_platform");
       }
 
       IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
@@ -3284,10 +3297,12 @@ public class MusicPlayerComponent extends Component
 {
   SoundFile music;
   float amplitude;
+  long totalTime;
   
   public MusicPlayerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
+    totalTime = 0;
   }
   
   @Override public void destroy()
@@ -3314,7 +3329,24 @@ public class MusicPlayerComponent extends Component
   
   @Override public void update(int deltaTime)
   {
+    totalTime += deltaTime;
+    handleEvents();
     setMusicVolume(options.getIOOptions().getMusicVolume());
+  }
+  
+  public void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.PUSH_BONUS))
+    {
+      music.stop();
+    }
+      
+    for (IEvent event : eventManager.getEvents(EventType.MUSIC_RESTART))
+    {
+      println("loop");
+      music.cue((int)(totalTime/1000));
+      music.loop();
+    }
   }
   
   public void setMusicVolume(float volume)

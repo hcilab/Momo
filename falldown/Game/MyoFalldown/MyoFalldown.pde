@@ -96,6 +96,7 @@ SoundFile coinCollectedSound;
 boolean fittsLawRecorded;
 boolean bonusLevel;
 SoundFile bonusMusic;
+SoundFile bonusSplash;
 
 HashMap<String,PImage> allImages;
 Table imageSources;
@@ -179,10 +180,15 @@ void setup()
   try {coinCollectedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
   coinCollectedSound.add(0.0);
   
-  bonusMusic = new SoundFile(mainObject, "music/bonusLevel.mp3");
+  bonusMusic = new SoundFile(mainObject, "music/bonusLevel.wav");
   bonusMusic.rate(1.0);
   try {bonusMusic.pan(0.0); } catch (UnsupportedOperationException e) {}
   bonusMusic.add(0.0);
+  
+  bonusSplash = new SoundFile(mainObject, "sound_effects/splash2.wav");
+  bonusSplash.rate(1.0);
+  try {bonusSplash.pan(0.0); } catch (UnsupportedOperationException e) {}
+  bonusSplash.add(0.0);
   
   allImages = new HashMap<String,PImage>();
   loadAllImages();

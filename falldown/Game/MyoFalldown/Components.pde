@@ -3347,8 +3347,7 @@ public class MusicPlayerComponent extends Component
       
     for (IEvent event : eventManager.getEvents(EventType.MUSIC_RESTART))
     {
-      println("loop");
-      music.cue((int)(totalTime/1000));
+      music.cue(((int)(totalTime/1000)) % 85);
       music.loop();
     }
   }

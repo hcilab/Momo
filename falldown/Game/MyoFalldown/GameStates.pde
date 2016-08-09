@@ -428,6 +428,8 @@ public class GameState_FittsBonusGame extends GameState
     gameObjectManager.fromXML("xml_data/bonus_game.xml");
     bpc.spawnBonusPlatformLevels();
     bonusLevel = true;
+    bonusSplash.amp(1 * options.getIOOptions().getSoundEffectsVolume());
+    bonusSplash.play();
     bonusMusic.amp(1 * options.getIOOptions().getMusicVolume());
     bonusMusic.loop();
   }

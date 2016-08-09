@@ -2021,8 +2021,12 @@ public class PlatformManagerControllerComponent extends Component
           float obstacleWidth = random(obstacleMinWidth, obstacleMaxWidth);
           float obstacleHeight = obstacleWidth *2.5;
             
-          obstacleOffset = random((-platformWidth/2)+obstacleWidth, platformWidth/2-obstacleWidth);
-  
+          obstacleOffset = random((-platformWidth/2)+obstacleWidth, (platformWidth/2)-obstacleWidth);
+          if(obstacleOffset > ((platformWidth/2)-obstacleWidth) || obstacleOffset < ((-platformWidth/2)+obstacleWidth))
+          {
+            obstacleOffset = 0;
+          }
+         
           IGameObject obstacle = gameStateController.getGameObjectManager().addGameObject(obstacleFile, new PVector(platformPosition + obstacleOffset, spawnHeight - (platformHeight / 2.0f) - (obstacleHeight / 2.0f)),new PVector(obstacleWidth, obstacleHeight));
           obstacle.setTag(obstacleTag);
           IComponent component = obstacle.getComponent(ComponentType.RIGID_BODY);

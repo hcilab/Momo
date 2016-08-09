@@ -1071,6 +1071,9 @@ public class PlayerControllerComponent extends Component
   private float distanceTravelled;
   private float lastXPos;
   
+  private IGameObject playerPlatform;
+  private float gapDistance;
+
   public PlayerControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -1094,6 +1097,8 @@ public class PlayerControllerComponent extends Component
     }
     distanceTravelled = 0;
     lastXPos = gameObject.getTranslation().x;
+    playerPlatform = null;
+    gapDistance = 0;
   }
 
   @Override public void destroy()
@@ -1145,7 +1150,11 @@ public class PlayerControllerComponent extends Component
       if (policy == ControlPolicy.NORMAL)
         moveVector = applyNormalControls(rawInput);
       else if (policy == ControlPolicy.DIRECTION_ASSIST)
+      {
         moveVector = applyDirectionAssistControls(rawInput);
+        if (onPlatform)
+          gapDistance = determineGapDistance(gapDirection, playerPlatform);
+      }
       else if (policy == ControlPolicy.SINGLE_MUSCLE)
         moveVector = applySingleMuscleControls(rawInput);
       else
@@ -1279,7 +1288,26 @@ public class PlayerControllerComponent extends Component
       if (  (moveVector.x > 0 && linearVelocity.x < maxSpeed)
          || (moveVector.x < 0 && linearVelocity.x > -maxSpeed))
       {
-        rigidBodyComponent.applyForce(new PVector(moveVector.x * acceleration * deltaTime, 0.0f), gameObject.getTranslation());
+        float forwardForceX = (moveVector.x * acceleration * deltaTime);
+        if (options.getGameOptions().getControlPolicy() == ControlPolicy.DIRECTION_ASSIST 
+           && onPlatform 
+           && gapDistance < 30) 
+        {
+          PVector middleOfGap = new PVector(0.0, 0.0);
+          if (gapDirection == LEFT_DIRECTION_LABEL) {
+            middleOfGap.x = playerPlatform.getTranslation().x - playerPlatform.getScale().x/2 - 15;
+          }
+          else
+          {
+            middleOfGap.x = playerPlatform.getTranslation().x + playerPlatform.getScale().x/2 + 15;
+          }
+          rigidBodyComponent.setPosition(middleOfGap);
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, 0.0));
+        }
+        else
+        {
+          rigidBodyComponent.applyForce(new PVector(forwardForceX, 0.0), gameObject.getTranslation());
+        }
       }
 
       ArrayList<IGameObject> platformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("platform_manager");
@@ -1550,6 +1578,7 @@ public class PlayerControllerComponent extends Component
       onRegPlatform = true;
       justJumped = false;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
+      playerPlatform = platform;
       gapDirection = determineGapDirection(platform); 
       jumpCount = 0;
     }
@@ -1645,6 +1674,25 @@ public class PlayerControllerComponent extends Component
     }
     return direction;
   } 
+
+  private float determineGapDistance(String gapDirection, IGameObject platform)
+  {
+    float distance = 0;
+
+    if (gapDirection.equals(RIGHT_DIRECTION_LABEL)) {
+      if (pc != null)
+        distance = (platform.getTranslation().x + platform.getScale().x/2 + pc.getMinGapSize()/2)- gameObject.getTranslation().x;
+      else
+        distance = (platform.getTranslation().x + platform.getScale().x/2 + 15)- gameObject.getTranslation().x;
+    } else {
+      if (pc != null)
+        distance = gameObject.getTranslation().x - (platform.getTranslation().x - platform.getScale().x/2 - pc.getMinGapSize()/2);
+      else
+        distance = gameObject.getTranslation().x - (platform.getTranslation().x - platform.getScale().x/2 - 15);
+    }
+
+    return distance;
+  }
 
   private void smoothControls(PVector moveVector, int deltaTime)
   {
@@ -2224,6 +2272,11 @@ public class PlatformManagerControllerComponent extends Component
       rigidBodyComponent.setLinearVelocity(new PVector(0.0, 300));
     }
     platforms.remove(platform);
+  }
+
+  public float getMinGapSize()
+  {
+    return minGapSize;
   }
 }
 

@@ -1381,11 +1381,11 @@ public class Options implements IOptions
     public void reset()
     {
       setPlayer(0);
-      setPlatform(4, 0);
-      setCoin(8, 0);
-      setObstacle(12, 0);
-      setBackground(16, 0);
-      setMusic(20, 0);
+      setPlatform(5, 0);
+      setCoin(10, 0);
+      setObstacle(15, 0);
+      setBackground(20, 0);
+      setMusic(25, 0);
       for(XML cust : xmlCustomSettings.getChildren("Render")[0].getChildren("CustomSprite"))
       {
         String greySrc = cust.getString("greySrc");

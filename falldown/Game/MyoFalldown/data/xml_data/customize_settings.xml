@@ -37,6 +37,12 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="player4">
+		<Transform>
+			<Translation x="375.0" y="125.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="platform0">
 		<Transform>
@@ -59,6 +65,12 @@
 	<GameObject file="xml_data/button.xml" tag="platform3">
 		<Transform>
 			<Translation x="325.0" y="165.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="platform4">
+		<Transform>
+			<Translation x="375.0" y="165.0"/>
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
@@ -87,6 +99,12 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="coin4">
+		<Transform>
+			<Translation x="375.0" y="215.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="obstacle0">
 		<Transform>
@@ -109,6 +127,12 @@
 	<GameObject file="xml_data/button.xml" tag="obstacle3">
 		<Transform>
 			<Translation x="325.0" y="265.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="obstacle4">
+		<Transform>
+			<Translation x="375.0" y="265.0"/>
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
@@ -137,6 +161,12 @@
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="background4">
+		<Transform>
+			<Translation x="375.0" y="315.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
 
 	<GameObject file="xml_data/button.xml" tag="music0">
 		<Transform>
@@ -159,6 +189,12 @@
 	<GameObject file="xml_data/button.xml" tag="music3">
 		<Transform>
 			<Translation x="325.0" y="365.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="music4">
+		<Transform>
+			<Translation x="375.0" y="365.0"/>
 			<Scale x="30.0" y="30.0"/>
 		</Transform>
 	</GameObject>

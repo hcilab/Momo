@@ -20,5 +20,10 @@
 				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
 				zOrder="0" height="30.0" scaleHeight="15">
 		</SpriteSheet>
+		<SpriteSheet src="images/coin/heart.png" alphaImage=""
+				x="375.0" y="215.0"  
+				horzCount="1" vertCount="1" defaultCount="1" farmeFreq="0f"
+				zOrder="0" height="30.0" scaleHeight="15">
+		</SpriteSheet>
 	</Render>
 </GameObject>

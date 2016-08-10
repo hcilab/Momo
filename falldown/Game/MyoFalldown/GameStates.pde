@@ -1462,7 +1462,7 @@ public class GameState_CustomizeSettings extends GameState
           index = 5;
 
         int id = Integer.parseInt(tag.substring(tag.length()-1));
-        int custSpriteIndex = index * 4 + id;
+        int custSpriteIndex = index * 5 + id;
 
         RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         int cost = renderComponent.getCustomSprites().get(custSpriteIndex).cost;

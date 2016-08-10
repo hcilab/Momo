@@ -49,7 +49,7 @@
 		</Sprite>
 
 
-		<!-- Neon Blocks Things (Not Done yet Not sure what the theme should be on this one) -->
+		<!-- Forest  -->
 		<Sprite>
 			<Image src="images/block/forestBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite>
@@ -58,6 +58,20 @@
 		</Sprite> 
 		<Sprite>
 			<Image src="images/block/forestStickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+		</Sprite> 
+		<Sprite>
+			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
+		</Sprite>
+
+		<!-- Forest  -->
+		<Sprite>
+			<Image src="images/block/cakeBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
+		</Sprite>
+		<Sprite>
+			<Image src="images/block/cakeBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+		</Sprite> 
+		<Sprite>
+			<Image src="images/block/cakeBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
 			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>

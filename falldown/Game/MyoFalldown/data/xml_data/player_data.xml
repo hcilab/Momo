@@ -14,7 +14,7 @@
 		<SpriteSheet src="images/player/dragonSprite.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1" 
+				zOrder="0" height="60.0" scaleHeight="1" 
 				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
 				happySrc="images/player/dragonSpriteHappy.png" dangerSrc="images/player/dragonSpriteDanger.png"
 				> 
@@ -36,7 +36,7 @@
 		<SpriteSheet src="images/player/grumpyBirdSprite.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="8" vertCount="1" defaultCount="0" farmeFreq="0"
-				zOrder="0" height="50.0" scaleHeight="1" 
+				zOrder="0" height="52.0" scaleHeight="1" 
 				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
 				happySrc="images/player/grumpyBirdSpriteHappy.png" dangerSrc="images/player/grumpyBirdSpriteDanger.png"
 				> 

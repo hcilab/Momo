@@ -5,19 +5,19 @@
 				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
 				zOrder="0" height="42.0" scaleHeight="30"> 
 		</SpriteSheet>
-		<SpriteSheet src="images/coin/crown.png" alphaImage=""
+		<SpriteSheet src="images/coin/crown_transparent.png" alphaImage=""
 				x="225.0" y="215.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="30.0" scaleHeight="15">
+				horzCount="10" vertCount="1" defaultCount="0" farmeFreq="0f"
+				zOrder="0" height="35.0" scaleHeight="15">
 		</SpriteSheet>
-		<SpriteSheet src="images/coin/gem.png" alphaImage=""
+		<SpriteSheet src="images/coin/star_transparent.png" alphaImage=""
 				x="275.0" y="215.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
-				zOrder="0" height="25.0" scaleHeight="20">
+				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
+				zOrder="0" height="30.0" scaleHeight="20">
 		</SpriteSheet>
-		<SpriteSheet src="images/coin/apple.png" alphaImage=""
+		<SpriteSheet src="images/coin/apple_transparent.png" alphaImage=""
 				x="325.0" y="215.0"  
-				horzCount="1" vertCount="1" defaultCount="0" farmeFreq="0f"
+				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
 				zOrder="0" height="30.0" scaleHeight="15">
 		</SpriteSheet>
 	</Render>

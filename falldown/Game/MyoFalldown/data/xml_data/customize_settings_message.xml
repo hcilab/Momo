@@ -103,8 +103,8 @@
     <CustomSprite active="false" actualSrc="images/background/mountain.png" cost="25" greySrc="images/background/mountainGrey.png" name="Swiss Alps" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/mountainGrey.png" vertCount="1" width="40" x="225.0" y="317.5" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/background/sky.png" cost="50" greySrc="images/background/skyGrey.png" name="Cloudy Sky" unlocked="false">
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/skyGrey.png" vertCount="1" width="40" x="275.0" y="317.5" zOrder="0"/>
+    <CustomSprite active="false" actualSrc="images/background/space.png" cost="50" greySrc="images/background/spaceGrey.png" name="Starry Night" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/spaceGrey.png" vertCount="1" width="40" x="275.0" y="317.5" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/background/bg_shroom.png" cost="100" greySrc="images/background/bg_shroomGrey.png" name="Tropical Forrest" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/bg_shroomGrey.png" vertCount="1" width="40" x="325.0" y="317.5" zOrder="0"/>

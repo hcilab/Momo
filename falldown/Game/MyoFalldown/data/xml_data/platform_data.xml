@@ -54,10 +54,10 @@
 			<Image src="images/block/forestBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite>
 		<Sprite>
-			<Image src="images/block/grassIcyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+			<Image src="images/block/forestIcyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
-			<Image src="images/block/stickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+			<Image src="images/block/forestStickyBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
 			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>

@@ -1949,6 +1949,7 @@ public class PlatformManagerControllerComponent extends Component
     }
     else
     {
+      boolean portalLoaded = false;
       for (int i = 0; i < gapsInLevel; ++i)
       {
         rangeSelector = int(random(0, platformRanges.size() - 1));
@@ -1973,13 +1974,14 @@ public class PlatformManagerControllerComponent extends Component
          platforms.add(breakPlatform);
          platLevels.add(breakPlatform.getUID());
         }
-        else if(isPortal)
+        else if(isPortal && !portalLoaded)
         {
           IGameObject portalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(gapPosition, spawnHeight), new PVector(halfGapWidth*2, platformHeight));
           portalPlatform.setTag("portal_platform");
           setPlatformRiseSpeed(portalPlatform);
           platforms.add(portalPlatform);
           platLevels.add(portalPlatform.getUID());
+          portalLoaded = true;
         }
       }
     }

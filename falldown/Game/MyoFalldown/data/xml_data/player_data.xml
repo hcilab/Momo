@@ -47,12 +47,12 @@
 		<SpriteSheet src="images/player/pinkCat.png" alphaImage=""
 				x="0.0" y="0.0"  
 				horzCount="12" vertCount="1" defaultCount="11" farmeFreq="0"
-				zOrder="0" height="35.0" scaleHeight="1" 
+				zOrder="0" height="140.0" scaleHeight="1" 
 				neutralZone="ALL" happyZone="NONE" dangerZone="NONE"
 				happySrc="images/player/grumpyBirdSpriteHappy.png" dangerSrc="images/player/grumpyBirdSpriteDanger.png"
 				> 
 		</SpriteSheet>
-		<AnimationController rightStart="0" rightEnd="3" leftStart="4" leftEnd="8">
+		<AnimationController rightStart="0" rightEnd="5" leftStart="6" leftEnd="11">
 		</AnimationController>
 	</Render>
 </GameObject>

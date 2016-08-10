@@ -74,7 +74,7 @@
 			<Image src="images/block/cakeBL.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
 		</Sprite> 
 		<Sprite>
-			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
+			<Image src="images/block/cakeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
 		</Sprite>
 	</Render>
 </GameObject>

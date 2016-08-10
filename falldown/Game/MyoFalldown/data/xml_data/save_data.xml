@@ -8,7 +8,7 @@
     <Background bg="images/background/mountain.svg" opacity_bg="images/background/opacityMountain.svg"/>
     <Background bg="images/background/space.svg" opacity_bg="images/background/opacitySpace.svg"/>
     <Background bg="images/background/bg_shroom.svg" opacity_bg="images/background/opacitybg_shroom.svg"/>
-    <Background bg="images/background/sky.svg" opacity_bg="images/background/sky.svg"/>
+    <Background bg="images/background/pretty.svg" opacity_bg="images/background/opacityPretty.svg"/>
     <Music file="music/EDMDetectionMode.wav"/>
     <Music file="music/Motherlode.wav"/>
     <Music file="music/Overworld.wav"/>

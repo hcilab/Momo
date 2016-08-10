@@ -626,27 +626,27 @@ public class GameState_PostGame extends GameState
     {
       texts.get(0).string = "Good Try!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 10)
+    else if (lastGameRecord.getScoreAchieved() < 50)
     {
       texts.get(0).string = "Nice Job!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 20)
+    else if (lastGameRecord.getScoreAchieved() < 100)
     {
       texts.get(0).string = "Bravo!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 30)
+    else if (lastGameRecord.getScoreAchieved() < 300)
     {
       texts.get(0).string = "Sweet!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 40)
+    else if (lastGameRecord.getScoreAchieved() < 500)
     {
       texts.get(0).string = "Stellar!";
     }
-    else if (lastGameRecord.getScoreAchieved() < 100)
+    else if (lastGameRecord.getScoreAchieved() < 750)
     {
       texts.get(0).string = "Awesome!";
     }
-    else if (lastGameRecord.getScoreAchieved() >= 100)
+    else if (lastGameRecord.getScoreAchieved() >= 1000)
     {
       texts.get(0).string = "Momo Master!";
     }

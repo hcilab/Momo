@@ -1291,15 +1291,15 @@ public class PlayerControllerComponent extends Component
         float forwardForceX = (moveVector.x * acceleration * deltaTime);
         if (options.getGameOptions().getControlPolicy() == ControlPolicy.DIRECTION_ASSIST 
            && onPlatform 
-           && gapDistance < 30) 
+           && gapDistance < pc.getMinGapSize())
         {
           PVector middleOfGap = new PVector(0.0, 0.0);
           if (gapDirection == LEFT_DIRECTION_LABEL) {
-            middleOfGap.x = playerPlatform.getTranslation().x - playerPlatform.getScale().x/2 - 15;
+            middleOfGap.x = playerPlatform.getTranslation().x - playerPlatform.getScale().x/2 - pc.getMinGapSize()/2;
           }
           else
           {
-            middleOfGap.x = playerPlatform.getTranslation().x + playerPlatform.getScale().x/2 + 15;
+            middleOfGap.x = playerPlatform.getTranslation().x + playerPlatform.getScale().x/2 + pc.getMinGapSize()/2;
           }
           rigidBodyComponent.setPosition(middleOfGap);
           rigidBodyComponent.setLinearVelocity(new PVector(0.0, 0.0));

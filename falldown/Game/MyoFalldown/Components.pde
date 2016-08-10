@@ -4458,7 +4458,6 @@ public class CounterComponent extends Component
     // TODO: set this elsewhere
     if (gameObject.getTag().equals("counterDwellTime"))
     {
-      println(options.getGameOptions().getDwellTime());
       idCounts.add(options.getGameOptions().getDwellTime());
     }
     else if (gameObject.getTag().equals("counterSensorLeft") || gameObject.getTag().equals("counterSensorRight"))

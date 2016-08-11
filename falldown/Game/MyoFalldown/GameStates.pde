@@ -391,6 +391,7 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("total time");
     tableFittsStats.addColumn("gap width");
     tableFittsStats.addColumn("optimal path");
+    tableFittsStats.addColumn("fitts distance");
     tableFittsStats.addColumn("distance travelled");
     tableFittsStats.addColumn("errors");
     tableFittsStats.addColumn("undershoots");

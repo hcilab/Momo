@@ -4085,6 +4085,7 @@ public class FittsStatsComponent extends Component
   private float gapPos;
   private float gapWidth;
   private float optimalPath;
+  private float fittsDistance;
   private float distanceTravelled;
   private int undershoots;
   private int overshoots;
@@ -4147,6 +4148,8 @@ public class FittsStatsComponent extends Component
     {
       optimalPath = round(abs(pos.x - (gapPos + gapWidth)));
     }
+
+    fittsDistance = round(abs(pos.x - gapPos));
     
     playComp.setLoggingValuesZero(gapPos, gapWidth, pos.x);
     String iD = options.getUserInformation().getUserID();
@@ -4160,6 +4163,7 @@ public class FittsStatsComponent extends Component
     newRow.setFloat("start point x", pos.x);
     newRow.setLong("start time", startTime);
     newRow.setFloat("optimal path", optimalPath);
+    newRow.setFloat("fitts distance", fittsDistance);
     fittsLawRecorded = true;
   }
   

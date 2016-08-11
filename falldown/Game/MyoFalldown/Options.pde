@@ -1018,6 +1018,8 @@ public class Options implements IOptions
   {
     private final String PLAYER_FILE_NAME_IN = "xml_data/player.xml";
     private final String PLAYER_FILE_NAME_OUT = "data/xml_data/player.xml";
+    private final String PLAYER_BONUS_FILE_NAME_IN = "xml_data/player_bonus.xml";
+    private final String PLAYER_BONUS_FILE_NAME_OUT = "data/xml_data/player_bonus.xml";
     private final String PLATFORM_FILE_NAME_IN = "xml_data/platform.xml";
     private final String PLATFORM_FILE_NAME_OUT = "data/xml_data/platform.xml";
     private final String PLATFORM_SLIPPERY_NAME_IN = "xml_data/platform_slippery.xml";
@@ -1068,11 +1070,14 @@ public class Options implements IOptions
     private XML xmlMusicPlayer;
     private XML xmlCustomSettings;
     private XML xmlCustomPurchase;
-
+    private XML xmlBonusPlayer;
+    
     private XML playerData;
     private XML playerDataHappy;
     private XML playerDataDanger;
+    private XML playerDataBonus;
     private XML animationData;
+    private XML animationBonusData;
     private XML platformData;
     private XML platformSlipperyData;
     private XML platformStickyData;
@@ -1111,11 +1116,14 @@ public class Options implements IOptions
       xmlMusicPlayer = loadXML(MUSIC_FILE_NAME_IN);
       xmlCustomSettings = loadXML(CUSTOM_SETTINGS_FILE_IN);
       xmlCustomPurchase = loadXML(CUSTOM_PURCHASE_FILE_IN);
+      xmlBonusPlayer = loadXML(PLAYER_BONUS_FILE_NAME_IN);
 
       playerData = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       playerDataHappy = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[2];
       playerDataDanger = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[1];
+      playerDataBonus = xmlBonusPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
       animationData = xmlPlayer.getChildren("AnimationController")[0];
+      animationBonusData = xmlBonusPlayer.getChildren("AnimationController")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       platformSlipperyData = xmlPlatformSlippery.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
       platformStickyData = xmlPlatformSticky.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
@@ -1224,6 +1232,20 @@ public class Options implements IOptions
       animationData.setString("leftStart", animation.getString("leftStart"));
       animationData.setString("leftEnd", animation.getString("leftEnd"));
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
+      
+      playerDataBonus.setString("src", sprite.getString("src"));
+      playerDataBonus.setString("horzCount", sprite.getString("horzCount"));
+      playerDataBonus.setString("vertCount", sprite.getString("vertCount"));
+      playerDataBonus.setString("defaultCount", sprite.getString("defaultCount"));
+      playerDataBonus.setString("farmeFreq", sprite.getString("farmeFreq"));
+      playerDataBonus.setString("height", sprite.getString("height"));
+      playerDataBonus.setString("scaleHeight", sprite.getString("scaleHeight"));
+      
+      animationBonusData.setString("rightStart", animation.getString("rightStart"));
+      animationBonusData.setString("rightEnd", animation.getString("rightEnd"));
+      animationBonusData.setString("leftStart", animation.getString("leftStart"));
+      animationBonusData.setString("leftEnd", animation.getString("leftEnd"));
+      saveXML(xmlBonusPlayer, PLAYER_BONUS_FILE_NAME_OUT);
 
       xmlCust.setInt(ACTIVE_PLAYER_INDEX, _newActivePlayerIndex);
       xmlCust.setInt(OLD_ACTIVE_PLAYER_INDEX, oldActivePlayerIndex);

@@ -13,7 +13,7 @@
     <Music file="music/Motherlode.wav"/>
     <Music file="music/Overworld.wav"/>
     <Music file="music/TheLift.wav"/>
-    <Music file="music/TheLift.wav"/>
+    <Music file="music/TheSky.wav"/>
   </Customize>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="false"/>

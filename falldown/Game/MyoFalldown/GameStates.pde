@@ -384,34 +384,34 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("trial");
     tableFittsStats.addColumn("level");
     tableFittsStats.addColumn("condition");
-    tableFittsStats.addColumn("start point x");
-    tableFittsStats.addColumn("end point x");
-    tableFittsStats.addColumn("start time");
-    tableFittsStats.addColumn("end time");
-    tableFittsStats.addColumn("total time");
-    tableFittsStats.addColumn("gap width");
-    tableFittsStats.addColumn("optimal path");
-    tableFittsStats.addColumn("fitts distance");
-    tableFittsStats.addColumn("distance travelled");
+    tableFittsStats.addColumn("start_point_x");
+    tableFittsStats.addColumn("end_point_x");
+    tableFittsStats.addColumn("start_time");
+    tableFittsStats.addColumn("end_time");
+    tableFittsStats.addColumn("total_time");
+    tableFittsStats.addColumn("gap_width");
+    tableFittsStats.addColumn("optimal_path");
+    tableFittsStats.addColumn("fitts_distance");
+    tableFittsStats.addColumn("distance_travelled");
     tableFittsStats.addColumn("errors");
     tableFittsStats.addColumn("undershoots");
     tableFittsStats.addColumn("overshoots");
-    tableFittsStats.addColumn("direction changes");
+    tableFittsStats.addColumn("direction_changes");
     
     if(options.getGameOptions().isLogRawData()){
       tableRawData = new Table();
-      tableRawData.addColumn("userID");
+      tableRawData.addColumn("user_id");
       tableRawData.addColumn("timestamp");
-      tableRawData.addColumn("Playing With");
+      tableRawData.addColumn("playing_with");
       tableRawData.addColumn("level");
-      tableRawData.addColumn("SensorLeft");
-      tableRawData.addColumn("SensorRight");
-      tableRawData.addColumn("SensorJump");
-      tableRawData.addColumn("InputType");
-      tableRawData.addColumn("Mode");
-      tableRawData.addColumn("MovingLeft");
-      tableRawData.addColumn("MovingRight");
-      tableRawData.addColumn("MovingUp");
+      tableRawData.addColumn("sensor_left");
+      tableRawData.addColumn("sensor_right");
+      tableRawData.addColumn("sensor_jump");
+      tableRawData.addColumn("input_type");
+      tableRawData.addColumn("mode");
+      tableRawData.addColumn("moving_left");
+      tableRawData.addColumn("moving_right");
+      tableRawData.addColumn("moving_up");
     }
   }
 }

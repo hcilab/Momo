@@ -4160,10 +4160,10 @@ public class FittsStatsComponent extends Component
     newRow.setInt("trial", trialNum);
     newRow.setInt("level", levelCount);
     newRow.setString("condition", "Simple");
-    newRow.setFloat("start point x", pos.x);
-    newRow.setLong("start time", startTime);
-    newRow.setFloat("optimal path", optimalPath);
-    newRow.setFloat("fitts distance", fittsDistance);
+    newRow.setFloat("start_point_x", pos.x);
+    newRow.setLong("start_time", startTime);
+    newRow.setFloat("optimal_path", optimalPath);
+    newRow.setFloat("fitts_distance", fittsDistance);
     fittsLawRecorded = true;
   }
   
@@ -4202,19 +4202,19 @@ public class FittsStatsComponent extends Component
       overshoots =  playComp.getOverShoots();
       undershoots = playComp.getUnderShoots();
       errors = playComp.getErrors();
-      newRow.setFloat("end point x", pos.x);
-      newRow.setLong("end time", endTime);
-      newRow.setFloat("gap width", gapWidth*2);
-      newRow.setFloat("distance travelled", distanceTravelled);
+      newRow.setFloat("end_point_x", pos.x);
+      newRow.setLong("end_time", endTime);
+      newRow.setFloat("gap_width", gapWidth*2);
+      newRow.setFloat("distance_travelled", distanceTravelled);
       newRow.setInt("errors", errors);
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
-      newRow.setInt("direction changes", directionChanges);
+      newRow.setInt("direction_changes", directionChanges);
       if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && (gameStateController.getCurrentState() instanceof GameState_InGame)) {
-        newRow.setLong("total time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
+        newRow.setLong("total_time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
       }
       else { // TODO somehow subtract the time spent jumping as well ??
-        newRow.setLong("total time",endTime - startTime);
+        newRow.setLong("total_time",endTime - startTime);
       }
   }
 }
@@ -4333,17 +4333,17 @@ public class LogRawDataComponent extends Component
     }
     
     newRow.setLong("timestamp", System.currentTimeMillis());
-    newRow.setString("userID", userID);
-    newRow.setString("Playing With", playingWith);
+    newRow.setString("user_id", userID);
+    newRow.setString("playing_with", playingWith);
     newRow.setInt("level", platLevel);
-    newRow.setFloat("SensorLeft", input.get(LEFT_DIRECTION_LABEL));
-    newRow.setFloat("SensorRight", input.get(RIGHT_DIRECTION_LABEL));
-    newRow.setFloat("SensorJump", input.get(JUMP_DIRECTION_LABEL));
-    newRow.setString("InputType", inputType);
-    newRow.setString("Mode", mode);
-    newRow.setString("MovingLeft", movingLeft ? "1" : "0");
-    newRow.setString("MovingRight", movingRight ? "1" : "0");
-    newRow.setInt("MovingUp", isJumping ? 1 : 0);   
+    newRow.setFloat("sensor_left", input.get(LEFT_DIRECTION_LABEL));
+    newRow.setFloat("sensor_right", input.get(RIGHT_DIRECTION_LABEL));
+    newRow.setFloat("sensor_jump", input.get(JUMP_DIRECTION_LABEL));
+    newRow.setString("input_type", inputType);
+    newRow.setString("mode", mode);
+    newRow.setString("moving_left", movingLeft ? "1" : "0");
+    newRow.setString("moving_right", movingRight ? "1" : "0");
+    newRow.setInt("moving_up", isJumping ? 1 : 0);
   }
 }
 

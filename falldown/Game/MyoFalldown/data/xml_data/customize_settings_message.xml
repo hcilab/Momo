@@ -30,7 +30,7 @@
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/player/grumpyBirdGrey.png" vertCount="1" width="35" x="325.0" y="122.5" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/player/cat.png" cost="200" greySrc="images/player/catGrey.png" name="Cat" unlocked="false">
-      <SpriteSheet alphaImage="" defaultCount="11" farmeFreq="0f" height="30.0" horzCount="12" scaleHeight="30" src="images/player/catGrey.png" vertCount="1" width="25" x="375.0" y="122.5" zOrder="0"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/player/catGrey.png" vertCount="1" width="25" x="375.0" y="122.5" zOrder="0"/>
     </CustomSprite>
     <!-- Platform Unlockables -->
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Platforms" x="25.0" y="175.0">
@@ -52,7 +52,7 @@
     <CustomSprite active="false" actualSrc="images/block/forest.png" cost="100" greySrc="images/block/forestGrey.png" name="Forest Platform" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="35" src="images/block/forestGrey.png" vertCount="1" width="30" x="325.0" y="167.5" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/block/cakeMid.png" cost="100" greySrc="images/block/cakeMidGrey.png" name="Forest Platform" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/block/cakeMid.png" cost="100" greySrc="images/block/cakeMidGrey.png" name="Cake Platform" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="35" src="images/block/cakeMidGrey.png" vertCount="1" width="30" x="375.0" y="167.5" zOrder="0"/>
     </CustomSprite>
     <!-- Coin Unlockables -->
@@ -69,13 +69,13 @@
     <CustomSprite active="false" actualSrc="images/coin/crown.png" cost="25" greySrc="images/coin/crownGrey.png" name="Crown" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="20.0" horzCount="1" scaleHeight="20" src="images/coin/crownGrey.png" vertCount="1" width="30" x="225.0" y="215.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/coin/gem.png" cost="50" greySrc="images/coin/gemGrey.png" name="Gem" unlocked="false">
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="20" src="images/coin/gemGrey.png" vertCount="1" width="30" x="275.0" y="215.0" zOrder="0"/>
+    <CustomSprite active="false" actualSrc="images/coin/star.png" cost="50" greySrc="images/coin/starGrey.png" name="Star" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="20" src="images/coin/starGrey.png" vertCount="1" width="30" x="275.0" y="215.0" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/coin/apple.png" cost="100" greySrc="images/coin/appleGrey.png" name="Apple" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/appleGrey.png" vertCount="1" width="30" x="325.0" y="215.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/coin/heart.png" cost="100" greySrc="images/coin/heartGrey.png" name="Apple" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/coin/heart.png" cost="100" greySrc="images/coin/heartGrey.png" name="Heart" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/heartGrey.png" vertCount="1" width="30" x="375.0" y="215.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Obstacles" x="25.0" y="275.0">
@@ -98,7 +98,7 @@
     <CustomSprite active="false" actualSrc="images/obstacle/treeTrunk.png" cost="100" greySrc="images/obstacle/treeTrunkGrey.png" name="Trunk" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="40" src="images/obstacle/treeTrunkGrey.png" vertCount="1" width="15" x="325.0" y="265.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/obstacle/candyStick.png" cost="100" greySrc="images/obstacle/candyStickGrey.png" name="Trunk" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/obstacle/candyStick.png" cost="100" greySrc="images/obstacle/candyStickGrey.png" name="Candy Stick" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="40" src="images/obstacle/candyStickGrey.png" vertCount="1" width="15" x="375.0" y="265.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Background" x="25.0" y="325.0">
@@ -109,7 +109,7 @@
       <StrokeColor a="255" b="0" g="255" r="255" strokeWeight="1.0"/>
     </Rect>
     <!-- Background Unlockables -->
-    <CustomSprite active="false" actualSrc="images/background/rockMountain.png" cost="0" greySrc="" name="Rocky Mountains" unlocked="true">
+    <CustomSprite active="true" actualSrc="images/background/rockMountain.png" cost="0" greySrc="" name="Rocky Mountains" unlocked="true">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0.5f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/rockMountain.png" vertCount="1" width="40" x="175.0" y="317.5" zOrder="0"/>
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/background/mountain.png" cost="25" greySrc="images/background/mountainGrey.png" name="Swiss Alps" unlocked="false">
@@ -121,8 +121,8 @@
     <CustomSprite active="false" actualSrc="images/background/bg_shroom.png" cost="100" greySrc="images/background/bg_shroomGrey.png" name="Tropical Forrest" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/bg_shroomGrey.png" vertCount="1" width="40" x="325.0" y="317.5" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="true" actualSrc="images/background/pretty.png" cost="100" greySrc="images/background/prettyGrey.png" name="Tropical Forrest" unlocked="true">
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/pretty.png" vertCount="1" width="40" x="375.0" y="317.5" zOrder="0"/>
+    <CustomSprite active="false" actualSrc="images/background/pretty.png" cost="100" greySrc="images/background/prettyGrey.png" name="Pink Mountains" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/prettyGrey.png" vertCount="1" width="40" x="375.0" y="317.5" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Music" x="25.0" y="375.0">
       <FillColor a="255" b="0" g="0" r="0"/>

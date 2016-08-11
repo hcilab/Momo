@@ -48,8 +48,8 @@
 				x="0.0" y="0.0"  
 				horzCount="12" vertCount="1" defaultCount="11" farmeFreq="0"
 				zOrder="0" height="140.0" scaleHeight="1" 
-				neutralZone="ALL" happyZone="NONE" dangerZone="NONE"
-				happySrc="images/player/grumpyBirdSpriteHappy.png" dangerSrc="images/player/grumpyBirdSpriteDanger.png"
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/pinkCatHappy.png" dangerSrc="images/player/pinkCatDanger.png"
 				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="5" leftStart="6" leftEnd="11">

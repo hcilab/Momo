@@ -458,7 +458,10 @@ public class GameState_FittsBonusGame extends GameState
     for (IEvent event : eventManager.getEvents(EventType.FINISH_BONUS))
     {
       gameStateController.popState();
-      
+
+      Event letGoOfButtonsEvent = new Event(EventType.NO_BUTTONS_DOWN);
+      eventManager.queueEvent(letGoOfButtonsEvent);
+
       Event updateScoreEvent = new Event(EventType.UPDATE_SCORE);
       updateScoreEvent.addIntParameter("scoreValue",event.getRequiredIntParameter("bonusScore"));
       eventManager.queueEvent(updateScoreEvent);

@@ -1654,6 +1654,13 @@ public class PlayerControllerComponent extends Component
       eventManager.queueEvent(finishBonusGame);
       
     }
+
+    for (IEvent event : eventManager.getEvents(EventType.NO_BUTTONS_DOWN))
+    {
+      leftButtonDown = false;
+      rightButtonDown = false;
+      upButtonDown = false;
+    }
   }
 
   private String determineGapDirection(IGameObject platform) 

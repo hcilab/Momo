@@ -73,6 +73,8 @@ enum EventType
   TOGGLE_CALIBRATION_DISPLAY,
   PLAYER_PORTAL_COLLISION,
   PLAYER_END_PORTAL_COLLISION,
+
+  NO_BUTTONS_DOWN;
 }
 
 // This is the actual event that is created by the sender and sent to all listeners.
@@ -297,6 +299,8 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.TOGGLE_CALIBRATION_DISPLAY);
     addEventTypeToMaps(EventType.PLAYER_PORTAL_COLLISION);
     addEventTypeToMaps(EventType.PLAYER_END_PORTAL_COLLISION);
+
+    addEventTypeToMaps(EventType.NO_BUTTONS_DOWN);
   }
   
   private void addEventTypeToMaps(EventType eventType)

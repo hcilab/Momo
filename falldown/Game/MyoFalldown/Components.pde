@@ -4462,8 +4462,8 @@ public class CalibrationDisplayComponent extends Component
         RenderComponent.Text text = renderComponent.getTexts().get(0);
         if (text != null && pcc.rawInput != null)
         {
-          int currLeft = (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100);
-          int currRight = (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100);
+          int currLeft = min((int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100), 100);
+          int currRight = min((int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100), 100);
           if (abs(currLeft - left) > 5)
           {
             text.string = "Left: " + currLeft + "%, Right: " + right + "%";

@@ -17,14 +17,14 @@
 	</GameObject>
 	
 
-  <GameObject file="xml_data/wall.xml" tag="left_wall">
+  <GameObject file="xml_data/wall_bonus.xml" tag="left_wall">
 		<Transform>
 			<Translation x="7.50" y="250.0"/>
       		<Scale x="15" y="500.0"/>
 		</Transform>
 	</GameObject>
 
-  <GameObject file="xml_data/wall.xml" tag="right_wall">
+  <GameObject file="xml_data/wall_bonus.xml" tag="right_wall">
 		<Transform>
 			<Translation x="492.50" y="250.0"/>
       		<Scale x="15" y="500"/>

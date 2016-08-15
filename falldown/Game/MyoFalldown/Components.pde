@@ -1090,7 +1090,7 @@ public class PlayerControllerComponent extends Component
     moveVectorX = new PVector();
     platformLevelCount = 1;
 
-    if (options.getGameOptions().isFittsLaw()) {
+    if (options.getGameOptions().isFittsLaw() || bonusLevel) {
       pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
     } else {
       pauseOnBreakPlatformTime = 1000;
@@ -1143,6 +1143,11 @@ public class PlayerControllerComponent extends Component
     lastXPos = newXPos;
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
+    
+    if(bonusLevel)
+    {
+      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
+    }
     
     if(!options.getGameOptions().isFittsLaw())
     {

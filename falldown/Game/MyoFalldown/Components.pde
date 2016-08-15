@@ -2414,7 +2414,7 @@ public class BonusPlatformManager extends Component
         endPortalPlatform.setTag("end_portal_platform");
       }
 
-      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2, platformHeight));
+      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2 - 4, platformHeight));
       breakPlatform.setTag("break_platform");
       platLevels.add(breakPlatform.getUID());
 

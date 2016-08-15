@@ -2,7 +2,7 @@
 <GameObject>
   <Render>
     <Sprite>
-      <Image height="1" resizeHeight="500" resizeWidth="15" src="images/block/sandWall.png" width="1" x="0.0" y="0.0"/>
+      <Image height="1" resizeHeight="500" resizeWidth="15" src="images/block/wall_bonus_left.png" width="1" x="0.0" y="0.0"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="kinematic">

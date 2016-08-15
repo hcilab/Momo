@@ -1266,6 +1266,18 @@ public class PlayerControllerComponent extends Component
         onPlatform = true;
       }
 
+      if (rigidBodyComponent.getLinearVelocity().x < 0 && (rightButtonDown || rightMyoForce)) {
+        if (bonusLevel || options.getGameOptions().isFittsLaw()) {
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, 0.0));
+        }
+      }
+
+      if (rigidBodyComponent.getLinearVelocity().x > 0 && (leftButtonDown || leftMyoForce)) {
+        if (bonusLevel || options.getGameOptions().isFittsLaw()) {
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, 0.0));
+        }
+      }
+
       if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) || (bonusLevel && rigidBodyComponent.gameObject.getTag().equals("player")))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)

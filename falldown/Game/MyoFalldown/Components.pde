@@ -4115,10 +4115,12 @@ public class FittsStatsComponent extends Component
   private float gapWidth;
   private float optimalPath;
   private float fittsDistance;
+  private float distance;
   private float distanceTravelled;
   private int undershoots;
   private int overshoots;
   private int directionChanges;
+  private boolean firstFall = true;
   public FittsStatsComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -4193,6 +4195,17 @@ public class FittsStatsComponent extends Component
     newRow.setLong("start_time", startTime);
     newRow.setFloat("optimal_path", optimalPath);
     newRow.setFloat("fitts_distance", fittsDistance);
+    if  (firstFall)
+    {
+      distance = abs(pos.x - gapPos);
+      firstFall = false;
+    }
+    else
+    {
+      float prevGap = platformGapPosition.get(tableFittsStats.getRowCount()-2).x;
+      distance = abs(prevGap - gapPos);
+    }
+    newRow.setFloat("distance", distance);
     fittsLawRecorded = true;
   }
   

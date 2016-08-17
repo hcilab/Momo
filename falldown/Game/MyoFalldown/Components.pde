@@ -336,27 +336,27 @@ public class RenderComponent extends Component
          }
          else if(gameObject.getTranslation().y < 191)
          {
-           timeLapsed = (int)random(5000, 9000);
+           timeLapsed = (int)random(7000, 11000);
          }
          else if(gameObject.getTranslation().y < 267)
          {
-          timeLapsed = (int)random(10000, 14000);
+          timeLapsed = (int)random(13000, 17000);
          }
          else if(gameObject.getTranslation().y < 343)
          {
-          timeLapsed = (int)random(15000, 19000);
+          timeLapsed = (int)random(19000, 23000);
          }
          else if(gameObject.getTranslation().y < 419)
          {
-          timeLapsed = (int)random(20000, 24000);
+          timeLapsed = (int)random(25000, 29000);
          }
          else if(gameObject.getTranslation().y < 490)
          {
-          timeLapsed = (int)random(25000, 29000);
+          timeLapsed = (int)random(31000, 35000);
          }
          else
          {
-           timeLapsed = (int)random(5000, 25000);
+           timeLapsed = (int)random(7000, 35000);
          }
          if(xmlSpriteComponent.getName().equals("SpriteSheet")){
            OffsetSheetSprite offsetSheetSprite = new OffsetSheetSprite(

@@ -1659,12 +1659,18 @@ public class Options implements IOptions
 
     public void setLeftSensitivity(float _leftSensitivity)
     {
+      dataRow.setFloat("left_reading", _leftSensitivity);
+      saveTable(calibrationData, CALIBRATION_CSV_SAVE);
+
       calibrationXML.setFloat("left_sensitivity", _leftSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     public void setRightSensitivity(float _rightSensitivity)
     {
+      dataRow.setFloat("right_reading", _rightSensitivity);
+      saveTable(calibrationData, CALIBRATION_CSV_SAVE);
+
       calibrationXML.setFloat("right_sensitivity", _rightSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }

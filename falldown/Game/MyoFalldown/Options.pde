@@ -1568,6 +1568,11 @@ public class Options implements IOptions
     private final String XML_CALIBRATION = "Calibration";
     private XML calibrationXML;
 
+    private String CALIBRATION_CSV_LOAD = "csv/calibration.csv";
+    private String CALIBRATION_CSV_SAVE = "data/csv/calibration.csv";
+    private Table calibrationData;
+    private TableRow dataRow;
+
     public CalibrationData()
     {
       calibrationXML = xmlSaveData.getChild(XML_CALIBRATION);
@@ -1575,6 +1580,23 @@ public class Options implements IOptions
 
     public void setCalibrationData(HashMap<String, float[]> maxReadings)
     {
+      if (fileExists(CALIBRATION_CSV_SAVE))
+      {
+        println("file exists");
+        calibrationData = loadTable(CALIBRATION_CSV_LOAD, "header");
+        dataRow = calibrationData.getRow(0);
+      }
+      else
+      {
+        println("new file");
+        calibrationData = new Table();
+        calibrationData.addColumn("left_sensor");
+        calibrationData.addColumn("left_reading");
+        calibrationData.addColumn("right_sensor");
+        calibrationData.addColumn("right_reading");
+        dataRow = calibrationData.addRow();
+      }
+
       for (String key : maxReadings.keySet())
       {
         if (key.equals("LEFT"))
@@ -1583,6 +1605,8 @@ public class Options implements IOptions
           calibrationXML.setFloat("left_sensor", leftReading[0]);
           calibrationXML.setFloat("left_reading", leftReading[1]);
           calibrationXML.setFloat("left_sensitivity", leftReading[1]);
+          dataRow.setFloat("left_sensor", leftReading[0]);
+          dataRow.setFloat("left_reading", leftReading[1]);
         }
         else if (key.equals("RIGHT"))
         {
@@ -1590,9 +1614,12 @@ public class Options implements IOptions
           calibrationXML.setFloat("right_sensor", rightReading[0]);
           calibrationXML.setFloat("right_reading", rightReading[1]);
           calibrationXML.setFloat("right_sensitivity", rightReading[1]);
+          dataRow.setFloat("right_sensor", rightReading[0]);
+          dataRow.setFloat("right_reading", rightReading[1]);
         }
       }
 
+      saveTable(calibrationData, CALIBRATION_CSV_SAVE);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
@@ -1632,14 +1659,30 @@ public class Options implements IOptions
 
     public void setLeftSensitivity(float _leftSensitivity)
     {
+      dataRow.setFloat("left_reading", _leftSensitivity);
+      saveTable(calibrationData, CALIBRATION_CSV_SAVE);
+
       calibrationXML.setFloat("left_sensitivity", _leftSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 
     public void setRightSensitivity(float _rightSensitivity)
     {
+      dataRow.setFloat("right_reading", _rightSensitivity);
+      saveTable(calibrationData, CALIBRATION_CSV_SAVE);
+
       calibrationXML.setFloat("right_sensitivity", _rightSensitivity);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
+
+    private boolean fileExists(String filename)
+    {
+      File file = new File(sketchPath(filename));
+      if (!file.exists())
+      {
+        return false;
+      }
+      return true;
     }
   }
 

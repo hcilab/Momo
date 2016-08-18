@@ -1582,13 +1582,11 @@ public class Options implements IOptions
     {
       if (fileExists(CALIBRATION_CSV_SAVE))
       {
-        println("file exists");
         calibrationData = loadTable(CALIBRATION_CSV_LOAD, "header");
         dataRow = calibrationData.getRow(0);
       }
       else
       {
-        println("new file");
         calibrationData = new Table();
         calibrationData.addColumn("left_sensor");
         calibrationData.addColumn("left_reading");

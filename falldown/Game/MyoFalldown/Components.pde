@@ -563,20 +563,6 @@ public class RenderComponent extends Component
           int framesequence = ((int)(abs(offsetSprite.initTime - totalTime) - (offsetSprite.timeLapsed - 10000))/1000);
           offsetSprite.sheetSprite.setFrameSequence(framesequence, framesequence, 0f);
           offsetSprite.sheetSprite.draw();
-          
-          
-        //this is for the flashing coin  
-          //int flashingSequence = (10 - framesequence);
-          //if(offsetSprite.flashCount >= flashingSequence)
-          //{
-          //  offsetSprite.flashCount=0;
-          //}
-          //else
-          //{
-          //  offsetSprite.flashCount++;
-          //  offsetSprite.sheetSprite.draw();
-          //}
-          
         }
         else
         {
@@ -2316,6 +2302,7 @@ public class BonusPlatformManager extends Component
   private String portalPlatformFile;
   private String tag; 
   private String breakPlatformFile;
+  private String playerFile;
   
   private float leftSide;
   private float rightSide;
@@ -2323,8 +2310,8 @@ public class BonusPlatformManager extends Component
   private float platformHeight;
   private long startTime;
   
-  private float gapPosition;
-  private float halfGapWidth;
+  private float gapDistance;
+  private float gapWidth;
   private ArrayList<ArrayList<Integer>> bonusplatformLevels;;
 
   public BonusPlatformManager(IGameObject _gameObject)
@@ -2346,8 +2333,9 @@ public class BonusPlatformManager extends Component
     platformHeight = xmlComponent.getFloat("platformHeight");
     portalPlatformFile = xmlComponent.getString("portalPlatformFile");
     breakPlatformFile = xmlComponent.getString("breakPlatformFile");
-    gapPosition = 0;
-    halfGapWidth = 0;
+    playerFile =  xmlComponent.getString("playerFile");
+    gapDistance = 0;
+    gapWidth = 0;
     bonusplatformLevels = new ArrayList<ArrayList<Integer>>();
   }
   
@@ -2390,31 +2378,34 @@ public class BonusPlatformManager extends Component
     PVector range = platformRanges.get(rangeSelector);
     tempSpawnHeight = 38;
     TableRow row = tableBonusInput.getRow(bonusInputCounter);
-    gapPosition = row.getFloat("placement");
-    halfGapWidth = row.getFloat("halfWidth");
+    gapDistance = row.getFloat("distance");
+    gapWidth = row.getFloat("width");
+    
+    IGameObject player_bonus = gameStateController.getGameObjectManager().addGameObject(playerFile, new PVector(250-(gapDistance/2), 50), new PVector(25, 25));
+    player_bonus.setTag("player");
     
     bonusInputCounter++;
     if(bonusInputCounter >= tableBonusInput.getRowCount()){
       bonusInputCounter = 0; 
     }
     
-    int numberOfCoins = abs((int)((250-gapPosition+halfGapWidth) - (250+gapPosition-halfGapWidth))/20);
+    int numberOfCoins = abs((int)((250-(gapDistance/2)+(gapWidth/2)) - (250+(gapDistance/2)-(gapWidth/2)))/20);
     
     for(int i = 0; i<6;i++)
     {
-      float tempGapPosition = 250+(gapPosition * pow(-1,i));
-      platformGapPosition.add(new PVector(tempGapPosition,halfGapWidth));
-      platformRanges.add(rangeSelector + 1, new PVector(tempGapPosition + halfGapWidth, range.y));
-      range.y = tempGapPosition - halfGapWidth;
+      float tempGapPosition = 250+((gapDistance/2) * pow(-1,i));
+      platformGapPosition.add(new PVector(tempGapPosition,gapWidth/2));
+      platformRanges.add(rangeSelector + 1, new PVector(tempGapPosition + gapWidth/2, range.y));
+      range.y = tempGapPosition - gapWidth/2;
       tempSpawnHeight += 76;
       
       if(i == 5)
       {
-        IGameObject endPortalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(halfGapWidth*2, platformHeight-10));
+        IGameObject endPortalPlatform = gameStateController.getGameObjectManager().addGameObject(portalPlatformFile, new PVector(tempGapPosition, tempSpawnHeight+7), new PVector(gapWidth, platformHeight-10));
         endPortalPlatform.setTag("end_portal_platform");
       }
 
-      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(halfGapWidth*2 - 4, platformHeight));
+      IGameObject breakPlatform = gameStateController.getGameObjectManager().addGameObject(breakPlatformFile, new PVector(tempGapPosition, tempSpawnHeight), new PVector(gapWidth - 4, platformHeight));
       breakPlatform.setTag("break_platform");
       platLevels.add(breakPlatform.getUID());
 
@@ -2435,10 +2426,10 @@ public class BonusPlatformManager extends Component
       {
         IGameObject coin;
         if(tempGapPosition < 250){
-          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+halfGapWidth+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+(gapWidth/2)+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
         }
         else{
-          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-halfGapWidth-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-(gapWidth/2)-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
         }
         coin.setTag("coin");
         coins.add(coin);
@@ -4187,14 +4178,16 @@ public class FittsStatsComponent extends Component
     levelCount = levelC;
     if(iD == null)
       iD ="-1";
-    newRow.setString("id", iD);
-    newRow.setInt("trial", trialNum);
-    newRow.setInt("level", levelCount);
+    newRow.setLong("tod", System.currentTimeMillis());  
+    newRow.setString("username", iD);
+    newRow.setInt("block", trialNum);
+    newRow.setInt("trial", levelCount);
     newRow.setString("condition", "Simple");
     newRow.setFloat("start_point_x", pos.x);
     newRow.setLong("start_time", startTime);
     newRow.setFloat("optimal_path", optimalPath);
     newRow.setFloat("fitts_distance", fittsDistance);
+    newRow.setString("selection", "DWELL");
     if  (firstFall)
     {
       distance = abs(pos.x - gapPos);

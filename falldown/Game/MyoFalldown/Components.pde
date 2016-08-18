@@ -2007,7 +2007,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0, 1.0) < 1 ? true: false;
+    boolean isPortal = random(0.0, 1.0) < bonusLevelChance ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();

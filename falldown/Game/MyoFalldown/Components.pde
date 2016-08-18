@@ -1045,6 +1045,8 @@ public class PlayerControllerComponent extends Component
   private boolean onPlatform; 
   private boolean onRegPlatform; 
   private boolean onBreakPlatform;
+  private boolean stopOnBreakPlatform;
+  private boolean stopOnBreakPlatformError;
   private IGameObject breakPlatform;
   private IGameObject portalPlatform;
   private long breakTimerStart;
@@ -1085,6 +1087,7 @@ public class PlayerControllerComponent extends Component
     lastXPos = gameObject.getTranslation().x;
     playerPlatform = null;
     gapDistance = 0;
+    stopOnBreakPlatform = false;
   }
 
   @Override public void destroy()
@@ -1177,6 +1180,19 @@ public class PlayerControllerComponent extends Component
 
     if (component != null)
     {
+      
+      if(onBreakPlatform && moveVector.x == 0)
+      {
+        stopOnBreakPlatform = true;
+        stopOnBreakPlatformError = true;
+      }
+      
+      if(!onBreakPlatform && stopOnBreakPlatformError)
+      {
+        errors++;
+        stopOnBreakPlatformError = false;
+      }
+      
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
       calculateOverShoots(rigidBodyComponent.getPosition());
       calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
@@ -1458,17 +1474,39 @@ public class PlayerControllerComponent extends Component
   
   public void calculateOverShoots(PVector pos)
   {
-    if((pos.x > (currGapPosition + currGapWidth) && onLeftSide))
+    if((pos.x > (currGapPosition + currGapWidth)))
     {
-      overshootCount++;
-      onLeftSide = false;
-      onRightSide = true;
+      if(onLeftSide)
+      {
+        if(!stopOnBreakPlatform)
+        {
+          overshootCount++;
+        }
+        onLeftSide = false;
+        onRightSide = true;
+        stopOnBreakPlatform = false;
+      }
+      else if(onRightSide)
+      {
+        stopOnBreakPlatform = false;
+      }
     }
-    else if((pos.x < (currGapPosition - currGapWidth) && onRightSide))
+    else if((pos.x < (currGapPosition - currGapWidth)))
     {
-      overshootCount++;
-      onLeftSide = true;
-      onRightSide = false;
+      if(onRightSide)
+      {
+        if(!stopOnBreakPlatform)
+        {
+          overshootCount++;
+        }
+        onLeftSide = true;
+        onRightSide = false;
+        stopOnBreakPlatform = false;
+      }
+      else if(onLeftSide)
+      {
+        stopOnBreakPlatform = false;
+      }
     }
   }
   
@@ -1501,10 +1539,6 @@ public class PlayerControllerComponent extends Component
     {
       if(!notMoving && !firstMove)
       {
-        if((pos.x > (currGapPosition + currGapWidth)) || (pos.x < (currGapPosition - currGapWidth)))
-        {
-          errors++;
-        }
         if(goingLeft && (pos.x > (currGapPosition + currGapWidth)))
         {
           undershootCount++;
@@ -1535,11 +1569,12 @@ public class PlayerControllerComponent extends Component
   
   public int getErrors()
   {
-    return errors; 
+    return errors + undershootCount + overshootCount; 
   }
   
   public void setLoggingValuesZero(float gapPos, float halfGapWidth, float startingPosition)
   {
+    stopOnBreakPlatform = false;
     firstMove = true;
     directionChanges = 0;
     undershootCount = 0;
@@ -1972,7 +2007,7 @@ public class PlatformManagerControllerComponent extends Component
   private void spawnPlatformLevel()
   {
     boolean isBreakPlatform = random(0.0, 1.0) < breakPlatformChance ? true : false;
-    boolean isPortal = random(0.0, 1.0) < bonusLevelChance ? true: false;
+    boolean isPortal = random(0.0, 1.0) < 1 ? true: false;
     ArrayList<PVector> platformRanges = new ArrayList<PVector>();
     platformRanges.add(new PVector(leftSide, rightSide));
     ArrayList<Integer> platLevels = new ArrayList<Integer>();

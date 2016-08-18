@@ -380,9 +380,10 @@ public class GameState_InGame extends GameState
   private void createNewTable()
   {
     tableFittsStats = new Table();
-    tableFittsStats.addColumn("id");
+    tableFittsStats.addColumn("tod");
+    tableFittsStats.addColumn("username");
+    tableFittsStats.addColumn("block");
     tableFittsStats.addColumn("trial");
-    tableFittsStats.addColumn("level");
     tableFittsStats.addColumn("condition");
     tableFittsStats.addColumn("start_point_x");
     tableFittsStats.addColumn("end_point_x");
@@ -390,10 +391,11 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("end_time");
     tableFittsStats.addColumn("total_time");
     tableFittsStats.addColumn("gap_width");
+    tableFittsStats.addColumn("distance");
     tableFittsStats.addColumn("optimal_path");
     tableFittsStats.addColumn("fitts_distance");
-    tableFittsStats.addColumn("distance");
     tableFittsStats.addColumn("distance_travelled");
+    tableFittsStats.addColumn("selection");
     tableFittsStats.addColumn("errors");
     tableFittsStats.addColumn("undershoots");
     tableFittsStats.addColumn("overshoots");

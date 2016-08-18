@@ -8,15 +8,7 @@
 			<Scale x="75" y="5"/>
 		</Transform>
 	</GameObject>
-
-	<GameObject file="xml_data/player_bonus.xml" tag="player">
-		<Transform>
-			<Translation x="50.0" y="50.0"/>
-			<Scale x="25.0" y="25.0"/>
-		</Transform>
-	</GameObject>
 	
-
   <GameObject file="xml_data/wall_bonus_left.xml" tag="left_wall">
 		<Transform>
 			<Translation x="7.50" y="250.0"/>

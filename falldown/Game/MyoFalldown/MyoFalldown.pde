@@ -95,6 +95,7 @@ SoundFile buttonClickedSound;
 SoundFile coinCollectedSound;
 boolean fittsLawRecorded;
 boolean bonusLevel;
+boolean isBonusPractice;
 SoundFile bonusMusic;
 SoundFile bonusSplash;
 

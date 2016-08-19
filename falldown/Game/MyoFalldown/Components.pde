@@ -2427,7 +2427,7 @@ public class BonusPlatformManager extends Component
       bonusInputCounter = 0; 
     }
     
-    int numberOfCoins = abs((int)((250-(gapDistance/2)+(gapWidth/2)) - (250+(gapDistance/2)-(gapWidth/2)))/20);
+    int numberOfCoins = abs((int)((250-(gapDistance/2)+(gapWidth/2)) - (250+(gapDistance/2)-(gapWidth/2)))/20) + 1;
     
     for(int i = 0; i<6;i++)
     {
@@ -2464,10 +2464,10 @@ public class BonusPlatformManager extends Component
       {
         IGameObject coin;
         if(tempGapPosition < 250){
-          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+(gapWidth/2)+10+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition+(gapWidth/2)+j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
         }
         else{
-          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-(gapWidth/2)-10-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
+          coin = gameStateController.getGameObjectManager().addGameObject("xml_data/coin.xml", new PVector(tempGapPosition-(gapWidth/2)-j*20,tempSpawnHeight - 20), new PVector(1.0, 1.0));
         }
         coin.setTag("coin");
         coins.add(coin);

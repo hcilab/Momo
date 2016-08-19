@@ -1194,8 +1194,11 @@ public class PlayerControllerComponent extends Component
       }
       
       RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
-      calculateOverShoots(rigidBodyComponent.getPosition());
-      calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
+      if(options.getGameOptions().isLogFitts() || bonusLevel)
+      {
+        calculateOverShoots(rigidBodyComponent.getPosition());
+        calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
+      }
       
       if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES)
       {
@@ -1539,11 +1542,11 @@ public class PlayerControllerComponent extends Component
     {
       if(!notMoving && !firstMove)
       {
-        if(goingLeft && (pos.x > (currGapPosition + currGapWidth)))
+        if(goingLeft && (pos.x > (currGapPosition + currGapWidth + 25)))
         {
           undershootCount++;
         }
-        else if(goingRight && (pos.x < (currGapPosition - currGapWidth)))
+        else if(goingRight && (pos.x < (currGapPosition - currGapWidth - 25)))
         {
           undershootCount++;
         }

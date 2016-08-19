@@ -2375,6 +2375,7 @@ public class BonusPlatformManager extends Component
     gapDistance = 0;
     gapWidth = 0;
     bonusplatformLevels = new ArrayList<ArrayList<Integer>>();
+    isBonusPractice = false;
   }
   
   @Override public ComponentType getComponentType()
@@ -2418,6 +2419,7 @@ public class BonusPlatformManager extends Component
     TableRow row = tableBonusInput.getRow(bonusInputCounter);
     gapDistance = row.getFloat("distance");
     gapWidth = row.getFloat("width");
+    isBonusPractice = row.getString("practice").equalsIgnoreCase("TRUE") ? true : false;
     
     IGameObject player_bonus = gameStateController.getGameObjectManager().addGameObject(playerFile, new PVector(250-(gapDistance/2), 50), new PVector(25, 25));
     player_bonus.setTag("player");
@@ -4226,6 +4228,7 @@ public class FittsStatsComponent extends Component
     newRow.setFloat("optimal_path", optimalPath);
     newRow.setFloat("fitts_distance", fittsDistance);
     newRow.setString("selection", "DWELL");
+    newRow.setString("practice", Boolean.toString(isBonusPractice));
     if  (firstFall)
     {
       distance = abs(pos.x - gapPos);

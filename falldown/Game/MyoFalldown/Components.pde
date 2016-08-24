@@ -4286,7 +4286,7 @@ public class FittsStatsComponent extends Component
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
       newRow.setInt("direction_changes", directionChanges);
-      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && (gameStateController.getCurrentState() instanceof GameState_InGame)) {
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC){
         newRow.setLong("total_time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
       }
       else { // TODO somehow subtract the time spent jumping as well ??

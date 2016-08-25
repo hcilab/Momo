@@ -1592,6 +1592,7 @@ public class Options implements IOptions
         calibrationData.addColumn("left_reading");
         calibrationData.addColumn("right_sensor");
         calibrationData.addColumn("right_reading");
+        calibrationData.addColumn("input_type");
         dataRow = calibrationData.addRow();
       }
 
@@ -1616,6 +1617,8 @@ public class Options implements IOptions
           dataRow.setFloat("right_reading", rightReading[1]);
         }
       }
+
+      dataRow.setString("input_type", options.getIOOptions().getEmgSamplingPolicy().name());
 
       saveTable(calibrationData, CALIBRATION_CSV_SAVE);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);

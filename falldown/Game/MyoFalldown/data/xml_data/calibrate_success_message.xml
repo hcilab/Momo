@@ -150,7 +150,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="127"
+			string="100"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"
@@ -196,7 +196,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Text
-			string="127"
+			string="100"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"

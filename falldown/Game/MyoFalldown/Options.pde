@@ -207,6 +207,8 @@ public interface IFittsLawOptions
 {
   public String getInputFile();
   public String getBonusFile();
+  public int getBonusInputCounter();
+  public void setBonusInputCounter(int _count);
 }
 
 public interface IStory
@@ -1539,6 +1541,7 @@ public class Options implements IOptions
   public class FittsLawOptions implements IFittsLawOptions
   {
     private final String XML_FITTS = "FittsLaw";
+    private final String BONUS_COUNTER = "bonus_input_counter";
     private final String INPUT_FILE = "input_file";
     private final String INPUT_BONUS_FILE = "input_bonus_file";
     private XML xmlFitts;
@@ -1561,6 +1564,16 @@ public class Options implements IOptions
       return inputBonusFile;
     }
 
+    public int getBonusInputCounter()
+    {
+      return xmlFitts.getInt(BONUS_COUNTER);
+    }
+
+    public void setBonusInputCounter(int _count)
+    {
+      xmlFitts.setInt(BONUS_COUNTER, _count);
+      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+    }
   }
 
   public class CalibrationData implements ICalibrationData

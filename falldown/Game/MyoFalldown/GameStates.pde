@@ -312,9 +312,16 @@ public class GameState_MomoStory extends GameState
 
 public class GameState_InGame extends GameState
 {
+  private String ID;
   public GameState_InGame()
   {
     super();
+
+    ID = options.getUserInformation().getUserID();
+    if(ID == null)
+    {
+      ID = "guest";
+    }
   }
   
   @Override public void onEnter()
@@ -322,9 +329,20 @@ public class GameState_InGame extends GameState
     gameObjectManager.fromXML("xml_data/game.xml");
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
     tableBonusInput = loadTable(options.getFittsLawOptions().getBonusFile(), "header");
-    bonusInputCounter = 0;
+    bonusInputCounter = options.getFittsLawOptions().getBonusInputCounter();
     totalRowCountInput = tableInput.getRowCount(); 
-    createNewTable();
+    if (fileExists("data/csv/fitts_law_data/fittsTable_" + ID + ".csv"))
+    {
+      tableFittsStats = loadTable("csv/fitts_law_data/fittsTable_" + ID + ".csv", "header");
+    }
+    else
+    {
+      createFittsTable();
+    }
+
+    if(options.getGameOptions().isLogRawData()){
+      createRawDataTable();
+    }
   }
   
   @Override public void update(int deltaTime)
@@ -337,6 +355,7 @@ public class GameState_InGame extends GameState
   
   @Override public void onExit()
   {
+    options.getFittsLawOptions().setBonusInputCounter(bonusInputCounter);
     gameObjectManager.clearGameObjects();
   }
   
@@ -361,7 +380,7 @@ public class GameState_InGame extends GameState
       
       if(fittsLawRecorded)
       {
-        saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
+        saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + ".csv");
       }
       
       if(options.getGameOptions().isLogRawData())
@@ -377,7 +396,7 @@ public class GameState_InGame extends GameState
     }
   }
   
-  private void createNewTable()
+  private void createFittsTable()
   {
     tableFittsStats = new Table();
     tableFittsStats.addColumn("tod");
@@ -401,22 +420,32 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("undershoots");
     tableFittsStats.addColumn("overshoots");
     tableFittsStats.addColumn("direction_changes");
-    
-    if(options.getGameOptions().isLogRawData()){
-      tableRawData = new Table();
-      tableRawData.addColumn("user_id");
-      tableRawData.addColumn("timestamp");
-      tableRawData.addColumn("playing_with");
-      tableRawData.addColumn("level");
-      tableRawData.addColumn("sensor_left");
-      tableRawData.addColumn("sensor_right");
-      tableRawData.addColumn("sensor_jump");
-      tableRawData.addColumn("input_type");
-      tableRawData.addColumn("mode");
-      tableRawData.addColumn("moving_left");
-      tableRawData.addColumn("moving_right");
-      tableRawData.addColumn("moving_up");
+  }
+
+  private void createRawDataTable()
+  {
+    tableRawData.addColumn("user_id");
+    tableRawData.addColumn("timestamp");
+    tableRawData.addColumn("playing_with");
+    tableRawData.addColumn("level");
+    tableRawData.addColumn("sensor_left");
+    tableRawData.addColumn("sensor_right");
+    tableRawData.addColumn("sensor_jump");
+    tableRawData.addColumn("input_type");
+    tableRawData.addColumn("mode");
+    tableRawData.addColumn("moving_left");
+    tableRawData.addColumn("moving_right");
+    tableRawData.addColumn("moving_up");
+  }
+
+  private boolean fileExists(String filename)
+  {
+    File file = new File(sketchPath(filename));
+    if (!file.exists())
+    {
+      return false;
     }
+    return true;
   }
 }
 

@@ -2430,7 +2430,8 @@ public class BonusPlatformManager extends Component
     }
     
     int numberOfCoins = abs((int)((250-(gapDistance/2)+(gapWidth/2)) - (250+(gapDistance/2)-(gapWidth/2)))/20) + 1;
-    
+
+    platformGapPosition = new ArrayList<PVector>();
     for(int i = 0; i<6;i++)
     {
       float tempGapPosition = 250+((gapDistance/2) * pow(-1,i));
@@ -4195,8 +4196,8 @@ public class FittsStatsComponent extends Component
       pos = rigidBodyComponent.getPosition();
     }
 
-    gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
-    gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
+    gapPos = platformGapPosition.get((tableFittsStats.getRowCount()-1)%6).x;
+    gapWidth = platformGapPosition.get((tableFittsStats.getRowCount()-1)%6).y;
     
     if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
     {
@@ -4236,7 +4237,7 @@ public class FittsStatsComponent extends Component
     }
     else
     {
-      float prevGap = platformGapPosition.get(tableFittsStats.getRowCount()-2).x;
+      float prevGap = platformGapPosition.get((tableFittsStats.getRowCount()-2)%6).x;
       distance = abs(prevGap - gapPos);
     }
     newRow.setFloat("distance", distance);

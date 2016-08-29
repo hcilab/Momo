@@ -285,7 +285,10 @@ void keyPressed()
     eventManager.queueEvent(event);
     return;
   }
-  else if (gameStateController.getCurrentState() instanceof GameState_InGame && ( key == 't' || key == 'T')) {
+  else if (( key == 't' || key == 'T') &&
+           (gameStateController.getCurrentState() instanceof GameState_InGame || gameStateController.getCurrentState() instanceof GameState_FittsBonusGame)) {
+    // TODO the knowledge that this only occurs in certain games states should really
+    // be pushed into the respective game states.
     event = new Event(EventType.TOGGLE_CALIBRATION_DISPLAY);
     eventManager.queueEvent(event);
   }

@@ -3,9 +3,13 @@
 // Components are attached to Game Objects to provide their data and behaviour.
 //======================================================================================================
 
+
+
 //-------------------------------------------------------------------
 // INTERFACE
 //-------------------------------------------------------------------
+
+
 
 public enum ComponentType
 {
@@ -47,6 +51,7 @@ public interface IComponent
   public IGameObject     getGameObject();
   public void            update(int deltaTime);
 }
+
 
 // Can't declare here without implementing, so just a comment made to let you know it's here.
 // Constructs and returns new component from XML data.
@@ -4486,7 +4491,8 @@ public class ModalComponent extends Component
 public class CalibrationDisplayComponent extends Component
 {
   private PlayerControllerComponent pcc;
-  private boolean show;
+  private boolean showCalibrationDisplay;
+  private boolean showGraphDisplay;
   private int left;
   private int right;
 
@@ -4494,7 +4500,8 @@ public class CalibrationDisplayComponent extends Component
   {
     super(_gameObject);
 
-    show = true;
+    showCalibrationDisplay = false;
+    showGraphDisplay = false;
     left = 0;
     right = 0;
   }
@@ -4542,23 +4549,62 @@ public class CalibrationDisplayComponent extends Component
       }
     }
 
+    //handle toggle of calibration display (shows small label at bottom of game)
     for (IEvent event : eventManager.getEvents(EventType.TOGGLE_CALIBRATION_DISPLAY)) {
-      if (show) {
-        hide();
-        show = !show;
+      if (showCalibrationDisplay) {
+        hideCalibrationDisplay();
+        showCalibrationDisplay = !showCalibrationDisplay;
       } else {
-        show();
-        show = !show;
+        showCalibrationDisplay();
+        showCalibrationDisplay = !showCalibrationDisplay;
       }
     }
+    
+    
+    //handle toggle of graph display (shows second window with graphs)
+    for (IEvent event : eventManager.getEvents(EventType.TOGGLE_GRAPH_DISPLAY)) {
+
+      if (showGraphDisplay) {
+        hideGraphDisplay();
+        showGraphDisplay = !showGraphDisplay;
+      } else {
+        showGraphDisplay();
+        showGraphDisplay = !showGraphDisplay;
+      }
+    }    
   }
 
-  public void hide() {
+  public void hideGraphDisplay() {
+    sa.getSurface().setVisible(false);
+    sa.noLoop();
+    sa.giveFocusToParentFrame();
+  }
+
+  public void showGraphDisplay() {
+    Frame parentFrame = ((processing.awt.PSurfaceAWT.SmoothCanvas) getSurface().getNative()).getFrame();
+    if (sa == null){
+      String[] args = {"Sensor Graph", "--display=2", "--location=0,0"};
+      sa = new SensorGraphApplet(parentFrame);
+            
+      PApplet.runSketch(args, sa);
+      sa.getSurface().setLocation(0,0);
+      sa.removeExitEvent();      
+      
+    }
+    else
+    {
+      sa.getSurface().setVisible(true);
+      sa.loop();
+    }
+        
+  }
+
+  public void hideCalibrationDisplay() {
     IComponent component = gameObject.getComponent(ComponentType.CALIBRATION_DISPLAY);
     component.getGameObject().setTranslation(new PVector(1000.0, 485.0));
   }
 
-  public void show() {
+  public void showCalibrationDisplay() {
     IComponent component = gameObject.getComponent(ComponentType.CALIBRATION_DISPLAY);
     component.getGameObject().setTranslation(new PVector(485.0, 485.0));
   }

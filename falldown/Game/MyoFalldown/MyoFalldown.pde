@@ -31,6 +31,9 @@ import de.voidplus.myo.*;
 
 import processing.sound.SoundFile;
 
+import java.awt.event.WindowListener;
+import java.awt.Frame;
+
 // The main class needs to be available globally for some subsystems.
 MyoFalldown mainObject;
 
@@ -88,6 +91,9 @@ FittsStatsComponent fsc;
 BonusPlatformManager bpc;
 BonusScoreComponent bsc;
 
+//Sensor Applet setup
+SensorGraphApplet sa;
+
 //For still platform mode
 int stillPlatformCounter = 0;
 boolean isRising = false;
@@ -127,6 +133,7 @@ enum CalibrationMode {
 void setup()
 {
   size(500, 500);
+  surface.setAlwaysOnTop(true);
   surface.setResizable(true);
   surface.setTitle("The Falling of Momo");
   surface.setSize(800,800);
@@ -290,6 +297,13 @@ void keyPressed()
     // TODO the knowledge that this only occurs in certain games states should really
     // be pushed into the respective game states.
     event = new Event(EventType.TOGGLE_CALIBRATION_DISPLAY);
+    eventManager.queueEvent(event);
+  }
+  
+  else if (( key == 'g' || key == 'G') &&
+           (gameStateController.getCurrentState() instanceof GameState_InGame || gameStateController.getCurrentState() instanceof GameState_FittsBonusGame)) {
+    //add second window for Graph
+    event = new Event(EventType.TOGGLE_GRAPH_DISPLAY);
     eventManager.queueEvent(event);
   }
 }

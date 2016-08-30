@@ -1,0 +1,252 @@
+
+public class SensorGraphApplet extends PApplet {
+    private LimitedSizeQueue<Integer> leftReadings, rightReadings, lines;
+    private long counter = 0;
+    private Frame parentFrame;
+    
+    public SensorGraphApplet(Frame parentFrame){
+      this.parentFrame = parentFrame; 
+    }
+    
+    public void settings() {
+      size(725, 410);
+       
+      leftReadings = new LimitedSizeQueue<Integer>(50);
+      rightReadings = new LimitedSizeQueue<Integer>(50);
+      lines = new LimitedSizeQueue<Integer>(50);
+    }
+    
+    public void draw() {
+      background(255);
+      frameRate(20);
+      giveFocusToParentFrame();
+      
+      IGameObject playerObj = null;
+      PlayerControllerComponent pcc = null;
+      
+      if (gameStateController.getGameObjectManager().getGameObjectsByTag("player").size()>0){
+        playerObj = gameStateController.getGameObjectManager().getGameObjectsByTag("player").get(0);
+        pcc = (PlayerControllerComponent) playerObj.getComponent(ComponentType.PLAYER_CONTROLLER);  
+      }
+      
+      if (pcc != null && pcc.rawInput != null)
+      {
+        int left = (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100);
+        int right = (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100);
+        int jump = (int)(pcc.rawInput.get(JUMP_DIRECTION_LABEL)*1);
+        
+        leftReadings.add(left);
+        rightReadings.add(right);
+        lines.add(jump);
+            
+        lineChart(this,
+             leftReadings, rightReadings,
+             lines,
+             50, 370, 
+             675, 300, 
+             100, false, 
+             color(0,0,255), color(255, 0, 0), color(0,0,100),
+             false); 
+      }
+      
+      
+    }
+    
+    void removeExitEvent() {
+      final java.awt.Window win = ((processing.awt.PSurfaceAWT.SmoothCanvas) getSurface().getNative()).getFrame();
+ 
+      for (final java.awt.event.WindowListener evt : win.getWindowListeners())
+        win.removeWindowListener(evt);
+    }
+    
+    void giveFocusToParentFrame(){
+     java.awt.EventQueue.invokeLater(
+       new Runnable() {
+          @Override
+          public void run() {
+            parentFrame.toFront();
+            //parentFrame.repaint();
+          }
+      }); 
+    }
+}
+
+void lineChart( PApplet graph,
+                LimitedSizeQueue<Integer> data1, LimitedSizeQueue<Integer> data2, 
+                LimitedSizeQueue<Integer> lines,
+                int x, int y, 
+                int w, int h, 
+                int maxVal, boolean smartScale, 
+                color lineColor1, color lineColor2, color labelColor,
+                boolean displayValues
+               ){
+    
+    LimitedSizeQueue<Integer>[] dataGroup = new LimitedSizeQueue[2];
+    dataGroup[0] = data1;
+    dataGroup[1] = data2;
+    
+    color[] colors = {lineColor1, lineColor2};
+                 
+    //Use system font 'Arial' as the header font with 12 point type
+    PFont h1 = createFont("Lucida Sans Regular", 12, true);
+    
+    //Use system font 'Arial' as the label font with 9 point type
+    PFont l1 = createFont("Lucida Sans Regular", 12, true);
+    
+    graph.textFont(l1);
+    graph.textAlign(LEFT, TOP);
+
+    graph.text("left", x+w/2 - 35, y + 10);
+    graph.fill(lineColor1);
+    graph.rect(x+w/2 - 46, y + 12, 10, 10);
+    
+    graph.fill(labelColor);
+    graph.text("right", x+w/2 + 18, y + 10);
+    graph.fill(lineColor2);
+    graph.rect(x+w/2 + 5, y + 12, 10, 10);
+    
+    graph.fill(labelColor);
+    graph.text("jump", x+w/2 + 65, y + 10);
+    graph.fill(lineColor2);
+    graph.line(x+w/2 + 60, y + 12, x+w/2 + 60, y + 22);
+    
+    //Declare a float variabe for the max y axis value.
+    int ymax = 0;
+    
+    //Declare a float variable for the minimum y axis value.
+    int ymin = 0;
+    
+    //Set the stroke color to a medium gray for the axis lines.
+    graph.stroke(175);
+    
+    //draw the axis lines.
+    graph.line(x-3,y+2,x+w-10,y+2);
+    graph.line(x-3,y+2,x-3,y-h);
+        
+    //set the y -axis min and max values
+    if (smartScale)
+    {
+        ymax = Collections.max(data1);
+        ymin = Collections.min(data1)*10/10;
+    }
+    else{
+        ymax = maxVal;//Collections.max(leftData);
+    }
+           
+    //Count the number of pieces in the array.
+    int xcount = data1.size();
+    
+    //Draw the minimum and maximum Y Axis labels. 
+    graph.fill(labelColor);
+    graph.textFont(h1);
+    
+    graph.textAlign(RIGHT, CENTER);
+    
+    graph.text(ymax+"%", x-8, y-h);
+    graph.text(ymin, x-8, y-3);
+    
+  
+    for (int g = 0; g < dataGroup.length; g++){
+      
+      int xStart = x + 13;
+      int lastX = -1, lastY = -1;
+      
+      //Draw each point in the data series.
+      for (int i = 0; i < dataGroup[g].size(); i++){
+      
+          //Get the column value and set it has the height.
+          int yHeight = dataGroup[g].get(i);
+          
+          //Declare the variables to hold column height as scaled to the y axis.     
+          float yPCT = 0;
+          int scaleHeight = 0;
+          
+          //calculate the scale of given the height of the chart.
+          yPCT = ((yHeight - ymin) *1.0) / ((ymax - ymin)*1.0);
+          
+          //Calculate the scale y location of the point.
+          scaleHeight = h - (int)(h * yPCT);
+          
+          //If the column height exceeds the chart height than truncate it to the max value possible.
+          if (scaleHeight > h)
+              scaleHeight = h;
+  
+          //Determine the width of the column placeholders on the X axis.
+          int xwidth = w / xcount;
+          //println(w +" / " + xcount);
+            
+          //Set the fill color of the line.
+          graph.stroke(colors[g]);
+          
+          //Draw the line.
+          if (!(lastX == -1 && lastY==-1)){
+            graph.line(xStart-xwidth, y-h+scaleHeight,lastX, lastY); 
+            //graph.ellipse(xStart-xwidth, y-h+scaleHeight,3, 3); 
+          }
+          
+          lastX = xStart - xwidth;
+          lastY = y-h+scaleHeight;
+            
+          //println((xStart-xwidth)+", "+ (h-scaleHeight));
+                  
+          //Draw the labels.
+          graph.textFont(l1);
+          graph.textAlign(CENTER, CENTER);
+          graph.fill(labelColor);
+          
+          //draw line
+          graph.stroke(labelColor);
+          if (lines.get(i) == 1)
+          {
+             graph.line(xStart-xwidth, y-h, xStart-xwidth, y);
+          }
+          
+          
+          //Decide where the labels will be placed.
+          //if (displayValues)
+              //Above the columns.
+              //text(data.values()[i2], xf1 + (xwidth / 2), yf1 - (ysclhght + 8));
+          
+          //Below the columns.
+          //text(data.keys()[i2], xf1 + (xwidth / 2), yf1 + 8);
+              
+          //increment the x point at which to draw a column.
+          //xf1 = xf1 + xcolumns;
+          
+          xStart += xwidth;
+          //println(xStart);
+      }
+    }
+    //Reset the draw point the original X value to prevent infinite redrawing to the right of the chart.  
+    //xf1 = xfstart;*/
+}
+
+
+public class LimitedSizeQueue<K> extends ArrayList<K> {
+
+    private int maxSize;
+
+    public LimitedSizeQueue(int size){
+        this.maxSize = size;
+    }
+
+    public int getMaxSize(){
+        return this.maxSize; 
+    }
+
+    public boolean add(K k){
+        boolean r = super.add(k);
+        if (size() >= maxSize){
+            removeRange(0, size() - maxSize);
+        }
+        return r;
+    }
+
+    public K getYoungest() {
+        return get(size() - 1);
+    }
+
+    public K getOldest() {
+        return get(0);
+    }
+}

@@ -71,6 +71,7 @@ enum EventType
   PLAYER_BREAK_PLATFORM_EXIT,
   PLAYER_BREAK_PLATFORM_FALL,
   TOGGLE_CALIBRATION_DISPLAY,
+  TOGGLE_GRAPH_DISPLAY,
   PLAYER_PORTAL_COLLISION,
   PLAYER_END_PORTAL_COLLISION,
 
@@ -297,6 +298,7 @@ class EventManager implements IEventManager
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_EXIT);
     addEventTypeToMaps(EventType.PLAYER_BREAK_PLATFORM_FALL);
     addEventTypeToMaps(EventType.TOGGLE_CALIBRATION_DISPLAY);
+    addEventTypeToMaps(EventType.TOGGLE_GRAPH_DISPLAY);
     addEventTypeToMaps(EventType.PLAYER_PORTAL_COLLISION);
     addEventTypeToMaps(EventType.PLAYER_END_PORTAL_COLLISION);
 

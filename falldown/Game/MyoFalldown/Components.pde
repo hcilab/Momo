@@ -4492,18 +4492,21 @@ public class CalibrationDisplayComponent extends Component
 {
   private PlayerControllerComponent pcc;
   private boolean showCalibrationDisplay;
-  private boolean showGraphDisplay;
+  private boolean showGraphDisplay = false;
   private int left;
   private int right;
+  
 
   public CalibrationDisplayComponent(IGameObject _gameObject)
   {
     super(_gameObject);
 
     showCalibrationDisplay = false;
-    showGraphDisplay = false;
+    
     left = 0;
     right = 0;
+    
+    
   }
 
   @Override public void fromXML(XML xmlComponent)

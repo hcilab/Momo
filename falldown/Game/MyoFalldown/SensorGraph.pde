@@ -1,4 +1,9 @@
-
+//================================================================================================
+// Author: Scott Bateman
+//
+// Line graph of sensor readings to be displayed in a separate window during game play.
+// Jumps are marked as highlighted regions.
+//================================================================================================
 public class SensorGraphApplet extends PApplet {
     private LimitedSizeQueue<Integer> leftReadings, rightReadings, lines;
     private long counter = 0;
@@ -93,10 +98,13 @@ void lineChart( PApplet graph,
     //Use system font 'Arial' as the label font with 9 point type
     PFont l1 = createFont("Lucida Sans Regular", 12, true);
     
+    //Set the stroke color to a medium gray for the axis lines.
+    graph.stroke(175);
+    
     graph.textFont(l1);
     graph.textAlign(LEFT, TOP);
 
-    graph.text("left", x+w/2 - 35, y + 10);
+    graph.text("left", x+w/2 - 33, y + 10);
     graph.fill(lineColor1);
     graph.rect(x+w/2 - 46, y + 12, 10, 10);
     
@@ -106,18 +114,15 @@ void lineChart( PApplet graph,
     graph.rect(x+w/2 + 5, y + 12, 10, 10);
     
     graph.fill(labelColor);
-    graph.text("jump", x+w/2 + 65, y + 10);
-    graph.fill(lineColor2);
-    graph.line(x+w/2 + 60, y + 12, x+w/2 + 60, y + 22);
+    graph.text("jump", x+w/2 + 77, y + 10);
+    graph.fill(#F3F315,100);
+    graph.rect(x+w/2 + 60, y + 12, 10, 10);
     
     //Declare a float variabe for the max y axis value.
     int ymax = 0;
     
     //Declare a float variable for the minimum y axis value.
     int ymin = 0;
-    
-    //Set the stroke color to a medium gray for the axis lines.
-    graph.stroke(175);
     
     //draw the axis lines.
     graph.line(x-3,y+2,x+w-10,y+2);
@@ -145,10 +150,46 @@ void lineChart( PApplet graph,
     graph.text(ymax+"%", x-8, y-h);
     graph.text(ymin, x-8, y-3);
     
+    //Determine the width of the column placeholders on the X axis.
+    int xwidth = w / xcount;
+    int xStart = x + 13;
   
-    for (int g = 0; g < dataGroup.length; g++){
+    //draw and find regions on graph where cocontractions are detected
+    //draw line for
+    boolean regionStarted = false;
+    xStart = x + 13;
+    int areaStartX=-1;
+    
+    for (int i=0; i < lines.size(); i++){
       
-      int xStart = x + 13;
+      if (lines.get(i) == 1 && !regionStarted)
+      {
+         areaStartX = xStart-xwidth;
+         regionStarted = true;
+      }
+      
+      else if (regionStarted){
+        regionStarted = false;
+        graph.fill(#F3F315,100);
+        graph.noStroke();
+        int areaWidth = xStart - areaStartX; 
+        graph.rect(areaStartX,y-h,areaWidth,h);
+        
+      }
+      xStart += xwidth;    
+    }
+    
+    if (regionStarted){
+      regionStarted = false;
+      graph.fill(#F3F315,100);
+      int areaWidth = xStart - areaStartX - xwidth;
+      graph.rect(areaStartX,y-h,areaWidth,h);
+    }
+  
+  
+    //loop for each data series to draw line graph
+    for (int g = 0; g < dataGroup.length; g++){
+       xStart = x + 13;
       int lastX = -1, lastY = -1;
       
       //Draw each point in the data series.
@@ -171,8 +212,6 @@ void lineChart( PApplet graph,
           if (scaleHeight > h)
               scaleHeight = h;
   
-          //Determine the width of the column placeholders on the X axis.
-          int xwidth = w / xcount;
           //println(w +" / " + xcount);
             
           //Set the fill color of the line.
@@ -193,15 +232,7 @@ void lineChart( PApplet graph,
           graph.textFont(l1);
           graph.textAlign(CENTER, CENTER);
           graph.fill(labelColor);
-          
-          //draw line
-          graph.stroke(labelColor);
-          if (lines.get(i) == 1)
-          {
-             graph.line(xStart-xwidth, y-h, xStart-xwidth, y);
-          }
-          
-          
+        
           //Decide where the labels will be placed.
           //if (displayValues)
               //Above the columns.
@@ -217,6 +248,8 @@ void lineChart( PApplet graph,
           //println(xStart);
       }
     }
+    
+    
     //Reset the draw point the original X value to prevent infinite redrawing to the right of the chart.  
     //xf1 = xfstart;*/
 }

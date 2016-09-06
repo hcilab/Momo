@@ -1137,6 +1137,8 @@ public class PlayerControllerComponent extends Component
     lastXPos = newXPos;
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
+
+    applySpeedWarning();
     
     if(bonusLevel)
     {
@@ -1473,6 +1475,42 @@ public class PlayerControllerComponent extends Component
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
 
     return moveVector; 
+  }
+
+  private void applySpeedWarning() {
+    HashMap<String, Float> rawReadings = emgManager.pollRaw();
+    Float left = rawReadings.get(LEFT_DIRECTION_LABEL);
+    Float right = rawReadings.get(RIGHT_DIRECTION_LABEL);
+
+    Float severity = max(left, right);
+    if (severity > 1.0) {
+      drawSpeedWaring(severity);
+    }
+  }
+
+  // TODO: the speed warning circle should really be encapsulated into a game-object
+  // that gets added and removed from the game world as necessary. This is
+  // really just a quick solution.
+  private void drawSpeedWaring(Float severity) {
+    float x = gameObject.getTranslation().x;
+    float y = gameObject.getTranslation().y;
+    int radius = 30;
+
+    stroke(255, 0, 0);
+    fill(255, 255, 255, 0.0);
+
+    if (severity > 1.75)
+      strokeWeight(4);
+    else if (severity > 1.5)
+      strokeWeight(2);
+    else if (severity > 1.25)
+      strokeWeight(1);
+    else if (severity > 1.1)
+      strokeWeight(0.5);
+    else
+      strokeWeight(0);
+
+    ellipse(x, y, radius, radius);
   }
 
   public PVector getLatestMoveVector()

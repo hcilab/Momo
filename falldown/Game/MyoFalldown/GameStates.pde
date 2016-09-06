@@ -1821,7 +1821,7 @@ public class GameState_CalibrateSuccess extends GameState
 
     if (textLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
-      HashMap<String, Float> emgInput = emgManager.pollRaw();
+      HashMap<String, Float> emgInput = emgManager.pollIgnoringControlStrategy();
       updateRects(emgInput);
     }
 

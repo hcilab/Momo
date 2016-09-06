@@ -6,6 +6,7 @@ interface IMyoAPI {
   void registerAction(String label, int delayMillis) throws CalibrationFailedException;
   void registerActionManual(String label, int sensorID) throws CalibrationFailedException;
   HashMap<String, Float> poll();
+  HashMap<String, Float> pollRaw();
   void onEmg(long nowMicros, int[] sensorData);
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
 }
@@ -92,7 +93,8 @@ class MyoAPI implements IMyoAPI {
 
 
   // Query current EMG sensor readings. Mean-Absolute-Value is taken over
-  // currently buffered window, and results are normalized to the range [0, 1].
+  // currently buffered window, and results are normalized using current
+  // sensitivity settings (i.e., maxReading) and restricted to the range [0, 1].
   //
   // Returns:
   //   HashMap<k, v> where:
@@ -100,6 +102,27 @@ class MyoAPI implements IMyoAPI {
   //     - v : normalized sensor reading (range [0, 1])
   //
   HashMap<String, Float> poll() {
+    HashMap<String, Float> rawReadings = this.pollRaw();
+
+    HashMap<String, Float> toReturn = new HashMap<String, Float>();
+    for (String k : rawReadings.keySet()) {
+      toReturn.put(k, min(rawReadings.get(k), 1.0));
+    }
+    return toReturn;
+  }
+
+
+  // Query current EMG sensor readings. Mean-Absolute-Value is taken over
+  // currently buffered window, results are normalized to current sensitivity
+  // settings (i.e., maxReading), but no restrictions are applied to the range
+  // of readings (i.e., readings above 1.0 can occur)
+  //
+  // Returns:
+  //   HashMap<k, v> where:
+  //     - k : previously registed label (through registerAction())
+  //     - v : sensor reading
+  //
+  HashMap<String, Float> pollRaw() {
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
     String label;
     int sensorID;
@@ -115,7 +138,6 @@ class MyoAPI implements IMyoAPI {
 
       result = meanAbsoluteValue(currentSamples, sensorID);
       result /= maxReading; // normalize
-      result = min(result, 1.0); // cut-off if above threshold
 
       toReturn.put(label, new Float(result));
 

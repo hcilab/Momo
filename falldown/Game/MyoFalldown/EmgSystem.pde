@@ -1,6 +1,7 @@
 interface IEmgManager {
   boolean registerAction(String label);
   HashMap<String, Float> poll();
+  HashMap<String, Float> pollIgnoringControlStrategy();
   HashMap<String, Float> pollRaw();
   void onEmg(long nowMillis, int[] sensorData);
   boolean isCalibrated();
@@ -78,6 +79,11 @@ class EmgManager implements IEmgManager {
     return true;
   }
 
+  /*
+  * Returns sensor readings that are normalized to current sensitivity settings,
+  * restricted to the range [0.0, 1.0], and processed using the current control
+  * policy settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
+  */
   HashMap<String, Float> poll() {
     HashMap<String, Float> readings = myoAPI.poll();
     Float left = readings.get(LEFT_DIRECTION_LABEL);
@@ -152,7 +158,12 @@ class EmgManager implements IEmgManager {
     return toReturn;
   }
 
-  HashMap<String, Float> pollRaw() {
+  /*
+  * Returns sensor readings that are normalized to current sensitivity
+  * settings, restricted to the range [0.0, 1.0], but are not affected by the
+  * current control policy settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
+  */
+  HashMap<String, Float> pollIgnoringControlStrategy() {
     HashMap<String, Float> readings = myoAPI.poll();
     Float left = readings.get(LEFT_DIRECTION_LABEL);
     Float right = readings.get(RIGHT_DIRECTION_LABEL);
@@ -163,6 +174,17 @@ class EmgManager implements IEmgManager {
 
     return toReturn;
   }
+
+  /*
+  * Returns sensor readings that are normalized to current sensitivity
+  * settings, but are not restricted to a particular range (i.e., readings above
+  * 1.0 are perfectly legal, and are not affected by the current control policy
+  * settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
+  */
+  HashMap<String, Float> pollRaw() {
+    return myoAPI.pollRaw();
+  }
+
 
   void onEmg(long nowMillis, int[] sensorData) {
     myoAPI.onEmg(nowMillis, sensorData);
@@ -190,6 +212,10 @@ class NullEmgManager implements IEmgManager {
     toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
     toReturn.put(JUMP_DIRECTION_LABEL, 0.0);
     return toReturn;
+  }
+
+  HashMap<String, Float> pollIgnoringControlStrategy() {
+    return this.pollRaw();
   }
 
   HashMap<String, Float> pollRaw() {

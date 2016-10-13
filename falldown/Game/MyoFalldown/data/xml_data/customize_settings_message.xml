@@ -32,6 +32,9 @@
     <CustomSprite active="false" actualSrc="images/player/cat.png" cost="200" greySrc="images/player/catGrey.png" name="Cat" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/player/catGrey.png" vertCount="1" width="25" x="375.0" y="122.5" zOrder="0"/>
     </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/player/dog.png" cost="200" greySrc="images/player/dogGrey.png" name="Cat" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="30" src="images/player/dogGrey.png" vertCount="1" width="25" x="425.0" y="122.5" zOrder="0"/>
+    </CustomSprite>
     <!-- Platform Unlockables -->
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Platforms" x="25.0" y="175.0">
       <FillColor a="255" b="0" g="0" r="0"/>
@@ -54,6 +57,7 @@
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/block/cakeMid.png" cost="200" greySrc="images/block/cakeMidGrey.png" name="Cake Platform" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="35" src="images/block/cakeMidGrey.png" vertCount="1" width="30" x="375.0" y="167.5" zOrder="0"/>
+    </CustomSprite>
     </CustomSprite>
     <!-- Coin Unlockables -->
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Coins" x="25.0" y="225.0">
@@ -78,6 +82,7 @@
     <CustomSprite active="false" actualSrc="images/coin/heart.png" cost="200" greySrc="images/coin/heartGrey.png" name="Heart" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="30.0" horzCount="1" scaleHeight="15" src="images/coin/heartGrey.png" vertCount="1" width="30" x="375.0" y="215.0" zOrder="0"/>
     </CustomSprite>
+    </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Obstacles" x="25.0" y="275.0">
       <FillColor a="255" b="0" g="0" r="0"/>
       <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
@@ -100,6 +105,7 @@
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/obstacle/candyStick.png" cost="200" greySrc="images/obstacle/candyStickGrey.png" name="Candy Stick" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="40" src="images/obstacle/candyStickGrey.png" vertCount="1" width="15" x="375.0" y="265.0" zOrder="0"/>
+    </CustomSprite>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Background" x="25.0" y="325.0">
       <FillColor a="255" b="0" g="0" r="0"/>
@@ -124,6 +130,7 @@
     <CustomSprite active="false" actualSrc="images/background/pretty.png" cost="200" greySrc="images/background/prettyGrey.png" name="Pink Mountains" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/background/prettyGrey.png" vertCount="1" width="40" x="375.0" y="317.5" zOrder="0"/>
     </CustomSprite>
+    </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Music" x="25.0" y="375.0">
       <FillColor a="255" b="0" g="0" r="0"/>
       <StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
@@ -146,6 +153,9 @@
     </CustomSprite>
     <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="200" greySrc="images/button/musicNoteGrey.png" name="'The Sky'" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" width="40" x="375.0" y="367.5" zOrder="0"/>
+    </CustomSprite>
+    <CustomSprite active="false" actualSrc="images/button/musicNote.png" cost="200" greySrc="images/button/musicNoteGrey.png" name="'The Sky'" unlocked="false">
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="40.0" horzCount="1" scaleHeight="40" src="images/button/musicNoteGrey.png" vertCount="1" width="40" x="425.0" y="367.5" zOrder="0"/>
     </CustomSprite>
   </Render>
 </GameObject>

@@ -63,7 +63,7 @@
 			<Image src="images/block/treeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
 		</Sprite>
 
-		<!-- Forest  -->
+		<!-- Pink Cake  -->
 		<Sprite>
 			<Image src="images/block/cakeBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
 		</Sprite>
@@ -75,6 +75,20 @@
 		</Sprite> 
 		<Sprite>
 			<Image src="images/block/cakeWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
+		</Sprite>
+
+		<!-- Video Game BackGround  -->
+		<Sprite>
+			<Image src="images/block/vidGameBL.png" x="0.0" y="0.0"  width="1" height="1" resizeWidth="475" resizeHeight="15"/>
+		</Sprite>
+		<Sprite>
+			<Image src="images/block/vidGameBLIcy.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+		</Sprite> 
+		<Sprite>
+			<Image src="images/block/vidGameBLSticky.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="15" resizeWidth="475"/>
+		</Sprite> 
+		<Sprite>
+			<Image src="images/block/vidGameWall.png" x="0.0" y="0.0"  width="1" height="1" resizeHeight="500" resizeWidth="20"/>
 		</Sprite>
 	</Render>
 </GameObject>

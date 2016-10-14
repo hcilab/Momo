@@ -25,5 +25,10 @@
 				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
 				zOrder="0" height="30.0" scaleHeight="15">
 		</SpriteSheet>
+			<SpriteSheet src="images/coin/bone_transparent.png" alphaImage=""
+				x="425.0" y="215.0"  
+				horzCount="10" vertCount="1" defaultCount="9" farmeFreq="0f"
+				zOrder="0" height="30.0" scaleHeight="15">
+		</SpriteSheet>
 	</Render>
 </GameObject>

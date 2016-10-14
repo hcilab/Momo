@@ -54,5 +54,16 @@
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="5" leftStart="6" leftEnd="11">
 		</AnimationController>
+
+		<SpriteSheet src="images/player/dogSprite.png" alphaImage=""
+				x="0.0" y="0.0"  
+				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0"
+				zOrder="0" height="50.0" scaleHeight="1" 
+				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
+				happySrc="images/player/dogSprite.png" dangerSrc="images/player/dogSprite.png"
+				> 
+		</SpriteSheet>
+		<AnimationController rightStart="0" rightEnd="7" leftStart="8" leftEnd="15">
+		</AnimationController>
 	</Render>
 </GameObject>

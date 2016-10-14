@@ -172,8 +172,8 @@ void setup()
   fittsLawRecorded = false;
   bonusLevel = false;
 
-  bg = loadShape("images/background/rockMountain.svg");
-  opbg =  loadShape("images/background/opacityLandscape.svg");
+  bg = loadShape("images/background/videoBackground.svg");
+  opbg =  loadShape("images/background/opacityVideoBackground.svg");
   wbg = loadShape("images/background/whiteBG.svg");
   bbg = loadShape("images/background/underWater.svg");
   obbg = loadShape("images/background/opacityUnderWater.svg");

@@ -110,7 +110,7 @@
     <CustomSprite active="false" actualSrc="images/obstacle/candyStick.png" cost="150" greySrc="images/obstacle/candyStickGrey.png" name="Candy Stick" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="40" src="images/obstacle/candyStickGrey.png" vertCount="1" width="15" x="375.0" y="265.0" zOrder="0"/>
     </CustomSprite>
-    <CustomSprite active="false" actualSrc="images/obstacle/fenceObstacle.png" cost="200" greySrc="images/obstacle/fenceObstacleGrey.png" name="Candy Stick" unlocked="false">
+    <CustomSprite active="false" actualSrc="images/obstacle/fenceObstacle.png" cost="200" greySrc="images/obstacle/fenceObstacleGrey.png" name="Fence" unlocked="false">
       <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0f" height="35.0" horzCount="1" scaleHeight="40" src="images/obstacle/fenceObstacleGrey.png" vertCount="1" width="15" x="425.0" y="265.0" zOrder="0"/>
     </CustomSprite>
     <Text alignX="left" alignY="baseline" antialiasing="true" fontName="Moire" size="18" string="Background" x="25.0" y="325.0">

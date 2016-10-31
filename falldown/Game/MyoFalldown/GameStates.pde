@@ -200,6 +200,7 @@ public class GameState_UserLogin extends GameState
         CounterIDComponent counterIDComponent = (CounterIDComponent) gameObjectManager.getGameObjectsByTag("counter-1").get(0).getComponent(ComponentType.ID_COUNTER);
         String userID = counterIDComponent.getUserIDNumber();
         boolean newUser = options.getUserInformation().setSaveDataFile(userID);
+        options.getCalibrationData().setCalibrationFile(userID);
         options.getCustomizeOptions().reset();
         options.getCustomizeOptions().loadSavedSettings();
         if (newUser)

@@ -21,5 +21,6 @@
   <Credits anonymous="false"/>
   <FittsLaw input_bonus_file="csv/input_platforms/bonusGameTable.csv" input_file="csv/input_platforms/testInput1.csv"/>
   <Unlocked/>
+  <Calibration left_reading="0.0" left_sensitivity="0.0" left_sensor="0.0" right_reading="0.0" right_sensitivity="0.0" right_sensor="0.0"/>
   <Story show="true"/>
 </SaveData>

@@ -380,7 +380,7 @@ void mouseMoved()
   return;
 }
 //If you Updated the Myo Processing Library to 0.92 use "void myoOnEmgData(Device myo" instead of void "myoOnEmg(Myo myo"
-void myoOnEmg(Myo myo, long nowMilliseconds, int[] sensorData) {
+void myoOnEmgData(Device myo, long nowMilliseconds, int[] sensorData) {
   emgManager.onEmg(nowMilliseconds, sensorData);
 }
 

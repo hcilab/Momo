@@ -1801,6 +1801,10 @@ public class GameState_CalibrateMenu extends GameState
 public class GameState_CalibrateSuccess extends GameState
 {
   private boolean textLoaded;
+  private float rightSliderValue;
+  private float leftSliderValue;
+  //Make sures that duplicate are not put in calibration table
+  private boolean slidervalueChanged;
 
   public GameState_CalibrateSuccess()
   {
@@ -1812,6 +1816,7 @@ public class GameState_CalibrateSuccess extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/calibrate_success.xml");
+    slidervalueChanged = false;
   }
   
   @Override public void update(int deltaTime)
@@ -1834,6 +1839,8 @@ public class GameState_CalibrateSuccess extends GameState
 
   @Override public void onExit()
   {
+    if(slidervalueChanged)
+      options.getCalibrationData().setSensitivity(leftSliderValue, rightSliderValue);
     gameObjectManager.clearGameObjects();
   }
   
@@ -1858,8 +1865,6 @@ public class GameState_CalibrateSuccess extends GameState
       if (event.getRequiredStringParameter("tag").equals("left_slider"))
       {
         float sliderValue = event.getRequiredFloatParameter("sliderValue");
-        float newLeftVal = 127.0f * (100.0f - sliderValue) / 100.0f;
-        options.getCalibrationData().setLeftSensitivity(newLeftVal);
 
         IComponent component = gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         if (component != null)
@@ -1890,8 +1895,7 @@ public class GameState_CalibrateSuccess extends GameState
       else if (event.getRequiredStringParameter("tag").equals("right_slider"))
       {
         float sliderValue = event.getRequiredFloatParameter("sliderValue");
-        float newRightVal = 127.0f * (100.0f - sliderValue) / 100.0f;
-        options.getCalibrationData().setRightSensitivity(newRightVal);
+
 
         IComponent component = gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
         if (component != null)
@@ -1925,13 +1929,18 @@ public class GameState_CalibrateSuccess extends GameState
     {
       if (event.getRequiredStringParameter("tag").equals("left_slider"))
       {
+       
         float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
+        leftSliderValue = newVal;
         emgManager.updateRegisteredSensorValues(LEFT_DIRECTION_LABEL, newVal);
+        slidervalueChanged = true;
       }
       else if (event.getRequiredStringParameter("tag").equals("right_slider"))
       {
         float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
+        rightSliderValue = newVal;
         emgManager.updateRegisteredSensorValues(RIGHT_DIRECTION_LABEL, newVal);
+        slidervalueChanged = true;
       }
     }
   }

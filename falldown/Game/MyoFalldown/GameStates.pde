@@ -1754,13 +1754,7 @@ public class GameState_CalibrateMenu extends GameState
   {
     gameObjectManager.fromXML("xml_data/calibrate_menu.xml");
 
-    try {
-      emgManager = new EmgManager();
-    } catch (MyoNotConnectedException e) {
-      println("[WARNING] No Myo Armband detected. Aborting Calibration (Menu)");
-      Event event = new Event(EventType.CALIBRATE_FAILURE);
-      eventManager.queueEvent(event);
-    }
+    emgManager = new EmgManager();
   }
   
   @Override public void update(int deltaTime)

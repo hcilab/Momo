@@ -3,50 +3,20 @@ interface IEmgManager {
   HashMap<String, Float> poll();
   HashMap<String, Float> pollIgnoringControlStrategy();
   HashMap<String, Float> pollRaw();
-  void onEmg(long nowMillis, int[] sensorData);
   boolean isCalibrated();
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
 }
 
 
-// Ensuring that only a single myo is ever instantiated is essential. Each myo
-// instance requires a significant amount of computation, and having multiple
-// instances creates a performance impact on gameplay.
-//
-// TODO: this is a hack. These methods should really be contained within a
-// static class, but Processing is making it very hard to do so.
-Myo myoSingleton = null;
-
-Myo getMyoSingleton() throws MyoNotConnectedException {
-  if (myoSingleton == null) {
-    try {
-      myoSingleton = new Myo(mainObject);
-    } catch (RuntimeException e) {
-      throw new MyoNotConnectedException();
-    }
-    myoSingleton.withEmg();
-  }
-  return myoSingleton;
-}
-
-class MyoNotConnectedException extends Exception {}
-// ================================================================================
-
-
 class EmgManager implements IEmgManager {
-  Myo myo_unused;
   MyoAPI myoAPI;
 
   float firstOver_threshold;
   boolean firstOver_leftOver;
   boolean firstOver_rightOver;
 
-  EmgManager() throws MyoNotConnectedException {
-    // not directly needed here, just need to make sure one is instantiated
-    myo_unused = getMyoSingleton();
-    myo_unused.withEmg();
-
-    myoAPI = new MyoAPI();
+  EmgManager() {
+    myoAPI = getMyoApiSingleton();
 
     firstOver_threshold = options.getIOOptions().getMinInputThreshold();
     firstOver_leftOver = false;
@@ -184,11 +154,6 @@ class EmgManager implements IEmgManager {
   HashMap<String, Float> pollRaw() {
     return myoAPI.pollRaw();
   }
-
-
-  void onEmg(long nowMillis, int[] sensorData) {
-    myoAPI.onEmg(nowMillis, sensorData);
-  }
   
   boolean isCalibrated() {
     return true;
@@ -225,8 +190,6 @@ class NullEmgManager implements IEmgManager {
     return toReturn;
   }
 
-  void onEmg(long nowMillis, int[] sensorData) {} // no-op
-  
   boolean isCalibrated() {
     return false;
   }

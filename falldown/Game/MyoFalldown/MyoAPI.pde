@@ -7,9 +7,25 @@ interface IMyoAPI {
   void registerActionManual(String label, int sensorID) throws CalibrationFailedException;
   HashMap<String, Float> poll();
   HashMap<String, Float> pollRaw();
-  void onEmg(long nowMicros, int[] sensorData);
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
 }
+
+// Ensuring that only a single MyoAPI is ever instantiated is essential. Each
+// instance requires a significant amount of computation to maintain the sample
+// window, and having multiple instances creates a performance impact on
+// gameplay.
+//
+// TODO: this is a hack. These methods should really be contained within a
+// static class, but Processing is making it very hard to do so.
+MyoAPI myoApiSingleton = null;
+
+MyoAPI getMyoApiSingleton() {
+  if (myoApiSingleton == null)
+    myoApiSingleton = new MyoAPI();
+
+  return myoApiSingleton;
+}
+// ================================================================================
 
 
 class MyoAPI implements IMyoAPI {
@@ -17,22 +33,21 @@ class MyoAPI implements IMyoAPI {
   int NUM_SENSORS = 8;
   int MAX_MYO_READING = 127;
 
-  int windowSizeMicros;
-  int windowIncrementSizeMicros;
-
   HashMap<String, SensorConfig> registeredSensors;
   ConcurrentLinkedQueue<Sample> sampleWindow;
 
 
-  MyoAPI(int windowSizeMicros, int windowIncrementSizeMicros) {
-    this.windowSizeMicros = windowSizeMicros;
-    this.windowIncrementSizeMicros = windowIncrementSizeMicros;
+  MyoAPI(int windowSizeMillis) {
     registeredSensors = new HashMap<String, SensorConfig>();
     sampleWindow = new ConcurrentLinkedQueue<Sample>();
+
+    // fork a new thread to concurrently stream EMG data into sampleWindow
+    Thread t = new Thread(new EmgCollector(sampleWindow, windowSizeMillis));
+    t.start();
   }
 
   MyoAPI() {
-    this(150000, 1000); // default values
+    this(150); // default values
   }
 
 
@@ -146,25 +161,6 @@ class MyoAPI implements IMyoAPI {
   }
 
 
-  // Maintains a buffered window of the most recent EMG sensor readings.
-  //
-  // Acts as hook-point to attach to the asychronous EMG signal handling coming
-  // from the host application. Host application should call similar to:
-  //   void myoOnEmg(Myo myo, long timestamp, int[] data) {
-  //     api.onEmg(timestamp, data);
-  //     ...
-  //   }
-  //
-  void onEmg(long nowMicros, int[] sensorData) {
-    Sample s = new Sample(nowMicros, sensorData.clone()); // create a local copy of sensor-data
-    sampleWindow.add(s);
-    Sample first = sampleWindow.peek();
-    while (first!=null && nowMicros-first.timestampMicros > windowSizeMicros+windowIncrementSizeMicros) {
-      first = sampleWindow.poll();
-    }
-  }
-
-
   private void sleep(int milliseconds) {
     int now = millis();
     while (millis() < now+milliseconds) {} // spin
@@ -186,6 +182,32 @@ class MyoAPI implements IMyoAPI {
 }
 
 
+private class EmgCollector implements Runnable {
+  MyoEMG myoEmg;
+  ConcurrentLinkedQueue<Sample> sampleWindow;
+  long windowSizeMillis;
+
+  public EmgCollector(ConcurrentLinkedQueue<Sample> sampleWindow, long windowSizeMillis) {
+    this.myoEmg = new MyoEMG(mainObject);
+    this.sampleWindow = sampleWindow;
+    this.windowSizeMillis = windowSizeMillis;
+  }
+
+  public void run() {
+    while (true) {
+      // insert new reading
+      Sample s = myoEmg.readSample();
+      sampleWindow.add(s);
+
+      // maintain window
+      Sample first = sampleWindow.peek();
+      while (first!=null && s.timestamp > first.timestamp+windowSizeMillis)
+        first = sampleWindow.poll();
+    }
+  }
+}
+
+
 private class SensorConfig {
   public int sensorID;
   public float maxReading;
@@ -193,16 +215,6 @@ private class SensorConfig {
   SensorConfig(int id, float maxReading) {
     this.sensorID = id;
     this.maxReading = maxReading;
-  }
-}
-
-private class Sample {
-  public long timestampMicros;
-  public int[] sensorData;
-
-  Sample(long timestampMicros, int[] sensorData) {
-    this.timestampMicros = timestampMicros;
-    this.sensorData = sensorData;
   }
 }
 

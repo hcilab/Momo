@@ -27,8 +27,6 @@ import sprites.utils.*;
 import sprites.maths.*;
 import sprites.*;
 
-import de.voidplus.myo.*;
-
 import java.awt.event.WindowListener;
 import java.awt.Frame;
 
@@ -372,10 +370,6 @@ void mouseMoved()
   event.addIntParameter("mouseY", mouseY);
   eventManager.queueEvent(event);
   return;
-}
-//If you Updated the Myo Processing Library to 0.92 use "void myoOnEmgData(Device myo" instead of void "myoOnEmg(Myo myo"
-void myoOnEmgData(Device myo, long nowMilliseconds, int[] sensorData) {
-  emgManager.onEmg(nowMilliseconds, sensorData);
 }
 
 class FalldownContactListener implements ContactListener

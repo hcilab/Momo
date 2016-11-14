@@ -1043,9 +1043,9 @@ public class PlayerControllerComponent extends Component
   private boolean onRightSide;
   private int jumpCount;
  
-  private SoundFile jumpSound;
+  private SoundObject jumpSound;
   private float amplitude;
-  private SoundFile platformFallSound; 
+  private SoundObject platformFallSound;
    
   private boolean onPlatform; 
   private boolean onRegPlatform; 
@@ -1111,16 +1111,12 @@ public class PlayerControllerComponent extends Component
     collidedPlatformParameterName = xmlComponent.getString("collidedPlatformParameterName");
     collidedBreakPlatformParameterName = xmlComponent.getString("collidedBreakPlatformParameterName");
     gapDirection = LEFT_DIRECTION_LABEL;
-    jumpSound = new SoundFile(mainObject, xmlComponent.getString("jumpSoundFile"));
-    jumpSound.rate(xmlComponent.getFloat("rate"));
-    try { jumpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    jumpSound = soundManager.loadSoundFile(xmlComponent.getString("jumpSoundFile"));
+    jumpSound.setPan(xmlComponent.getFloat("pan"));
     amplitude = xmlComponent.getFloat("amp");
-    jumpSound.add(xmlComponent.getFloat("add"));
     jumpDelay = 500;
-    platformFallSound = new SoundFile(mainObject, xmlComponent.getString("fallSoundFile"));
-    platformFallSound.rate(xmlComponent.getFloat("rate"));
-    try { platformFallSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
-    platformFallSound.add(xmlComponent.getFloat("add"));
+    platformFallSound = soundManager.loadSoundFile(xmlComponent.getString("fallSoundFile"));
+    platformFallSound.setPan(xmlComponent.getFloat("pan"));
     crumblingPlatformFile = xmlComponent.getString("crumblePlatform");
   }
 
@@ -1218,7 +1214,7 @@ public class PlayerControllerComponent extends Component
 
           jumpCount = 0;
           pc.setPlatformDescentSpeed(breakPlatform);
-          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+          platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
 
           if(options.getGameOptions().isLogFitts() || bonusLevel)
@@ -1254,7 +1250,7 @@ public class PlayerControllerComponent extends Component
 
           breakTimerStart = System.currentTimeMillis();
           pc.setPlatformDescentSpeed(breakPlatform);
-          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+          platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
           
           if(options.getGameOptions().isLogFitts() || bonusLevel)
@@ -1353,7 +1349,7 @@ public class PlayerControllerComponent extends Component
           if (moveVector.y < -0.5f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
-            jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+            jumpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
             justJumped = true;
           }
@@ -2589,7 +2585,7 @@ public class CoinEventHandlerComponent extends Component
         updateScoreEvent.addIntParameter(scoreValueParameterName, scoreValue);
         eventManager.queueEvent(updateScoreEvent);
         gameStateController.getGameObjectManager().removeGameObject(gameObject.getUID());
-        coinCollectedSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        coinCollectedSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
         coinCollectedSound.play();
       }
     }
@@ -2957,7 +2953,7 @@ public class ButtonComponent extends Component
         Event buttonEvent = new Event(EventType.BUTTON_CLICKED);
         buttonEvent.addStringParameter("tag",gameObject.getTag());
         eventManager.queueEvent(buttonEvent);
-        buttonClickedSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        buttonClickedSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
         buttonClickedSound.play();
       }
     }
@@ -3266,7 +3262,7 @@ public class LevelParametersComponent extends Component
   private String scoreValueParameterName;
   private String currentLevelParameterName;
   private String currentRiseSpeedParameterName;
-  private SoundFile levelUpSound;
+  private SoundObject levelUpSound;
   private float amplitude;
   private int platformlevelCount;
   private int totalPlatformLevelCount;
@@ -3295,11 +3291,9 @@ public class LevelParametersComponent extends Component
     scoreValueParameterName = xmlComponent.getString("scoreValueParameterName");
     currentLevelParameterName = xmlComponent.getString("currentLevelParameterName");
     currentRiseSpeedParameterName = xmlComponent.getString("currentRiseSpeedParameterName");
-    levelUpSound = new SoundFile(mainObject, xmlComponent.getString("levelUpSoundFile"));
-    levelUpSound.rate(xmlComponent.getFloat("rate"));
-    try { levelUpSound.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    levelUpSound = soundManager.loadSoundFile(xmlComponent.getString("levelUpSoundFile"));
+    levelUpSound.setPan(xmlComponent.getFloat("pan"));
     amplitude = xmlComponent.getFloat("amp");
-    levelUpSound.add(xmlComponent.getFloat("add"));
     stillPlatformCounter = 0;
   }
   
@@ -3330,7 +3324,7 @@ public class LevelParametersComponent extends Component
     currentLevel++;
     currentRiseSpeed += riseSpeedChangePerLevel;
     
-    levelUpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+    levelUpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
     levelUpSound.play();
     
     Event levelUpEvent = new Event(EventType.LEVEL_UP);
@@ -3459,7 +3453,7 @@ public class LevelParametersComponent extends Component
 
 public class MusicPlayerComponent extends Component
 {
-  SoundFile music;
+  SoundObject music;
   float amplitude;
   long totalTime;
   
@@ -3476,13 +3470,11 @@ public class MusicPlayerComponent extends Component
   
   @Override public void fromXML(XML xmlComponent)
   {
-    music = new SoundFile(mainObject, xmlComponent.getString("musicFile"));
-    music.rate(xmlComponent.getFloat("rate"));
+    music = soundManager.loadSoundFile(xmlComponent.getString("musicFile"));
     // pan is not supported in stereo. that's fine, just continue.
-    try { music.pan(xmlComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    music.setPan(xmlComponent.getFloat("pan"));
     amplitude = xmlComponent.getFloat("amp");
-    music.amp(amplitude * options.getIOOptions().getMusicVolume());
-    music.add(xmlComponent.getFloat("add"));
+    music.setVolume(amplitude * options.getIOOptions().getMusicVolume());
     music.loop();
   }
   
@@ -3507,14 +3499,14 @@ public class MusicPlayerComponent extends Component
       
     for (IEvent event : eventManager.getEvents(EventType.MUSIC_RESTART))
     {
-      music.cue(((int)(totalTime/1000)) % 85);
+      music.stop();
       music.loop();
     }
   }
   
   public void setMusicVolume(float volume)
   {
-    music.amp(amplitude * volume);
+    music.setVolume(amplitude * volume);
   }
 }
 

@@ -11,7 +11,7 @@
     </Fixture>
   </RigidBody>
   <CoinEventHandler>
-    <CoinCollected add="0.0" amp="1.0" coinCollectedSoundFile="sound_effects/Coin01.aif" coinParameterName="coin" pan="0.0" rate="1.0" scoreValue="5" scoreValueParameterName="scoreValue"/>
+    <CoinCollected amp="1.0" coinCollectedSoundFile="sound_effects/coin01.mp3" coinParameterName="coin" pan="0.0" scoreValue="5" scoreValueParameterName="scoreValue"/>
     <DestroyCoin coinParameterName="coin"/>
     <LevelUp currentRiseSpeedParameterName="currentRiseSpeed"/>
   </CoinEventHandler>

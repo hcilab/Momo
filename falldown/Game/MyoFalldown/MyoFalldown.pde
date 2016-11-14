@@ -29,8 +29,6 @@ import sprites.*;
 
 import de.voidplus.myo.*;
 
-import processing.sound.SoundFile;
-
 import java.awt.event.WindowListener;
 import java.awt.Frame;
 
@@ -94,16 +92,18 @@ BonusScoreComponent bsc;
 //Sensor Applet setup
 SensorGraphApplet sa;
 
+SoundManager soundManager;
+
 //For still platform mode
 int stillPlatformCounter = 0;
 boolean isRising = false;
-SoundFile buttonClickedSound;
-SoundFile coinCollectedSound;
+SoundObject buttonClickedSound;
+SoundObject coinCollectedSound;
 boolean fittsLawRecorded;
 boolean bonusLevel;
 boolean isBonusPractice;
-SoundFile bonusMusic;
-SoundFile bonusSplash;
+SoundObject bonusMusic;
+SoundObject bonusSplash;
 
 HashMap<String,PImage> allImages;
 Table imageSources;
@@ -178,25 +178,19 @@ void setup()
   bbg = loadShape("images/background/underWater.svg");
   obbg = loadShape("images/background/opacityUnderWater.svg");
   
-  buttonClickedSound = new SoundFile(mainObject, "sound_effects/click.wav");
-  buttonClickedSound.rate(1.0);
-  try { buttonClickedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
-  buttonClickedSound.add(0.0);
+  soundManager = new SoundManager(this);
+
+  buttonClickedSound = soundManager.loadSoundFile("sound_effects/click.wav");
+  buttonClickedSound.setPan(0.0);
   
-  coinCollectedSound = new SoundFile(mainObject, "sound_effects/Coin01.aif");
-  coinCollectedSound.rate(1.0);
-  try {coinCollectedSound.pan(0.0); } catch (UnsupportedOperationException e) {}
-  coinCollectedSound.add(0.0);
+  coinCollectedSound = soundManager.loadSoundFile("sound_effects/coin01.mp3");
+  coinCollectedSound.setPan(0.0);
   
-  bonusMusic = new SoundFile(mainObject, "music/bonusLevel.wav");
-  bonusMusic.rate(1.0);
-  try {bonusMusic.pan(0.0); } catch (UnsupportedOperationException e) {}
-  bonusMusic.add(0.0);
+  bonusMusic = soundManager.loadSoundFile("music/bonusLevel.wav");
+  bonusMusic.setPan(0.0);
   
-  bonusSplash = new SoundFile(mainObject, "sound_effects/splash2.wav");
-  bonusSplash.rate(1.0);
-  try {bonusSplash.pan(0.0); } catch (UnsupportedOperationException e) {}
-  bonusSplash.add(0.0);
+  bonusSplash = soundManager.loadSoundFile("sound_effects/splash2.wav");
+  bonusSplash.setPan(0.0);
   
   allImages = new HashMap<String,PImage>();
   loadAllImages();

@@ -434,9 +434,9 @@ public class GameState_FittsBonusGame extends GameState
     gameObjectManager.fromXML("xml_data/bonus_game.xml");
     bpc.spawnBonusPlatformLevels();
     bonusLevel = true;
-    bonusSplash.amp(1 * options.getIOOptions().getSoundEffectsVolume());
+    bonusSplash.setVolume(1 * options.getIOOptions().getSoundEffectsVolume());
     bonusSplash.play();
-    bonusMusic.amp(1 * options.getIOOptions().getMusicVolume());
+    bonusMusic.setVolume(1 * options.getIOOptions().getMusicVolume());
     bonusMusic.loop();
   }
   
@@ -513,8 +513,8 @@ public class GameState_PostGame extends GameState
   private boolean textLoaded;
   private boolean smartSuggestion;
   private IGameOptions gameOps;
-  private SoundFile gameOver;
-  private SoundFile gameOverSoundEffect;
+  private SoundObject gameOver;
+  private SoundObject gameOverSoundEffect;
 
   public GameState_PostGame()
   {
@@ -524,21 +524,17 @@ public class GameState_PostGame extends GameState
     smartSuggestion = false;
     gameOps = options.getGameOptions();
 
-    gameOver = new SoundFile(mainObject,"music/end_level.wav");
-    gameOver.rate(1.0);
-    try {gameOver.pan(0.0); } catch (UnsupportedOperationException e) {}
-    gameOver.add(0);
-    gameOverSoundEffect = new SoundFile(mainObject,"sound_effects/death.wav");
-    gameOverSoundEffect.rate(1.0);
-    try {gameOverSoundEffect.pan(0.0); } catch (UnsupportedOperationException e) {}
-    gameOverSoundEffect.add(0);
+    gameOver = soundManager.loadSoundFile("music/end_level.wav");
+    gameOver.setPan(0.0);
+    gameOverSoundEffect = soundManager.loadSoundFile("sound_effects/death.wav");
+    gameOverSoundEffect.setPan(0.0);
   }
   
   @Override public void onEnter()
   {
-    gameOverSoundEffect.amp(1.0 * options.getIOOptions().getSoundEffectsVolume());
+    gameOverSoundEffect.setVolume(1.0 * options.getIOOptions().getSoundEffectsVolume());
     gameOverSoundEffect.play();
-    gameOver.amp(1.0 * options.getIOOptions().getMusicVolume());
+    gameOver.setVolume(1.0 * options.getIOOptions().getMusicVolume());
     gameOver.play();
     gameObjectManager.fromXML("xml_data/post_game.xml");
   }
@@ -856,7 +852,7 @@ public class GameState_IOSettings extends GameState
   public boolean saveDataLoaded;
   public boolean tweakedForPauseOrSettings;
 
-  SoundFile buttonClickedSoundTest;
+  SoundObject buttonClickedSoundTest;
   float amplitude;
 
   XML buttonXML;
@@ -872,11 +868,9 @@ public class GameState_IOSettings extends GameState
 
     buttonXML = loadXML("xml_data/button.xml");
     buttomXMLComponent = buttonXML.getChild("Button");
-    buttonClickedSoundTest = new SoundFile(mainObject, buttomXMLComponent.getString("buttonClickedSound"));
-    buttonClickedSoundTest.rate(buttomXMLComponent.getFloat("rate"));
-    try { buttonClickedSoundTest.pan(buttomXMLComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+    buttonClickedSoundTest = soundManager.loadSoundFile(buttomXMLComponent.getString("buttonClickedSound"));
+    buttonClickedSoundTest.setPan(buttomXMLComponent.getFloat("pan"));
     amplitude = buttomXMLComponent.getFloat("amp");
-    buttonClickedSoundTest.add(buttomXMLComponent.getFloat("add"));
   }
 
   @Override public void onEnter()
@@ -1106,12 +1100,12 @@ public class GameState_IOSettings extends GameState
       String tag = event.getRequiredStringParameter("tag");
       if (tag.equals("music"))
       {
-        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getMusicVolume());
+        buttonClickedSoundTest.setVolume(amplitude * options.getIOOptions().getMusicVolume());
         buttonClickedSoundTest.play();
       }
       else if (tag.equals("sound_effects"))
       {
-        buttonClickedSoundTest.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+        buttonClickedSoundTest.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
         buttonClickedSoundTest.play();
       }
     }
@@ -1554,7 +1548,7 @@ public class GameState_CustomizePurchase extends GameState
   private int id;
   private String name;
 
-  private SoundFile music;
+  private SoundObject music;
   private float amplitude;
   private XML musicXML;
   private XML musicXMLComponent;
@@ -1573,13 +1567,11 @@ public class GameState_CustomizePurchase extends GameState
     {
       musicXML = loadXML("xml_data/music_player.xml");
       musicXMLComponent = musicXML.getChild("MusicPlayer");
-      music = new SoundFile(mainObject, options.getCustomizeOptions().getMusicOptions()[id]);
-      music.rate(musicXMLComponent.getFloat("rate"));
+      music = soundManager.loadSoundFile(options.getCustomizeOptions().getMusicOptions()[id]);
       // pan is not supported in stereo. that's fine, just continue.
-      try { music.pan(musicXMLComponent.getFloat("pan")); } catch (UnsupportedOperationException e) {}
+      music.setPan(musicXMLComponent.getFloat("pan"));
       amplitude = musicXMLComponent.getFloat("amp");
-      music.amp(amplitude * options.getIOOptions().getMusicVolume());
-      music.add(musicXMLComponent.getFloat("add"));
+      music.setVolume(amplitude * options.getIOOptions().getMusicVolume());
       music.loop();
     }
   }

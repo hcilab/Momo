@@ -60,7 +60,7 @@
 				horzCount="16" vertCount="1" defaultCount="15" farmeFreq="0"
 				zOrder="0" height="50.0" scaleHeight="1" 
 				neutralZone="NEUTRAL" happyZone="HAPPY" dangerZone="DANGER"
-				happySrc="images/player/dogSprite.png" dangerSrc="images/player/dogSprite.png"
+				happySrc="images/player/dogSpriteHappy.png" dangerSrc="images/player/dogSpriteDanger.png"
 				> 
 		</SpriteSheet>
 		<AnimationController rightStart="0" rightEnd="7" leftStart="8" leftEnd="15">

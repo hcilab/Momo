@@ -44,8 +44,21 @@ class SoundObject {
   }
 
   public void setVolume(float level) {
-    if (audioPlayer.hasControl(Controller.VOLUME))
+    if (audioPlayer.hasControl(Controller.VOLUME)) {
+      // this is the most straightforward approach, simply specify a level in range [0, 1].
+      // However, this library function doesn't seem to be supported.
       audioPlayer.setVolume(level);
+
+    } else if (audioPlayer.hasControl(Controller.GAIN)) {
+      // specify a level in decibels. A safe range seems to be [-40, 40], so scale level
+      // appropriately. Since the quietest level is still slightly audible, explicitly mute
+      // when level is 0.
+      audioPlayer.setGain((level*80)-40);
+      if (level == 0)
+        audioPlayer.mute();
+      else
+        audioPlayer.unmute();
+    }
   }
 
   public void setPan(float level) {

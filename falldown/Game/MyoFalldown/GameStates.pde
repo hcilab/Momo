@@ -1754,7 +1754,13 @@ public class GameState_CalibrateMenu extends GameState
   {
     gameObjectManager.fromXML("xml_data/calibrate_menu.xml");
 
-    emgManager = new EmgManager();
+    try {
+      emgManager = new EmgManager();
+    } catch (MyoNotDetectectedError e) {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_NoMyoDetected());
+      MYO_API_SUCCESSFULLY_INITIALIZED = false;
+    }
   }
   
   @Override public void update(int deltaTime)
@@ -2227,6 +2233,43 @@ public class GameState_SmartSuggestion extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/smart_suggestion.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_NoMyoDetected extends GameState
+{
+  public GameState_NoMyoDetected()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/no_myo_detected.xml");
   }
 
   @Override public void update(int deltaTime)

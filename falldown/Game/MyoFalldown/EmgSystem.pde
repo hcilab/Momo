@@ -15,7 +15,7 @@ class EmgManager implements IEmgManager {
   boolean firstOver_leftOver;
   boolean firstOver_rightOver;
 
-  EmgManager() {
+  EmgManager() throws MyoNotDetectectedError {
     myoAPI = getMyoApiSingleton();
 
     firstOver_threshold = options.getIOOptions().getMinInputThreshold();

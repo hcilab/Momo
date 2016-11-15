@@ -19,8 +19,8 @@ interface IMyoAPI {
 // static class, but Processing is making it very hard to do so.
 MyoAPI myoApiSingleton = null;
 
-MyoAPI getMyoApiSingleton() {
-  if (myoApiSingleton == null)
+MyoAPI getMyoApiSingleton()  throws MyoNotDetectectedError {
+  if (myoApiSingleton == null || !MYO_API_SUCCESSFULLY_INITIALIZED)
     myoApiSingleton = new MyoAPI();
 
   return myoApiSingleton;
@@ -37,16 +37,18 @@ class MyoAPI implements IMyoAPI {
   ConcurrentLinkedQueue<Sample> sampleWindow;
 
 
-  MyoAPI(int windowSizeMillis) {
+  MyoAPI(int windowSizeMillis) throws MyoNotDetectectedError {
     registeredSensors = new HashMap<String, SensorConfig>();
     sampleWindow = new ConcurrentLinkedQueue<Sample>();
 
     // fork a new thread to concurrently stream EMG data into sampleWindow
     Thread t = new Thread(new EmgCollector(sampleWindow, windowSizeMillis));
     t.start();
+
+    MYO_API_SUCCESSFULLY_INITIALIZED = true;
   }
 
-  MyoAPI() {
+  MyoAPI() throws MyoNotDetectectedError {
     this(150); // default values
   }
 
@@ -187,7 +189,7 @@ private class EmgCollector implements Runnable {
   ConcurrentLinkedQueue<Sample> sampleWindow;
   long windowSizeMillis;
 
-  public EmgCollector(ConcurrentLinkedQueue<Sample> sampleWindow, long windowSizeMillis) {
+  public EmgCollector(ConcurrentLinkedQueue<Sample> sampleWindow, long windowSizeMillis) throws MyoNotDetectectedError {
     this.myoEmg = new MyoEMG(mainObject);
     this.sampleWindow = sampleWindow;
     this.windowSizeMillis = windowSizeMillis;

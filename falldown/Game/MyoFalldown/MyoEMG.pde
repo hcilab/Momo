@@ -26,11 +26,11 @@ class MyoEMG {
   private Sample bufferedSample;
 
 
-  public MyoEMG(PApplet mainApp) {
-    this(mainApp, Serial.list()[0]);
+  public MyoEMG(PApplet mainApp) throws MyoNotDetectectedError {
+    this(mainApp, null);
   }
 
-  public MyoEMG(PApplet mainApp, String serialPort) {
+  public MyoEMG(PApplet mainApp, String serialPort) throws MyoNotDetectectedError {
     bt = new Bluetooth(mainApp, serialPort, MYO_ID);
     bt.connect();
 
@@ -113,17 +113,38 @@ class Sample {
 
 
 private class Bluetooth {
-  Serial connection;
-  byte connectionID = -1;
+  final int BAUD_RATE = 256000;
+
+  // When attempting to auto-detect the myo dongle, a request for discovery
+  // messages is sent across each serial port prompting the armband to
+  // broadcast its identity. A port will be ruled-out after this duration of
+  // time.
+  final int DISCOVERY_TIMEOUT_MILLIS = 2000;
+
+  // During auto-detection, we cannot be sure that the port we are
+  // communicating across is connected to an armband, meaning that we may never
+  // receive a response. Give up trying to receive a packet after this
+  // duration of time.
+  final int PACKET_TIMEOUT_MILLIS = 50;
+
+  Serial serialConnection;
+  byte bluetoothConnectionID = -1;
   byte[] deviceID;
+  PApplet mainApp;
 
 
   public Bluetooth(PApplet mainApp, String serialPort, byte[] deviceID) {
-    this.connection = new Serial(mainApp, serialPort, 256000);
+    if (serialPort != null)
+      this.serialConnection = new Serial(mainApp, serialPort, BAUD_RATE);
+
+    this.mainApp = mainApp;
     this.deviceID = deviceID;
   }
 
-  public void connect() {
+  public void connect() throws MyoNotDetectectedError {
+    if (serialConnection == null)
+      establishSerialConnection();
+
     // clean up any residue from previous runs
     disconnect();
 
@@ -131,9 +152,12 @@ private class Bluetooth {
     byte[] discoverMessage = {0x00, 0x01, 0x06, 0x02, 0x01};
     write(discoverMessage);
 
-    // wait for discovery response
+    // wait for discovery response until timeout
     byte[] response = {};
+    int startTime = millis();
     while (!endsWith(response, deviceID)) {
+      if (millis() > startTime+DISCOVERY_TIMEOUT_MILLIS)
+        throw(new MyoNotDetectectedError());
       response = readPacket();
     }
 
@@ -158,19 +182,21 @@ private class Bluetooth {
     while (true) {
       response = readPacket();
       if (response[2] == 6 && response[3] == 3) {
-        connectionID = response[response.length-1];
+        bluetoothConnectionID = response[response.length-1];
         break;
       }
     }
   }
 
   public void disconnect() {
+    assert(serialConnection != null);
+
     // disable any active discovery broadcasting
     byte[] endScanCommand = {0x00, 0x00, 0x06, 0x04};
     write(endScanCommand);
 
-    if (connectionID > -1) {
-      byte[] disconnectMessage = {0x00, 0x01, 0x03, 0x00, connectionID};
+    if (bluetoothConnectionID > -1) {
+      byte[] disconnectMessage = {0x00, 0x01, 0x03, 0x00, bluetoothConnectionID};
       write(disconnectMessage);
     } else {
       // if no active connection, just brute force it to clean up any rogue connections
@@ -182,10 +208,12 @@ private class Bluetooth {
       write(disconnectMessage2);
     }
 
-    connectionID = -1;
+    bluetoothConnectionID = -1;
   }
 
   public void writeAttributeByHandle(byte[] handle, byte[] message) {
+    assert(serialConnection != null);
+
     int packetLength = 8+message.length;
     byte[] packet = new byte[packetLength];
 
@@ -193,7 +221,7 @@ private class Bluetooth {
     packet[1] = (byte) (packetLength-4);
     packet[2] = 0x04;
     packet[3] = 0x06;
-    packet[4] = connectionID;
+    packet[4] = bluetoothConnectionID;
     packet[5] = handle[0];
     packet[6] = handle[1];
     packet[7] = (byte) message.length;
@@ -203,18 +231,36 @@ private class Bluetooth {
     write(packet);
   }
 
+  // Attempt to read a bluetooth packet from the armband, hanging indefinitely
+  // until a packet is received.
+  //
   public byte[] readPacket() {
+    return readPacketOrTimeout(0);
+  }
+
+  // Attempt to read a bluetooth packet sent from the armband. Give up and
+  // return null after a timeout period. Note that after returning from a
+  // timeout, the serial stream is at an indeterminate location, and subsequent
+  // reads will not behave as expected.
+  //
+  private byte[] readPacketOrTimeout(int timeoutMillis) {
+    assert(serialConnection != null);
+
     byte messageType = 0;
     byte payloadSize = 0;
 
     int bytesRead = 0;
+    int startTime = millis();
     while (bytesRead < 2) {
-      if (connection.available() > 0) {
+      if (timeoutMillis != 0 && millis() > startTime+timeoutMillis)
+        return null;
+
+      if (serialConnection.available() > 0) {
         if (bytesRead == 0) {
-          messageType = (byte) connection.read();
+          messageType = (byte) serialConnection.read();
           bytesRead++;
         } else if (bytesRead == 1) {
-          payloadSize = (byte) connection.read();
+          payloadSize = (byte) serialConnection.read();
           bytesRead++;
         }
       } else {
@@ -227,19 +273,53 @@ private class Bluetooth {
     packet[0] = messageType;
     packet[1] = payloadSize;
     while (bytesRead < packet.length) {
-      if (connection.available() > 0)
-        packet[bytesRead++] = (byte) connection.read();
+      if (timeoutMillis != 0 && millis() > startTime+timeoutMillis)
+        return null;
+
+      if (serialConnection.available() > 0)
+        packet[bytesRead++] = (byte) serialConnection.read();
     }
 
     return packet;
   }
 
+  private void establishSerialConnection() throws MyoNotDetectectedError {
+    for (String port : Serial.list()) {
+      try {
+        serialConnection = new Serial(mainApp, port, BAUD_RATE);
+      } catch (RuntimeException e) {
+        // if we experience any errors connecting to the serial port, it
+        // probably isn't the right one.
+        continue;
+      }
+
+      // request discovery notifications, if this is the correct port, the armband should reply.
+      byte[] discoverMessage = {0x00, 0x01, 0x06, 0x02, 0x01};
+      write(discoverMessage);
+
+      // wait for discovery response until timeout
+      long startTime = millis();
+      while (millis() < startTime+DISCOVERY_TIMEOUT_MILLIS) {
+        byte[] response = readPacketOrTimeout(PACKET_TIMEOUT_MILLIS);
+        if (response != null && endsWith(response, deviceID)) {
+          // found it, disable discovery notifications and return
+          byte[] endScanCommand = {0x00, 0x00, 0x06, 0x04};
+          write(endScanCommand);
+          return;
+        }
+      }
+    }
+
+    // couldn't find a connected armband, abort
+    throw(new MyoNotDetectectedError());
+  }
+
   private void write(byte[] message) {
     // When consecutive messages are written to quickly together, they seem to
     // be dropped/ignored by the Myo armband. Does this have something to do
-    // with the messaging window size in BLE?
-    delay(500);
-    connection.write(message);
+    // with the "connection interval" in BLE?
+    delay(200);
+    serialConnection.write(message);
   }
 
   private boolean endsWith(byte[] message, byte[] suffix) {
@@ -254,3 +334,5 @@ private class Bluetooth {
     return true;
   }
 }
+
+class MyoNotDetectectedError extends Exception {}

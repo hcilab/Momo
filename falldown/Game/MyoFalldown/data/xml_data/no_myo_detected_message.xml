@@ -1,0 +1,61 @@
+<GameObject>
+	<Render>
+		<Text
+			string="Myo Armband could not be detected!"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="150.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+      string="Please ensure the armband is"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="175.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+      string="on/in-range and try again."
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="200.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="Okay"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="405.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image src="images/button/buttonNormal.png" x="250.0" y="405.0" width="190" height="80" resizeWidth="190" resizeHeight="80"/>
+		</Sprite>
+
+	</Render>
+</GameObject>

@@ -1203,7 +1203,7 @@ public class PlayerControllerComponent extends Component
         calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
       }
       
-      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES)
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES || bonusLevel)
       {
         if (jumpCount >= 3 && onPlatform)
         {
@@ -1229,6 +1229,26 @@ public class PlayerControllerComponent extends Component
             pc.spawnPlatformLevelNoRiseSpeed();
             pc.incrementPlatforms();
           }
+        }
+        else if (jumpCount >= 1 && onPlatform && bonusLevel)
+        {
+          jumpCount = 0;
+           ++platformLevelCount;
+          Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+          fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+          eventManager.queueEvent(fittsLawLevelUp);
+
+          pc.setPlatformDescentSpeed(breakPlatform);
+          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+          platformFallSound.play();
+          
+          if(options.getGameOptions().isLogFitts() || bonusLevel)
+          {
+            fsc.endLogLevel();
+          }
+
+          //Sets Momo in middle of break platform so player does not slow down against side of platforms
+          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
         }
       }
       else
@@ -1354,6 +1374,21 @@ public class PlayerControllerComponent extends Component
             justJumped = true;
           }
         } 
+      }
+      ArrayList<IGameObject> BonusplatformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("bonus_platform_manager");
+      if (!BonusplatformManagerList.isEmpty())
+      {
+        IComponent tcomponent = BonusplatformManagerList.get(0).getComponent(ComponentType.BONUS_PLATFORM_MANAGER);  
+        if (tcomponent != null)
+        { 
+          if (moveVector.y < -0.5f)
+          {
+            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
+            jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+            jumpSound.play();
+            justJumped = true;
+          }
+        } 
       } 
        
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
@@ -1400,7 +1435,7 @@ public class PlayerControllerComponent extends Component
 
         myoLeftMagnitude = 0.0;
         myoRightMagnitude = 0.0;
-        myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
+        myoJumpMagnitude = 0.0;
       }
     }
     else
@@ -2283,7 +2318,6 @@ public class PlatformManagerControllerComponent extends Component
 
       IGameObject platform;
       platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
-
       platform.setTag(tag);
       platforms.add(platform);
       platLevels.add(platform.getUID());
@@ -2496,7 +2530,6 @@ public class BonusPlatformManager extends Component
   
         IGameObject platform;
         platform = gameStateController.getGameObjectManager().addGameObject(platformFile, new PVector(platformPosition, tempSpawnHeight), new PVector(platformWidth, platformHeight));
-  
         platform.setTag(tag);
         platLevels.add(platform.getUID());
       }

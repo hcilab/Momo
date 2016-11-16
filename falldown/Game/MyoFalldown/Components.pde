@@ -1203,9 +1203,9 @@ public class PlayerControllerComponent extends Component
         calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
       }
       
-      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES || bonusLevel)
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES)
       {
-        if (jumpCount >= 3 && onPlatform)
+        if (jumpCount >= 1 && onPlatform)
         {
           ++platformLevelCount;
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
@@ -1229,26 +1229,6 @@ public class PlayerControllerComponent extends Component
             pc.spawnPlatformLevelNoRiseSpeed();
             pc.incrementPlatforms();
           }
-        }
-        else if (jumpCount >= 1 && onPlatform && bonusLevel)
-        {
-          jumpCount = 0;
-           ++platformLevelCount;
-          Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
-          fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
-          eventManager.queueEvent(fittsLawLevelUp);
-
-          pc.setPlatformDescentSpeed(breakPlatform);
-          platformFallSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
-          platformFallSound.play();
-          
-          if(options.getGameOptions().isLogFitts() || bonusLevel)
-          {
-            fsc.endLogLevel();
-          }
-
-          //Sets Momo in middle of break platform so player does not slow down against side of platforms
-          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
         }
       }
       else
@@ -1384,7 +1364,7 @@ public class PlayerControllerComponent extends Component
           if (moveVector.y < -0.5f)
           {
             rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
-            jumpSound.amp(amplitude * options.getIOOptions().getSoundEffectsVolume());
+            jumpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
             justJumped = true;
           }
@@ -1431,7 +1411,7 @@ public class PlayerControllerComponent extends Component
         // set left and right to zero - can't control movement when in the air
         keyboardLeftMagnitude = 0.0;
         keyboardRightMagnitude = 0.0;
-        keyboardJumpMagnitude = upButtonDown ? 1.0 : 0.0;
+        keyboardJumpMagnitude = 0.0;
 
         myoLeftMagnitude = 0.0;
         myoRightMagnitude = 0.0;
@@ -1696,10 +1676,10 @@ public class PlayerControllerComponent extends Component
     {
       onPlatform = true;
       onRegPlatform = true;
-      justJumped = false;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedPlatformParameterName); 
       playerPlatform = platform;
       gapDirection = determineGapDirection(platform); 
+      justJumped = false;
       jumpCount = 0;
     }
 
@@ -1725,7 +1705,6 @@ public class PlayerControllerComponent extends Component
       onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
       breakPlatform = platform;
-      
       if (justJumped && (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES))
       {
         jumpCount++;
@@ -3879,23 +3858,19 @@ public class GameOptionsControllerComponent extends Component
         }
       }
       
-      if(gameOptions.isFittsLaw())
+
+      if(tag.equals(wait2secstag))
       {
-        if(tag.equals(wait2secstag))
-        {
-          gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
-        }
-        else if(tag.equals(jump3timestag))
-        {
-          gameOptions.setBreakthroughMode(BreakthroughMode.JUMP_3TIMES);
-          if(!(gameOptions.getControlPolicy() == ControlPolicy.NORMAL))
-          {
-            gameOptions.setControlPolicy(ControlPolicy.NORMAL);
-          }
-        }
-        
+        gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
       }
-      
+      else if(tag.equals(jump3timestag))
+      {
+        gameOptions.setBreakthroughMode(BreakthroughMode.JUMP_3TIMES);
+        if(!(gameOptions.getControlPolicy() == ControlPolicy.NORMAL))
+        {
+          gameOptions.setControlPolicy(ControlPolicy.NORMAL);
+        }
+      }
        
       if(gameOptions.getControlPolicy() == ControlPolicy.DIRECTION_ASSIST)
       {
@@ -4002,8 +3977,8 @@ public class GameOptionsControllerComponent extends Component
         logFittsCheckBox.translation.x = 60 + (gameOptions.isLogFitts() ? 0.0f : falseDisplacement);
         contraintsFittsCheckBox.translation.x = 60 + (gameOptions.isStillPlatforms() ? 0.0f : falseDisplacement);
         
-        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
-        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC && gameOptions.isFittsLaw()) ? 0.0f : falseDisplacement);
+        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES) ? 0.0f : falseDisplacement);
+        wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC) ? 0.0f : falseDisplacement);
       }
     }
   }

@@ -454,7 +454,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
-			string="Jump 3 Times"
+			string="Jump 1 Time"
 			fontName="Moire"
 			size="12"
 			antialiasing="true"

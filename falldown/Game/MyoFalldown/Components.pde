@@ -1485,7 +1485,9 @@ public class PlayerControllerComponent extends Component
       moveVector.x = 1 - 2*input.get(LEFT_DIRECTION_LABEL);
     else
       println("[ERROR] Unrecognized single muscle mode in PlayerControllerComponent::applySingleMuscleControls");
-
+    //if moveVector.z has less than 0.1 difference momo stays still
+    if(abs(moveVector.x) <0.2)
+      moveVector.x = 0;
     return moveVector; 
   }
 

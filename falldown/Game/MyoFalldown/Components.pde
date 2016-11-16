@@ -1134,6 +1134,7 @@ public class PlayerControllerComponent extends Component
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
 
+    
     applySpeedWarning();
     
     if(bonusLevel)
@@ -1141,7 +1142,7 @@ public class PlayerControllerComponent extends Component
       pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
     }
     
-    if(!options.getGameOptions().isFittsLaw())
+    if(!options.getGameOptions().isFittsLaw() && !bonusLevel)
     {
       ControlPolicy policy = options.getGameOptions().getControlPolicy();
       if (policy == ControlPolicy.NORMAL)
@@ -1161,15 +1162,15 @@ public class PlayerControllerComponent extends Component
     {
       if(onPlatform)
       {
-      ControlPolicy policy = options.getGameOptions().getControlPolicy();
-      if (policy == ControlPolicy.NORMAL)
-        moveVector = applyNormalControls(rawInput);
-      else if (policy == ControlPolicy.DIRECTION_ASSIST)
-        moveVector = applyDirectionAssistControls(rawInput);
-      else if (policy == ControlPolicy.SINGLE_MUSCLE)
-        moveVector = applySingleMuscleControls(rawInput);
-      else
-        println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+        ControlPolicy policy = options.getGameOptions().getControlPolicy();
+        if (policy == ControlPolicy.NORMAL)
+          moveVector = applyNormalControls(rawInput);
+        else if (policy == ControlPolicy.DIRECTION_ASSIST)
+          moveVector = applyDirectionAssistControls(rawInput);
+        else if (policy == ControlPolicy.SINGLE_MUSCLE)
+          moveVector = applySingleMuscleControls(rawInput);
+        else
+          println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
       }
     }
 
@@ -3784,10 +3785,8 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.DIRECTION_ASSIST);
           gameOptions.setDirectionAssistMode(DirectionAssistMode.LEFT_ONLY);
           gameOptions.setObstacles(false);
-          if(gameOptions.isFittsLaw())
-          {
-            gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
-          }
+          gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
+
         }
       }
       else if (tag.equals(singleMuscleTag))
@@ -3800,10 +3799,7 @@ public class GameOptionsControllerComponent extends Component
           gameOptions.setControlPolicy(ControlPolicy.SINGLE_MUSCLE);
           gameOptions.setSingleMuscleMode(SingleMuscleMode.AUTO_LEFT);
           gameOptions.setObstacles(false);
-          if(gameOptions.isFittsLaw())
-          {
-            gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
-          }
+          gameOptions.setBreakthroughMode(BreakthroughMode.WAIT_2SEC);
         }
       }
       else if (tag.equals(obstaclesTag))

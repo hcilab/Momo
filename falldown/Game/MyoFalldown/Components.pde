@@ -1175,7 +1175,6 @@ public class PlayerControllerComponent extends Component
     }
 
     smoothControls(moveVector, deltaTime);
-
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
@@ -1242,7 +1241,7 @@ public class PlayerControllerComponent extends Component
       }
       else
       {
-        if (System.currentTimeMillis() - crumbleTimerStart > 450 && breakPlatform != null)
+        if (System.currentTimeMillis() - crumbleTimerStart > 450 && onBreakPlatform)
         {
           crumbleTimerStart = System.currentTimeMillis();
           float crumbleScale = breakPlatform.getScale().x/2; 
@@ -1250,7 +1249,7 @@ public class PlayerControllerComponent extends Component
           crumblePlatform.setTag("crumble_platform");
           pc.setPlatformDescentSpeed(crumblePlatform);
         }
-        if (System.currentTimeMillis() - breakTimerStart > pauseOnBreakPlatformTime && breakPlatform != null)
+        if (System.currentTimeMillis() - breakTimerStart > pauseOnBreakPlatformTime && onBreakPlatform)
         {
           ++platformLevelCount;
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
@@ -1295,7 +1294,7 @@ public class PlayerControllerComponent extends Component
         }
       }
 
-      if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) || (bonusLevel && rigidBodyComponent.gameObject.getTag().equals("player")))
+      if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
@@ -1364,6 +1363,17 @@ public class PlayerControllerComponent extends Component
           }
         } 
       }
+      
+      if(bonusLevel && breakPlatform != null && (((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x))){
+        if (!onBreakPlatform)
+        {
+          breakTimerStart = System.currentTimeMillis();
+          crumbleTimerStart = System.currentTimeMillis();
+        }
+
+        onBreakPlatform = true;
+      }
+      
       ArrayList<IGameObject> BonusplatformManagerList = gameStateController.getGameObjectManager().getGameObjectsByTag("bonus_platform_manager");
       if (!BonusplatformManagerList.isEmpty())
       {
@@ -1374,8 +1384,7 @@ public class PlayerControllerComponent extends Component
           {
             jumpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
-            if(onBreakPlatform){
-              //rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
+            if(onBreakPlatform && options.getGameOptions().getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION){
               if(((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x)){
 
                 justJumped = true;
@@ -1406,7 +1415,6 @@ public class PlayerControllerComponent extends Component
           }
         } 
       } 
-       
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
     } 
     else
@@ -1734,13 +1742,16 @@ public class PlayerControllerComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_BREAK_PLATFORM_COLLISION))
     {
       onPlatform = true;
-      if (!onBreakPlatform)
-      {
-        breakTimerStart = System.currentTimeMillis();
-        crumbleTimerStart = System.currentTimeMillis();
+      if(!bonusLevel){
+        if (!onBreakPlatform)
+          {
+            breakTimerStart = System.currentTimeMillis();
+            crumbleTimerStart = System.currentTimeMillis();
+          }
+  
+        onBreakPlatform = true;
       }
 
-      onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
       breakPlatform = platform;
       if (justJumped && (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION) && breakPlatform.getTranslation().y > gameObject.getTranslation().y)

@@ -1204,7 +1204,7 @@ public class PlayerControllerComponent extends Component
         calculateDirectionChanges(moveVector, rigidBodyComponent.getPosition());
       }
       
-      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES)
+      if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION)
       {
         if (jumpCount >= 1 && onPlatform)
         {
@@ -1214,16 +1214,24 @@ public class PlayerControllerComponent extends Component
           eventManager.queueEvent(fittsLawLevelUp);
 
           jumpCount = 0;
-          pc.setPlatformDescentSpeed(breakPlatform);
+          gameStateController.getGameObjectManager().removeGameObject(breakPlatform.getUID());
           platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
+          float crumbleScale = breakPlatform.getScale().x/2; 
+          int crumblePlatforms = int(crumbleScale*2/5);
+          for(int i = 0; i < crumblePlatforms; i++){
+            IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x -crumbleScale+5+i*5, random(breakPlatform.getTranslation().y-5,breakPlatform.getTranslation().y+5)), new PVector(10, 10));
+            crumblePlatform.setTag("crumble_platform");
+            pc.setPlatformDescentSpeed(crumblePlatform);
+          }
 
           if(options.getGameOptions().isLogFitts() || bonusLevel)
           {
             fsc.endLogLevel();
           }
-
-          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          
+          if(options.getGameOptions().isLogFitts())
+            rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
 
           if(options.getGameOptions().isStillPlatforms())
           {
@@ -1364,10 +1372,37 @@ public class PlayerControllerComponent extends Component
         { 
           if (moveVector.y < -0.5f)
           {
-            rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true); 
             jumpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
             jumpSound.play();
-            justJumped = true;
+            if(onBreakPlatform){
+              //rigidBodyComponent.applyLinearImpulse(new PVector(0.0f, jumpForce), gameObject.getTranslation(), true);
+              if(((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x)){
+
+                justJumped = true;
+                ++platformLevelCount;
+                Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
+                fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+                eventManager.queueEvent(fittsLawLevelUp);
+      
+                jumpCount = 0;
+                pc.setPlatformDescentSpeed(breakPlatform);
+                platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
+                platformFallSound.play();
+      
+                if(options.getGameOptions().isLogFitts() || bonusLevel)
+                {
+                  fsc.endLogLevel();
+                }
+      
+                rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+      
+                if(options.getGameOptions().isStillPlatforms())
+                {
+                  pc.spawnPlatformLevelNoRiseSpeed();
+                  pc.incrementPlatforms();
+                }
+              }
+            }
           }
         } 
       } 
@@ -1708,17 +1743,10 @@ public class PlayerControllerComponent extends Component
       onBreakPlatform = true;
       IGameObject platform = event.getRequiredGameObjectParameter(collidedBreakPlatformParameterName);
       breakPlatform = platform;
-      if (justJumped && (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES))
+      if (justJumped && (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION) && breakPlatform.getTranslation().y > gameObject.getTranslation().y)
       {
         jumpCount++;
         justJumped = false;
-        float crumbleScale = breakPlatform.getScale().x/2; 
-        IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
-        crumblePlatform.setTag("crumble_platform");
-        pc.setPlatformDescentSpeed(crumblePlatform);
-        crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(breakPlatform.getTranslation().x + random(-crumbleScale,crumbleScale), breakPlatform.getTranslation().y), new PVector(10, 10));
-        crumblePlatform.setTag("crumble_platform");
-        pc.setPlatformDescentSpeed(crumblePlatform);
       }
     }
 
@@ -3863,7 +3891,7 @@ public class GameOptionsControllerComponent extends Component
       }
       else if(tag.equals(jump3timestag))
       {
-        gameOptions.setBreakthroughMode(BreakthroughMode.JUMP_3TIMES);
+        gameOptions.setBreakthroughMode(BreakthroughMode.CO_CONTRACTION);
         if(!(gameOptions.getControlPolicy() == ControlPolicy.NORMAL))
         {
           gameOptions.setControlPolicy(ControlPolicy.NORMAL);
@@ -3975,7 +4003,7 @@ public class GameOptionsControllerComponent extends Component
         logFittsCheckBox.translation.x = 60 + (gameOptions.isLogFitts() ? 0.0f : falseDisplacement);
         contraintsFittsCheckBox.translation.x = 60 + (gameOptions.isStillPlatforms() ? 0.0f : falseDisplacement);
         
-        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.JUMP_3TIMES) ? 0.0f : falseDisplacement);
+        jump3timeCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION) ? 0.0f : falseDisplacement);
         wait2secCheckbox.translation.x = 315 + ((gameOptions.getBreakthroughMode() == BreakthroughMode.WAIT_2SEC) ? 0.0f : falseDisplacement);
       }
     }

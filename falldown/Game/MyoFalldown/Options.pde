@@ -47,7 +47,7 @@ enum SingleMuscleMode
 enum BreakthroughMode
 {
   WAIT_2SEC,
-  JUMP_3TIMES,
+  CO_CONTRACTION,
 }
 
 public interface IGameOptions
@@ -414,7 +414,7 @@ public class Options implements IOptions
         case ("wait_2sec"):
           breakMode = BreakthroughMode.WAIT_2SEC; break;
         case ("jump_3times"):
-           breakMode = BreakthroughMode.JUMP_3TIMES; break;
+           breakMode = BreakthroughMode.CO_CONTRACTION; break;
         default:
           println("[ERROR] Invalid Breakthrough mode for Fitts Law whil parsing Game Optoins .");
           break;
@@ -616,7 +616,7 @@ public class Options implements IOptions
 
       if (breakMode == BreakthroughMode.WAIT_2SEC)
         xmlGame.setString(BREAKTHROUGH_MODE, "wait_2sec");
-      else if (breakMode == BreakthroughMode.JUMP_3TIMES)
+      else if (breakMode == BreakthroughMode.CO_CONTRACTION)
         xmlGame.setString(BREAKTHROUGH_MODE, "jump_3times");
       else
         println("[ERROR] Unrecognized single muscle mode specified in GameOptions::setSingleMuscleMode()");

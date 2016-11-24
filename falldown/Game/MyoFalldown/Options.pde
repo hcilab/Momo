@@ -1076,6 +1076,7 @@ public class Options implements IOptions
     private XML playerDataHappy;
     private XML playerDataDanger;
     private XML playerDataBonus;
+    private XML playerDataBonusSwing;
     private XML animationData;
     private XML animationBonusData;
     private XML platformData;
@@ -1122,6 +1123,7 @@ public class Options implements IOptions
       playerDataHappy = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[2];
       playerDataDanger = xmlPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[1];
       playerDataBonus = xmlBonusPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[0];
+      playerDataBonusSwing = xmlBonusPlayer.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("SpriteSheet")[1];
       animationData = xmlPlayer.getChildren("AnimationController")[0];
       animationBonusData = xmlBonusPlayer.getChildren("AnimationController")[0];
       platformData = xmlPlatform.getChildren("Render")[0].getChildren("Sprite")[0].getChildren("Image")[0];
@@ -1233,13 +1235,17 @@ public class Options implements IOptions
       animationData.setString("leftEnd", animation.getString("leftEnd"));
       saveXML(xmlPlayer, PLAYER_FILE_NAME_OUT);
       
-      playerDataBonus.setString("src", sprite.getString("src"));
+      playerDataBonus.setString("src", sprite.getString("bonusSrc"));
       playerDataBonus.setString("horzCount", sprite.getString("horzCount"));
       playerDataBonus.setString("vertCount", sprite.getString("vertCount"));
       playerDataBonus.setString("defaultCount", sprite.getString("defaultCount"));
       playerDataBonus.setString("farmeFreq", sprite.getString("farmeFreq"));
       playerDataBonus.setString("height", sprite.getString("height"));
       playerDataBonus.setString("scaleHeight", sprite.getString("scaleHeight"));
+      
+      playerDataBonusSwing.setString("src", sprite.getString("bonusSwingSrc"));
+      playerDataBonusSwing.setString("height", sprite.getString("height"));
+      playerDataBonusSwing.setString("scaleHeight", sprite.getString("scaleHeight"));
       
       animationBonusData.setString("rightStart", animation.getString("rightStart"));
       animationBonusData.setString("rightEnd", animation.getString("rightEnd"));

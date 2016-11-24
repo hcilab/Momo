@@ -537,22 +537,39 @@ public class RenderComponent extends Component
          IComponent animaionComponent = gameObject.getComponent(ComponentType.ANIMATION_CONTROLLER);
          AnimationControllerComponent animationComponent = (AnimationControllerComponent)animaionComponent;
          float[] direction = animationComponent.getDirection();
-         offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
-         
-         offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
-         S4P.updateSprites(deltaTime / 1000.0f);
-         if(offsetSprite.zone.equals("NEUTRAL") && zone == Zone.NEUTRAL){
+         if(actions == Actions.NORMAL)
+         {
+          
+           offsetSprite.sheetSprite.setFrameSequence((int)direction[0], (int)direction[1], direction[2]);
+           
+           offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+           S4P.updateSprites(deltaTime / 1000.0f);
+           if(offsetSprite.zone.equals("NEUTRAL") && zone == Zone.NEUTRAL){
+             offsetSprite.sheetSprite.draw();
+           } 
+           else if (offsetSprite.zone.equals("HAPPY") && zone == Zone.HAPPY){
+             offsetSprite.sheetSprite.draw();
+           } 
+           else if(offsetSprite.zone.equals("DANGER") && zone == Zone.DANGER){
+             offsetSprite.sheetSprite.draw();
+           } 
+           else if(offsetSprite.zone.equals("ALL")){
+             offsetSprite.sheetSprite.draw();
+           }
+         }
+         else if(actions == Actions.SWING)
+         {
+          if(offsetSprite.zone.equals("SWING"))
+          {
+           if((int)direction[0] == 0)
+             offsetSprite.sheetSprite.setFrameSequence(0, 0, 0); // look left
+           else
+             offsetSprite.sheetSprite.setFrameSequence(1, 1, 0); //look right
+           offsetSprite.sheetSprite.setScale(gameObject.getScale().y * offsetSprite.scale.y);
+           S4P.updateSprites(deltaTime / 1000.0f);
            offsetSprite.sheetSprite.draw();
-         } 
-         else if (offsetSprite.zone.equals("HAPPY") && zone == Zone.HAPPY){
-           offsetSprite.sheetSprite.draw();
-         } 
-         else if(offsetSprite.zone.equals("DANGER") && zone == Zone.DANGER){
-           offsetSprite.sheetSprite.draw();
-         } 
-         else if(offsetSprite.zone.equals("ALL")){
-           offsetSprite.sheetSprite.draw();
-         } 
+          }
+         }
       }
       else if(gameObject.getTag().equals("coin"))
       {
@@ -1133,7 +1150,6 @@ public class PlayerControllerComponent extends Component
     lastXPos = newXPos;
     rawInput = gatherRawInput();
     PVector moveVector = new PVector();
-
     
     applySpeedWarning();
     
@@ -1144,6 +1160,7 @@ public class PlayerControllerComponent extends Component
     
     if(!options.getGameOptions().isFittsLaw() && !bonusLevel)
     {
+      actions = Actions.NORMAL;
       ControlPolicy policy = options.getGameOptions().getControlPolicy();
       if (policy == ControlPolicy.NORMAL)
         moveVector = applyNormalControls(rawInput);
@@ -1255,8 +1272,9 @@ public class PlayerControllerComponent extends Component
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
           fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
           eventManager.queueEvent(fittsLawLevelUp);
-
-          breakTimerStart = System.currentTimeMillis();
+          
+          gameStateController.getGameObjectManager().removeGameObject(breakPlatform.getUID());
+          
           pc.setPlatformDescentSpeed(breakPlatform);
           platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
           platformFallSound.play();
@@ -1294,7 +1312,7 @@ public class PlayerControllerComponent extends Component
         }
       }
 
-      if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")))
+      if ((options.getGameOptions().isFittsLaw() && rigidBodyComponent.gameObject.getTag().equals("player")) || (bonusLevel && options.getGameOptions().getControlPolicy()!=ControlPolicy.SINGLE_MUSCLE))
       {
         if (onPlatform && (!leftButtonDown && !leftMyoForce) && (!rightButtonDown && !rightMyoForce) && !upButtonDown && !justJumped)
         {
@@ -1364,6 +1382,8 @@ public class PlayerControllerComponent extends Component
         } 
       }
       
+      //This is to check if half of momo is on break platform.
+      //Because Momo is a box in bonus mode this is needed.
       if(bonusLevel && breakPlatform != null && (((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x))){
         if (!onBreakPlatform)
         {
@@ -1382,28 +1402,47 @@ public class PlayerControllerComponent extends Component
         { 
           if (moveVector.y < -0.5f)
           {
-            jumpSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
-            jumpSound.play();
             if(onBreakPlatform && options.getGameOptions().getBreakthroughMode() == BreakthroughMode.CO_CONTRACTION){
-              if(((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x)){
-
+              if(((breakPlatform.getTranslation().x - breakPlatform.getScale().x/2) < gameObject.getTranslation().x) && ((breakPlatform.getTranslation().x + breakPlatform.getScale().x/2) > gameObject.getTranslation().x))
+              {
                 justJumped = true;
                 ++platformLevelCount;
                 Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
                 fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
                 eventManager.queueEvent(fittsLawLevelUp);
-      
+                actions = Actions.SWING;
+
                 jumpCount = 0;
-                pc.setPlatformDescentSpeed(breakPlatform);
-                platformFallSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
-                platformFallSound.play();
+                //pc.setPlatformDescentSpeed(breakPlatform);
+                rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+                swingSound.setVolume(amplitude * options.getIOOptions().getSoundEffectsVolume());
+                swingSound.play();
+                long delay = System.currentTimeMillis();
+                int counter = 0;
+                while(counter<20)
+                {
+                  float crumbleScale = breakPlatform.getScale().x/2;
+                  float xScale = 0;
+                  
+                  if(counter % 2 ==1)
+                    xScale = breakPlatform.getTranslation().x + random(-crumbleScale,0);
+                  else
+                    xScale = breakPlatform.getTranslation().x + random(0,crumbleScale);
+                  
+                  IGameObject crumblePlatform = gameStateController.getGameObjectManager().addGameObject(crumblingPlatformFile, new PVector(xScale, random(breakPlatform.getTranslation().y+10,breakPlatform.getTranslation().y+25)), new PVector(5, 5));
+                  crumblePlatform.setTag("crumble_platform");
+                  pc.setPlatformDescentSpeed(crumblePlatform);
+                  counter++;
+                }
       
+                gameStateController.getGameObjectManager().removeGameObject(breakPlatform.getUID());
+                actions = Actions.SWING;
                 if(options.getGameOptions().isLogFitts() || bonusLevel)
                 {
                   fsc.endLogLevel();
                 }
       
-                rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+                
       
                 if(options.getGameOptions().isStillPlatforms())
                 {
@@ -1727,6 +1766,7 @@ public class PlayerControllerComponent extends Component
       gapDirection = determineGapDirection(platform); 
       justJumped = false;
       jumpCount = 0;
+      actions = Actions.NORMAL;
     }
 
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PLATFORM_EXIT))

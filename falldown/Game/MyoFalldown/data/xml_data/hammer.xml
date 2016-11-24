@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GameObject>
+  <Render>
+    <Sprite>
+      <SpriteSheet alphaImage="" defaultCount="2" farmeFreq="0.5f" height="50.0" horzCount="2" scaleHeight="1" src="images/player/hammerSwing.png" vertCount="1" x="0.0" y="0.0" zOrder="0"/>
+    </Sprite>
+  </Render>
+</GameObject>

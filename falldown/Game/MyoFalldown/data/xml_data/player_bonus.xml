@@ -2,9 +2,8 @@
 <GameObject>
   <Render>
     <Sprite>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/Momo.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="ALL"/>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoDanger.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="NONE"/>
-      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoHappy.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="NONE"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoHammer.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="ALL"/>
+      <SpriteSheet alphaImage="" defaultCount="0" farmeFreq="0" height="40.0" horzCount="2" scaleHeight="1" src="images/player/MomoSwing.png" vertCount="1" x="0.0" y="0.0" zOrder="0" zone="SWING"/>
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="false" angularDamping="0.01" awake="true" bullet="false" fixedRotation="true" gravityScale="0.3" linearDamping="0.0" type="dynamic">

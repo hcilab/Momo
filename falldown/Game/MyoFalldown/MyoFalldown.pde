@@ -108,10 +108,12 @@ boolean bonusLevel;
 boolean isBonusPractice;
 SoundObject bonusMusic;
 SoundObject bonusSplash;
+SoundObject swingSound;
 
 HashMap<String,PImage> allImages;
 Table imageSources;
 Zone zone;
+Actions actions;
 
 // used for manual calibration
 CalibrationMode calibrationMode;
@@ -127,6 +129,11 @@ enum Zone {
   DANGER,
   NEUTRAL,
   HAPPY,
+}
+
+enum Actions{
+  SWING,
+  NORMAL,
 }
 
 enum CalibrationMode {
@@ -196,8 +203,12 @@ void setup()
   bonusSplash = soundManager.loadSoundFile("sound_effects/splash2.wav");
   bonusSplash.setPan(0.0);
   
+  swingSound = soundManager.loadSoundFile("sound_effects/hammer.mp3");
+  swingSound.setPan(0.0);
+  
   allImages = new HashMap<String,PImage>();
   loadAllImages();
+  actions = Actions.NORMAL;
 } 
 
 void draw()

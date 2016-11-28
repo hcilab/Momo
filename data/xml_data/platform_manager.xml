@@ -32,7 +32,7 @@
 		breakPlatformFile="xml_data/platform_break.xml"
 		portalPlatformFile="xml_data/platform_portal.xml"
 		breakPlatformChance="0.05"
-		bonusLevelChance="0.05"
+		bonusLevelChance="0.20"
 	>
 	</PlatformManagerController>
 </GameObject>

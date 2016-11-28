@@ -1,5 +1,6 @@
 interface IEmgManager {
   boolean registerAction(String label);
+  boolean registerActionManual(String label, int sensorID, int maxReading);
   HashMap<String, Float> poll();
   HashMap<String, Float> pollIgnoringControlStrategy();
   HashMap<String, Float> pollRaw();
@@ -43,6 +44,16 @@ class EmgManager implements IEmgManager {
         }
       }
 
+    } catch (CalibrationFailedException e) {
+      return false;
+    }
+    return true;
+  }
+
+  boolean registerActionManual(String label, int sensorID, int maxReading)
+  {
+    try {
+      myoAPI.registerActionManual(label, sensorID, maxReading);
     } catch (CalibrationFailedException e) {
       return false;
     }
@@ -168,6 +179,10 @@ class EmgManager implements IEmgManager {
 class NullEmgManager implements IEmgManager {
 
   boolean registerAction(String label) {
+    return false;
+  }
+
+  boolean registerActionManual(String label, int sensorID, int maxReading) {
     return false;
   }
 

@@ -201,6 +201,14 @@ public class GameState_UserLogin extends GameState
         String userID = counterIDComponent.getUserIDNumber();
         boolean newUser = options.getUserInformation().setSaveDataFile(userID);
         options.getCalibrationData().setCalibrationFile(userID);
+        if (options.getCalibrationData().hasPreviousCalibration()) {
+          try {
+            emgManager = new EmgManager();
+          } catch (MyoNotDetectectedError e) {
+            MYO_API_SUCCESSFULLY_INITIALIZED = false;
+          }
+          options.getCalibrationData().loadMostRecentCalibration();
+        }
         options.getCustomizeOptions().reset();
         options.getCustomizeOptions().loadSavedSettings();
         if (newUser)

@@ -194,6 +194,8 @@ public interface IUserInformation
 public interface ICalibrationData
 {
   public void setCalibrationFile(String loginID);
+  public boolean hasPreviousCalibration();
+  public void loadMostRecentCalibration();
   public void setCalibrationData(HashMap<String, float[]> maxReadings);
   public HashMap<String, float[]> getCalibrationData();
   public float getLeftReading();
@@ -1609,6 +1611,19 @@ public class Options implements IOptions
       calibrationTable.addColumn("right_reading");
       calibrationTable.addColumn("input_type");
       saveTable(calibrationTable, CALIBRATION_CSV_SAVE);
+    }
+
+    public boolean hasPreviousCalibration()
+    {
+      Table t = getCalibrationTable();
+      return t.getRowCount() > 0;
+    }
+
+    public void loadMostRecentCalibration() 
+    {
+      HashMap<String, float[]> calibrationData = getCalibrationData();
+      emgManager.registerActionManual("LEFT", round(calibrationData.get("LEFT")[0]), round(calibrationData.get("LEFT")[1]));
+      emgManager.registerActionManual("RIGHT", round(calibrationData.get("RIGHT")[0]), round(calibrationData.get("RIGHT")[1]));
     }
 
     private TableRow getMostRecentCalibration()

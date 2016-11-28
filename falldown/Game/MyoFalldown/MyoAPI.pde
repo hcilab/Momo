@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 interface IMyoAPI {
   void registerAction(String label, int delayMillis) throws CalibrationFailedException;
   void registerActionManual(String label, int sensorID) throws CalibrationFailedException;
+  void registerActionManual(String label, int sensorID, int maxReading) throws CalibrationFailedException;
   HashMap<String, Float> poll();
   HashMap<String, Float> pollRaw();
   void updateRegisteredSensorValues(String directionLabel, float sliderValue);
@@ -101,6 +102,16 @@ class MyoAPI implements IMyoAPI {
     }
 
     SensorConfig s = new SensorConfig(sensorID, mav);
+    registeredSensors.put(label, s);
+    println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
+    HashMap<String, float[]> readingData = new HashMap<String, float[]>();
+    readingData.put(label, new float[]{ s.sensorID, s.maxReading });
+    options.getCalibrationData().setCalibrationData(readingData);
+  }
+
+  void registerActionManual(String label, int sensorID, int maxReading) throws CalibrationFailedException
+  {
+    SensorConfig s = new SensorConfig(sensorID, maxReading);
     registeredSensors.put(label, s);
     println("Registered: "+label+" ["+s.sensorID+"] "+s.maxReading);
     HashMap<String, float[]> readingData = new HashMap<String, float[]>();

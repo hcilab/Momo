@@ -368,11 +368,6 @@ public class GameState_InGame extends GameState
       }
       Date d = new Date();
       
-      if(fittsLawRecorded)
-      {
-        saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + "_"+ d.getTime() + ".csv"); 
-      }
-      
       if(options.getGameOptions().isLogRawData())
       {
          saveTable(tableRawData, "data/csv/raw_data/rawDataTable_" + ID + "_"+ d.getTime() + ".csv");  
@@ -462,6 +457,14 @@ public class GameState_FittsBonusGame extends GameState
     bonusLevel = false;
     gameObjectManager.clearGameObjects();
     bonusMusic.stop();
+
+    String ID = options.getUserInformation().getUserID();
+    if(ID == null)
+      ID = "guest";
+
+    if(fittsLawRecorded)
+      saveTable(tableFittsStats, "data/csv/fitts_law_data/fittsTable_" + ID + ".csv");
+
     Event updateScoreEvent = new Event(EventType.MUSIC_RESTART);
     eventManager.queueEvent(updateScoreEvent);
   }

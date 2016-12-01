@@ -113,14 +113,14 @@
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="250.0"
+			x="375.0"
 			y="425.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
 		<Sprite>
-			<Image  src="images/button/buttonNormal.png" x="250.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+			<Image  src="images/button/buttonNormal.png" x="375.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
 		</Sprite>
 
 		<Text
@@ -214,6 +214,34 @@
 		<Rect halfHeight="6" halfWidth="0" x="250.0" y="370">
 			<StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
 		</Rect>
+
+		<Text
+			string=" Save Calibration"
+			fontName="Moire"
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="125.0"
+			y="415.0"
+		>
+		</Text>
+		<Text
+			string="and Continue"
+			fontName="Moire"
+			size="14"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="125.0"
+			y="430.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="125.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+		</Sprite>
 
 		<Text
 			string="If you're experiencing issues, check out: http://diagnostics.myo.com/"

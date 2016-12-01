@@ -1841,7 +1841,7 @@ public class GameState_CalibrateSuccess extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-      if (tag.equals("back"))
+      if (tag.equals("back") || tag.equals("Continue"))
       {
         gameStateController.popState();
       }

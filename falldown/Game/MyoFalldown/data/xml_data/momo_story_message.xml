@@ -116,7 +116,7 @@
 		</Text>
 
 		<Text
-			string="Skip"
+			string="Continue"
 			fontName="Moire"
 			size="15"
 			antialiasing="true"

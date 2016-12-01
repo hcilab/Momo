@@ -1,6 +1,6 @@
 <GameObject>
 	<Render>
-		<Rect halfHeight="1" halfWidth="1" x="-75.0" y="-3">
+		<Rect halfHeight="1" halfWidth="1" x="-75.0" y="-15">
       		<FillColor r="255" g="255" b="255" a="255"/>
       		<StrokeColor a="255" b="255" g="255" r="255" strokeWeight="1.0"/>
     	</Rect>
@@ -12,11 +12,26 @@
 			alignX="right"
 			alignY="baseline"
 			x="0.0"
-			y="0.0"
+			y="-12.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+		<Rect halfHeight="1" halfWidth="1" x="-75" y="-4">
+			<StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="1" halfWidth="0.0" x="-75" y="-4">
+			<StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="1" halfWidth="0.0" x="-75" y="-4">
+			<StrokeColor a="255" b="255" g="0" r="0" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="1" halfWidth="0.006" x="-112.5" y="-4">
+			<StrokeColor a="255" b="255" g="255" r="255" strokeWeight="1.0"/>
+		</Rect>
+		<Rect halfHeight="1" halfWidth="0.006" x="-37.5" y="-4">
+			<StrokeColor a="255" b="255" g="255" r="255" strokeWeight="1.0"/>
+		</Rect>
 	</Render>
 	<CalibrationDisplay/>
 </GameObject>

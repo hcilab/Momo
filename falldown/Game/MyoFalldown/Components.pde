@@ -4649,10 +4649,30 @@ public class CalibrationDisplayComponent extends Component
       {
         RenderComponent renderComponent = (RenderComponent)component;
         RenderComponent.Text text = renderComponent.getTexts().get(0);
+        //println(text.string);
         if (text != null && pcc.rawInput != null)
         {
-          int currLeft = min((int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100), 100);
-          int currRight = min((int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100), 100);
+          HashMap<String, Float> emgInput = emgManager.pollRaw();
+          
+          //the min of 150f only allows the bar to go up to 200% so it does not go outside rectangle  
+          float rightRectVal = min((emgInput.get(RIGHT_DIRECTION_LABEL) * 75.0f),150.0f);
+          int xPoint = floor(rightRectVal/4 + 425);
+          renderComponent.getShapes().get(2).translation.x = ((500-xPoint)*(-1));
+           
+          //the min 0.5 makes it so the the bar does not go outside rectangle  
+          renderComponent.getShapes().get(2).scale.x = min((emgInput.get(RIGHT_DIRECTION_LABEL)/4),0.5);
+          
+           //the min of 150f only allows the bar to go up to 200% so it does not go outside rectangle  
+          float leftRectVal = min((emgInput.get(LEFT_DIRECTION_LABEL) * 75.0f),150.0f);
+          xPoint = floor(leftRectVal/4 + 350);
+          renderComponent.getShapes().get(3).translation.x = -75-(abs(-150-((500-xPoint)*(-1))));
+          
+          //the min 0.5 makes it so the the bar does not go outside rectangle  
+          renderComponent.getShapes().get(3).scale.x = min((emgInput.get(LEFT_DIRECTION_LABEL)/4),0.5);
+          
+          
+          int currLeft = (int)(emgInput.get(LEFT_DIRECTION_LABEL)*100);
+          int currRight = (int)(emgInput.get(RIGHT_DIRECTION_LABEL)*100);
           if (abs(currLeft - left) > 5)
           {
             text.string = "Left: " + currLeft + "%, Right: " + right + "%";
@@ -4691,7 +4711,7 @@ public class CalibrationDisplayComponent extends Component
       }
     }    
   }
-
+  
   public void hideGraphDisplay() {
     sa.getSurface().setVisible(false);
     sa.noLoop();

@@ -1,4 +1,4 @@
 distance,width,practice
 100,100,FALSE
-100,50,TRUE
-200,50,TRUE
+100,50,FALSE
+200,50,FALSE

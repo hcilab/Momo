@@ -331,7 +331,6 @@ public class GameState_InGame extends GameState
     gameObjectManager.fromXML("xml_data/game.xml");
     tableInput = loadTable(options.getFittsLawOptions().getInputFile(), "header");
     tableBonusInput = loadTable(options.getFittsLawOptions().getBonusFile(), "header");
-    bonusInputCounter = 0;
     totalRowCountInput = tableInput.getRowCount(); 
     createNewTable();
   }

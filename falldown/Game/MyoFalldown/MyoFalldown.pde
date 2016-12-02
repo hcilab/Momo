@@ -209,6 +209,8 @@ void setup()
   allImages = new HashMap<String,PImage>();
   loadAllImages();
   actions = Actions.NORMAL;
+
+  bonusInputCounter = 0;
 } 
 
 void draw()

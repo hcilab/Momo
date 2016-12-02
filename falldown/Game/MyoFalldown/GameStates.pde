@@ -395,9 +395,9 @@ public class GameState_InGame extends GameState
     tableFittsStats.addColumn("end_point_x");
     tableFittsStats.addColumn("start_time");
     tableFittsStats.addColumn("end_time");
-    tableFittsStats.addColumn("total_time");
-    tableFittsStats.addColumn("gap_width");
-    tableFittsStats.addColumn("distance");
+    tableFittsStats.addColumn("elapsedTimeMillis");
+    tableFittsStats.addColumn("width");
+    tableFittsStats.addColumn("amplitude");
     tableFittsStats.addColumn("optimal_path");
     tableFittsStats.addColumn("fitts_distance");
     tableFittsStats.addColumn("distance_travelled");

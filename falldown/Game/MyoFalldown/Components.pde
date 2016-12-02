@@ -4346,7 +4346,7 @@ public class FittsStatsComponent extends Component
       float prevGap = platformGapPosition.get(tableFittsStats.getRowCount()-2).x;
       distance = abs(prevGap - gapPos);
     }
-    newRow.setFloat("distance", distance);
+    newRow.setFloat("amplitude", distance);
     fittsLawRecorded = true;
   }
   
@@ -4387,17 +4387,17 @@ public class FittsStatsComponent extends Component
       errors = playComp.getErrors();
       newRow.setFloat("end_point_x", pos.x);
       newRow.setLong("end_time", endTime);
-      newRow.setFloat("gap_width", gapWidth*2);
+      newRow.setFloat("width", gapWidth*2);
       newRow.setFloat("distance_travelled", distanceTravelled);
       newRow.setInt("errors", errors);
       newRow.setInt("undershoots", undershoots);
       newRow.setInt("overshoots", overshoots);
       newRow.setInt("direction_changes", directionChanges);
       if (options.getGameOptions().getBreakthroughMode() == BreakthroughMode.WAIT_2SEC){
-        newRow.setLong("total_time",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
+        newRow.setLong("elapsedTimeMillis",endTime - startTime - (options.getGameOptions().getDwellTime()*1000));
       }
       else { // TODO somehow subtract the time spent jumping as well ??
-        newRow.setLong("total_time",endTime - startTime);
+        newRow.setLong("elapsedTimeMillis",endTime - startTime);
       }
   }
 }

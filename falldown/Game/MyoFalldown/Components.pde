@@ -1023,7 +1023,7 @@ public class RigidBodyComponent extends Component
 
 public class PlayerControllerComponent extends Component
 {
-  public PVector moveVectorX;
+  public PVector latestMoveVector;
   private float acceleration;
   private float maxSpeed;
   private float minInputThreshold;
@@ -1096,7 +1096,7 @@ public class PlayerControllerComponent extends Component
     jumpCount = 0;
     justJumped = false;
     breakTimerStart = (long)Double.POSITIVE_INFINITY;
-    moveVectorX = new PVector();
+    latestMoveVector = new PVector();
     platformLevelCount = 1;
 
     distanceTravelled = 0;
@@ -1185,7 +1185,7 @@ public class PlayerControllerComponent extends Component
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
 
-    moveVectorX = moveVector;
+    latestMoveVector = moveVector;
 
     if (component != null)
     {
@@ -1600,7 +1600,7 @@ public class PlayerControllerComponent extends Component
 
   public PVector getLatestMoveVector()
   {
-    return moveVectorX;
+    return latestMoveVector;
   }
   
   public void calculateOverShoots(PVector pos)

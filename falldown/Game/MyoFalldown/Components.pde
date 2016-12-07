@@ -1147,7 +1147,7 @@ public class PlayerControllerComponent extends Component
     
     applySpeedWarning();
     
-    if(!options.getGameOptions().isFittsLaw() && !bonusLevel)
+    if((!options.getGameOptions().isFittsLaw() && !bonusLevel) || onPlatform)
     {
       actions = Actions.NORMAL;
       ControlPolicy policy = options.getGameOptions().getControlPolicy();
@@ -1163,21 +1163,6 @@ public class PlayerControllerComponent extends Component
         moveVector = applySingleMuscleControls(rawInput);
       else
         println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
-    }
-    else
-    {
-      if(onPlatform)
-      {
-        ControlPolicy policy = options.getGameOptions().getControlPolicy();
-        if (policy == ControlPolicy.NORMAL)
-          moveVector = applyNormalControls(rawInput);
-        else if (policy == ControlPolicy.DIRECTION_ASSIST)
-          moveVector = applyDirectionAssistControls(rawInput);
-        else if (policy == ControlPolicy.SINGLE_MUSCLE)
-          moveVector = applySingleMuscleControls(rawInput);
-        else
-          println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
-      }
     }
 
     smoothControls(moveVector, deltaTime);

@@ -1077,7 +1077,6 @@ public class PlayerControllerComponent extends Component
   private int platformLevelCount;
   private boolean justJumped;
   private HashMap<String, Float> rawInput;
-  private int pauseOnBreakPlatformTime;
   private float distanceTravelled;
   private float lastXPos;
   
@@ -1100,11 +1099,6 @@ public class PlayerControllerComponent extends Component
     moveVectorX = new PVector();
     platformLevelCount = 1;
 
-    if (options.getGameOptions().isFittsLaw() || bonusLevel) {
-      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
-    } else {
-      pauseOnBreakPlatformTime = 1000;
-    }
     distanceTravelled = 0;
     lastXPos = gameObject.getTranslation().x;
     playerPlatform = null;
@@ -1152,11 +1146,6 @@ public class PlayerControllerComponent extends Component
     PVector moveVector = new PVector();
     
     applySpeedWarning();
-    
-    if(bonusLevel)
-    {
-      pauseOnBreakPlatformTime = options.getGameOptions().getDwellTime() * 1000;
-    }
     
     if(!options.getGameOptions().isFittsLaw() && !bonusLevel)
     {
@@ -1266,7 +1255,7 @@ public class PlayerControllerComponent extends Component
           crumblePlatform.setTag("crumble_platform");
           pc.setPlatformDescentSpeed(crumblePlatform);
         }
-        if (System.currentTimeMillis() - breakTimerStart > pauseOnBreakPlatformTime && onBreakPlatform)
+        if (System.currentTimeMillis() - breakTimerStart > options.getGameOptions().getDwellTime()*1000 && onBreakPlatform)
         {
           ++platformLevelCount;
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);

@@ -8,7 +8,7 @@
   </Render>
   <RigidBody active="true" allowSleep="false" angularDamping="0.01" awake="true" bullet="false" fixedRotation="true" gravityScale="0.3" linearDamping="0.0" type="dynamic">
     <Fixture density="0.15" friction="0.925" isSensor="false" restitution="-10">
-      <Shape halfHeight="0.5" halfWidth="0.5" type="box" x="0.0" y="0.0"/>
+      <Shape radius="0.5" type="circle" x="0.0" y="0.0"/>
     </Fixture>
     <OnCollideEvents>
       <Event coinParameterName="coin" collidedWith="coin" eventType="COIN_COLLECTED"/>

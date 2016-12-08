@@ -1444,6 +1444,11 @@ public class PlayerControllerComponent extends Component
       IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
       eventManager.queueEvent(currentSpeedEvent);
+
+      // explicitly stop momo from "bouncing" off of break platforms in bonus level
+      if (bonusLevel)
+        rigidBodyComponent.setLinearVelocity(new PVector(rigidBodyComponent.getLinearVelocity().x, max(rigidBodyComponent.getLinearVelocity().y, 0.0)));
+
     } 
   }
 

@@ -203,9 +203,12 @@ public class GameState_UserLogin extends GameState
         options.getCalibrationData().setCalibrationFile(userID);
         if (options.getCalibrationData().hasPreviousCalibration()) {
           try {
+            cursor(WAIT);
             emgManager = new EmgManager();
           } catch (MyoNotDetectectedError e) {
             MYO_API_SUCCESSFULLY_INITIALIZED = false;
+          } finally {
+            cursor(ARROW);
           }
           options.getCalibrationData().loadMostRecentCalibration();
         }

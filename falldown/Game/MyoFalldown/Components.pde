@@ -1198,9 +1198,8 @@ public class PlayerControllerComponent extends Component
       {
         if (jumpCount >= 1 && onPlatform)
         {
-          ++platformLevelCount;
           Event fittsLawLevelUp = new Event(EventType.PLATFORM_LEVEL_UP);
-          fittsLawLevelUp.addIntParameter("platformLevel", platformLevelCount);
+          fittsLawLevelUp.addIntParameter("platformLevel", ++platformLevelCount);
           eventManager.queueEvent(fittsLawLevelUp);
 
           jumpCount = 0;

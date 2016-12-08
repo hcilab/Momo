@@ -1150,19 +1150,22 @@ public class PlayerControllerComponent extends Component
     if((!options.getGameOptions().isFittsLaw() && !bonusLevel) || onPlatform)
     {
       actions = Actions.NORMAL;
-      ControlPolicy policy = options.getGameOptions().getControlPolicy();
-      if (policy == ControlPolicy.NORMAL)
-        moveVector = applyNormalControls(rawInput);
-      else if (policy == ControlPolicy.DIRECTION_ASSIST)
-      {
-        moveVector = applyDirectionAssistControls(rawInput);
-        if (onPlatform)
-          gapDistance = determineGapDistance(gapDirection, playerPlatform);
+      switch (options.getGameOptions().getControlPolicy()) {
+        case NORMAL:
+          moveVector = applyNormalControls(rawInput);
+          break;
+        case DIRECTION_ASSIST:
+          moveVector = applyDirectionAssistControls(rawInput);
+          if (onPlatform)
+            gapDistance = determineGapDistance(gapDirection, playerPlatform);
+          break;
+        case SINGLE_MUSCLE:
+          moveVector = applySingleMuscleControls(rawInput);
+          break;
+        default:
+          println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
+
       }
-      else if (policy == ControlPolicy.SINGLE_MUSCLE)
-        moveVector = applySingleMuscleControls(rawInput);
-      else
-        println("[ERROR] Invalid Control policy found in PlayerControllerComponent::update()");
     }
 
     smoothControls(moveVector, deltaTime);

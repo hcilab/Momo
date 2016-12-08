@@ -1432,11 +1432,6 @@ public class PlayerControllerComponent extends Component
       } 
       currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
     } 
-    else
-    {
-      gameObject.translate(moveVector);
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, sqrt((moveVector.x * moveVector.x) + (moveVector.y * moveVector.y)));
-    }
 
     eventManager.queueEvent(currentSpeedEvent);
   }

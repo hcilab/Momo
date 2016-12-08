@@ -1169,12 +1169,11 @@ public class PlayerControllerComponent extends Component
     }
 
     smoothControls(moveVector, deltaTime);
+    latestMoveVector = moveVector;
+
     IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
 
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
-
-    latestMoveVector = moveVector;
-
     if (component != null)
     {
       

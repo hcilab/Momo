@@ -1755,11 +1755,14 @@ public class GameState_CalibrateMenu extends GameState
     gameObjectManager.fromXML("xml_data/calibrate_menu.xml");
 
     try {
+      cursor(WAIT);
       emgManager = new EmgManager();
     } catch (MyoNotDetectectedError e) {
       gameStateController.popState();
       gameStateController.pushState(new GameState_NoMyoDetected());
       MYO_API_SUCCESSFULLY_INITIALIZED = false;
+    } finally {
+      cursor(ARROW);
     }
   }
   

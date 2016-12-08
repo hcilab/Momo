@@ -1171,8 +1171,6 @@ public class PlayerControllerComponent extends Component
     smoothControls(moveVector, deltaTime);
     latestMoveVector = moveVector;
 
-    IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
-
     IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
     if (component != null)
     {
@@ -1430,10 +1428,11 @@ public class PlayerControllerComponent extends Component
           }
         } 
       } 
-      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
-    } 
 
-    eventManager.queueEvent(currentSpeedEvent);
+      IEvent currentSpeedEvent = new Event(EventType.PLAYER_CURRENT_SPEED);
+      currentSpeedEvent.addFloatParameter(currentSpeedParameterName, rigidBodyComponent.getSpeed()); 
+      eventManager.queueEvent(currentSpeedEvent);
+    } 
   }
 
   private HashMap<String, Float> gatherRawInput()

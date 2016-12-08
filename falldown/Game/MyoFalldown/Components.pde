@@ -437,6 +437,19 @@ public class RenderComponent extends Component
             strokeWeight[0]
           ));
         }
+        else if(xmlRenderable.getString("fontName").equals("monofonto"))
+        {
+          texts.add(new Text(
+            xmlRenderable.getString("string"),
+            createFont("fonts/monofonto.ttf", xmlRenderable.getInt("size"), xmlRenderable.getString("antialiasing").equals("true") ? true : false),
+            alignX,
+            alignY,
+            new PVector(xmlRenderable.getFloat("x"), xmlRenderable.getFloat("y")),
+            fillAndStrokeColor[0],
+            fillAndStrokeColor[1],
+            strokeWeight[0]
+          ));
+        }
         else{
           texts.add(new Text(
             xmlRenderable.getString("string"),
@@ -4640,18 +4653,9 @@ public class CalibrationDisplayComponent extends Component
           renderComponent.getShapes().get(3).scale.x = min((emgInput.get(LEFT_DIRECTION_LABEL)/4),0.5);
           
           
-          int currLeft = (int)(emgInput.get(LEFT_DIRECTION_LABEL)*100);
-          int currRight = (int)(emgInput.get(RIGHT_DIRECTION_LABEL)*100);
-          if (abs(currLeft - left) > 5)
-          {
-            text.string = "Left: " + currLeft + "%, Right: " + right + "%";
-            left = currLeft;
-          }
-          if (abs(currRight - right) > 5)
-          {
-            text.string = "Left: " + left + "%, Right: " + currRight + "%";
-            right = currRight;
-          }
+          left = (int)(emgInput.get(LEFT_DIRECTION_LABEL)*100);
+          right = (int)(emgInput.get(RIGHT_DIRECTION_LABEL)*100);
+          text.string = "Left: " + nf(left, 3) + "%, Right: " + nf(right, 3) + "%";
         }
       }
     }

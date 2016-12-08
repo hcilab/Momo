@@ -6,7 +6,7 @@
     	</Rect>
 		<Text
 			string="Left: 0% Right: 0%"
-			fontName="Arial" 
+			fontName="monofonto"
 			size="10"
 			antialiasing="true"
 			alignX="right"

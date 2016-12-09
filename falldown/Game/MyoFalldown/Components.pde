@@ -4302,8 +4302,10 @@ public class FittsStatsComponent extends Component
       pos = rigidBodyComponent.getPosition();
     }
 
-    gapPos = platformGapPosition.get(tableFittsStats.getRowCount()-1).x;
-    gapWidth = platformGapPosition.get(tableFittsStats.getRowCount()-1).y;
+
+    int index = (tableFittsStats.getRowCount()-1) % platformGapPosition.size();
+    gapPos = platformGapPosition.get(index).x;
+    gapWidth = platformGapPosition.get(index).y;
     
     if (pos.x <= gapPos + gapWidth && pos.x >= gapPos - gapWidth)
     {
@@ -4343,7 +4345,7 @@ public class FittsStatsComponent extends Component
     }
     else
     {
-      float prevGap = platformGapPosition.get(tableFittsStats.getRowCount()-2).x;
+      float prevGap = platformGapPosition.get((tableFittsStats.getRowCount()-2) % platformGapPosition.size()).x;
       distance = abs(prevGap - gapPos);
     }
     newRow.setFloat("amplitude", distance);

@@ -468,7 +468,7 @@
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="0.1"/>
 		</Ellipse>
 		<Text
-			string="Hold for 2 seconds"
+			string="Hold for 1 seconds"
 			fontName="Moire"
 			size="12"
 			antialiasing="true"

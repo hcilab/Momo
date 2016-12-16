@@ -21,9 +21,14 @@ interface IMyoAPI {
 MyoAPI myoApiSingleton = null;
 
 MyoAPI getMyoApiSingleton()  throws MyoNotDetectectedError {
-  if (myoApiSingleton == null || !MYO_API_SUCCESSFULLY_INITIALIZED)
-    myoApiSingleton = new MyoAPI();
-
+  if (myoApiSingleton == null) {
+    try {
+      myoApiSingleton = new MyoAPI();
+    } catch (MyoNotDetectectedError e) {
+      myoApiSingleton = null; // clean-up for next attempt
+      throw e;
+    }
+  }
   return myoApiSingleton;
 }
 // ================================================================================
@@ -45,8 +50,6 @@ class MyoAPI implements IMyoAPI {
     // fork a new thread to concurrently stream EMG data into sampleWindow
     Thread t = new Thread(new EmgCollector(sampleWindow, windowSizeMillis));
     t.start();
-
-    MYO_API_SUCCESSFULLY_INITIALIZED = true;
   }
 
   MyoAPI() throws MyoNotDetectectedError {

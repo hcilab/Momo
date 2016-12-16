@@ -206,7 +206,7 @@ public class GameState_UserLogin extends GameState
             cursor(WAIT);
             emgManager = new EmgManager();
           } catch (MyoNotDetectectedError e) {
-            MYO_API_SUCCESSFULLY_INITIALIZED = false;
+            // ignore, it's perfectly okay for the armband not to be connected at this point
           } finally {
             cursor(ARROW);
           }
@@ -1793,7 +1793,6 @@ public class GameState_CalibrateMenu extends GameState
     } catch (MyoNotDetectectedError e) {
       gameStateController.popState();
       gameStateController.pushState(new GameState_NoMyoDetected());
-      MYO_API_SUCCESSFULLY_INITIALIZED = false;
     } finally {
       cursor(ARROW);
     }

@@ -59,12 +59,6 @@ final String LEFT_DIRECTION_LABEL = "LEFT";
 final String RIGHT_DIRECTION_LABEL = "RIGHT";
 final String JUMP_DIRECTION_LABEL = "JUMP";
 
-// For performance reasons, we want to make sure that only a single MyoAPI is
-// every instantiated. Since the constructor can abort half way through, this
-// variable is intended to keep track of when an instance has been initalized
-// successfully.
-boolean MYO_API_SUCCESSFULLY_INITIALIZED = false;
-
 int lastFrameTime;
 int lastFrameWidth;
 int lastFrameHeight;

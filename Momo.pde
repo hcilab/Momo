@@ -1,8 +1,8 @@
 //================================================================================================================
-// MyoFalldown
+// Momo
 // Author: David Hanna
 //
-// Top-level game loop of Myo Falldown.
+// Top-level game loop of Momo.
 //================================================================================================================
 
 // Includes are available project-wide, so they are collected here.
@@ -31,7 +31,7 @@ import java.awt.event.WindowListener;
 import java.awt.Frame;
 
 // The main class needs to be available globally for some subsystems.
-MyoFalldown mainObject;
+Momo mainObject;
 
 // The Event system.
 IEventManager eventManager;

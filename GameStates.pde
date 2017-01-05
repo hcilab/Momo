@@ -557,9 +557,9 @@ public class GameState_PostGame extends GameState
     smartSuggestion = false;
     gameOps = options.getGameOptions();
 
-    gameOver = soundManager.loadSoundFile("music/end_level.wav");
+    gameOver = soundManager.loadSoundFile("music/end_level.mp3");
     gameOver.setPan(0.0);
-    gameOverSoundEffect = soundManager.loadSoundFile("sound_effects/death.wav");
+    gameOverSoundEffect = soundManager.loadSoundFile("sound_effects/death.mp3");
     gameOverSoundEffect.setPan(0.0);
   }
   

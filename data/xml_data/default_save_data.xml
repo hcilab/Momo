@@ -4,19 +4,19 @@
   <IO emg_sampling_policy="difference" music_volume="0.75" sound_effects_volume="0.75" myo_forearm="right" min_input_threshold="0.1"/>
   <Stats high_score="0">
   </Stats>
-  <Customize active_background_index="24" active_coin_index="12" active_music_index="30" active_obstacle_index="18" active_platform_index="6" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="0" music="music/EDMDetectionMode.wav" opacity_bg="images/background/opacityLandscape.svg" unlocked_ids="" old_active_player_index="0" old_active_platform_index="6" old_active_coin_index="12" old_active_obstacle_index="18" old_active_background_index="24" old_active_music_index="30">
+  <Customize active_background_index="24" active_coin_index="12" active_music_index="30" active_obstacle_index="18" active_platform_index="6" active_player_index="0" background="images/background/rockMountain.svg" coins_collected="0" music="music/EDMDetectionMode.mp3" opacity_bg="images/background/opacityLandscape.svg" unlocked_ids="" old_active_player_index="0" old_active_platform_index="6" old_active_coin_index="12" old_active_obstacle_index="18" old_active_background_index="24" old_active_music_index="30">
     <Background bg="images/background/videoBackground.svg" opacity_bg="images/background/opacityVideoBackground.svg"/>
     <Background bg="images/background/mountain.svg" opacity_bg="images/background/opacityMountain.svg"/>
     <Background bg="images/background/space.svg" opacity_bg="images/background/opacitySpace.svg"/>
     <Background bg="images/background/bg_shroom.svg" opacity_bg="images/background/opacitybg_shroom.svg"/>
     <Background bg="images/background/pretty.svg" opacity_bg="images/background/opacityPretty.svg"/>
     <Background bg="images/background/rockMountain.svg" opacity_bg="images/background/opacityLandscape.svg"/>
-    <Music file="music/EDMDetectionMode.wav"/>
-    <Music file="music/Motherlode.wav"/>
-    <Music file="music/Overworld.wav"/>
-    <Music file="music/TheLift.wav"/>
-    <Music file="music/TownTheme.wav"/>
-    <Music file="music/TheSky.wav"/>
+    <Music file="music/EDMDetectionMode.mp3"/>
+    <Music file="music/Motherlode.mp3"/>
+    <Music file="music/Overworld.mp3"/>
+    <Music file="music/TheLift.mp3"/>
+    <Music file="music/TownTheme.mp3"/>
+    <Music file="music/TheSky.mp3"/>
   </Customize>
   <!-- anonymous must have the value "true" or "false", indicating whether to anonymize the credits -->
   <Credits anonymous="false"/>

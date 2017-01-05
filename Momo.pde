@@ -191,16 +191,16 @@ void setup()
   
   soundManager = new SoundManager(this);
 
-  buttonClickedSound = soundManager.loadSoundFile("sound_effects/click.wav");
+  buttonClickedSound = soundManager.loadSoundFile("sound_effects/click.mp3");
   buttonClickedSound.setPan(0.0);
   
   coinCollectedSound = soundManager.loadSoundFile("sound_effects/coin01.mp3");
   coinCollectedSound.setPan(0.0);
   
-  bonusMusic = soundManager.loadSoundFile("music/bonusLevel.wav");
+  bonusMusic = soundManager.loadSoundFile("music/bonusLevel.mp3");
   bonusMusic.setPan(0.0);
   
-  bonusSplash = soundManager.loadSoundFile("sound_effects/splash2.wav");
+  bonusSplash = soundManager.loadSoundFile("sound_effects/splash2.mp3");
   bonusSplash.setPan(0.0);
   
   swingSound = soundManager.loadSoundFile("sound_effects/hammer.mp3");

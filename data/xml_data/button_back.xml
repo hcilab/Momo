@@ -7,7 +7,7 @@
 	<Button 
 		height="1" 
 		width="1"
-		buttonClickedSound="sound_effects/click.wav"
+		buttonClickedSound="sound_effects/click.mp3"
 		pan="0.0"
 		amp="1.0"
 	/>

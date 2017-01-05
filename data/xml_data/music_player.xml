@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameObject>
-  <MusicPlayer amp="1.0" musicFile="music/EDMDetectionMode.wav" pan="0.0"/>
+  <MusicPlayer amp="1.0" musicFile="music/EDMDetectionMode.mp3" pan="0.0"/>
 </GameObject>

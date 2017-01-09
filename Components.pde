@@ -1232,8 +1232,15 @@ public class PlayerControllerComponent extends Component
             fsc.endLogLevel();
           }
           
-          if(options.getGameOptions().isLogFitts())
-            rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          // explicitly set Momo's position after "breaking through" a
+          // breakthrough platform. to ensure consistent fitts configurations,
+          // Momo is always centered in the new gap and all x-velocity zeroed.
+          // Velocity is futher zero-ed in the handleEvents() method, to
+          // account for input between this frame (when the "break through"
+          // event is fired) and the next frame (when the event is handled, and
+          // the breakthrough platform disappears).
+          rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, rigidBodyComponent.getLinearVelocity().y));
 
           if(options.getGameOptions().isStillPlatforms())
           {
@@ -1270,8 +1277,15 @@ public class PlayerControllerComponent extends Component
             fsc.endLogLevel();
           }
 
-          //Sets Momo in middle of break platform so player does not slow down against side of platforms
+          // explicitly set Momo's position after "breaking through" a
+          // breakthrough platform. to ensure consistent fitts configurations,
+          // Momo is always centered in the new gap and all x-velocity zeroed.
+          // Velocity is futher zero-ed in the handleEvents() method, to
+          // account for input between this frame (when the "break through"
+          // event is fired) and the next frame (when the event is handled, and
+          // the breakthrough platform disappears).
           rigidBodyComponent.setPosition(new PVector(breakPlatform.getTranslation().x, 0));
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, rigidBodyComponent.getLinearVelocity().y));
 
           if(options.getGameOptions().isStillPlatforms())
           {
@@ -1797,6 +1811,23 @@ public class PlayerControllerComponent extends Component
       onBreakPlatform = false;
       breakTimerStart = (long) Double.POSITIVE_INFINITY;
       breakPlatform = null;
+    }
+
+    // TODO: confunsing name. This is actually the event thrown when the player successfully "breaks through" a breakthrough platform in the bonus level.
+    for (IEvent event: eventManager.getEvents(EventType.PLATFORM_LEVEL_UP))
+    {
+      if (bonusLevel)
+      {
+        // force Momo to stay in the middle of break-platform target by zeroing
+        // out x-component of velocity that has been accumulated since the
+        // event was fired
+        IComponent component = gameObject.getComponent(ComponentType.RIGID_BODY);
+        if (component != null)
+        {
+          RigidBodyComponent rigidBodyComponent = (RigidBodyComponent)component;
+          rigidBodyComponent.setLinearVelocity(new PVector(0.0, rigidBodyComponent.getLinearVelocity().y));
+        }
+      }
     }
     
     for (IEvent event : eventManager.getEvents(EventType.PLAYER_PORTAL_COLLISION))

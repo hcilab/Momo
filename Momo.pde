@@ -66,10 +66,6 @@ final String JUMP_DIRECTION_LABEL = "JUMP";
 boolean MYO_API_SUCCESSFULLY_INITIALIZED = false;
 
 int lastFrameTime;
-int lastFrameWidth;
-int lastFrameHeight;
-int currentFrameWidth;
-int currentFrameHeight;
 
 boolean mouseHand;
 
@@ -145,9 +141,8 @@ void setup()
 {
   size(500, 500);
   surface.setAlwaysOnTop(true);
-  surface.setResizable(true);
   surface.setTitle("The Falling of Momo");
-  surface.setSize(800,800);
+  surface.setSize(500,500);
   
   rectMode(CENTER);
   ellipseMode(CENTER);
@@ -175,9 +170,6 @@ void setup()
   options = new Options();
   
   lastFrameTime = millis();
-
-  currentFrameWidth = width;
-  currentFrameHeight = height;
   
   mouseHand = false;
   fittsLawRecorded = false;
@@ -221,27 +213,6 @@ void draw()
   int deltaTime = currentFrameTime - lastFrameTime;
   lastFrameTime = currentFrameTime;
   
-  lastFrameWidth = currentFrameWidth;
-  lastFrameHeight = currentFrameHeight;
-  currentFrameWidth = width;
-  currentFrameHeight = height;
-  
-  if (width < 250)
-  {
-    surface.setSize(250, height);
-  }
-  if (height < 250)
-  {
-    surface.setSize(width, 250);
-  }
-  
-  if (currentFrameWidth != lastFrameWidth || currentFrameHeight != lastFrameHeight)
-  {
-    return;
-  }
-  
-  scale(width / 500.0, height / 500.0);
-
   if (deltaTime > 100)
   {
     deltaTime = 16;

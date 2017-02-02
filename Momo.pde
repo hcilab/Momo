@@ -144,7 +144,7 @@ enum CalibrationMode {
 void setup()
 {
   size(500, 500);
-  surface.setAlwaysOnTop(true);
+  surface.setAlwaysOnTop(false);
   surface.setTitle("The Falling of Momo");
   surface.setSize(500,500);
   

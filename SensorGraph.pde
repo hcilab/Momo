@@ -24,7 +24,6 @@ public class SensorGraphApplet extends PApplet {
     public void draw() {
       background(255);
       frameRate(20);
-      giveFocusToParentFrame();
       
       leftReadings.add(round(rawReadings.get(LEFT_DIRECTION_LABEL)*100));
       rightReadings.add(round(rawReadings.get(RIGHT_DIRECTION_LABEL)*100));

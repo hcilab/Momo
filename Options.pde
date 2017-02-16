@@ -194,9 +194,7 @@ public interface IUserInformation
 public interface ICalibrationData
 {
   public void setCalibrationFile(String loginID);
-  public boolean hasPreviousCalibration();
-  public void loadMostRecentCalibration();
-  public void setCalibrationData(HashMap<String, float[]> maxReadings);
+  public String getCalibrationFile();
   public HashMap<String, float[]> getCalibrationData();
   public float getLeftReading();
   public float getRightReading();
@@ -1589,95 +1587,26 @@ public class Options implements IOptions
 
     public void setCalibrationFile(String loginID)
     {
+      // TODO why are there 2 variables here? Refactor into one
       CALIBRATION_CSV_LOAD = "data/csv/calibration_" + loginID + ".csv";
       CALIBRATION_CSV_SAVE = "data/csv/calibration_" + loginID + ".csv";
     }
 
-    private Table getCalibrationTable()
+    public String getCalibrationFile()
     {
-      if (!fileExists(CALIBRATION_CSV_LOAD))
-        initializeCalibrationTable();
-
-      return loadTable(CALIBRATION_CSV_LOAD, "header");
-    }
-
-    private void initializeCalibrationTable()
-    {
-      Table calibrationTable = new Table();
-      calibrationTable.addColumn("timestamp");
-      calibrationTable.addColumn("left_sensor");
-      calibrationTable.addColumn("left_reading");
-      calibrationTable.addColumn("right_sensor");
-      calibrationTable.addColumn("right_reading");
-      calibrationTable.addColumn("input_type");
-      saveTable(calibrationTable, CALIBRATION_CSV_SAVE);
-    }
-
-    public boolean hasPreviousCalibration()
-    {
-      Table t = getCalibrationTable();
-      return t.getRowCount() > 0;
-    }
-
-    public void loadMostRecentCalibration() 
-    {
-      HashMap<String, float[]> calibrationData = getCalibrationData();
-      emgManager.registerActionManual("LEFT", round(calibrationData.get("LEFT")[0]), round(calibrationData.get("LEFT")[1]));
-      emgManager.registerActionManual("RIGHT", round(calibrationData.get("RIGHT")[0]), round(calibrationData.get("RIGHT")[1]));
-    }
-
-    private TableRow getMostRecentCalibration()
-    {
-      Table table = getCalibrationTable();
-      return table.getRow(table.getRowCount()-1);
-    }
-
-    public void setCalibrationData(HashMap<String, float[]> maxReadings)
-    {  
-      Table calibrationTable = getCalibrationTable();
-      
-      if(maxReadings.get("LEFT") != null){
-        TableRow newCalibration = calibrationTable.addRow();
-
-        // CSV file (for data logging)
-        newCalibration.setLong("timestamp", System.currentTimeMillis());
-        newCalibration.setFloat("left_sensor", maxReadings.get("LEFT")[0]);
-        newCalibration.setFloat("left_reading", maxReadings.get("LEFT")[1]);
-        
-        // XML file (for in-game text/labels)
-        calibrationXML.setFloat("left_sensor", maxReadings.get("LEFT")[0]);
-        calibrationXML.setFloat("left_reading", maxReadings.get("LEFT")[1]);
-        calibrationXML.setFloat("left_sensitivity", maxReadings.get("LEFT")[1]);
-      }
-      else if(maxReadings.get("RIGHT") != null){
-        TableRow newCalibration = calibrationTable.getRow(calibrationTable.getRowCount()-1);;
-
-        // CSV file (for data logging)
-        newCalibration.setFloat("right_sensor", maxReadings.get("RIGHT")[0]);
-        newCalibration.setFloat("right_reading", maxReadings.get("RIGHT")[1]);
-        // XML file (for in-game text/labels)
-        calibrationXML.setFloat("right_sensor", maxReadings.get("RIGHT")[0]);
-        calibrationXML.setFloat("right_reading", maxReadings.get("RIGHT")[1]);
-        calibrationXML.setFloat("right_sensitivity", maxReadings.get("RIGHT")[1]);
-        newCalibration.setString("input_type", options.getIOOptions().getEmgSamplingPolicy().name());
-      }
-
-      saveTable(calibrationTable, CALIBRATION_CSV_SAVE);
-
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      // TODO which one am I supposed to use?
+      return CALIBRATION_CSV_SAVE;
     }
 
     public HashMap<String, float[]> getCalibrationData()
     {
-      TableRow mostRecentCalibration = getMostRecentCalibration();
-
       float[] left = new float[2];
-      left[0] = mostRecentCalibration.getFloat("left_sensor");
-      left[1] = mostRecentCalibration.getFloat("left_reading");
+      left[0] = emgManager.getSensor(LEFT_DIRECTION_LABEL);
+      left[1] = emgManager.getSensitivity(LEFT_DIRECTION_LABEL);
 
       float[] right = new float[2];
-      right[0] = mostRecentCalibration.getFloat("right_sensor");
-      right[1] = mostRecentCalibration.getFloat("right_reading");
+      right[0] = emgManager.getSensor(RIGHT_DIRECTION_LABEL);
+      right[1] = emgManager.getSensitivity(RIGHT_DIRECTION_LABEL);
 
       HashMap<String, float[]> toReturn = new HashMap<String, float[]>();
       toReturn.put("LEFT", left);
@@ -1687,43 +1616,31 @@ public class Options implements IOptions
 
     public float getLeftReading()
     {
-      TableRow mostRecentCalibration = getMostRecentCalibration();
-      return mostRecentCalibration.getFloat("left_reading");
+      return emgManager.getSensitivity(LEFT_DIRECTION_LABEL);
     }
 
     public float getRightReading()
     {
-      TableRow mostRecentCalibration = getMostRecentCalibration();
-      return mostRecentCalibration.getFloat("right_reading");
+      return emgManager.getSensitivity(RIGHT_DIRECTION_LABEL);
     }
 
+    // TODO redundant
     public float getLeftSensitivity()
     {
-      TableRow mostRecentCalibration = getMostRecentCalibration();
-      return mostRecentCalibration.getFloat("left_reading");
+      return getLeftReading();
     }
 
+    // TODO redundant
     public float getRightSensitivity()
     {
-      TableRow mostRecentCalibration = getMostRecentCalibration();
-      return mostRecentCalibration.getFloat("right_reading");
+      return getRightReading();
     }
 
     public void setSensitivity(float _leftSensitivity, float _rightSensitivity)
     {
-      Table calibrationTable = getCalibrationTable();
-      TableRow previousCalibration = calibrationTable.getRow(calibrationTable.getRowCount()-1);
-      TableRow newCalibration = calibrationTable.addRow(previousCalibration);
-      
-      newCalibration.setLong("timestamp", System.currentTimeMillis());
-      if(_leftSensitivity!=0)
-        newCalibration.setFloat("left_reading", _leftSensitivity);
-      if(_rightSensitivity!=0)
-        newCalibration.setFloat("right_reading", _rightSensitivity);
-      saveTable(calibrationTable, CALIBRATION_CSV_SAVE);
-
-      calibrationXML.setFloat("right_sensitivity", _rightSensitivity);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      emgManager.setSensitivity(LEFT_DIRECTION_LABEL, _leftSensitivity);
+      emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, _rightSensitivity);
+      emgManager.saveCalibration(getCalibrationFile());
     }
 
     private boolean fileExists(String filename)

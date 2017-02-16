@@ -201,16 +201,15 @@ public class GameState_UserLogin extends GameState
         String userID = counterIDComponent.getUserIDNumber();
         boolean newUser = options.getUserInformation().setSaveDataFile(userID);
         options.getCalibrationData().setCalibrationFile(userID);
-        if (options.getCalibrationData().hasPreviousCalibration()) {
-          try {
-            cursor(WAIT);
-            emgManager = new EmgManager();
-          } catch (MyoNotDetectectedError e) {
-            MYO_API_SUCCESSFULLY_INITIALIZED = false;
-          } finally {
-            cursor(ARROW);
-          }
-          options.getCalibrationData().loadMostRecentCalibration();
+        try {
+          cursor(WAIT);
+          emgManager = new EmgManager();
+          if (!emgManager.loadCalibration(options.getCalibrationData().getCalibrationFile()))
+            emgManager = new NullEmgManager();
+        } catch (MyoNotDetectectedError e) {
+          emgManager = new NullEmgManager();
+        } finally {
+          cursor(ARROW);
         }
         options.getCustomizeOptions().reset();
         options.getCustomizeOptions().loadSavedSettings();
@@ -1960,14 +1959,14 @@ public class GameState_CalibrateSuccess extends GameState
        
         float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
         leftSliderValue = newVal;
-        emgManager.updateRegisteredSensorValues(LEFT_DIRECTION_LABEL, newVal);
+        emgManager.setSensitivity(LEFT_DIRECTION_LABEL, newVal);
         slidervalueChanged = true;
       }
       else if (event.getRequiredStringParameter("tag").equals("right_slider"))
       {
         float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
         rightSliderValue = newVal;
-        emgManager.updateRegisteredSensorValues(RIGHT_DIRECTION_LABEL, newVal);
+        emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, newVal);
         slidervalueChanged = true;
       }
     }

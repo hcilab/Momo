@@ -1,59 +1,48 @@
 interface IEmgManager {
-  boolean registerAction(String label);
-  boolean registerActionManual(String label, int sensorID, int maxReading);
+  boolean registerAction(String action);
+  boolean registerAction(String action, int sensorID);
+
+  boolean loadCalibration(String calibrationFile);
+  void saveCalibration(String calibrationFile);
+
+  void setSensitivity(String action, float value);
+  void setMinimumActivationThreshold(String action, float value);
+
+  int getSensor(String action);
+  float getSensitivity(String action);
+  float getMinimumActivationThreshold(String action);
+  boolean isCalibrated();
+
   HashMap<String, Float> poll();
   HashMap<String, Float> pollIgnoringControlStrategy();
   HashMap<String, Float> pollRaw();
-  boolean isCalibrated();
-  void updateRegisteredSensorValues(String directionLabel, float sliderValue);
+
+  // TODO Should I only capture EMG data during gameplay?
+  void startEmgLogging();
+  void stopEmgLogging();
 }
 
 
 class EmgManager implements IEmgManager {
-  MyoAPI myoAPI;
-
-  float firstOver_threshold;
-  boolean firstOver_leftOver;
-  boolean firstOver_rightOver;
+  LibMyoProportional myoProportional;
 
   EmgManager() throws MyoNotDetectectedError {
-    myoAPI = getMyoApiSingleton();
-
-    firstOver_threshold = options.getIOOptions().getMinInputThreshold();
-    firstOver_leftOver = false;
-    firstOver_rightOver = false;
+    myoProportional = new LibMyoProportional(mainObject);
   }
 
-  boolean registerAction(String label) {
-    Event event;
-
+  boolean registerAction(String action) {
     try {
-      if (calibrationMode == CalibrationMode.AUTO)
-      {
-        myoAPI.registerAction(label, 0);
-      }
-      else
-      {
-        if (label.equals(LEFT_DIRECTION_LABEL))
-        {
-          myoAPI.registerActionManual(label, leftSensor);
-        }
-        else
-        {
-          myoAPI.registerActionManual(label, rightSensor);
-        }
-      }
-
+      myoProportional.registerAction(string2Action(action));
     } catch (CalibrationFailedException e) {
       return false;
     }
     return true;
   }
 
-  boolean registerActionManual(String label, int sensorID, int maxReading)
+  boolean registerAction(String label, int sensorID)
   {
     try {
-      myoAPI.registerActionManual(label, sensorID, maxReading);
+      myoProportional.registerAction(string2Action(label), sensorID);
     } catch (CalibrationFailedException e) {
       return false;
     }
@@ -66,75 +55,12 @@ class EmgManager implements IEmgManager {
   * policy settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
   */
   HashMap<String, Float> poll() {
-    HashMap<String, Float> readings = myoAPI.poll();
-    Float left = readings.get(LEFT_DIRECTION_LABEL);
-    Float right = readings.get(RIGHT_DIRECTION_LABEL);
-    Float jump = (readings.get(LEFT_DIRECTION_LABEL) > 0.8 &&
-    readings.get(RIGHT_DIRECTION_LABEL) > 0.8) ?  1.0 : 0.0;
+    EmgSamplingPolicy p = options.getIOOptions().getEmgSamplingPolicy();
+    HashMap<Action, Float> results = myoProportional.pollAndTrim(emgSamplingPolicy2Policy(p));
 
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
-    toReturn.put(JUMP_DIRECTION_LABEL, jump);
-
-    EmgSamplingPolicy samplingPolicy = options.getIOOptions().getEmgSamplingPolicy();
-    if (samplingPolicy == EmgSamplingPolicy.DIFFERENCE)
-    {
-      if (left > right) {
-        toReturn.put(LEFT_DIRECTION_LABEL, left-right);
-        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-      } else {
-        toReturn.put(RIGHT_DIRECTION_LABEL, right-left);
-        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-      }
-    }
-    else if (samplingPolicy == EmgSamplingPolicy.MAX)
-    {
-      if (left > right) {
-        toReturn.put(LEFT_DIRECTION_LABEL, left);
-        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-      } else {
-        toReturn.put(RIGHT_DIRECTION_LABEL, right);
-        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-      }
-    }
-    else if (samplingPolicy == EmgSamplingPolicy.FIRST_OVER)
-    {
-      if (firstOver_leftOver && left > firstOver_threshold)
-      {
-        toReturn.put(LEFT_DIRECTION_LABEL, left);
-        toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-      }
-      else if (firstOver_rightOver && right > firstOver_threshold)
-      {
-        toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-        toReturn.put(RIGHT_DIRECTION_LABEL, right);
-      }
-      else
-      {
-        firstOver_leftOver = false;
-        firstOver_rightOver = false;
-
-        if (left > right && left > firstOver_threshold)
-        {
-          firstOver_leftOver = true;
-          toReturn.put(LEFT_DIRECTION_LABEL, left);
-          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-        }
-        else if (right > left && right > firstOver_threshold)
-        {
-          firstOver_rightOver = true;
-          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-          toReturn.put(RIGHT_DIRECTION_LABEL, right);
-        }
-        else
-        {
-          toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-          toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-        }
-      }
-    }
-    else
-    {
-      println("[ERROR] Unrecognized emg sampling policy in EmgManager::poll()");
+    for (Action a : results.keySet()) {
+      toReturn.put(action2String(a), results.get(a));
     }
     return toReturn;
   }
@@ -145,14 +71,12 @@ class EmgManager implements IEmgManager {
   * current control policy settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
   */
   HashMap<String, Float> pollIgnoringControlStrategy() {
-    HashMap<String, Float> readings = myoAPI.poll();
-    Float left = readings.get(LEFT_DIRECTION_LABEL);
-    Float right = readings.get(RIGHT_DIRECTION_LABEL);
+    HashMap<Action, Float> results = myoProportional.pollAndTrim(Policy.RAW);
 
     HashMap<String, Float> toReturn = new HashMap<String, Float>();
-    toReturn.put(LEFT_DIRECTION_LABEL, left);
-    toReturn.put(RIGHT_DIRECTION_LABEL, right);
-
+    for (Action a : results.keySet()) {
+      toReturn.put(action2String(a), results.get(a));
+    }
     return toReturn;
   }
 
@@ -163,15 +87,102 @@ class EmgManager implements IEmgManager {
   * settings (i.e., DIFFERENCE, MAXIMUM, FIRST_OVER)
   */
   HashMap<String, Float> pollRaw() {
-    return myoAPI.pollRaw();
+    HashMap<Action, Float> results = myoProportional.poll(Policy.RAW);
+
+    HashMap<String, Float> toReturn = new HashMap<String, Float>();
+    for (Action a : results.keySet()) {
+      toReturn.put(action2String(a), results.get(a));
+    }
+    return toReturn;
   }
   
   boolean isCalibrated() {
+    return myoProportional.isCalibrated();
+  }
+
+  boolean loadCalibration(String calibrationFile)  {
+    if (!fileExists(calibrationFile))
+      return false;
+
+    try {
+      myoProportional.loadCalibrationSettings(calibrationFile);
+    } catch (CalibrationFailedException e) {
+      return false;
+    }
     return true;
   }
 
-  void updateRegisteredSensorValues(String directionLabel, float sliderValue) {
-    myoAPI.updateRegisteredSensorValues(directionLabel, sliderValue);
+  void saveCalibration(String calibrationFile) {
+    myoProportional.writeCalibrationSettings(calibrationFile);
+  }
+
+  void setSensitivity(String action, float value) {
+    // should this be the inverse?
+    myoProportional.setSensitivity(string2Action(action), value);
+  }
+
+  void setMinimumActivationThreshold(String action, float value) {
+    myoProportional.setMinimumActivationThreshold(string2Action(action), value);
+  }
+
+  int getSensor(String action) {
+    Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
+    return sensorConfigs.get(string2Action(action)).sensorID;
+  }
+
+  float getSensitivity(String action) {
+    // should this be the inverse?
+    Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
+    return sensorConfigs.get(string2Action(action)).maxReading;
+  }
+
+  float getMinimumActivationThreshold(String action) {
+    Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
+    return sensorConfigs.get(string2Action(action)).minimumActivationThreshold;
+  }
+
+  void startEmgLogging() {
+    myoProportional.enableEmgLogging("emg.csv");
+  }
+
+  void stopEmgLogging() {
+    myoProportional.disableEmgLogging();
+  }
+
+  private Policy emgSamplingPolicy2Policy(EmgSamplingPolicy policy) {
+    switch (policy) {
+      case MAX: return Policy.MAXIMUM;
+      case DIFFERENCE: return Policy.DIFFERENCE;
+      case FIRST_OVER: return Policy.FIRST_OVER;
+      default: return Policy.RAW;
+    }
+  }
+
+  private Action string2Action(String s) {
+    switch (s) {
+      case LEFT_DIRECTION_LABEL: return Action.LEFT;
+      case RIGHT_DIRECTION_LABEL: return Action.RIGHT;
+      case JUMP_DIRECTION_LABEL: return Action.IMPULSE;
+
+      // TODO
+      default: return Action.LEFT;
+    }
+  }
+
+  private String action2String(Action a) {
+    switch (a) {
+      case LEFT: return LEFT_DIRECTION_LABEL;
+      case RIGHT: return RIGHT_DIRECTION_LABEL;
+      case IMPULSE: return JUMP_DIRECTION_LABEL;
+
+      // TODO
+      default: return LEFT_DIRECTION_LABEL;
+    }
+  }
+
+  private boolean fileExists(String filename) {
+    File file = new File("data/" + filename);
+    return file.exists();
   }
 }
 
@@ -182,7 +193,7 @@ class NullEmgManager implements IEmgManager {
     return false;
   }
 
-  boolean registerActionManual(String label, int sensorID, int maxReading) {
+  boolean registerAction(String label, int sensorID) {
     return false;
   }
 
@@ -195,19 +206,37 @@ class NullEmgManager implements IEmgManager {
   }
 
   HashMap<String, Float> pollIgnoringControlStrategy() {
-    return this.pollRaw();
+    return poll();
   }
 
   HashMap<String, Float> pollRaw() {
-    HashMap<String, Float> toReturn = new HashMap<String, Float>();
-    toReturn.put(LEFT_DIRECTION_LABEL, 0.0);
-    toReturn.put(RIGHT_DIRECTION_LABEL, 0.0);
-    return toReturn;
+    return poll();
   }
 
   boolean isCalibrated() {
     return false;
   }
 
-  void updateRegisteredSensorValues(String directionLabel, float sliderValue) {} // no-op
+  boolean loadCalibration(String calibrationFile) {
+    return false;
+  }
+
+  void saveCalibration(String calibrationFile) {} // no-op
+  void setSensitivity(String action, float value) {} // no-op
+  void setMinimumActivationThreshold(String action, float value) {} // no-op
+
+  int getSensor(String action) {
+    return 0;
+  }
+
+  float getSensitivity(String action) {
+    return 0.0;
+  }
+
+  float getMinimumActivationThreshold(String action) {
+    return 0.0;
+  }
+
+  void startEmgLogging() {} // no-op
+  void stopEmgLogging() {} // no-op
 }

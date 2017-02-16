@@ -1867,7 +1867,7 @@ public class GameState_CalibrateSuccess extends GameState
   @Override public void onExit()
   {
     if(slidervalueChanged)
-      options.getCalibrationData().setSensitivity(leftSliderValue, rightSliderValue);
+      options.getCalibrationData().setSensitivity(1.0 - leftSliderValue/100.0f, 1.0 - rightSliderValue/100.0f);
     gameObjectManager.clearGameObjects();
   }
   
@@ -1956,20 +1956,16 @@ public class GameState_CalibrateSuccess extends GameState
     {
       if (event.getRequiredStringParameter("tag").equals("left_slider"))
       {
-       
-        float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
-        leftSliderValue = newVal;
-        emgManager.setSensitivity(LEFT_DIRECTION_LABEL, newVal);
-        slidervalueChanged = true;
+        leftSliderValue = event.getRequiredFloatParameter("sliderValue");
+        emgManager.setSensitivity(LEFT_DIRECTION_LABEL, 1.0 - leftSliderValue/100.0f);
       }
       else if (event.getRequiredStringParameter("tag").equals("right_slider"))
       {
-        float newVal = (127.0f * (100.0 - event.getRequiredFloatParameter("sliderValue")) / 100.0f);
-        rightSliderValue = newVal;
-        emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, newVal);
-        slidervalueChanged = true;
+        rightSliderValue = event.getRequiredFloatParameter("sliderValue");
+        emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, 1.0 - rightSliderValue/100.0f);
       }
     }
+    slidervalueChanged = true;
   }
 
   private void updateRects(HashMap<String, Float> input)
@@ -1988,16 +1984,18 @@ public class GameState_CalibrateSuccess extends GameState
 
   private void loadText()
   {
-    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
-    renderComponent.getTexts().get(3).string = "Left EMG reading: " + (nfc(100-(100.0*options.getCalibrationData().getCalibrationData().get("LEFT")[1]/127.0), 1)) + "%";
-    renderComponent.getTexts().get(4).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("LEFT")[0] + ")";
-    renderComponent.getTexts().get(5).string = "Right EMG reading: " + (nfc(100-(100.0*options.getCalibrationData().getCalibrationData().get("RIGHT")[1]/127.0), 1)) + "%";
-    renderComponent.getTexts().get(6).string = "(Using sensor " + (int) options.getCalibrationData().getCalibrationData().get("RIGHT")[0] + ")";
+    leftSliderValue = 100.0 * (1.0-emgManager.getSensitivity(LEFT_DIRECTION_LABEL));
+    rightSliderValue = 100.0 * (1.0-emgManager.getSensitivity(RIGHT_DIRECTION_LABEL));
 
-    float leftSensitivity = 100.0 - 100.0 * options.getCalibrationData().getLeftSensitivity() / 127.0;
+    RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
+    renderComponent.getTexts().get(3).string = "Left EMG reading: " + nfc(leftSliderValue, 1) + "%";
+    renderComponent.getTexts().get(4).string = "(Using sensor " + emgManager.getSensor(LEFT_DIRECTION_LABEL) + ")";
+    renderComponent.getTexts().get(5).string = "Right EMG reading: " + nfc(rightSliderValue, 1) + "%";
+    renderComponent.getTexts().get(6).string = "(Using sensor " + emgManager.getSensor(RIGHT_DIRECTION_LABEL) + ")";
+
     RenderComponent.Text sliderText = renderComponent.getTexts().get(8);
-    sliderText.string = (nfc(leftSensitivity,1) + "%");
-    sliderText.translation.x = (((leftSensitivity/100.0) * (340-160)) + 160);
+    sliderText.string = (nfc(leftSliderValue,1) + "%");
+    sliderText.translation.x = (((leftSliderValue/100.0) * (340-160)) + 160);
 
     ArrayList<IGameObject> sliders = gameStateController.getGameObjectManager().getGameObjectsByTag("left_slider");
     if (sliders.size() > 0)
@@ -2011,10 +2009,9 @@ public class GameState_CalibrateSuccess extends GameState
       }
     }
 
-    float rightSensitivity = 100.0 - 100.0 * options.getCalibrationData().getRightSensitivity() / 127.0;
     RenderComponent.Text sliderTextRight = renderComponent.getTexts().get(11);
-    sliderTextRight.string = (nfc(rightSensitivity,1) + "%");
-    sliderTextRight.translation.x = (((rightSensitivity/100.0) * (340-160)) + 160);
+    sliderTextRight.string = (nfc(rightSliderValue,1) + "%");
+    sliderTextRight.translation.x = (((rightSliderValue/100.0) * (340-160)) + 160);
 
     ArrayList<IGameObject> slidersRight = gameStateController.getGameObjectManager().getGameObjectsByTag("right_slider");
     if (slidersRight.size() > 0)

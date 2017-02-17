@@ -1559,8 +1559,8 @@ public class Options implements IOptions
     private XML calibrationXML;
 
     // default filenames for 'guest' users
-    private String CALIBRATION_CSV_LOAD = "data/csv/calibration.csv";
-    private String CALIBRATION_CSV_SAVE = "data/csv/calibration.csv";
+    private String CALIBRATION_CSV_LOAD = "csv/calibration.csv";
+    private String CALIBRATION_CSV_SAVE = "csv/calibration.csv";
     private Table calibrationData;
     private TableRow dataRow;
 
@@ -1572,8 +1572,8 @@ public class Options implements IOptions
     public void setCalibrationFile(String loginID)
     {
       // TODO why are there 2 variables here? Refactor into one
-      CALIBRATION_CSV_LOAD = "data/csv/calibration_" + loginID + ".csv";
-      CALIBRATION_CSV_SAVE = "data/csv/calibration_" + loginID + ".csv";
+      CALIBRATION_CSV_LOAD = "csv/calibration_" + loginID + ".csv";
+      CALIBRATION_CSV_SAVE = "csv/calibration_" + loginID + ".csv";
     }
 
     public String getCalibrationFile()

@@ -884,6 +884,9 @@ public class GameState_IOSettings extends GameState
   public boolean saveDataLoaded;
   public boolean tweakedForPauseOrSettings;
 
+  // a flag to avoid saving a large number of calibration settings whenever the slider is clicked and dragged (i.e., save once upon exit if necessary)
+  public boolean calibrationChanged;
+
   SoundObject buttonClickedSoundTest;
   float amplitude;
 
@@ -897,6 +900,7 @@ public class GameState_IOSettings extends GameState
     isPauseScreen = false;
     saveDataLoaded = false;
     tweakedForPauseOrSettings = false;
+    calibrationChanged = false;
 
     buttonXML = loadXML("xml_data/button.xml");
     buttomXMLComponent = buttonXML.getChild("Button");
@@ -931,6 +935,9 @@ public class GameState_IOSettings extends GameState
 
   @Override public void onExit()
   {
+    if (calibrationChanged)
+      emgManager.saveCalibration(options.getCalibrationData().getCalibrationFile());
+
     gameObjectManager.clearGameObjects();
   }
   
@@ -1017,7 +1024,7 @@ public class GameState_IOSettings extends GameState
       {
         emgManager.setMinimumActivationThreshold(LEFT_DIRECTION_LABEL, sliderValue/100.0);
         emgManager.setMinimumActivationThreshold(RIGHT_DIRECTION_LABEL, sliderValue/100.0);
-        emgManager.saveCalibration(options.getCalibrationData().getCalibrationFile());
+        calibrationChanged = true;
       }
     }
 

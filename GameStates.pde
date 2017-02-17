@@ -338,6 +338,8 @@ public class GameState_InGame extends GameState
     initializeBonusLevelLoggingTable();
     if(options.getGameOptions().isLogRawData())
       initializeRawDataLoggingTable();
+
+    emgManager.startEmgLogging();
   }
   
   @Override public void update(int deltaTime)
@@ -351,6 +353,9 @@ public class GameState_InGame extends GameState
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
+
+    emgManager.flushEmgLog();
+    emgManager.stopEmgLogging();
   }
   
   private void handleEvents()
@@ -462,6 +467,8 @@ public class GameState_FittsBonusGame extends GameState
     bonusSplash.play();
     bonusMusic.setVolume(1 * options.getIOOptions().getMusicVolume());
     bonusMusic.loop();
+
+    emgManager.flushEmgLog();
   }
   
   @Override public void update(int deltaTime)
@@ -488,6 +495,8 @@ public class GameState_FittsBonusGame extends GameState
 
     Event updateScoreEvent = new Event(EventType.MUSIC_RESTART);
     eventManager.queueEvent(updateScoreEvent);
+
+    emgManager.flushEmgLog();
   }
   
   private void handleEvents()

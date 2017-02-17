@@ -17,8 +17,8 @@ interface IEmgManager {
   HashMap<String, Float> pollIgnoringControlStrategy();
   HashMap<String, Float> pollRaw();
 
-  // TODO Should I only capture EMG data during gameplay?
   void startEmgLogging();
+  void flushEmgLog();
   void stopEmgLogging();
 }
 
@@ -145,6 +145,10 @@ class EmgManager implements IEmgManager {
     myoProportional.enableEmgLogging("emg.csv");
   }
 
+  void flushEmgLog() {
+    myoProportional.flushEmgLog();
+  }
+
   void stopEmgLogging() {
     myoProportional.disableEmgLogging();
   }
@@ -238,5 +242,6 @@ class NullEmgManager implements IEmgManager {
   }
 
   void startEmgLogging() {} // no-op
+  void flushEmgLog() {} // no-op
   void stopEmgLogging() {} // no-op
 }

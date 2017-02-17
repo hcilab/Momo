@@ -98,13 +98,11 @@ public interface IIOOptions
   public float getMusicVolume();
   public float getSoundEffectsVolume();
   public EmgSamplingPolicy getEmgSamplingPolicy();
-  public float getMinInputThreshold();
   public Forearm getForearm();
   
   public void setMusicVolume(float volume);
   public void setSoundEffectsVolume(float volume);
   public void setEmgSamplingPolicy(EmgSamplingPolicy policy);
-  public void setMinInputThreshold(float _minInputThreshold);
   public void setForearm(Forearm _myoForearm);
 }
 
@@ -648,7 +646,6 @@ public class Options implements IOptions
     private float musicVolume;
     private float soundEffectsVolume;
     private EmgSamplingPolicy emgSamplingPolicy;
-    private float minInputThreshold;
     private Forearm myoForearm;
 
     private IOOptions()
@@ -657,7 +654,6 @@ public class Options implements IOptions
       
       musicVolume = xmlIO.getFloat(MUSIC_VOLUME);
       soundEffectsVolume = xmlIO.getFloat(SOUND_EFFECTS_VOLUME);
-      minInputThreshold = xmlIO.getFloat(THRESHOLD);
 
       switch (xmlIO.getString(EMG_SAMPLING_POLICY))
       {
@@ -688,11 +684,6 @@ public class Options implements IOptions
     public EmgSamplingPolicy getEmgSamplingPolicy()
     {
       return emgSamplingPolicy;
-    }
-
-    public float getMinInputThreshold()
-    {
-      return minInputThreshold;
     }
 
     public Forearm getForearm()
@@ -727,13 +718,6 @@ public class Options implements IOptions
       else
         println("[ERROR] Unrecognized emg sampling policy in IOOptions::setEmgSamplingPolicy()");
 
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
-    }
-
-    public void setMinInputThreshold(float _minInputThreshold)
-    {
-      minInputThreshold = _minInputThreshold / 100.0f;
-      xmlIO.setFloat(THRESHOLD, minInputThreshold);
       saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
     }
 

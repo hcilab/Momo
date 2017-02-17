@@ -1039,7 +1039,6 @@ public class PlayerControllerComponent extends Component
   public PVector latestMoveVector;
   private float acceleration;
   private float maxSpeed;
-  private float minInputThreshold;
   private float jumpForce;
 
   private String currentSpeedParameterName;
@@ -1128,7 +1127,6 @@ public class PlayerControllerComponent extends Component
   {
     acceleration = xmlComponent.getFloat("acceleration");
     maxSpeed = xmlComponent.getFloat("maxSpeed");
-    minInputThreshold = xmlComponent.getFloat("minInputThreshold");
     jumpForce = xmlComponent.getFloat("jumpForce");
     currentSpeedParameterName = xmlComponent.getString("currentSpeedParameterName");
 
@@ -1513,8 +1511,8 @@ public class PlayerControllerComponent extends Component
       myoJumpMagnitude = rawInput.get(JUMP_DIRECTION_LABEL);
     }
 
-    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
-    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > options.getIOOptions().getMinInputThreshold() ? true : false;
+    leftMyoForce = rawInput.get(LEFT_DIRECTION_LABEL) > emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL) ? true : false;
+    rightMyoForce = rawInput.get(RIGHT_DIRECTION_LABEL) > emgManager.getMinimumActivationThreshold(RIGHT_DIRECTION_LABEL) ? true : false;
 
     rawInput.put(LEFT_DIRECTION_LABEL, myoLeftMagnitude+keyboardLeftMagnitude);
     rawInput.put(RIGHT_DIRECTION_LABEL, myoRightMagnitude+keyboardRightMagnitude);
@@ -1900,34 +1898,9 @@ public class PlayerControllerComponent extends Component
     return distance;
   }
 
+  // TODO since minimumActivationThreshold scaling is now performed in the LibMyoProportional, this method should be renamed to something line `handleJumpDelay()` or removed completly.
   private void smoothControls(PVector moveVector, int deltaTime)
   {
-    if (moveVector.x > -minInputThreshold && moveVector.x < minInputThreshold)
-    {
-      moveVector.x = 0.0f;
-    }
-    else if (moveVector.x < 0.0f) 
-    {  
-      moveVector.x += minInputThreshold;  
-      moveVector.x *= (1.0f - minInputThreshold);
-  
-      if (moveVector.x < -1.0f)  
-      {  
-        moveVector.x = -1.0f;  
-      } 
-    }
-    else
-    { 
-      moveVector.x -= minInputThreshold; 
-      moveVector.x *= (1.0f - minInputThreshold);
- 
-
-      if (moveVector.x > 1.0f)
-      {
-        moveVector.x = 1.0f;
-      }
-    } 
- 
     jumpTime += deltaTime; 
     if (moveVector.y < -0.5  && jumpTime > jumpDelay)  
     { 
@@ -1937,11 +1910,6 @@ public class PlayerControllerComponent extends Component
     {
       moveVector.y = 0.0f;
     }
-  }
-
-  public void setMinInputThreshold(float _minInputThreshold)
-  {
-    minInputThreshold = _minInputThreshold;
   }
 }
 
@@ -4143,7 +4111,9 @@ public class IOOptionsControllerComponent extends Component
         
         float musicVolume = options.getIOOptions().getMusicVolume();
         float soundEffectsVolume = options.getIOOptions().getSoundEffectsVolume();
-        float threshold = options.getIOOptions().getMinInputThreshold();
+
+        // TODO this is a bit sketchy because it assumes that LEFT and RIGHT will always have the same minimum activation threshold...
+        float threshold = emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL);
         
         musicSliderText.string = Integer.toString((int)(musicVolume * 100.0f));
         musicSliderText.translation.x = (musicVolume * (musicSliderRightBoundary - musicSliderLeftBoundary)) + musicSliderLeftBoundary;

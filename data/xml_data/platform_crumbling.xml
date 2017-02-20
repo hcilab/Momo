@@ -6,7 +6,7 @@
     </Sprite>
   </Render>
   <RigidBody active="true" allowSleep="true" angularDamping="0.0" awake="false" bullet="false" fixedRotation="true" gravityScale="0.0" linearDamping="0.0" type="kinematic">
-    <Fixture density="1.0" friction="0.0" isSensor="false" restitution="0.3">
+    <Fixture density="1.0" friction="0.8" isSensor="false" restitution="0.3">
       <Shape halfHeight="0.5" halfWidth="0.5" type="box" x="0.0" y="0.0"/>
     </Fixture>
   </RigidBody>

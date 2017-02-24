@@ -31,8 +31,8 @@
 		currentRiseSpeedParameterName="currentRiseSpeed"
 		breakPlatformFile="xml_data/platform_break.xml"
 		portalPlatformFile="xml_data/platform_portal.xml"
-		breakPlatformChance="0.05"
-		bonusLevelChance="0.10"
+		breakPlatformChance="0.0"
+		bonusLevelChance="0.07"
 	>
 	</PlatformManagerController>
 </GameObject>

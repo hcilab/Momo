@@ -35,7 +35,7 @@ public class SensorGraphApplet extends PApplet {
             lines,
             50, 370, 
             675, 300, 
-            100, false, 
+            200, false,
             color(0,0,255), color(255, 0, 0), color(0,0,100),
             false); 
     }

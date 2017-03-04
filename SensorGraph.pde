@@ -120,6 +120,11 @@ void lineChart( PApplet graph,
     else{
         ymax = maxVal;//Collections.max(leftData);
     }
+
+    // draw minimum activation threshold line
+    int mat_y = round(emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL)*(ymax-ymin)) + ymin;
+    graph.line(x-3, mat_y, x+w-10, mat_y);
+
            
     //Count the number of pieces in the array.
     int xcount = data1.size();

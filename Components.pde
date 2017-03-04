@@ -1466,7 +1466,7 @@ public class PlayerControllerComponent extends Component
 
   private HashMap<String, Float> gatherRawInput()
   {
-    HashMap<String, Float> rawInput = emgManager.poll();
+    HashMap<String, Float> rawInput = (HashMap<String, Float>) processedReadings.clone();
 
     Float keyboardLeftMagnitude;
     Float keyboardRightMagnitude;
@@ -1573,7 +1573,6 @@ public class PlayerControllerComponent extends Component
   }
 
   private void applySpeedWarning() {
-    HashMap<String, Float> rawReadings = emgManager.pollRaw();
     Float left = rawReadings.get(LEFT_DIRECTION_LABEL);
     Float right = rawReadings.get(RIGHT_DIRECTION_LABEL);
 
@@ -4642,7 +4641,7 @@ public class CalibrationDisplayComponent extends Component
         //println(text.string);
         if (text != null && pcc.rawInput != null)
         {
-          HashMap<String, Float> emgInput = emgManager.pollRaw();
+          HashMap<String, Float> emgInput = (HashMap<String, Float>) rawReadings.clone();
           
           //the min of 150f only allows the bar to go up to 200% so it does not go outside rectangle  
           float rightRectVal = min((emgInput.get(RIGHT_DIRECTION_LABEL) * 75.0f),150.0f);

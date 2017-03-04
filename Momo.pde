@@ -51,6 +51,10 @@ IGameStateController gameStateController;
 // Handles EMG input
 IEmgManager emgManager;
 
+// Poll EMG globally once per frame to ensure consistency across all visualizations
+HashMap<String, Float> rawReadings;
+HashMap<String, Float> processedReadings;
+
 // Manages the save_data.xml file.
 IOptions options;
 
@@ -171,6 +175,9 @@ void setup()
   gameStateController.pushState(new GameState_UserLogin());
 
   emgManager = new NullEmgManager();
+
+  rawReadings = null;
+  processedReadings = null;
   
   options = new Options();
   
@@ -247,6 +254,12 @@ void draw()
     deltaTime = 16;
   }
   
+  // poll emg-system exactly once per frame for consistency
+  if (emgManager.isCalibrated()) {
+    rawReadings = emgManager.pollRaw();
+    processedReadings = emgManager.poll();
+  }
+
   eventManager.update();
   gameStateController.update(deltaTime);
   

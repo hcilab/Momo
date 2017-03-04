@@ -26,35 +26,18 @@ public class SensorGraphApplet extends PApplet {
       frameRate(20);
       giveFocusToParentFrame();
       
-      IGameObject playerObj = null;
-      PlayerControllerComponent pcc = null;
-      
-      if (gameStateController.getGameObjectManager().getGameObjectsByTag("player").size()>0){
-        playerObj = gameStateController.getGameObjectManager().getGameObjectsByTag("player").get(0);
-        pcc = (PlayerControllerComponent) playerObj.getComponent(ComponentType.PLAYER_CONTROLLER);  
-      }
-      
-      if (pcc != null && pcc.rawInput != null)
-      {
-        int left = (int)(pcc.rawInput.get(LEFT_DIRECTION_LABEL)*100);
-        int right = (int)(pcc.rawInput.get(RIGHT_DIRECTION_LABEL)*100);
-        int jump = (int)(pcc.rawInput.get(JUMP_DIRECTION_LABEL)*1);
-        
-        leftReadings.add(left);
-        rightReadings.add(right);
-        lines.add(jump);
-            
-        lineChart(this,
-             leftReadings, rightReadings,
-             lines,
-             50, 370, 
-             675, 300, 
-             100, false, 
-             color(0,0,255), color(255, 0, 0), color(0,0,100),
-             false); 
-      }
-      
-      
+      leftReadings.add(round(rawReadings.get(LEFT_DIRECTION_LABEL)*100));
+      rightReadings.add(round(rawReadings.get(RIGHT_DIRECTION_LABEL)*100));
+      lines.add(round(rawReadings.get(JUMP_DIRECTION_LABEL)));
+          
+      lineChart(this,
+            leftReadings, rightReadings,
+            lines,
+            50, 370, 
+            675, 300, 
+            100, false, 
+            color(0,0,255), color(255, 0, 0), color(0,0,100),
+            false); 
     }
     
     void removeExitEvent() {

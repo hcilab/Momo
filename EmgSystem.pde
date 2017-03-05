@@ -127,18 +127,27 @@ class EmgManager implements IEmgManager {
 
   int getSensor(String action) {
     Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
-    return sensorConfigs.get(string2Action(action)).sensorID;
+    if (sensorConfigs.containsKey(string2Action(action)))
+      return sensorConfigs.get(string2Action(action)).sensorID;
+    else
+      return 0;
   }
 
   float getSensitivity(String action) {
     // should this be the inverse?
     Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
-    return sensorConfigs.get(string2Action(action)).maxReading;
+    if (sensorConfigs.containsKey(string2Action(action)))
+      return sensorConfigs.get(string2Action(action)).maxReading;
+    else
+      return 0.0;
   }
 
   float getMinimumActivationThreshold(String action) {
     Map<Action, SensorConfig> sensorConfigs = myoProportional.getCalibrationSettings();
-    return sensorConfigs.get(string2Action(action)).minimumActivationThreshold;
+    if (sensorConfigs.containsKey(string2Action(action)))
+      return sensorConfigs.get(string2Action(action)).minimumActivationThreshold;
+    else
+      return 0.0;
   }
 
   void startEmgLogging() {

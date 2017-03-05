@@ -121,9 +121,13 @@ void lineChart( PApplet graph,
         ymax = maxVal;//Collections.max(leftData);
     }
 
-    // draw minimum activation threshold line
-    int mat_y = round(emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL)*(ymax-ymin)) + ymin;
+    // draw minimum activation threshold line (TODO: fixup when independent MAT)
+    int mat_y = y - round(emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL)*h);
+    graph.fill(255,0,0,128);
+    graph.stroke(255,0,0,128);
+    graph.strokeWeight(4);
     graph.line(x-3, mat_y, x+w-10, mat_y);
+    graph.strokeWeight(1);
 
            
     //Count the number of pieces in the array.

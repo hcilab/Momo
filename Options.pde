@@ -198,7 +198,6 @@ public interface ICalibrationData
   public float getRightReading();
   public float getLeftSensitivity();
   public float getRightSensitivity();
-  public void setSensitivity(float _leftSensitivity,float _rightSensitivity);
 }
 
 public interface IFittsLawOptions
@@ -1618,13 +1617,6 @@ public class Options implements IOptions
     public float getRightSensitivity()
     {
       return getRightReading();
-    }
-
-    public void setSensitivity(float _leftSensitivity, float _rightSensitivity)
-    {
-      emgManager.setSensitivity(LEFT_DIRECTION_LABEL, _leftSensitivity);
-      emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, _rightSensitivity);
-      emgManager.saveCalibration(getCalibrationFile());
     }
 
     private boolean fileExists(String filename)

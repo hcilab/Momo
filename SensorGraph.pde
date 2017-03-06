@@ -121,12 +121,20 @@ void lineChart( PApplet graph,
         ymax = maxVal;//Collections.max(leftData);
     }
 
-    // draw minimum activation threshold line (TODO: fixup when independent MAT)
-    int mat_y = y - round(emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL)*h);
+    // draw minimum activation threshold lines
+    int leftMatY = y - round(emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL)*h);
+    int rightMatY = y - round(emgManager.getMinimumActivationThreshold(RIGHT_DIRECTION_LABEL)*h);
+
+    graph.strokeWeight(4);
+
+    graph.fill(0,0,255,128);
+    graph.stroke(0,0,255,128);
+    graph.line(x-3, leftMatY, x+w-10, leftMatY);
+
     graph.fill(255,0,0,128);
     graph.stroke(255,0,0,128);
-    graph.strokeWeight(4);
-    graph.line(x-3, mat_y, x+w-10, mat_y);
+    graph.line(x-3, rightMatY, x+w-10, rightMatY);
+
     graph.strokeWeight(1);
 
            

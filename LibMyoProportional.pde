@@ -77,9 +77,14 @@ class LibMyoProportional {
     int rightSensorID = calibrationSettings.getInt("right_sensor");
     float leftSensorMaxReading = calibrationSettings.getFloat("left_reading");
     float rightSensorMaxReading = calibrationSettings.getFloat("right_reading");
+    float leftMinimumActivationThreshold = calibrationSettings.getFloat("left_mat");
+    float rightMinimumActivationThreshold = calibrationSettings.getFloat("right_mat");
 
     registerAction(Action.LEFT, leftSensorID, leftSensorMaxReading);
     registerAction(Action.RIGHT, rightSensorID, rightSensorMaxReading);
+
+    setMinimumActivationThreshold(Action.LEFT, leftMinimumActivationThreshold);
+    setMinimumActivationThreshold(Action.RIGHT, rightMinimumActivationThreshold);
   }
 
   public SensorConfig registerAction(Action action) throws CalibrationFailedException {

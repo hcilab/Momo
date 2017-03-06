@@ -2,9 +2,9 @@
 	<PlatformManagerController
 		platformFile="xml_data/platform.xml"
 		slipperyPlatformFile="xml_data/platform_slippery.xml"
-		slipperyPlatformChance="0.1"
+		slipperyPlatformChance="0.2"
 		stickyPlatformFile="xml_data/platform_sticky.xml"
-		stickyPlatformChance="0.1"
+		stickyPlatformChance="0.2"
 		tag="platform"
 		maxPlatformLevels="100"
 		leftSide="15.0"

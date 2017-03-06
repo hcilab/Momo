@@ -348,6 +348,9 @@ public class GameState_InGame extends GameState
     gameObjectManager.update(deltaTime);
     physicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
     handleEvents();
+
+    // turn on each frame because logging gets disabled whenever player recalibrates
+    emgManager.startEmgLogging();
   }
   
   @Override public void onExit()
@@ -478,6 +481,9 @@ public class GameState_FittsBonusGame extends GameState
     bonusPhysicsWorld.step(((float)deltaTime) / 1000.0f, velocityIterations, positionIterations);
     handleEvents();
     shape(obbg,250,250,500,505);
+
+    // turn on each frame because logging gets disabled whenever player recalibrates
+    emgManager.startEmgLogging();
   }
   
   @Override public void onExit()

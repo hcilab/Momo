@@ -899,9 +899,6 @@ public class GameState_IOSettings extends GameState
   public boolean saveDataLoaded;
   public boolean tweakedForPauseOrSettings;
 
-  // a flag to avoid saving a large number of calibration settings whenever the slider is clicked and dragged (i.e., save once upon exit if necessary)
-  public boolean calibrationChanged;
-
   SoundObject buttonClickedSoundTest;
   float amplitude;
 
@@ -915,7 +912,6 @@ public class GameState_IOSettings extends GameState
     isPauseScreen = false;
     saveDataLoaded = false;
     tweakedForPauseOrSettings = false;
-    calibrationChanged = false;
 
     buttonXML = loadXML("xml_data/button.xml");
     buttomXMLComponent = buttonXML.getChild("Button");
@@ -950,9 +946,6 @@ public class GameState_IOSettings extends GameState
 
   @Override public void onExit()
   {
-    if (calibrationChanged)
-      emgManager.saveCalibration(options.getCalibrationData().getCalibrationFile());
-
     gameObjectManager.clearGameObjects();
   }
   
@@ -1035,12 +1028,6 @@ public class GameState_IOSettings extends GameState
       {
         options.getIOOptions().setSoundEffectsVolume(sliderValue);
       }
-      else if (tag.equals("threshold"))
-      {
-        emgManager.setMinimumActivationThreshold(LEFT_DIRECTION_LABEL, sliderValue/100.0);
-        emgManager.setMinimumActivationThreshold(RIGHT_DIRECTION_LABEL, sliderValue/100.0);
-        calibrationChanged = true;
-      }
     }
 
     for (IEvent event : eventManager.getEvents(EventType.MODAL_HOVER))
@@ -1079,14 +1066,6 @@ public class GameState_IOSettings extends GameState
         {
           shapes.get(3).translation.x = 250;
           for (int i = 14; i <= 19; i++)
-          {
-            texts.get(i).translation.x = 250;
-          }
-        }
-        else if (tag.equals("threshold_modal"))
-        {
-          shapes.get(4).translation.x = 250;
-          for (int i = 20; i <= 26; i++)
           {
             texts.get(i).translation.x = 250;
           }
@@ -1130,14 +1109,6 @@ public class GameState_IOSettings extends GameState
         {
           shapes.get(3).translation.x = 1000;
           for (int i = 14; i <= 19; i++)
-          {
-            texts.get(i).translation.x = 1000;
-          }
-        }
-        else if (tag.equals("threshold_modal"))
-        {
-          shapes.get(4).translation.x = 1000;
-          for (int i = 20; i <= 26; i++)
           {
             texts.get(i).translation.x = 1000;
           }

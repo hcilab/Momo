@@ -4058,11 +4058,6 @@ public class IOOptionsControllerComponent extends Component
   private float soundEffectsSliderRightBoundary;
   private float soundEffectsSliderYPosition;
 
-  private String thresholdSliderTag;
-  private float thresholdSliderLeftBoundary;
-  private float thresholdSliderRightBoundary;
-  private float thresholdSliderYPosition;
-  
   public IOOptionsControllerComponent(IGameObject _gameObject)
   {
     super(_gameObject);
@@ -4083,11 +4078,6 @@ public class IOOptionsControllerComponent extends Component
     soundEffectsSliderLeftBoundary = xmlComponent.getFloat("soundEffectsSliderLeftBoundary");
     soundEffectsSliderRightBoundary = xmlComponent.getFloat("soundEffectsSliderRightBoundary");
     soundEffectsSliderYPosition = xmlComponent.getFloat("soundEffectsSliderYPosition");
-
-    thresholdSliderTag = xmlComponent.getString("thresholdSliderTag");
-    thresholdSliderLeftBoundary = xmlComponent.getFloat("thresholdSliderLeftBoundary");
-    thresholdSliderRightBoundary = xmlComponent.getFloat("thresholdSliderRightBoundary");
-    thresholdSliderYPosition = xmlComponent.getFloat("thresholdSliderYPosition");
   }
   
   @Override public ComponentType getComponentType()
@@ -4106,14 +4096,10 @@ public class IOOptionsControllerComponent extends Component
       {
         RenderComponent.Text musicSliderText = texts.get(0);
         RenderComponent.Text soundEffectsSliderText = texts.get(1);
-        RenderComponent.Text thresholdSliderText = texts.get(2);
         
         float musicVolume = options.getIOOptions().getMusicVolume();
         float soundEffectsVolume = options.getIOOptions().getSoundEffectsVolume();
 
-        // TODO this is a bit sketchy because it assumes that LEFT and RIGHT will always have the same minimum activation threshold...
-        float threshold = emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL);
-        
         musicSliderText.string = Integer.toString((int)(musicVolume * 100.0f));
         musicSliderText.translation.x = (musicVolume * (musicSliderRightBoundary - musicSliderLeftBoundary)) + musicSliderLeftBoundary;
         musicSliderText.translation.y = musicSliderYPosition;
@@ -4121,10 +4107,6 @@ public class IOOptionsControllerComponent extends Component
         soundEffectsSliderText.string = Integer.toString((int)(soundEffectsVolume * 100.0f));
         soundEffectsSliderText.translation.x = (soundEffectsVolume * (soundEffectsSliderRightBoundary - soundEffectsSliderLeftBoundary)) + soundEffectsSliderLeftBoundary;
         soundEffectsSliderText.translation.y = soundEffectsSliderYPosition;
-
-        thresholdSliderText.string = Integer.toString((int)(threshold * 100.0f)) + "%";
-        thresholdSliderText.translation.x = (threshold * (thresholdSliderRightBoundary - thresholdSliderLeftBoundary)) + thresholdSliderLeftBoundary;
-        thresholdSliderText.translation.y = thresholdSliderYPosition;
 
         ArrayList<IGameObject> musicSliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(musicSliderTag);
         if (musicSliderList.size() > 0)
@@ -4147,18 +4129,6 @@ public class IOOptionsControllerComponent extends Component
           {
             SliderComponent sliderComponent = (SliderComponent)component;
             sliderComponent.setTabPosition((width / 500.0f) * soundEffectsSliderText.translation.x);
-          }
-        }
-
-        ArrayList<IGameObject> thresholdSliderList = gameStateController.getGameObjectManager().getGameObjectsByTag(thresholdSliderTag);
-        if (thresholdSliderList.size() > 0)
-        {
-          IGameObject thresholdSlider = thresholdSliderList.get(0);
-          component = thresholdSlider.getComponent(ComponentType.SLIDER);
-          if (component != null)
-          {
-            SliderComponent sliderComponent = (SliderComponent)component;
-            sliderComponent.setTabPosition((width / 500.0f) * thresholdSliderText.translation.x);
           }
         }
       }

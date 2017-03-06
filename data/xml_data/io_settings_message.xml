@@ -44,8 +44,10 @@
 				<FillColor r="0" g="0" b="0" a="255"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Text>
+
+      <!-- Text that used to be used by activation threshold slider. I'm not even going to attempt to remove this and adjust all indexes accordingly -->
 			<Text
-				string="xxx "
+				string=""
 				fontName="Arial"
 				size="12"
 				antialiasing="true"
@@ -57,6 +59,8 @@
 				<FillColor r="0" g="0" b="0" a="255"/>
 				<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 			</Text>
+      <!-- ==================================================================================================== -->
+
 			<Text
 				string="Quit Game"
 				fontName="Moire" 
@@ -143,32 +147,6 @@
 			alignY="baseline"
 			x="25.0"
 			y="200.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Sensitivity"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="50.0"
-			y="225.0"
-		>
-			<FillColor r="0" g="0" b="0" a="255"/>
-			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
-		</Text>
-		<Text
-			string="Threshold (?)"
-			fontName="Moire"
-			size="15"
-			antialiasing="true"
-			alignX="left"
-			alignY="baseline"
-			x="75.0"
-			y="255.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>

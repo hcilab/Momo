@@ -11,12 +11,6 @@
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>
-	<GameObject file="xml_data/slider.xml" tag="threshold">
-		<Transform>
-			<Translation x="375" y="250"/>
-			<Scale x="180" y="18"/>
-		</Transform>
-	</GameObject>
 
 	<GameObject file="xml_data/io_settings_message.xml" tag="message"/>
 	<GameObject file="xml_data/button_back.xml" tag="back">

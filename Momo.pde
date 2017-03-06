@@ -176,8 +176,9 @@ void setup()
 
   emgManager = new NullEmgManager();
 
-  rawReadings = null;
-  processedReadings = null;
+  // initialize with empty values incase armband is never calibrated
+  rawReadings = emgManager.pollRaw();
+  processedReadings = emgManager.poll();
   
   options = new Options();
   

@@ -126,12 +126,12 @@
 		<Text
 			string="xxx"
 			fontName="Moire"
-			size="20"
+			size="14"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="250.0"
-			y="160.0"
+			x="70.0"
+			y="190.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -139,12 +139,12 @@
 		<Text
 			string="0"
 			fontName="Moire"
-			size="20"
+			size="16"
 			antialiasing="true"
 			alignX="right"
 			alignY="center"
-			x="150.0"
-			y="180.0"
+			x="15.0"
+			y="210.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -152,12 +152,12 @@
 		<Text
 			string="100"
 			fontName="Moire"
-			size="20"
+			size="16"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
-			x="350.0"
-			y="180.0"
+			x="125.0"
+			y="210.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -166,18 +166,18 @@
 			<StrokeColor a="255" b="0" g="0" r="0" strokeWeight="1.0"/>
 		</Rect>
 		<Rect halfHeight="6" halfWidth="0" x="250.0" y="220">
-			<StrokeColor a="255" b="0" g="0" r="255" strokeWeight="1.0"/>
+			<StrokeColor a="255" b="255" g="0" r="0" strokeWeight="1.0"/>
 		</Rect>
 
 		<Text
 			string="xxx"
 			fontName="Moire"
-			size="20"
+			size="14"
 			antialiasing="true"
 			alignX="center"
 			alignY="center"
-			x="250.0"
-			y="310.0"
+			x="70.0"
+			y="340.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -185,12 +185,12 @@
 		<Text
 			string="0"
 			fontName="Moire"
-			size="20"
+			size="16"
 			antialiasing="true"
 			alignX="right"
 			alignY="center"
-			x="150.0"
-			y="330.0"
+			x="15.0"
+			y="360.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -198,12 +198,12 @@
 		<Text
 			string="100"
 			fontName="Moire"
-			size="20"
+			size="16"
 			antialiasing="true"
 			alignX="left"
 			alignY="center"
-			x="350.0"
-			y="330.0"
+			x="125.0"
+			y="360.0"
 		>
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
@@ -256,5 +256,62 @@
 			<FillColor r="0" g="0" b="0" a="255"/>
 			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
 		</Text>
+
+		<!-- I'm putting these labels below here because I don't want to mess with the ordering of objects above, which the game depends on ordering for -->
+		<Text
+			string="Gain"
+			fontName="Moire"
+			size="16"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="70.0"
+			y="160.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Activation Threshold"
+			fontName="Moire"
+			size="16"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="160.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="Gain"
+			fontName="Moire"
+			size="16"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="70.0"
+			y="310.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="Activation Threshold"
+			fontName="Moire"
+			size="16"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="310.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+    <!-- =================================================================================================== -->
+
 	</Render>
 </GameObject>

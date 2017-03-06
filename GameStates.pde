@@ -1848,6 +1848,8 @@ public class GameState_CalibrateSuccess extends GameState
   private boolean textLoaded;
   private float rightSliderValue;
   private float leftSliderValue;
+  private float rightMatValue;
+  private float leftMatValue;
   //Make sures that duplicate are not put in calibration table
   private boolean slidervalueChanged;
 
@@ -1885,7 +1887,8 @@ public class GameState_CalibrateSuccess extends GameState
   @Override public void onExit()
   {
     if(slidervalueChanged)
-      options.getCalibrationData().setSensitivity(1.0 - leftSliderValue/100.0f, 1.0 - rightSliderValue/100.0f);
+      emgManager.saveCalibration(options.getCalibrationData().getCalibrationFile());
+
     gameObjectManager.clearGameObjects();
   }
   
@@ -1921,7 +1924,7 @@ public class GameState_CalibrateSuccess extends GameState
             RenderComponent.Text sliderText = texts.get(8);
 
             sliderText.string = nfc(sliderValue, 1) + "%";
-            sliderText.translation.x = (((sliderValue/100.0) * (340-160)) + 160);
+            sliderText.translation.x = (((sliderValue/100.0) * (120-20)) + 20);
 
             ArrayList<IGameObject> sliderList = gameObjectManager.getGameObjectsByTag("left_slider");
             if (sliderList.size() > 0)
@@ -1952,7 +1955,7 @@ public class GameState_CalibrateSuccess extends GameState
             RenderComponent.Text sliderText = texts.get(11);
 
             sliderText.string = nfc(sliderValue, 1) + "%";
-            sliderText.translation.x = (((sliderValue/100.0) * (340-160)) + 160);
+            sliderText.translation.x = (((sliderValue/100.0) * (120-20)) + 20);
 
             ArrayList<IGameObject> sliderList = gameObjectManager.getGameObjectsByTag("right_slider");
             if (sliderList.size() > 0)
@@ -1982,6 +1985,16 @@ public class GameState_CalibrateSuccess extends GameState
         rightSliderValue = event.getRequiredFloatParameter("sliderValue");
         emgManager.setSensitivity(RIGHT_DIRECTION_LABEL, 1.0 - rightSliderValue/100.0f);
       }
+      else if (event.getRequiredStringParameter("tag").equals("left_mat"))
+      {
+        leftMatValue = event.getRequiredFloatParameter("sliderValue");
+        emgManager.setMinimumActivationThreshold(LEFT_DIRECTION_LABEL, leftMatValue/100.0f);
+      }
+      else if (event.getRequiredStringParameter("tag").equals("right_mat"))
+      {
+        rightMatValue = event.getRequiredFloatParameter("sliderValue");
+        emgManager.setMinimumActivationThreshold(RIGHT_DIRECTION_LABEL, rightMatValue/100.0f);
+      }
     }
     slidervalueChanged = true;
   }
@@ -2005,6 +2018,9 @@ public class GameState_CalibrateSuccess extends GameState
     leftSliderValue = 100.0 * (1.0-emgManager.getSensitivity(LEFT_DIRECTION_LABEL));
     rightSliderValue = 100.0 * (1.0-emgManager.getSensitivity(RIGHT_DIRECTION_LABEL));
 
+    leftMatValue = 100.0 * emgManager.getMinimumActivationThreshold(LEFT_DIRECTION_LABEL);
+    rightMatValue = 100.0 * emgManager.getMinimumActivationThreshold(RIGHT_DIRECTION_LABEL);
+
     RenderComponent renderComponent = (RenderComponent) gameObjectManager.getGameObjectsByTag("message").get(0).getComponent(ComponentType.RENDER);
     renderComponent.getTexts().get(3).string = "Left EMG reading: " + nfc(leftSliderValue, 1) + "%";
     renderComponent.getTexts().get(4).string = "(Using sensor " + emgManager.getSensor(LEFT_DIRECTION_LABEL) + ")";
@@ -2013,7 +2029,7 @@ public class GameState_CalibrateSuccess extends GameState
 
     RenderComponent.Text sliderText = renderComponent.getTexts().get(8);
     sliderText.string = (nfc(leftSliderValue,1) + "%");
-    sliderText.translation.x = (((leftSliderValue/100.0) * (340-160)) + 160);
+    sliderText.translation.x = (((leftSliderValue/100.0) * (120-20)) + 20);
 
     ArrayList<IGameObject> sliders = gameStateController.getGameObjectManager().getGameObjectsByTag("left_slider");
     if (sliders.size() > 0)
@@ -2029,7 +2045,7 @@ public class GameState_CalibrateSuccess extends GameState
 
     RenderComponent.Text sliderTextRight = renderComponent.getTexts().get(11);
     sliderTextRight.string = (nfc(rightSliderValue,1) + "%");
-    sliderTextRight.translation.x = (((rightSliderValue/100.0) * (340-160)) + 160);
+    sliderTextRight.translation.x = (((rightSliderValue/100.0) * (120-20)) + 20);
 
     ArrayList<IGameObject> slidersRight = gameStateController.getGameObjectManager().getGameObjectsByTag("right_slider");
     if (slidersRight.size() > 0)
@@ -2040,6 +2056,32 @@ public class GameState_CalibrateSuccess extends GameState
       {
         SliderComponent sliderComponent = (SliderComponent) compRight;
         sliderComponent.setTabPosition((width / 500.0) * sliderTextRight.translation.x);
+      }
+    }
+
+    ArrayList<IGameObject> leftMats = gameStateController.getGameObjectManager().getGameObjectsByTag("left_mat");
+    if (leftMats.size() > 0)
+    {
+      IGameObject leftMat = leftMats.get(0);
+      IComponent compLeft = leftMat.getComponent(ComponentType.SLIDER);
+      if (compLeft != null)
+      {
+        SliderComponent sliderComponent = (SliderComponent) compLeft;
+        float translation = (leftMatValue/100.0) * (340-160) + 160;
+        sliderComponent.setTabPosition((width / 500.0) * translation);
+      }
+    }
+
+    ArrayList<IGameObject> rightMats = gameStateController.getGameObjectManager().getGameObjectsByTag("right_mat");
+    if (rightMats.size() > 0)
+    {
+      IGameObject rightMat = rightMats.get(0);
+      IComponent compRight = rightMat.getComponent(ComponentType.SLIDER);
+      if (compRight != null)
+      {
+        SliderComponent sliderComponent = (SliderComponent) compRight;
+        float translation = (rightMatValue/100.0) * (340-160) + 160;
+        sliderComponent.setTabPosition((width / 500.0) * translation);
       }
     }
 

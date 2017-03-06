@@ -16,13 +16,26 @@
 
 	<GameObject file="xml_data/slider.xml" tag="left_slider">
 		<Transform>
-			<Translation x="250" y="185"/>
-			<Scale x="180" y="18"/>
+			<Translation x="70" y="220"/>
+			<Scale x="100" y="18"/>
 		</Transform>
 	</GameObject>
 	<GameObject file="xml_data/slider.xml" tag="right_slider">
 		<Transform>
-			<Translation x="250" y="335"/>
+			<Translation x="70" y="370"/>
+			<Scale x="100" y="18"/>
+		</Transform>
+	</GameObject>
+
+	<GameObject file="xml_data/slider.xml" tag="left_mat">
+		<Transform>
+			<Translation x="250" y="200"/>
+			<Scale x="180" y="18"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/slider.xml" tag="right_mat">
+		<Transform>
+			<Translation x="250" y="350"/>
 			<Scale x="180" y="18"/>
 		</Transform>
 	</GameObject>

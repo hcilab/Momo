@@ -2850,7 +2850,13 @@ public class CalibrateWizardComponent extends Component
     for (IEvent event : eventManager.getEvents(EventType.SPACEBAR_PRESSED))
     {
       // register action
-      boolean success = emgManager.registerAction(currentAction);
+      boolean success = false;
+      if (calibrationMode == CalibrationMode.AUTO)
+        success = emgManager.registerAction(currentAction);
+      else if (currentAction == LEFT_DIRECTION_LABEL)
+        success = emgManager.registerAction(currentAction, leftSensor);
+      else if (currentAction == RIGHT_DIRECTION_LABEL)
+        success = emgManager.registerAction(currentAction, rightSensor);
 
       if (!success) {
         Event failureEvent = new Event(EventType.CALIBRATE_FAILURE);

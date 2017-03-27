@@ -51,7 +51,7 @@ class LibMyoProportional {
     assert(isCalibrated());
 
     Table calibrationTable;
-    if (!fileExists(calibrationFilename))
+    if (!fileExists(sketchPath() + "data/" + calibrationFilename))
       calibrationTable = initializeCalibrationTable();
     else
       calibrationTable = loadTable(calibrationFilename, "header");
@@ -227,7 +227,7 @@ class LibMyoProportional {
         emgString += emgReading.tod + "," + emgReading.left + "," + emgReading.right + "," + emgReading.impulse + "\n";
 
       try {
-        FileWriter writer = new FileWriter("data/" + logfile, true); // open for append-only
+        FileWriter writer = new FileWriter(logfile, true); // open for append-only
         writer.write(emgString);
         writer.close();
       } catch (IOException e) {
@@ -269,7 +269,7 @@ class LibMyoProportional {
   }
 
   private boolean fileExists(String filename) {
-    File file = new File("data/" + filename);
+    File file = new File(filename);
     return file.exists();
   }
 }

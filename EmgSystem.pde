@@ -151,7 +151,7 @@ class EmgManager implements IEmgManager {
   }
 
   void startEmgLogging() {
-    myoProportional.enableEmgLogging("emg.csv");
+    myoProportional.enableEmgLogging(sketchPath() + "/data/emg.csv");
   }
 
   void flushEmgLog() {

@@ -339,7 +339,7 @@ public class GameState_InGame extends GameState
     if(options.getGameOptions().isLogRawData())
       initializeRawDataLoggingTable();
 
-    emgManager.startEmgLogging();
+    // emgManager.startEmgLogging();
   }
   
   @Override public void update(int deltaTime)
@@ -350,15 +350,15 @@ public class GameState_InGame extends GameState
     handleEvents();
 
     // turn on each frame because logging gets disabled whenever player recalibrates
-    emgManager.startEmgLogging();
+    // emgManager.startEmgLogging();
   }
   
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
 
-    emgManager.flushEmgLog();
-    emgManager.stopEmgLogging();
+    // emgManager.flushEmgLog();
+    // emgManager.stopEmgLogging();
   }
   
   private void handleEvents()
@@ -471,7 +471,7 @@ public class GameState_FittsBonusGame extends GameState
     bonusMusic.setVolume(1 * options.getIOOptions().getMusicVolume());
     bonusMusic.loop();
 
-    emgManager.flushEmgLog();
+    // emgManager.flushEmgLog();
   }
   
   @Override public void update(int deltaTime)
@@ -483,7 +483,7 @@ public class GameState_FittsBonusGame extends GameState
     shape(obbg,250,250,500,505);
 
     // turn on each frame because logging gets disabled whenever player recalibrates
-    emgManager.startEmgLogging();
+    // emgManager.startEmgLogging();
   }
   
   @Override public void onExit()
@@ -502,7 +502,7 @@ public class GameState_FittsBonusGame extends GameState
     Event updateScoreEvent = new Event(EventType.MUSIC_RESTART);
     eventManager.queueEvent(updateScoreEvent);
 
-    emgManager.flushEmgLog();
+    // emgManager.flushEmgLog();
   }
   
   private void handleEvents()

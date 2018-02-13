@@ -331,7 +331,6 @@ public class Options implements IOptions
     private final String STILL_PLATFORM = "still_platform";
     private final String LOG_RAW_DATA = "log_raw_data";
     private final String BREAKTHROUGH_MODE = "breakthrough_mode";
-    private final String DWELL_TIME = "dwell_time";
         
     private XML xmlGame;
     
@@ -350,7 +349,6 @@ public class Options implements IOptions
     private boolean logFittsLaw;
     private boolean stillPlatforms;
     private boolean logRawData;
-    private int dwellTime;
     
     private GameOptions()
     {
@@ -367,7 +365,6 @@ public class Options implements IOptions
       logFittsLaw = xmlGame.getString(LOG_FITTS).equals("true") ? true : false;
       stillPlatforms = xmlGame.getString(STILL_PLATFORM).equals("true") ? true : false;
       logRawData = xmlGame.getString(LOG_RAW_DATA).equals("true") ? true : false;
-      dwellTime = xmlGame.getInt(DWELL_TIME);
 
       switch (xmlGame.getString(CONTROL_POLICY))
       {
@@ -495,7 +492,7 @@ public class Options implements IOptions
     }
     
     @Override public int getDwellTime() {
-      return dwellTime;
+      return 2;
     }
 
     @Override public void setStartingLevel(int _startingLevel)
@@ -622,9 +619,8 @@ public class Options implements IOptions
     }
 
     @Override public void setDwellTime(int _dwellTime) {
-      dwellTime = _dwellTime;
-      xmlGame.setInt(DWELL_TIME, _dwellTime);
-      saveXML(xmlSaveData, SAVE_DATA_FILE_NAME_OUT);
+      // no-op: we don't really care about this anymore -- we don't want the ability to change this. 
+      // TODO: completly remove dead code from project
     }
   }
 

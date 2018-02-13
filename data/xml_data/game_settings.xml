@@ -134,25 +134,6 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/counter_single.xml" tag="counterDwellTime">
-		<Transform>
-			<Translation x="495.0" y="425.0"/>
-			<Scale x="15.0" y="40.0"/>
-		</Transform>
-	</GameObject>
-	<GameObject file="xml_data/button.xml" tag="count_up">
-		<Transform>
-			<Translation x="470.0" y="400.0"/>
-			<Scale x="15.0" y="15.0"/>
-		</Transform>
-	</GameObject>
-	<GameObject file="xml_data/button.xml" tag="count_down">
-		<Transform>
-			<Translation x="470.0" y="450.0"/>
-			<Scale x="15.0" y="15.0"/>
-		</Transform>
-	</GameObject>
-
 	<GameObject file="xml_data/button_back.xml" tag="back">
 		<Transform>
 			<Translation x="25.0" y="25.0"/>

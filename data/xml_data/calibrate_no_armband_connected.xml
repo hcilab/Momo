@@ -1,0 +1,9 @@
+<Level>
+	<GameObject file="xml_data/calibrate_no_armband_connected_message.xml" tag="message"/>
+	<GameObject file="xml_data/button.xml" tag="ok">
+		<Transform>
+			<Translation x="250.0" y="250.0"/>
+			<Scale x="200.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+</Level>

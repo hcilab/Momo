@@ -1,0 +1,102 @@
+<GameObject tag="message">
+	<Render>
+		<Text
+			string="How to Connect:"
+			fontName="Moire Bold" 
+			size="25"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="25.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+
+		<Text
+			string="Please ensure the following before connecting:"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="90.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Text
+			string="A) Blue USB stick is plugged in correctly."
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="120.0"
+    >
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="B) Armband logo is flashing in blue."
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="220.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="(gently stretch armband to wake from sleep)"
+			fontName="Moire" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="240.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="C) LED below logo is NOT illuminated."
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="270.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="(if illuminated, plug armband into charger to reset)"
+			fontName="Moire" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="290.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+	</Render>
+</GameObject>

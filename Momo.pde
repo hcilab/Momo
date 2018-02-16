@@ -173,6 +173,7 @@ void setup()
   
   gameStateController = new GameStateController();
   gameStateController.pushState(new GameState_UserLogin());
+  gameStateController.pushState(new GameState_ArmbandConnectMenu());
 
   emgManager = new NullEmgManager();
 

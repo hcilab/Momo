@@ -1,0 +1,100 @@
+<GameObject tag="message">
+	<Render>
+		<Text
+			string="Connect Armband"
+			fontName="Moire Bold" 
+			size="25"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="250.0"
+			y="25.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		
+		<Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Line>
+
+		<Text
+			string="To play Momo using the Myo Armband,"
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="90.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Text
+			string="you must connect the armband now."
+			fontName="Moire" 
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="120.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+    
+		<Text
+			string="Otherwise, click 'Play with Keyboard' below."
+			fontName="Moire" 
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="baseline"
+			x="250.0"
+			y="375.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+
+		<Sprite>
+			<Image src="images/button/questionMark.png" x="25.0" y="425.0" width="30" height="30" resizeHeight="30" resizeWidth="30"/>
+    </Sprite>
+		<Text
+			string="Connect"
+			fontName="Moire"
+			size="20"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="150.0"
+			y="425.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="150.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+		</Sprite>
+
+		<Text
+      string="Play with Keyboard"
+			fontName="Moire"
+			size="15"
+			antialiasing="true"
+			alignX="center"
+			alignY="center"
+			x="375.0"
+			y="425.0"
+		>
+			<FillColor r="0" g="0" b="0" a="255"/>
+			<StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+		</Text>
+		<Sprite>
+			<Image  src="images/button/buttonNormal.png" x="375.0" y="425.0"   width="200" height="80"  resizeWidth="200" resizeHeight="50"/>
+		</Sprite>
+	</Render>
+</GameObject>

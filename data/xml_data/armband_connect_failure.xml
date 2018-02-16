@@ -1,0 +1,9 @@
+<Level>
+	<GameObject file="xml_data/armband_connect_failure_message.xml" tag="message"/>
+	<GameObject file="xml_data/button.xml" tag="quit">
+		<Transform>
+			<Translation x="250.0" y="470.0"/>
+			<Scale x="200.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+</Level>

@@ -1,0 +1,21 @@
+<Level>
+	<GameObject file="xml_data/armband_connect_menu_message.xml" tag="message"/>
+	<GameObject file="xml_data/button.xml" tag="help">
+		<Transform>
+			<Translation x="25.0" y="425.0"/>
+			<Scale x="30.0" y="30.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="connect">
+		<Transform>
+			<Translation x="150.0" y="425.0"/>
+			<Scale x="200.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+	<GameObject file="xml_data/button.xml" tag="play_without_armband">
+		<Transform>
+			<Translation x="375.0" y="425.0"/>
+			<Scale x="200.0" y="50.0"/>
+		</Transform>
+	</GameObject>
+</Level>

@@ -201,16 +201,6 @@ public class GameState_UserLogin extends GameState
         String userID = counterIDComponent.getUserIDNumber();
         boolean newUser = options.getUserInformation().setSaveDataFile(userID);
         options.getCalibrationData().setCalibrationFile(userID);
-        try {
-          cursor(WAIT);
-          emgManager = new EmgManager();
-          if (!emgManager.loadCalibration(options.getCalibrationData().getCalibrationFile()))
-            emgManager = new NullEmgManager();
-        } catch (MyoNotDetectectedError e) {
-          emgManager = new NullEmgManager();
-        } finally {
-          cursor(ARROW);
-        }
         options.getCustomizeOptions().reset();
         options.getCustomizeOptions().loadSavedSettings();
         if (newUser)
@@ -1752,17 +1742,6 @@ public class GameState_CalibrateMenu extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/calibrate_menu.xml");
-
-    try {
-      cursor(WAIT);
-      emgManager = new EmgManager();
-    } catch (MyoNotDetectectedError e) {
-      gameStateController.popState();
-      gameStateController.pushState(new GameState_NoMyoDetected());
-      MYO_API_SUCCESSFULLY_INITIALIZED = false;
-    } finally {
-      cursor(ARROW);
-    }
   }
   
   @Override public void update(int deltaTime)
@@ -1813,6 +1792,11 @@ public class GameState_CalibrateSuccess extends GameState
   {
     gameObjectManager.fromXML("xml_data/calibrate_success.xml");
     slidervalueChanged = false;
+
+    if (emgManager instanceof NullEmgManager) {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_CalibrateNoArmbandConnected());
+    }
   }
   
   @Override public void update(int deltaTime)
@@ -2048,8 +2032,12 @@ public class GameState_CalibrateFailure extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/calibrate_failure.xml");
-    emgManager = new NullEmgManager(); // calibration failed, fallback to stubbed-out readings
-    println("[INFO] Falling back to Keyboard controls.");
+
+    if (emgManager instanceof NullEmgManager)
+    {
+      gameStateController.popState();
+      gameStateController.pushState(new GameState_CalibrateNoArmbandConnected());
+    }
   }
   
   @Override public void update(int deltaTime)
@@ -2122,6 +2110,285 @@ public class GameState_CalibrateFailureConfirm extends GameState
       {
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+    }
+  }
+}
+
+public class GameState_CalibrateNoArmbandConnected extends GameState
+{
+  public GameState_CalibrateNoArmbandConnected()
+  {
+    super();
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/calibrate_no_armband_connected.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("ok"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_ArmbandConnectMenu extends GameState
+{
+  PImage myo;
+
+  public GameState_ArmbandConnectMenu()
+  {
+    super();
+    myo = loadImage("images/Myo.png");
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/armband_connect_menu.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+
+    // draw myo armband
+    imageMode(CENTER);
+    image(myo, 250, 240, 160, 160);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents() 
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("play_without_armband"))
+      {
+        gameStateController.popState();
+      }
+      if (tag.equals("connect"))
+      {
+        boolean success = connectOrTimeout();
+        if (success)
+        {
+          gameStateController.popState();
+          gameStateController.pushState(new GameState_ArmbandConnectSuccess());
+        }
+        else
+        {
+          gameStateController.popState();
+          gameStateController.pushState(new GameState_ArmbandConnectFailure());
+        }
+      }
+      if (tag.equals("help"))
+      {
+        gameStateController.pushState(new GameState_ArmbandConnectHelp());
+      }
+    }
+  }
+
+  private boolean connectOrTimeout() {
+    boolean success = false;
+    try {
+      cursor(WAIT);
+      emgManager = new EmgManager();
+      success = true;
+    } catch (MyoNotDetectectedError e) {
+      success = false;
+      emgManager = new NullEmgManager(); // calibration failed, fallback to keyboard controls
+      println("[INFO] Falling back to Keyboard controls.");
+    } finally {
+      cursor(ARROW);
+    }
+    return success;
+  }
+}
+
+public class GameState_ArmbandConnectSuccess extends GameState
+{
+  PImage myo;
+
+  public GameState_ArmbandConnectSuccess()
+  {
+    super();
+    myo = loadImage("images/Myo_both.png");
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/armband_connect_success.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    // draw armband
+    imageMode(CENTER);
+    image(myo, 250, 200, 200, 120);
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents() 
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("continue"))
+      {
+        gameStateController.popState();
+      }
+    }
+  }
+}
+
+public class GameState_ArmbandConnectFailure extends GameState
+{
+
+  PImage usb;
+  PImage myo_off;
+  PImage myo_on;
+
+  public GameState_ArmbandConnectFailure()
+  {
+    super();
+
+    usb = loadImage("images/Myo_usb.png");
+    myo_off = loadImage("images/Myo_none.png");
+    myo_on = loadImage("images/Myo_logo.png");
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/armband_connect_failure.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    // draw usb stick
+    imageMode(CENTER);
+    image(usb, 250, 160, 150, 150);
+
+    // draw flashing armband
+    imageMode(CENTER);
+    if (millis() % 2000 > 1000) {
+      image(myo_on, 250, 360, 200, 120);
+    } else {
+      image(myo_off, 250, 360, 200, 120);
+      
+    }
+
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents() 
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("quit"))
+      {
+        exit();
+      }
+    }
+  }
+}
+
+public class GameState_ArmbandConnectHelp extends GameState
+{
+  PImage usb;
+  PImage myo_off;
+  PImage myo_on;
+
+  public GameState_ArmbandConnectHelp()
+  {
+    super();
+
+    usb = loadImage("images/Myo_usb.png");
+    myo_off = loadImage("images/Myo_none.png");
+    myo_on = loadImage("images/Myo_logo.png");
+  }
+  
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/armband_connect_help.xml");
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,505);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    // draw usb stick
+    imageMode(CENTER);
+    image(usb, 250, 160, 150, 150);
+
+    // draw flashing armband
+    imageMode(CENTER);
+    if (millis() % 2000 > 1000) {
+      image(myo_on, 250, 360, 200, 120);
+    } else {
+      image(myo_off, 250, 360, 200, 120);
+      
+    }
+
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+  }
+  
+  private void handleEvents() 
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
       }
     }
   }

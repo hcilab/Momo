@@ -9,9 +9,9 @@
 
   Momo was designed in partnership by:
 
-  - [The Human Computer Interaction Lab, University of New Brunswick] (http://hci.cs.unb.ca/)
-  - [The Institute of Biomedical Engineering, University of New Brunswick] (http://www.unb.ca/research/institutes/biomedical/)
-  - [The Atlantic Clinic for Upper Limb Prosthetics] (http://limbclinic.com/)
+  - [The Human Computer Interaction Lab, University of New Brunswick](http://hci.cs.unb.ca/)
+  - [The Institute of Biomedical Engineering, University of New Brunswick](http://www.unb.ca/research/institutes/biomedical/)
+  - [The Atlantic Clinic for Upper Limb Prosthetics](http://limbclinic.com/)
 
 
 ## Purpose
@@ -21,19 +21,18 @@
 
 ## Myo Armband
 
-  The Falling of Momo makes use of the [Myo Armband by Thalmic Labs] (https://www.myo.com/) to capture all muscles readings. If you think you might be interested in the game, but don't yet own a Myo Armband, the game can also be played with a standard keyboard.
+  The Falling of Momo makes use of the [Myo Armband by Thalmic Labs](https://www.myo.com/) to capture all muscles readings. If you think you might be interested in the game, but don't yet own a Myo Armband, the game can also be played with a standard keyboard.
 
 
 ## Research
 
   In addition to being a muscle training game for new prosthesis users, Momo is also a research tool. We've used the game to learn about the design of therapeutic games, as well as about more general aspects of muscle training. If you're interesteing in learning about the research we've done with Momo, check out the related publications below:
 
-  - [Aaron Tabor, Alex Kienzle, Carly Smith, Alex Watson, Jason Wuertz, and David Hanna. *The Falling of Momo: A Myo-Electric Controlled Game to Support Research in Prosthesis Training.* In Proceedings of the 2016 Annual Symposium on Computer-Human Interaction in Play Companion Extended Abstracts (2016): 71-77.] (https://dl.acm.org/citation.cfm?id=2971806)
-  - [Aaron Tabor, Scott Bateman, Erik Scheme, David R Flatla, Kathrin Gerling. *Designing Game-Based Myoelectric Prosthesis Training.* In Proceedings of the ACM Conference on Human Factors in Computing Systems, May 2017, Denver, USA. p1352-1363.] (https://dl.acm.org/citation.cfm?id=3025676)
+  - [Aaron Tabor, Alex Kienzle, Carly Smith, Alex Watson, Jason Wuertz, and David Hanna. *The Falling of Momo: A Myo-Electric Controlled Game to Support Research in Prosthesis Training.* In Proceedings of the 2016 Annual Symposium on Computer-Human Interaction in Play Companion Extended Abstracts (2016): 71-77.](https://dl.acm.org/citation.cfm?id=2971806)
+  - [Aaron Tabor, Scott Bateman, Erik Scheme, David R Flatla, Kathrin Gerling. *Designing Game-Based Myoelectric Prosthesis Training.* In Proceedings of the ACM Conference on Human Factors in Computing Systems, May 2017, Denver, USA. p1352-1363.](https://dl.acm.org/citation.cfm?id=3025676)
   - Tabor, Aaron, Wendy Hill, Scott Bateman, and Erik Scheme. *Quantifying Muscle Control in Myoelectric Training Games.* In Proceedings of Myoelectric Control Symposium (MEC) 2017. Fredericton, New Brunswick.
 
  We thank both the National Science and Engineering Reserach Council (NSERC) and the New Brunswick Innovation Foundation (NBIF) for their financial support in our research.
-
 
 
 

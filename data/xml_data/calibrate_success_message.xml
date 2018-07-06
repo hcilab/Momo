@@ -216,7 +216,7 @@
 		</Rect>
 
 		<Text
-			string=" Save Calibration"
+			string="Begin"
 			fontName="Moire"
 			size="14"
 			antialiasing="true"
@@ -227,7 +227,7 @@
 		>
 		</Text>
 		<Text
-			string="and Continue"
+			string="Streaming"
 			fontName="Moire"
 			size="14"
 			antialiasing="true"

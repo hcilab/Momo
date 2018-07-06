@@ -1830,9 +1830,15 @@ public class GameState_CalibrateSuccess extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-      if (tag.equals("back") || tag.equals("Continue"))
+      if (tag.equals("back"))
       {
         gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
+      }
+      else if (tag.equals("Continue"))
+      {
+        gameStateController.popState();
+        gameStateController.pushState(new GameState_StreamEMG());
       }
       else if (tag.equals("Calibrate"))
       {
@@ -2270,6 +2276,7 @@ public class GameState_ArmbandConnectSuccess extends GameState
       if (tag.equals("continue"))
       {
         gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateFailure());
       }
     }
   }
@@ -2693,6 +2700,7 @@ public class GameState_StreamEMG extends GameState
       if (tag.equals("back"))
       {
         gameStateController.popState();
+        gameStateController.pushState(new GameState_CalibrateSuccess());
       }
       else
       {

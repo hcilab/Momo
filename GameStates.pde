@@ -2063,11 +2063,7 @@ public class GameState_CalibrateFailure extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-      if (tag.equals("back"))
-      {
-        gameStateController.popState();
-      }
-      else if (tag.equals("auto"))
+      if (tag.equals("auto"))
       {
         calibrationMode = CalibrationMode.AUTO;
         gameStateController.popState();
@@ -2195,10 +2191,6 @@ public class GameState_ArmbandConnectMenu extends GameState
     for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
     {
       String tag = event.getRequiredStringParameter("tag");
-      if (tag.equals("play_without_armband"))
-      {
-        gameStateController.popState();
-      }
       if (tag.equals("connect"))
       {
         boolean success = connectOrTimeout();
@@ -2442,10 +2434,6 @@ public class GameState_SelectForearm extends GameState
         gameStateController.popState();
         gameStateController.pushState(new GameState_CalibrateMenu());
       }
-      else if (tag.equals("back"))
-      {
-        gameStateController.popState();
-      }
       else
       {
         println("[ERROR] Unrecognized button clicked in GameStates_SelectForearm");
@@ -2649,10 +2637,6 @@ public class GameState_SelectSensors extends GameState
         rightSensor = ccRight.getCount();
         gameStateController.popState();
         gameStateController.pushState(new GameState_SelectForearm());
-      }
-      else if (tag.equals("back"))
-      {
-        gameStateController.popState();
       }
       else
       {

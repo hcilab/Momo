@@ -13,12 +13,4 @@
 			<Scale x="200.0" y="70.0"/>
 		</Transform>
 	</GameObject>
-
-	<GameObject file="xml_data/button_back.xml" tag="back">
-		<Transform>
-			<Translation x="25.0" y="25.0"/>
-			<Scale x="30.0" y="30.0"/>
-		</Transform>
-	</GameObject>
-
 </Level>

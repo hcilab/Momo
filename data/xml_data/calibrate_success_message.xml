@@ -107,7 +107,7 @@
 		</Text>
 
 		<Text
-			string="Re-Calibrate"
+			string="Settings"
 			fontName="Moire"
 			size="20"
 			antialiasing="true"

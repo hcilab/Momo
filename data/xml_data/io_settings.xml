@@ -76,17 +76,5 @@
 		</Transform>
 	</GameObject>
 
-	<GameObject file="xml_data/button.xml" tag="quit">
-		<Transform>
-			<Translation x="110.0" y="470.0"/>
-			<Scale x="200.0" y="80.0"/>
-		</Transform>
-	</GameObject>
 
-	<GameObject file="xml_data/button.xml" tag="calibrate">
-		<Transform>
-			<Translation x="390.0" y="470.0"/>
-			<Scale x="200.0" y="80.0"/>
-		</Transform>
-	</GameObject>
 </Level>

@@ -891,7 +891,6 @@ public class GameState_IOSettings extends GameState
   @Override public void onEnter()
   {
     gameObjectManager.fromXML("xml_data/io_settings.xml");
-    isPauseScreen = gameStateController.getPreviousState() instanceof GameState_InGame || gameStateController.getPreviousState() instanceof GameState_FittsBonusGame;
   }
 
   @Override public void update(int deltaTime)
@@ -903,12 +902,6 @@ public class GameState_IOSettings extends GameState
     if (!saveDataLoaded && gameObjectManager.getGameObjectsByTag("message").size() > 0)
     {
       loadFromSaveData();
-    }
-
-    if (!tweakedForPauseOrSettings)
-    {
-      tweakPauseOrSettings();
-      tweakedForPauseOrSettings = true;
     }
   }
 
@@ -959,11 +952,6 @@ public class GameState_IOSettings extends GameState
         {
           gameStateController.pushState(new GameState_CalibrateFailure());
         }
-      }
-      else if (tag.equals("quit"))
-      {
-        gameStateController.popState();
-        eventManager.queueEvent(new Event(EventType.GAME_OVER));
       }
     }
     
@@ -1840,10 +1828,9 @@ public class GameState_CalibrateSuccess extends GameState
         gameStateController.popState();
         gameStateController.pushState(new GameState_StreamEMG());
       }
-      else if (tag.equals("Calibrate"))
+      else if (tag.equals("Settings"))
       {
-        gameStateController.popState();
-        gameStateController.pushState(new GameState_CalibrateFailure());
+        gameStateController.pushState(new GameState_IOSettings());
       }
     }
 

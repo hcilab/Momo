@@ -1,6 +1,6 @@
 <Level>
 	<GameObject file="xml_data/calibrate_success_message.xml" tag="message"/>
-	<GameObject file="xml_data/button.xml" tag="Calibrate">
+	<GameObject file="xml_data/button.xml" tag="Settings">
 		<Transform>
 			<Translation x="375.0" y="425.0"/>
 			<Scale x="200.0" y="50.0"/>

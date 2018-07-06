@@ -2657,7 +2657,7 @@ public class GameState_StreamEMG extends GameState
   {
     gameObjectManager.fromXML("xml_data/stream_emg.xml");
 
-    // open web socket
+    emgServer = new Server(mainObject, emgServerPort);
   }
 
   @Override public void update(int deltaTime)
@@ -2666,14 +2666,15 @@ public class GameState_StreamEMG extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
-    // write current reading to websocket
+    String emgMessage = processedReadings.get(LEFT_DIRECTION_LABEL) + ","  + processedReadings.get(RIGHT_DIRECTION_LABEL) + "," + processedReadings.get(JUMP_DIRECTION_LABEL);
+    emgServer.write(emgMessage);
   }
 
   @Override public void onExit()
   {
     gameObjectManager.clearGameObjects();
 
-    // close web socket
+    emgServer.stop();
   }
 
   private void handleEvents()

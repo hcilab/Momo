@@ -30,6 +30,8 @@ import sprites.*;
 import java.awt.event.WindowListener;
 import java.awt.Frame;
 
+import processing.net.*;
+
 // The main class needs to be available globally for some subsystems.
 Momo mainObject;
 
@@ -144,6 +146,9 @@ enum CalibrationMode {
   AUTO,
   MANUAL,
 }
+
+Server emgServer;
+int emgServerPort = 12345;
 
 void setup()
 {

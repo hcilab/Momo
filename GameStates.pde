@@ -2655,6 +2655,53 @@ public class GameState_SelectSensors extends GameState
   }
 }
 
+public class GameState_StreamEMG extends GameState
+{
+  public GameState_StreamEMG()
+  {
+    super();
+  }
+
+  @Override public void onEnter()
+  {
+    gameObjectManager.fromXML("xml_data/stream_emg.xml");
+
+    // open web socket
+  }
+
+  @Override public void update(int deltaTime)
+  {
+    shape(opbg,250,250,500,500);
+    gameObjectManager.update(deltaTime);
+    handleEvents();
+
+    // write current reading to websocket
+  }
+
+  @Override public void onExit()
+  {
+    gameObjectManager.clearGameObjects();
+
+    // close web socket
+  }
+
+  private void handleEvents()
+  {
+    for (IEvent event : eventManager.getEvents(EventType.BUTTON_CLICKED))
+    {
+      String tag = event.getRequiredStringParameter("tag");
+      if (tag.equals("back"))
+      {
+        gameStateController.popState();
+      }
+      else
+      {
+        println("[ERROR] Unrecognized button clicked in GameStates_StreamEMG");
+      }
+    }
+  }
+}
+
 public class GameStateController implements IGameStateController
 {
   private LinkedList<GameState> stateStack;

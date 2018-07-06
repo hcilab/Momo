@@ -1,0 +1,38 @@
+<GameObject>
+  <Render>
+    
+    <Text
+      string="Streaming EMG..."
+      fontName="Moire Bold" 
+      size="24"
+      antialiasing="true"
+      alignX="center"
+      alignY="center"
+      x="250.0"
+      y="25.0"
+    >
+      <FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+    </Text>
+    
+    <Line x1="0.0" y1="10.0" x2="500.0" y2="10.0" x="0.0" y="0.0" width="1.0" height="5.0">
+      <FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+    </Line>
+    
+    <Text
+      string="Currently streaming data locally on port: XXXXX"
+      fontName="Moire" 
+      size="20"
+      antialiasing="true"
+      alignX="center"
+      alignY="center"
+      x="250.0"
+      y="120.0"
+    >
+      <FillColor r="0" g="0" b="0" a="255"/>
+      <StrokeColor r="0" g="0" b="0" a="255" strokeWeight="1.0"/>
+    </Text>
+    
+  </Render>
+</GameObject>

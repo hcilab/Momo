@@ -149,6 +149,7 @@ enum CalibrationMode {
 
 Server emgServer;
 int emgServerPort = 12345;
+String emgServerHost = "localhost";
 
 void setup()
 {

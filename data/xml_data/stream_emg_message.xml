@@ -21,7 +21,7 @@
     </Line>
     
     <Text
-      string="Currently streaming data locally on port: 12345"
+      string="Currently streaming data..."
       fontName="Moire" 
       size="20"
       antialiasing="true"

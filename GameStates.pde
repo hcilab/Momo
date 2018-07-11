@@ -2644,7 +2644,7 @@ public class GameState_StreamEMG extends GameState
   {
     gameObjectManager.fromXML("xml_data/stream_emg.xml");
 
-    emgServer = new Server(mainObject, emgServerPort);
+    emgServer = new Server(mainObject, emgServerPort, emgServerHost);
   }
 
   @Override public void update(int deltaTime)

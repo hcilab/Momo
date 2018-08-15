@@ -157,7 +157,7 @@ void setup()
   surface.setAlwaysOnTop(true);
   surface.setResizable(true);
   surface.setTitle("The Falling of Momo");
-  surface.setSize(800,800);
+  surface.setSize(400,400);
   
   rectMode(CENTER);
   ellipseMode(CENTER);

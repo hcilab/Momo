@@ -155,6 +155,8 @@ String emgServerEndOfLineChar = (emgServerForUWP)? "\n" : "";
 
 void setup()
 {
+  frameRate(45);
+
   size(500, 500);
   surface.setAlwaysOnTop(true);
   surface.setResizable(true);

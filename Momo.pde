@@ -149,7 +149,9 @@ enum CalibrationMode {
 
 Server emgServer;
 int emgServerPort = 12345;
-String emgServerHost = "localhost";
+boolean emgServerForUWP = false;
+String emgServerHost = (emgServerForUWP)? "0.0.0.0" : "localhost";
+String emgServerEndOfLineChar = (emgServerForUWP)? "\n" : "";
 
 void setup()
 {

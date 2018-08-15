@@ -2653,7 +2653,7 @@ public class GameState_StreamEMG extends GameState
     gameObjectManager.update(deltaTime);
     handleEvents();
 
-    String emgMessage = processedReadings.get(LEFT_DIRECTION_LABEL) + ","  + processedReadings.get(RIGHT_DIRECTION_LABEL) + "," + processedReadings.get(JUMP_DIRECTION_LABEL);
+    String emgMessage = processedReadings.get(LEFT_DIRECTION_LABEL) + ","  + processedReadings.get(RIGHT_DIRECTION_LABEL) + "," + processedReadings.get(JUMP_DIRECTION_LABEL) + emgServerEndOfLineChar;
     emgServer.write(emgMessage);
   }
 

@@ -30,7 +30,8 @@
 
   - [Aaron Tabor, Alex Kienzle, Carly Smith, Alex Watson, Jason Wuertz, and David Hanna. *The Falling of Momo: A Myo-Electric Controlled Game to Support Research in Prosthesis Training.* In Proceedings of the 2016 Annual Symposium on Computer-Human Interaction in Play Companion Extended Abstracts (2016): 71-77.](https://dl.acm.org/citation.cfm?id=2971806)
   - [Aaron Tabor, Scott Bateman, Erik Scheme, David R Flatla, Kathrin Gerling. *Designing Game-Based Myoelectric Prosthesis Training.* In Proceedings of the ACM Conference on Human Factors in Computing Systems, May 2017, Denver, USA. p1352-1363.](https://dl.acm.org/citation.cfm?id=3025676)
-  - Tabor, Aaron, Wendy Hill, Scott Bateman, and Erik Scheme. *Quantifying Muscle Control in Myoelectric Training Games.* In Proceedings of Myoelectric Control Symposium (MEC) 2017. Fredericton, New Brunswick.
+  - [Aaron Tabor, Wendy Hill, Scott Bateman, and Erik Scheme. *Quantifying Muscle Control in Myoelectric Training Games.* In Proceedings of Myoelectric Control Symposium (MEC) 2017. Fredericton, New Brunswick.](https://www.unb.ca/research/institutes/biomedical/mec/_resources/docs/MEC17-papers/tabor-quantifying-muscle-control.pdf)
+  - [Aaron Tabor, Scott Bateman, and Erik Scheme. *Evaluation of Myoelectric Control using Multi-Session Game-based Training.* In IEEE Transactions on Neural Systems and Rehabilitation Engineering (TNSRE), September 2018.](https://ieeexplore.ieee.org/abstract/document/8410605/)
 
  We thank both the National Science and Engineering Reserach Council (NSERC) and the New Brunswick Innovation Foundation (NBIF) for their financial support in our research.
 
